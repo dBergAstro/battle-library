@@ -84,7 +84,7 @@ export function MultiSelect({
             >
               <Checkbox
                 checked={isAllSelected}
-                onCheckedChange={handleSelectAll}
+                data-testid={`${testId}-checkbox-all`}
               />
               <Label className="cursor-pointer text-sm font-medium">{allLabel}</Label>
             </div>
@@ -100,7 +100,7 @@ export function MultiSelect({
               >
                 <Checkbox
                   checked={selected.includes(option.value)}
-                  onCheckedChange={() => handleToggle(option.value)}
+                  data-testid={`${testId}-checkbox-${option.value}`}
                 />
                 <Label className="cursor-pointer text-sm">{option.label}</Label>
               </div>
