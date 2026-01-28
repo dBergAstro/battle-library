@@ -38,7 +38,7 @@ const bossLevelInputSchema = z.array(z.object({
 
 const heroIconsInputSchema = z.array(z.object({
   heroId: z.number(),
-  iconUrl: z.string().max(500000),
+  iconUrl: z.string().max(2000000),
   category: z.string().optional().nullable(),
 }));
 
