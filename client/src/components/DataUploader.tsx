@@ -323,9 +323,11 @@ export function DataUploader({ onDataLoaded, onIconsLoaded, loadedStatus, loaded
         const icons = new Map<number, string>();
         
         for (const file of imageFiles) {
-          const match = file.name.match(/(\d+)/);
-          if (match) {
-            const heroId = parseInt(match[1], 10);
+          // Извлекаем последнее число из имени файла (например titan_big_4003 -> 4003)
+          const baseName = file.name.replace(/\.[^.]+$/, ""); // убираем расширение
+          const matches = baseName.match(/\d+/g);
+          if (matches && matches.length > 0) {
+            const heroId = parseInt(matches[matches.length - 1], 10);
             const url = URL.createObjectURL(file);
             icons.set(heroId, url);
           }
