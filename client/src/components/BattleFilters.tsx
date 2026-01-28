@@ -1,5 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -21,6 +23,8 @@ interface BattleFiltersProps {
   battleNumberFilter: string;
   onBattleNumberChange: (value: string) => void;
   battleNumbers: string[];
+  showOnlyWithCreeps: boolean;
+  onShowOnlyWithCreepsChange: (value: boolean) => void;
   totalCount: number;
   filteredCount: number;
 }
@@ -36,16 +40,19 @@ export function BattleFilters({
   battleNumberFilter,
   onBattleNumberChange,
   battleNumbers,
+  showOnlyWithCreeps,
+  onShowOnlyWithCreepsChange,
   totalCount,
   filteredCount,
 }: BattleFiltersProps) {
-  const hasFilters = searchQuery || typeFilter !== "all" || chapterFilter !== "all" || battleNumberFilter !== "all";
+  const hasFilters = searchQuery || typeFilter !== "all" || chapterFilter !== "all" || battleNumberFilter !== "all" || showOnlyWithCreeps;
 
   const clearFilters = () => {
     onSearchChange("");
     onTypeChange("all");
     onChapterChange("all");
     onBattleNumberChange("all");
+    onShowOnlyWithCreepsChange(false);
   };
 
   return (
@@ -110,6 +117,18 @@ export function BattleFilters({
             ))}
           </SelectContent>
         </Select>
+
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="creeps-filter"
+            checked={showOnlyWithCreeps}
+            onCheckedChange={(checked) => onShowOnlyWithCreepsChange(checked === true)}
+            data-testid="checkbox-creeps-filter"
+          />
+          <Label htmlFor="creeps-filter" className="text-sm cursor-pointer whitespace-nowrap">
+            Только с крипами
+          </Label>
+        </div>
       </div>
 
       <div className="flex items-center justify-between gap-2 flex-wrap">

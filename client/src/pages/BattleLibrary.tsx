@@ -32,6 +32,7 @@ export default function BattleLibrary() {
   const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
   const [chapterFilter, setChapterFilter] = useState("all");
   const [battleNumberFilter, setBattleNumberFilter] = useState("all");
+  const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
 
   const { data, isLoading, error } = useQuery<BattlesResponse>({
     queryKey: ["/api/battles"],
@@ -97,8 +98,15 @@ export default function BattleLibrary() {
       });
     }
 
+    // Фильтр "только с крипами" - крипы имеют ID в диапазоне 1000-2999
+    if (showOnlyWithCreeps) {
+      result = result.filter((b) =>
+        b.team.some((t) => t.heroId >= 1000 && t.heroId <= 2999)
+      );
+    }
+
     return result;
-  }, [battles, searchQuery, typeFilter, chapterFilter, battleNumberFilter]);
+  }, [battles, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
 
   const stats = useMemo(() => {
     const heroic = battles.filter((b) => b.type === "heroic").length;
@@ -182,6 +190,8 @@ export default function BattleLibrary() {
                 battleNumberFilter={battleNumberFilter}
                 onBattleNumberChange={setBattleNumberFilter}
                 battleNumbers={battleNumbers}
+                showOnlyWithCreeps={showOnlyWithCreeps}
+                onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
                 totalCount={battles.length}
                 filteredCount={filteredBattles.length}
               />
