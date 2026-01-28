@@ -128,6 +128,7 @@ export default function AdminPanel() {
   const [spiritSkillsText, setSpiritSkillsText] = useState("");
   const [spiritSkillsSaving, setSpiritSkillsSaving] = useState(false);
   const spiritIconsInputRef = useRef<HTMLInputElement | null>(null);
+  const [spiritIconsUploading, setSpiritIconsUploading] = useState(false);
 
   const [heroSearchQuery, setHeroSearchQuery] = useState("");
 
@@ -1242,13 +1243,16 @@ export default function AdminPanel() {
                   const files = e.target.files;
                   if (!files || files.length === 0) return;
                   
-                  setUploadProgress(0);
-                  setUploading(true);
-                  
-                  const icons: Array<{ skillId: number; iconUrl: string }> = [];
                   const imageFiles = Array.from(files).filter((f) =>
                     /\.(png|jpg|jpeg|webp|svg)$/i.test(f.name)
                   );
+                  
+                  if (imageFiles.length === 0) return;
+                  
+                  setSpiritIconsUploading(true);
+                  setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { current: 0, total: imageFiles.length } }));
+                  
+                  const icons: Array<{ skillId: number; iconUrl: string }> = [];
                   
                   for (let i = 0; i < imageFiles.length; i++) {
                     const file = imageFiles[i];
@@ -1263,21 +1267,21 @@ export default function AdminPanel() {
                     });
                     
                     icons.push({ skillId, iconUrl: base64 });
-                    setUploadProgress(Math.round(((i + 1) / imageFiles.length) * 100));
+                    setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { current: i + 1, total: imageFiles.length } }));
                   }
                   
                   if (icons.length > 0) {
                     try {
                       await apiRequest("POST", "/api/admin/spirit-icons", icons);
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
-                      queryClient.invalidateQueries({ queryKey: ["/api/replays"] });
+                      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
                     } catch (error) {
                       console.error("Error uploading spirit icons:", error);
                     }
                   }
                   
-                  setUploading(false);
-                  setUploadProgress(0);
+                  setSpiritIconsUploading(false);
+                  setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: null }));
                   if (spiritIconsInputRef.current) spiritIconsInputRef.current.value = "";
                 }}
               />
@@ -1285,7 +1289,7 @@ export default function AdminPanel() {
                 variant="outline"
                 size="sm"
                 onClick={() => spiritIconsInputRef.current?.click()}
-                disabled={uploading}
+                disabled={spiritIconsUploading}
                 data-testid="button-upload-spirit-icons"
               >
                 <FolderOpen className="h-4 w-4 mr-1" />
