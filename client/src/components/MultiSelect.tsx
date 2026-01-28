@@ -75,7 +75,7 @@ export function MultiSelect({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
-        <ScrollArea className="max-h-[300px]">
+        <ScrollArea className="max-h-[400px]">
           <div className="p-2 space-y-1">
             <div
               className="flex items-center gap-2 p-2 rounded-md hover:bg-muted cursor-pointer"
