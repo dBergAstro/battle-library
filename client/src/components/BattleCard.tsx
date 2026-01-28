@@ -83,7 +83,7 @@ export function BattleCard({ battle }: BattleCardProps) {
                     </span>
                   </div>
                 </TooltipTrigger>
-                <TooltipContent side="right" sideOffset={8} className="text-xs z-50">
+                <TooltipContent side="top" align="start" sideOffset={4} className="text-xs z-[100]">
                   <p className="font-medium">Power Level</p>
                   {battle.isMixedPowerLevel && (
                     <p className="text-muted-foreground">Разные уровни сложности в команде</p>
