@@ -78,9 +78,6 @@ export default function BattleLibrary() {
       result = result.filter(
         (b) =>
           b.gameId.toString().includes(query) ||
-          b.adventureName.toLowerCase().includes(query) ||
-          b.originalLabel.toLowerCase().includes(query) ||
-          b.battleNumber.toLowerCase().includes(query) ||
           b.team.some((t) => t.name.toLowerCase().includes(query))
       );
     }
