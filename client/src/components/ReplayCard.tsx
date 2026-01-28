@@ -46,7 +46,7 @@ export function ReplayCard({ replay }: ReplayCardProps) {
                     : "border-amber-500 text-amber-600 dark:text-amber-400"
                 }
               >
-                {replay.enemyType}
+                {replay.enemyType === "Герои" ? "Героический" : "Титанический"}
               </Badge>
             </div>
             <h3 className="font-medium text-sm">
