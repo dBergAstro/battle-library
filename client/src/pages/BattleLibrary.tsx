@@ -224,7 +224,7 @@ export default function BattleLibrary() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container max-w-7xl mx-auto px-4 py-6 space-y-6">
+      <div className="container max-w-[1600px] mx-auto px-4 py-6 space-y-6">
         <header className="space-y-3">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
@@ -282,8 +282,8 @@ export default function BattleLibrary() {
               />
 
               {filteredList.length > 0 ? (
-                <ScrollArea className="h-[calc(100vh-380px)] min-h-[300px]">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
+                <ScrollArea className="h-[calc(100vh-320px)] min-h-[400px]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-4">
                     {filteredList.map((item) => 
                       item.type === "battle" ? (
                         <BattleCard key={`battle-${item.data.id}`} battle={item.data} />
