@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Upload, FileJson, CheckCircle2, AlertCircle, AlertTriangle, X, FolderOpen } from "lucide-react";
+import { Upload, FileJson, CheckCircle2, AlertCircle, AlertTriangle, X, FolderOpen, FileText } from "lucide-react";
 import {
   parseCSV,
   parseJSON,
@@ -64,7 +64,9 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
   const [dragOver, setDragOver] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [warnings, setWarnings] = useState<Record<string, string[]>>({});
+  const [schemas, setSchemas] = useState<Record<string, Record<string, unknown>>>({});
   const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const schemaInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const validateData = (
     tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo",
@@ -172,6 +174,43 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
     [handleFile]
   );
 
+  const handleSchemaInput = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+
+        if (typeof parsed === "object" && parsed !== null && "columns" in parsed) {
+          setSchemas((prev) => ({
+            ...prev,
+            [tableKey]: parsed,
+          }));
+          setErrors((prev) => {
+            const newErrors = { ...prev };
+            delete newErrors[tableKey];
+            return newErrors;
+          });
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            [tableKey]: "Файл не содержит описание структуры (columns)",
+          }));
+        }
+      } catch {
+        setErrors((prev) => ({
+          ...prev,
+          [tableKey]: "Ошибка чтения файла структуры",
+        }));
+      }
+
+      e.target.value = "";
+    },
+    []
+  );
+
   const handleFolderInput = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
       const files = e.target.files;
@@ -189,20 +228,11 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
         }
 
         const allRecords: Record<string, unknown>[] = [];
-        let skippedSchemaFiles = 0;
         
         for (const file of jsonFiles) {
           try {
             const text = await file.text();
             const parsed = JSON.parse(text);
-            
-            // Пропускаем файлы со схемой структуры (содержат "columns" и "table")
-            if (typeof parsed === "object" && parsed !== null && !Array.isArray(parsed)) {
-              if ("columns" in parsed && "table" in parsed) {
-                skippedSchemaFiles++;
-                continue;
-              }
-            }
             
             if (Array.isArray(parsed)) {
               allRecords.push(...parsed);
@@ -212,10 +242,6 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
           } catch {
             console.warn(`Ошибка парсинга файла ${file.name}`);
           }
-        }
-        
-        if (skippedSchemaFiles > 0) {
-          console.log(`Пропущено файлов схемы: ${skippedSchemaFiles}`);
         }
 
         if (allRecords.length === 0) {
@@ -308,8 +334,14 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className="font-medium text-sm">{table.title}</span>
+                    {schemas[table.key] && (
+                      <Badge variant="outline" className="text-xs py-0">
+                        <FileText className="h-3 w-3 mr-1" />
+                        Структура
+                      </Badge>
+                    )}
                     {loadedStatus[table.key] && (
                       <>
                         <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
@@ -323,7 +355,25 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
                     {table.description}
                   </p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-wrap">
+                  <input
+                    type="file"
+                    accept=".json"
+                    ref={(el) => (schemaInputRefs.current[table.key] = el)}
+                    className="hidden"
+                    onChange={(e) => handleSchemaInput(e, table.key)}
+                    data-testid={`input-schema-${table.key}`}
+                  />
+                  <Button
+                    size="sm"
+                    variant={schemas[table.key] ? "secondary" : "outline"}
+                    className="cursor-pointer"
+                    onClick={() => schemaInputRefs.current[table.key]?.click()}
+                    data-testid={`button-schema-${table.key}`}
+                  >
+                    <FileText className="h-3 w-3 mr-1" />
+                    Структура
+                  </Button>
                   <label>
                     <input
                       type="file"
@@ -401,7 +451,7 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
         </div>
 
         <p className="text-xs text-muted-foreground mt-4 text-center">
-          Загрузите файл (CSV/JSON) или папку с отдельными JSON-файлами для каждой записи.
+          <strong>Структура</strong> — файл описания таблицы (columns). <strong>Файл</strong> — CSV/JSON с данными. <strong>Папка</strong> — папка с отдельными JSON-файлами.
           <br />
           <span className="text-primary">Boss List</span> и <span className="text-primary">Boss Team</span> обязательны.
         </p>
