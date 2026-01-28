@@ -3,28 +3,36 @@ import type { Server } from "http";
 import { z } from "zod";
 import { storage } from "./storage";
 
+// Преобразование строк в числа
+const coerceNumber = z.union([z.number(), z.string().transform(v => {
+  const n = Number(v);
+  return isNaN(n) ? null : n;
+})]).nullable().optional();
+
+const coerceNumberRequired = z.union([z.number(), z.string().transform(v => Number(v))]);
+
 // Более гибкие схемы для поддержки разных форматов входных данных
 const bossListInputSchema = z.array(z.object({
-  id: z.number(),
+  id: coerceNumberRequired,
   label: z.string().optional().nullable(),
   desc: z.string().optional().nullable(),
-  heroId: z.number().optional().nullable(),
+  heroId: coerceNumber,
 }).passthrough());
 
 const bossTeamInputSchema = z.array(z.object({
-  rowId: z.number().optional(),
-  id: z.number(),
-  unitId: z.number().optional().nullable(),
-  heroId: z.number().optional().nullable(),
-  bossId: z.number().optional().nullable(),
-  bossLevelId: z.number().optional().nullable(),
+  rowId: coerceNumber,
+  id: coerceNumberRequired,
+  unitId: coerceNumber,
+  heroId: coerceNumber,
+  bossId: coerceNumber,
+  bossLevelId: coerceNumber,
 }).passthrough());
 
 const bossLevelInputSchema = z.array(z.object({
-  id: z.number(),
-  bossLevel: z.number().optional().nullable(),
-  bossId: z.number().optional().nullable(),
-  powerLevel: z.number().optional().nullable(),
+  id: coerceNumberRequired,
+  bossLevel: coerceNumber,
+  bossId: coerceNumber,
+  powerLevel: coerceNumber,
 }).passthrough());
 
 const heroIconsInputSchema = z.array(z.object({
