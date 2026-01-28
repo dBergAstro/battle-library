@@ -58,7 +58,7 @@ export default function BattleLibrary() {
   }, [bossList, bossTeam, heroInfo, loadedStatus.bossList]);
 
   const chapters = useMemo(() => {
-    const uniqueChapters = [...new Set(battles.map((b) => b.chapter))];
+    const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapter)));
     return uniqueChapters.sort();
   }, [battles]);
 
