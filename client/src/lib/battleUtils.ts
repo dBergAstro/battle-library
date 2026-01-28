@@ -58,6 +58,38 @@ export function determineBattleType(heroId: number | null | undefined): BattleTy
   return "heroic";
 }
 
+// Вычисляем номер главы из gameId или label
+export function extractChapter(gameId: number, label: string | null): number {
+  // Для новых боёв (>= 338) парсим номер главы из label
+  if (gameId >= 338 && label) {
+    const match = label.match(/(\d+)\s*глава/i);
+    if (match) {
+      return parseInt(match[1], 10);
+    }
+  }
+  
+  // Для старых боёв (< 338) вычисляем главу
+  // 7 глав по 8 боёв = 56 боёв на адвенчуру
+  const positionInAdventure = (gameId - 227) % 56;
+  return Math.floor(positionInAdventure / 8) + 1;
+}
+
+// Извлекаем название адвенчуры из label
+export function extractAdventureName(gameId: number, label: string | null): string {
+  if (gameId >= 338 && label) {
+    // "Адвенчура Каскада 1 глава" -> "Каскада"
+    const match = label.match(/Адвенчура\s+(\S+)/i);
+    if (match) {
+      return match[1];
+    }
+  }
+  
+  // Для старых боёв определяем адвенчуру по номеру
+  const adventureIndex = Math.floor((gameId - 227) / 56);
+  const oldAdventures = ["Легаси 1", "Легаси 2"];
+  return oldAdventures[adventureIndex] || `Легаси ${adventureIndex + 1}`;
+}
+
 // Порог очков для активации тотема
 const ELEMENT_THRESHOLDS: Record<string, number> = {
   "вода": 3,
@@ -162,7 +194,9 @@ export function processBattlesFromServer(
     return {
       id: boss.id,
       gameId: boss.gameId,
-      chapter: boss.label ?? "Unknown Chapter",
+      chapterNumber: extractChapter(boss.gameId, boss.label),
+      adventureName: extractAdventureName(boss.gameId, boss.label),
+      originalLabel: boss.label ?? "",
       battleNumber: boss.desc ?? "Unknown Battle",
       type: battleType,
       powerLevel: maxPowerLevel,

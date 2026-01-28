@@ -84,8 +84,8 @@ export function BattleFilters({
           <SelectContent>
             <SelectItem value="all">Все главы</SelectItem>
             {chapters.map((chapter) => (
-              <SelectItem key={chapter} value={chapter}>
-                {chapter}
+              <SelectItem key={`chapter-${chapter}`} value={chapter}>
+                Глава {chapter}
               </SelectItem>
             ))}
           </SelectContent>

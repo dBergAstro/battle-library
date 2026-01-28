@@ -63,10 +63,10 @@ export function BattleCard({ battle }: BattleCardProps) {
                 </div>
               )}
             </div>
-            <h3 className="font-medium text-sm truncate" title={battle.chapter}>
-              {battle.chapter}
+            <h3 className="font-medium text-sm truncate" title={`${battle.adventureName} - Глава ${battle.chapterNumber}`}>
+              Глава {battle.chapterNumber} ({battle.adventureName})
             </h3>
-            <p className="text-xs text-muted-foreground truncate" title={battle.battleNumber}>
+            <p className="text-xs text-muted-foreground truncate" title={battle.originalLabel || battle.battleNumber}>
               {battle.battleNumber}
             </p>
             {battle.powerLevel && (

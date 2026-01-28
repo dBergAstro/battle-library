@@ -126,7 +126,9 @@ export interface TotemInfo {
 export interface ProcessedBattle {
   id: number;
   gameId: number;
-  chapter: string;
+  chapterNumber: number; // номер главы (1-7)
+  adventureName: string; // название адвенчуры
+  originalLabel: string; // оригинальный label
   battleNumber: string;
   type: BattleType;
   powerLevel?: number;

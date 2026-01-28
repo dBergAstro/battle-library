@@ -50,8 +50,8 @@ export default function BattleLibrary() {
   }, [data]);
 
   const chapters = useMemo(() => {
-    const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapter)));
-    return uniqueChapters.sort();
+    const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapterNumber)));
+    return uniqueChapters.sort((a, b) => a - b).map(n => n.toString());
   }, [battles]);
 
   const filteredBattles = useMemo(() => {
@@ -62,7 +62,8 @@ export default function BattleLibrary() {
       result = result.filter(
         (b) =>
           b.gameId.toString().includes(query) ||
-          b.chapter.toLowerCase().includes(query) ||
+          b.adventureName.toLowerCase().includes(query) ||
+          b.originalLabel.toLowerCase().includes(query) ||
           b.battleNumber.toLowerCase().includes(query) ||
           b.team.some((t) => t.name.toLowerCase().includes(query))
       );
@@ -73,7 +74,7 @@ export default function BattleLibrary() {
     }
 
     if (chapterFilter !== "all") {
-      result = result.filter((b) => b.chapter === chapterFilter);
+      result = result.filter((b) => b.chapterNumber.toString() === chapterFilter);
     }
 
     return result;
