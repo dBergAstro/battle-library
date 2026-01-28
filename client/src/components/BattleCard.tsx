@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Swords, Shield, Users } from "lucide-react";
+import { Swords, Shield, Users, Zap } from "lucide-react";
 import type { ProcessedBattle } from "@shared/schema";
 
 interface BattleCardProps {
@@ -51,6 +51,12 @@ export function BattleCard({ battle }: BattleCardProps) {
             <p className="text-xs text-muted-foreground truncate" title={battle.battleNumber}>
               {battle.battleNumber}
             </p>
+            {battle.powerLevel && (
+              <div className="flex items-center gap-1 mt-1">
+                <Zap className="h-3 w-3 text-yellow-500" />
+                <span className="text-xs font-medium">{battle.powerLevel.toLocaleString()}</span>
+              </div>
+            )}
           </div>
         </div>
 

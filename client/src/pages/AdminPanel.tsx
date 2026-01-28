@@ -1,8 +1,9 @@
 import { useState, useCallback, useRef } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { 
   Upload, 
   FileJson, 
@@ -11,26 +12,32 @@ import {
   Loader2, 
   FolderOpen, 
   Database,
-  Trash2,
   Image,
-  Shield
+  Shield,
+  Users,
+  Zap,
+  Plus,
+  X
 } from "lucide-react";
 import {
   parseCSV,
   parseJSON,
   validateBossList,
   validateBossTeam,
+  validateBossLevel,
 } from "@/lib/battleUtils";
 import { apiRequest } from "@/lib/queryClient";
 
 interface StatsResponse {
   bossList: number;
   bossTeam: number;
+  bossLevel: number;
   heroIcons: number;
+  heroNames: number;
 }
 
 interface TableConfig {
-  key: "bossList" | "bossTeam";
+  key: "bossList" | "bossTeam" | "bossLevel";
   title: string;
   description: string;
   endpoint: string;
@@ -49,6 +56,25 @@ const tables: TableConfig[] = [
     description: "invasion_boss_list-boss_team",
     endpoint: "/api/admin/boss-team",
   },
+  {
+    key: "bossLevel",
+    title: "Boss Level",
+    description: "invasion_boss_list-boss_level (powerLevel)",
+    endpoint: "/api/admin/boss-level",
+  },
+];
+
+interface IconFolderConfig {
+  key: string;
+  title: string;
+  description: string;
+  category: string;
+}
+
+const iconFolders: IconFolderConfig[] = [
+  { key: "heroes", title: "Герои", description: "Иконки героев (id 1-99)", category: "heroes" },
+  { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)", category: "creeps" },
+  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)", category: "titans" },
 ];
 
 export default function AdminPanel() {
@@ -56,9 +82,14 @@ export default function AdminPanel() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [uploadingStatus, setUploadingStatus] = useState<Record<string, boolean>>({});
   const [loadingProgress, setLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
-  const [iconLoadingProgress, setIconLoadingProgress] = useState<{ current: number; total: number } | null>(null);
+  const [iconLoadingProgress, setIconLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
   const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
-  const iconFolderRef = useRef<HTMLInputElement | null>(null);
+  const iconFolderRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  
+  // Hero names editing
+  const [newHeroId, setNewHeroId] = useState("");
+  const [newHeroName, setNewHeroName] = useState("");
+  const [heroNamesUploading, setHeroNamesUploading] = useState(false);
 
   const { data: stats, isLoading: statsLoading } = useQuery<StatsResponse>({
     queryKey: ["/api/admin/stats"],
@@ -70,11 +101,6 @@ export default function AdminPanel() {
     return response.json();
   };
 
-  const uploadIconsToServer = async (icons: Array<{ heroId: number; iconUrl: string }>) => {
-    const response = await apiRequest("POST", "/api/admin/hero-icons", icons);
-    return response.json();
-  };
-
   const handleFileInput = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>, config: TableConfig) => {
       const file = e.target.files?.[0];
@@ -82,11 +108,7 @@ export default function AdminPanel() {
 
       try {
         setUploadingStatus((prev) => ({ ...prev, [config.key]: true }));
-        setErrors((prev) => {
-          const newErrors = { ...prev };
-          delete newErrors[config.key];
-          return newErrors;
-        });
+        setErrors((prev) => { const n = { ...prev }; delete n[config.key]; return n; });
 
         const text = await file.text();
         let data: Record<string, unknown>[];
@@ -96,30 +118,23 @@ export default function AdminPanel() {
         } else if (file.name.endsWith(".csv")) {
           data = parseCSV(text);
         } else {
-          setErrors((prev) => ({
-            ...prev,
-            [config.key]: "Поддерживаются только CSV и JSON файлы",
-          }));
+          setErrors((prev) => ({ ...prev, [config.key]: "Поддерживаются только CSV и JSON файлы" }));
           return;
         }
 
         if (data.length === 0) {
-          setErrors((prev) => ({
-            ...prev,
-            [config.key]: "Файл пустой или имеет неверный формат",
-          }));
+          setErrors((prev) => ({ ...prev, [config.key]: "Файл пустой или имеет неверный формат" }));
           return;
         }
 
         const validation = config.key === "bossList" 
           ? validateBossList(data) 
-          : validateBossTeam(data);
+          : config.key === "bossTeam"
+          ? validateBossTeam(data)
+          : validateBossLevel(data);
 
         if (!validation.valid) {
-          setErrors((prev) => ({
-            ...prev,
-            [config.key]: validation.errors.join("; "),
-          }));
+          setErrors((prev) => ({ ...prev, [config.key]: validation.errors.join("; ") }));
           return;
         }
 
@@ -127,10 +142,7 @@ export default function AdminPanel() {
         queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
       } catch (err) {
-        setErrors((prev) => ({
-          ...prev,
-          [config.key]: err instanceof Error ? err.message : "Ошибка загрузки",
-        }));
+        setErrors((prev) => ({ ...prev, [config.key]: err instanceof Error ? err.message : "Ошибка загрузки" }));
       } finally {
         setUploadingStatus((prev) => ({ ...prev, [config.key]: false }));
         e.target.value = "";
@@ -146,19 +158,12 @@ export default function AdminPanel() {
 
       try {
         setUploadingStatus((prev) => ({ ...prev, [config.key]: true }));
-        setErrors((prev) => {
-          const newErrors = { ...prev };
-          delete newErrors[config.key];
-          return newErrors;
-        });
+        setErrors((prev) => { const n = { ...prev }; delete n[config.key]; return n; });
 
         const jsonFiles = Array.from(files).filter((f) => f.name.endsWith(".json"));
         
         if (jsonFiles.length === 0) {
-          setErrors((prev) => ({
-            ...prev,
-            [config.key]: "В папке не найдены JSON файлы",
-          }));
+          setErrors((prev) => ({ ...prev, [config.key]: "В папке не найдены JSON файлы" }));
           return;
         }
 
@@ -202,22 +207,18 @@ export default function AdminPanel() {
         setLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
 
         if (allRecords.length === 0) {
-          setErrors((prev) => ({
-            ...prev,
-            [config.key]: "Не удалось загрузить данные из папки",
-          }));
+          setErrors((prev) => ({ ...prev, [config.key]: "Не удалось загрузить данные из папки" }));
           return;
         }
 
         const validation = config.key === "bossList" 
           ? validateBossList(allRecords) 
-          : validateBossTeam(allRecords);
+          : config.key === "bossTeam"
+          ? validateBossTeam(allRecords)
+          : validateBossLevel(allRecords);
 
         if (!validation.valid) {
-          setErrors((prev) => ({
-            ...prev,
-            [config.key]: validation.errors.join("; "),
-          }));
+          setErrors((prev) => ({ ...prev, [config.key]: validation.errors.join("; ") }));
           return;
         }
 
@@ -226,10 +227,7 @@ export default function AdminPanel() {
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
       } catch (err) {
         setLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
-        setErrors((prev) => ({
-          ...prev,
-          [config.key]: err instanceof Error ? err.message : "Ошибка загрузки",
-        }));
+        setErrors((prev) => ({ ...prev, [config.key]: err instanceof Error ? err.message : "Ошибка загрузки" }));
       } finally {
         setUploadingStatus((prev) => ({ ...prev, [config.key]: false }));
         e.target.value = "";
@@ -239,17 +237,15 @@ export default function AdminPanel() {
   );
 
   const handleIconFolderInput = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: React.ChangeEvent<HTMLInputElement>, config: IconFolderConfig) => {
       const files = e.target.files;
       if (!files || files.length === 0) return;
 
+      const folderKey = `icons_${config.key}`;
+      
       try {
-        setUploadingStatus((prev) => ({ ...prev, icons: true }));
-        setErrors((prev) => {
-          const newErrors = { ...prev };
-          delete newErrors.icons;
-          return newErrors;
-        });
+        setUploadingStatus((prev) => ({ ...prev, [folderKey]: true }));
+        setErrors((prev) => { const n = { ...prev }; delete n[folderKey]; return n; });
 
         const imageFiles = Array.from(files).filter((f) => 
           f.type.startsWith("image/") || 
@@ -257,16 +253,13 @@ export default function AdminPanel() {
         );
         
         if (imageFiles.length === 0) {
-          setErrors((prev) => ({
-            ...prev,
-            icons: "В папке не найдены изображения",
-          }));
+          setErrors((prev) => ({ ...prev, [folderKey]: "В папке не найдены изображения" }));
           return;
         }
 
-        setIconLoadingProgress({ current: 0, total: imageFiles.length });
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { current: 0, total: imageFiles.length } }));
 
-        const icons: Array<{ heroId: number; iconUrl: string }> = [];
+        const icons: Array<{ heroId: number; iconUrl: string; category: string }> = [];
         
         for (let i = 0; i < imageFiles.length; i++) {
           const file = imageFiles[i];
@@ -276,7 +269,6 @@ export default function AdminPanel() {
           if (matches && matches.length > 0) {
             const heroId = parseInt(matches[matches.length - 1], 10);
             
-            // Convert to base64 for storage
             const buffer = await file.arrayBuffer();
             const base64 = btoa(
               new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
@@ -284,47 +276,69 @@ export default function AdminPanel() {
             const mimeType = file.type || 'image/png';
             const iconUrl = `data:${mimeType};base64,${base64}`;
             
-            icons.push({ heroId, iconUrl });
+            icons.push({ heroId, iconUrl, category: config.category });
           }
 
           if ((i + 1) % 50 === 0 || i === imageFiles.length - 1) {
-            setIconLoadingProgress({ current: i + 1, total: imageFiles.length });
+            setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { current: i + 1, total: imageFiles.length } }));
             await new Promise((resolve) => setTimeout(resolve, 0));
           }
         }
 
-        setIconLoadingProgress(null);
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
 
         if (icons.length === 0) {
-          setErrors((prev) => ({
-            ...prev,
-            icons: "Не удалось извлечь ID из имён файлов",
-          }));
+          setErrors((prev) => ({ ...prev, [folderKey]: "Не удалось извлечь ID из имён файлов" }));
           return;
         }
 
-        // Upload in batches
         const BATCH_SIZE = 50;
         for (let i = 0; i < icons.length; i += BATCH_SIZE) {
           const batch = icons.slice(i, i + BATCH_SIZE);
-          await uploadIconsToServer(batch);
+          await apiRequest("POST", "/api/admin/hero-icons", batch);
         }
 
         queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
       } catch (err) {
-        setIconLoadingProgress(null);
-        setErrors((prev) => ({
-          ...prev,
-          icons: err instanceof Error ? err.message : "Ошибка загрузки иконок",
-        }));
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
+        setErrors((prev) => ({ ...prev, [folderKey]: err instanceof Error ? err.message : "Ошибка загрузки иконок" }));
       } finally {
-        setUploadingStatus((prev) => ({ ...prev, icons: false }));
+        setUploadingStatus((prev) => ({ ...prev, [folderKey]: false }));
         e.target.value = "";
       }
     },
     [queryClient]
   );
+
+  const handleAddHeroName = async () => {
+    const heroIdVal = newHeroId.trim();
+    const heroNameVal = newHeroName.trim();
+    const heroId = parseInt(heroIdVal, 10);
+    
+    if (isNaN(heroId) || !heroNameVal) {
+      setErrors((prev) => ({ ...prev, heroNames: "Введите корректный ID и имя" }));
+      return;
+    }
+
+    setHeroNamesUploading(true);
+    setErrors((prev) => { const n = { ...prev }; delete n.heroNames; return n; });
+
+    try {
+      await apiRequest("POST", "/api/admin/hero-names", [{ heroId, name: heroNameVal }]);
+      
+      // Clear inputs after successful save
+      setNewHeroId("");
+      setNewHeroName("");
+      
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+    } catch (err) {
+      setErrors((prev) => ({ ...prev, heroNames: err instanceof Error ? err.message : "Ошибка сохранения" }));
+    } finally {
+      setHeroNamesUploading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -356,18 +370,26 @@ export default function AdminPanel() {
                 <span>Загрузка...</span>
               </div>
             ) : stats ? (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-5 gap-4">
                 <div className="text-center">
                   <p className="text-2xl font-bold">{stats.bossList}</p>
                   <p className="text-xs text-muted-foreground">Боёв</p>
                 </div>
                 <div className="text-center">
                   <p className="text-2xl font-bold">{stats.bossTeam}</p>
-                  <p className="text-xs text-muted-foreground">Записей команд</p>
+                  <p className="text-xs text-muted-foreground">Команд</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">{stats.bossLevel}</p>
+                  <p className="text-xs text-muted-foreground">Уровней</p>
                 </div>
                 <div className="text-center">
                   <p className="text-2xl font-bold">{stats.heroIcons}</p>
                   <p className="text-xs text-muted-foreground">Иконок</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">{stats.heroNames}</p>
+                  <p className="text-xs text-muted-foreground">Имён</p>
                 </div>
               </div>
             ) : (
@@ -385,7 +407,7 @@ export default function AdminPanel() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {tables.map((config) => (
                 <div
                   key={config.key}
@@ -402,7 +424,7 @@ export default function AdminPanel() {
                       <>
                         <CheckCircle2 className="h-4 w-4 text-green-500" />
                         <span className="text-xs text-muted-foreground">
-                          ({stats?.[config.key]} записей)
+                          ({stats?.[config.key]})
                         </span>
                       </>
                     )}
@@ -462,7 +484,7 @@ export default function AdminPanel() {
                   {loadingProgress[config.key] && (
                     <div className="mt-3">
                       <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                        <span>Загрузка файлов...</span>
+                        <span>Загрузка...</span>
                         <span>{loadingProgress[config.key]!.current} / {loadingProgress[config.key]!.total}</span>
                       </div>
                       <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
@@ -486,83 +508,138 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
 
-        {/* Upload Icons */}
+        {/* Upload Icons by Category */}
         <Card className="border-card-border">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Image className="h-5 w-5 text-primary" />
-              Загрузка иконок
+              Загрузка иконок по категориям
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div
-              className={`border rounded-md p-4 transition-all ${
-                (stats?.heroIcons ?? 0) > 0
-                  ? "border-green-500/50 bg-green-500/5"
-                  : "border-border"
-              }`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="font-medium text-sm">Иконки персонажей</span>
-                {(stats?.heroIcons ?? 0) > 0 && (
-                  <>
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                    <span className="text-xs text-muted-foreground">
-                      ({stats?.heroIcons} иконок)
-                    </span>
-                  </>
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground mb-3">
-                Загрузите папку с иконками (PNG, JPG, WebP). ID извлекается из имени файла.
-              </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {iconFolders.map((config) => {
+                const folderKey = `icons_${config.key}`;
+                return (
+                  <div
+                    key={config.key}
+                    className="border rounded-md p-4 transition-all border-border"
+                    data-testid={`upload-icons-${config.key}`}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="font-medium text-sm">{config.title}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      {config.description}
+                    </p>
 
-              <input
-                type="file"
-                ref={iconFolderRef}
-                className="hidden"
-                onChange={handleIconFolderInput}
-                disabled={uploadingStatus.icons}
-                data-testid="input-icons-folder"
-                {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
-              />
-              <Button
-                size="sm"
-                variant="default"
-                onClick={() => iconFolderRef.current?.click()}
-                disabled={uploadingStatus.icons}
-                data-testid="button-icons-folder"
-              >
-                {uploadingStatus.icons ? (
-                  <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                ) : (
-                  <FolderOpen className="h-3 w-3 mr-1" />
-                )}
-                Выбрать папку
-              </Button>
-
-              {iconLoadingProgress && (
-                <div className="mt-3">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                    <span>Обработка изображений...</span>
-                    <span>{iconLoadingProgress.current} / {iconLoadingProgress.total}</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-primary transition-all duration-200"
-                      style={{ width: `${(iconLoadingProgress.current / iconLoadingProgress.total) * 100}%` }}
+                    <input
+                      type="file"
+                      ref={(el) => (iconFolderRefs.current[config.key] = el)}
+                      className="hidden"
+                      onChange={(e) => handleIconFolderInput(e, config)}
+                      disabled={uploadingStatus[folderKey]}
+                      data-testid={`input-icons-${config.key}`}
+                      {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
                     />
-                  </div>
-                </div>
-              )}
+                    <Button
+                      size="sm"
+                      variant="default"
+                      onClick={() => iconFolderRefs.current[config.key]?.click()}
+                      disabled={uploadingStatus[folderKey]}
+                      data-testid={`button-icons-${config.key}`}
+                    >
+                      {uploadingStatus[folderKey] ? (
+                        <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                      ) : (
+                        <FolderOpen className="h-3 w-3 mr-1" />
+                      )}
+                      Выбрать папку
+                    </Button>
 
-              {errors.icons && (
-                <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
-                  <AlertCircle className="h-3 w-3 flex-shrink-0" />
-                  <span>{errors.icons}</span>
-                </div>
-              )}
+                    {iconLoadingProgress[config.key] && (
+                      <div className="mt-3">
+                        <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                          <span>Обработка...</span>
+                          <span>{iconLoadingProgress[config.key]!.current} / {iconLoadingProgress[config.key]!.total}</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-primary transition-all duration-200"
+                            style={{ width: `${(iconLoadingProgress[config.key]!.current / iconLoadingProgress[config.key]!.total) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {errors[folderKey] && (
+                      <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                        <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                        <span>{errors[folderKey]}</span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Hero Names */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Users className="h-5 w-5 text-primary" />
+              Имена персонажей
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Добавьте или обновите соответствие ID и имени персонажа. 
+              Имена из базы данных имеют приоритет над встроенными.
+            </p>
+            <div className="flex gap-2 items-end flex-wrap">
+              <div className="flex-1 min-w-[100px]">
+                <label className="text-xs text-muted-foreground mb-1 block">ID героя</label>
+                <Input
+                  type="number"
+                  placeholder="4003"
+                  value={newHeroId}
+                  onChange={(e) => setNewHeroId(e.target.value)}
+                  className="h-9"
+                  data-testid="input-hero-id"
+                />
+              </div>
+              <div className="flex-[2] min-w-[150px]">
+                <label className="text-xs text-muted-foreground mb-1 block">Имя</label>
+                <Input
+                  type="text"
+                  placeholder="Название персонажа"
+                  value={newHeroName}
+                  onChange={(e) => setNewHeroName(e.target.value)}
+                  className="h-9"
+                  data-testid="input-hero-name"
+                />
+              </div>
+              <Button
+                onClick={handleAddHeroName}
+                disabled={heroNamesUploading}
+                data-testid="button-add-hero-name"
+              >
+                {heroNamesUploading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Plus className="h-4 w-4 mr-1" />
+                )}
+                Добавить
+              </Button>
+            </div>
+            {errors.heroNames && (
+              <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                <span>{errors.heroNames}</span>
+              </div>
+            )}
           </CardContent>
         </Card>
 

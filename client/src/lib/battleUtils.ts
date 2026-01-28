@@ -1,5 +1,5 @@
 import type { ProcessedBattle, BattleType } from "@shared/schema";
-import { getHeroName } from "./heroNames";
+import { getHeroName as getDefaultHeroName } from "./heroNames";
 
 // Типы для данных с сервера
 export interface ServerBossList {
@@ -18,10 +18,24 @@ export interface ServerBossTeam {
   bossLevelId: number | null;
 }
 
+export interface ServerBossLevel {
+  id: number;
+  gameId: number;
+  bossId: number | null;
+  powerLevel: number | null;
+}
+
 export interface ServerHeroIcon {
   id: number;
   heroId: number;
   iconUrl: string;
+  category: string | null;
+}
+
+export interface ServerHeroName {
+  id: number;
+  heroId: number;
+  name: string;
 }
 
 export function determineBattleType(heroId: number | null | undefined): BattleType {
@@ -34,9 +48,19 @@ export function determineBattleType(heroId: number | null | undefined): BattleTy
 export function processBattlesFromServer(
   bossList: ServerBossList[],
   bossTeam: ServerBossTeam[],
-  heroIcons: ServerHeroIcon[]
+  bossLevel: ServerBossLevel[],
+  heroIcons: ServerHeroIcon[],
+  heroNames: ServerHeroName[]
 ): ProcessedBattle[] {
   const iconMap = new Map(heroIcons.map((h) => [h.heroId, h.iconUrl]));
+  const nameMap = new Map(heroNames.map((h) => [h.heroId, h.name]));
+  // bossLevelId in source data references boss_level's original id (stored as gameId)
+  const levelMap = new Map(bossLevel.map((l) => [l.gameId, l.powerLevel]));
+
+  // Функция для получения имени героя (сначала из БД, потом из встроенных)
+  const getHeroNameFn = (heroId: number): string => {
+    return nameMap.get(heroId) || getDefaultHeroName(heroId);
+  };
 
   const battles: ProcessedBattle[] = bossList.map((boss) => {
     const teamMembers = bossTeam
@@ -44,12 +68,20 @@ export function processBattlesFromServer(
       .slice(0, 5)
       .map((t) => {
         const heroId = t.heroId ?? t.unitId ?? 0;
+        // Получаем powerLevel через bossLevelId
+        const power = t.bossLevelId ? levelMap.get(t.bossLevelId) : undefined;
         return {
           heroId: heroId,
-          name: getHeroName(heroId),
+          name: getHeroNameFn(heroId),
           icon: iconMap.get(heroId),
         };
       });
+
+    // Находим максимальный powerLevel для боя
+    const teamPowerLevels = bossTeam
+      .filter((t) => t.bossGameId === boss.gameId && t.bossLevelId)
+      .map((t) => levelMap.get(t.bossLevelId!) ?? 0);
+    const maxPowerLevel = teamPowerLevels.length > 0 ? Math.max(...teamPowerLevels) : undefined;
 
     return {
       id: boss.id,
@@ -57,6 +89,7 @@ export function processBattlesFromServer(
       chapter: boss.label ?? "Unknown Chapter",
       battleNumber: boss.desc ?? "Unknown Battle",
       type: determineBattleType(boss.heroId),
+      powerLevel: maxPowerLevel,
       team: teamMembers,
     };
   });
@@ -64,7 +97,7 @@ export function processBattlesFromServer(
   return battles.sort((a, b) => b.gameId - a.gameId);
 }
 
-// Типы для загрузки файлов (локальная обработка)
+// Типы для загрузки файлов
 export interface InputBossList {
   id: number;
   label?: string;
@@ -78,6 +111,12 @@ export interface InputBossTeam {
   heroId?: number;
   unitId?: number;
   bossLevelId?: number;
+}
+
+export interface InputBossLevel {
+  id: number;
+  bossId?: number;
+  powerLevel?: number;
 }
 
 export function parseCSV(text: string): Record<string, unknown>[] {
@@ -110,7 +149,7 @@ export function parseCSV(text: string): Record<string, unknown>[] {
 }
 
 function isNumericField(fieldName: string): boolean {
-  const numericFields = ["id", "heroId", "bossId", "bossLevelId", "unitId"];
+  const numericFields = ["id", "heroId", "bossId", "bossLevelId", "unitId", "powerLevel"];
   return numericFields.includes(fieldName);
 }
 
@@ -173,13 +212,10 @@ export function validateBossList(data: Record<string, unknown>[]): ValidationRes
     errors.push("Отсутствует поле 'id'");
   }
 
-  const hasLabel = "label" in sample;
-  const hasDesc = "desc" in sample;
-
-  if (!hasLabel) {
+  if (!("label" in sample)) {
     warnings.push("Отсутствует поле 'label' (глава)");
   }
-  if (!hasDesc) {
+  if (!("desc" in sample)) {
     warnings.push("Отсутствует поле 'desc' (номер боя)");
   }
 
@@ -206,6 +242,26 @@ export function validateBossTeam(data: Record<string, unknown>[]): ValidationRes
   }
   if (!hasHeroId && !hasUnitId) {
     errors.push("Отсутствует поле 'heroId' или 'unitId'");
+  }
+
+  return { valid: errors.length === 0, errors, warnings };
+}
+
+export function validateBossLevel(data: Record<string, unknown>[]): ValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
+  if (data.length === 0) {
+    errors.push("Данные пустые");
+    return { valid: false, errors, warnings };
+  }
+
+  const sample = data[0];
+  if (!("id" in sample)) {
+    errors.push("Отсутствует поле 'id'");
+  }
+  if (!("powerLevel" in sample)) {
+    warnings.push("Отсутствует поле 'powerLevel'");
   }
 
   return { valid: errors.length === 0, errors, warnings };

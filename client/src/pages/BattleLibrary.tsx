@@ -5,13 +5,22 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
 import { BattleFilters } from "@/components/BattleFilters";
 import { Library, Swords, Shield, AlertCircle, Loader2 } from "lucide-react";
-import { processBattlesFromServer, type ServerBossList, type ServerBossTeam, type ServerHeroIcon } from "@/lib/battleUtils";
+import { 
+  processBattlesFromServer, 
+  type ServerBossList, 
+  type ServerBossTeam, 
+  type ServerBossLevel,
+  type ServerHeroIcon,
+  type ServerHeroName
+} from "@/lib/battleUtils";
 import type { ProcessedBattle, BattleType } from "@shared/schema";
 
 interface BattlesResponse {
   bossList: ServerBossList[];
   bossTeam: ServerBossTeam[];
+  bossLevel: ServerBossLevel[];
   heroIcons: ServerHeroIcon[];
+  heroNames: ServerHeroName[];
 }
 
 export default function BattleLibrary() {
@@ -25,7 +34,13 @@ export default function BattleLibrary() {
 
   const battles = useMemo<ProcessedBattle[]>(() => {
     if (!data) return [];
-    return processBattlesFromServer(data.bossList, data.bossTeam, data.heroIcons);
+    return processBattlesFromServer(
+      data.bossList, 
+      data.bossTeam, 
+      data.bossLevel,
+      data.heroIcons, 
+      data.heroNames
+    );
   }, [data]);
 
   const chapters = useMemo(() => {
