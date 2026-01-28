@@ -1,12 +1,11 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BattleCard } from "@/components/BattleCard";
 import { ReplayCard } from "@/components/ReplayCard";
 import { BattleFilters } from "@/components/BattleFilters";
-import { Library, Swords, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
+import { Library, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
 import { 
   processBattlesFromServer, 
   type ServerBossList, 
@@ -40,8 +39,11 @@ interface BattlesResponse {
   spiritIcons: ServerSpiritIcon[];
 }
 
+type ListItem = 
+  | { type: "battle"; data: ProcessedBattle; chapter: number; level: number }
+  | { type: "replay"; data: ProcessedReplay; chapter: number; level: number };
+
 export default function BattleLibrary() {
-  const [activeTab, setActiveTab] = useState<"battles" | "replays">("battles");
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
   const [chapterFilter, setChapterFilter] = useState("all");
@@ -78,9 +80,11 @@ export default function BattleLibrary() {
   }, [data]);
 
   const chapters = useMemo(() => {
-    const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapterNumber)));
+    const battleChapters = battles.map((b) => b.chapterNumber);
+    const replayChapters = replays.map((r) => r.chapter);
+    const uniqueChapters = Array.from(new Set([...battleChapters, ...replayChapters]));
     return uniqueChapters.sort((a, b) => a - b).map(n => n.toString());
-  }, [battles]);
+  }, [battles, replays]);
 
   const extractBattleNumber = (battleNumber: string): number | null => {
     const match = battleNumber.match(/(\d+)/);
@@ -88,78 +92,96 @@ export default function BattleLibrary() {
   };
 
   const battleNumbers = useMemo(() => {
-    const uniqueNumbers = new Set<number>();
-    battles.forEach((b) => {
-      const num = extractBattleNumber(b.battleNumber);
-      if (num !== null) uniqueNumbers.add(num);
-    });
+    const battleNums = battles.map((b) => extractBattleNumber(b.battleNumber)).filter((n): n is number => n !== null);
+    const replayNums = replays.map((r) => r.level);
+    const uniqueNumbers = new Set([...battleNums, ...replayNums]);
     return Array.from(uniqueNumbers).sort((a, b) => a - b).map(n => n.toString());
-  }, [battles]);
+  }, [battles, replays]);
 
-  const filteredBattles = useMemo(() => {
-    let result = battles;
+  // Объединённый и отсортированный список боёв и записей
+  const combinedList = useMemo<ListItem[]>(() => {
+    const items: ListItem[] = [];
+    
+    // Добавляем бои
+    for (const battle of battles) {
+      const level = extractBattleNumber(battle.battleNumber) ?? 0;
+      items.push({
+        type: "battle",
+        data: battle,
+        chapter: battle.chapterNumber,
+        level,
+      });
+    }
+    
+    // Добавляем записи
+    for (const replay of replays) {
+      items.push({
+        type: "replay",
+        data: replay,
+        chapter: replay.chapter,
+        level: replay.level,
+      });
+    }
+    
+    // Сортируем по главе, затем по номеру боя
+    return items.sort((a, b) => {
+      if (a.chapter !== b.chapter) return a.chapter - b.chapter;
+      if (a.level !== b.level) return a.level - b.level;
+      // Бои перед записями при одинаковых chapter/level
+      if (a.type !== b.type) return a.type === "battle" ? -1 : 1;
+      return 0;
+    });
+  }, [battles, replays]);
+
+  const filteredList = useMemo(() => {
+    let result = combinedList;
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (b) =>
-          b.gameId.toString().includes(query) ||
-          b.team.some((t) => t.name.toLowerCase().includes(query))
-      );
-    }
-
-    if (typeFilter !== "all") {
-      result = result.filter((b) => b.type === typeFilter);
-    }
-
-    if (chapterFilter !== "all") {
-      result = result.filter((b) => b.chapterNumber.toString() === chapterFilter);
-    }
-
-    if (battleNumberFilter !== "all") {
-      result = result.filter((b) => {
-        const num = extractBattleNumber(b.battleNumber);
-        return num !== null && num.toString() === battleNumberFilter;
+      result = result.filter((item) => {
+        if (item.type === "battle") {
+          const b = item.data;
+          return b.gameId.toString().includes(query) ||
+            b.team.some((t) => t.name.toLowerCase().includes(query));
+        } else {
+          const r = item.data;
+          return r.gameId.toString().includes(query) ||
+            r.team.some((t) => t.name.toLowerCase().includes(query)) ||
+            (r.comment && r.comment.toLowerCase().includes(query));
+        }
       });
     }
 
-    if (showOnlyWithCreeps) {
-      result = result.filter((b) =>
-        b.team.some((t) => t.heroId >= 1000 && t.heroId <= 2999)
-      );
-    }
-
-    return result;
-  }, [battles, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
-
-  const filteredReplays = useMemo(() => {
-    let result = replays;
-
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (r) =>
-          r.gameId.toString().includes(query) ||
-          r.team.some((t) => t.name.toLowerCase().includes(query)) ||
-          (r.comment && r.comment.toLowerCase().includes(query))
-      );
-    }
-
     if (typeFilter !== "all") {
-      const enemyType = typeFilter === "heroic" ? "Герои" : "Титаны";
-      result = result.filter((r) => r.enemyType === enemyType);
+      result = result.filter((item) => {
+        if (item.type === "battle") {
+          return item.data.type === typeFilter;
+        } else {
+          const enemyType = typeFilter === "heroic" ? "Герои" : "Титаны";
+          return item.data.enemyType === enemyType;
+        }
+      });
     }
 
     if (chapterFilter !== "all") {
-      result = result.filter((r) => r.chapter.toString() === chapterFilter);
+      result = result.filter((item) => item.chapter.toString() === chapterFilter);
     }
 
     if (battleNumberFilter !== "all") {
-      result = result.filter((r) => r.level.toString() === battleNumberFilter);
+      result = result.filter((item) => item.level.toString() === battleNumberFilter);
+    }
+
+    if (showOnlyWithCreeps) {
+      result = result.filter((item) => {
+        if (item.type === "battle") {
+          return item.data.team.some((t) => t.heroId >= 1000 && t.heroId <= 2999);
+        }
+        return true; // Записи не фильтруем по крипам
+      });
     }
 
     return result;
-  }, [replays, searchQuery, typeFilter, chapterFilter, battleNumberFilter]);
+  }, [combinedList, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
 
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
@@ -168,7 +190,7 @@ export default function BattleLibrary() {
     return { heroicBattles, titanicBattles, totalBattles: battles.length, totalReplays };
   }, [battles, replays]);
 
-  const hasData = battles.length > 0;
+  const hasData = battles.length > 0 || replays.length > 0;
 
   if (isLoading) {
     return (
@@ -229,78 +251,48 @@ export default function BattleLibrary() {
           )}
         </header>
 
-        {hasData || replays.length > 0 ? (
-          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "battles" | "replays")}>
-            <TabsList className="mb-4" data-testid="tabs-list">
-              <TabsTrigger value="battles" data-testid="tab-battles">
-                <Swords className="h-4 w-4 mr-1.5" />
-                Бои ({battles.length})
-              </TabsTrigger>
-              <TabsTrigger value="replays" data-testid="tab-replays">
-                <PlayCircle className="h-4 w-4 mr-1.5" />
-                Записи ({replays.length})
-              </TabsTrigger>
-            </TabsList>
+        {hasData ? (
+          <Card className="border-card-border">
+            <CardContent className="pt-6 space-y-4">
+              <BattleFilters
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                typeFilter={typeFilter}
+                onTypeChange={setTypeFilter}
+                chapterFilter={chapterFilter}
+                onChapterChange={setChapterFilter}
+                chapters={chapters}
+                battleNumberFilter={battleNumberFilter}
+                onBattleNumberChange={setBattleNumberFilter}
+                battleNumbers={battleNumbers}
+                showOnlyWithCreeps={showOnlyWithCreeps}
+                onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
+                totalCount={combinedList.length}
+                filteredCount={filteredList.length}
+              />
 
-            <Card className="border-card-border">
-              <CardContent className="pt-6 space-y-4">
-                <BattleFilters
-                  searchQuery={searchQuery}
-                  onSearchChange={setSearchQuery}
-                  typeFilter={typeFilter}
-                  onTypeChange={setTypeFilter}
-                  chapterFilter={chapterFilter}
-                  onChapterChange={setChapterFilter}
-                  chapters={chapters}
-                  battleNumberFilter={battleNumberFilter}
-                  onBattleNumberChange={setBattleNumberFilter}
-                  battleNumbers={battleNumbers}
-                  showOnlyWithCreeps={showOnlyWithCreeps}
-                  onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
-                  totalCount={activeTab === "battles" ? battles.length : replays.length}
-                  filteredCount={activeTab === "battles" ? filteredBattles.length : filteredReplays.length}
-                />
-
-                <TabsContent value="battles" className="mt-0">
-                  {filteredBattles.length > 0 ? (
-                    <ScrollArea className="h-[calc(100vh-420px)] min-h-[300px]">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
-                        {filteredBattles.map((battle) => (
-                          <BattleCard key={battle.id} battle={battle} />
-                        ))}
-                      </div>
-                    </ScrollArea>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                      <AlertCircle className="h-10 w-10 text-muted-foreground/50 mb-3" />
-                      <p className="text-muted-foreground">
-                        Нет боёв, соответствующих фильтрам
-                      </p>
-                    </div>
-                  )}
-                </TabsContent>
-
-                <TabsContent value="replays" className="mt-0">
-                  {filteredReplays.length > 0 ? (
-                    <ScrollArea className="h-[calc(100vh-420px)] min-h-[300px]">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
-                        {filteredReplays.map((replay) => (
-                          <ReplayCard key={replay.id} replay={replay} />
-                        ))}
-                      </div>
-                    </ScrollArea>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                      <AlertCircle className="h-10 w-10 text-muted-foreground/50 mb-3" />
-                      <p className="text-muted-foreground">
-                        Нет записей, соответствующих фильтрам
-                      </p>
-                    </div>
-                  )}
-                </TabsContent>
-              </CardContent>
-            </Card>
-          </Tabs>
+              {filteredList.length > 0 ? (
+                <ScrollArea className="h-[calc(100vh-380px)] min-h-[300px]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
+                    {filteredList.map((item) => 
+                      item.type === "battle" ? (
+                        <BattleCard key={`battle-${item.data.id}`} battle={item.data} />
+                      ) : (
+                        <ReplayCard key={`replay-${item.data.id}`} replay={item.data} />
+                      )
+                    )}
+                  </div>
+                </ScrollArea>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <AlertCircle className="h-10 w-10 text-muted-foreground/50 mb-3" />
+                  <p className="text-muted-foreground">
+                    Нет элементов, соответствующих фильтрам
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         ) : (
           <Card className="border-card-border">
             <CardContent className="py-16">
