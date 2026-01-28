@@ -88,13 +88,13 @@ export function BattleCard({ battle }: BattleCardProps) {
               <Tooltip key={`${battle.id}-${member.heroId}-${idx}`}>
                 <TooltipTrigger asChild>
                   <Avatar
-                    className="h-8 w-8 border-2 border-card ring-0"
+                    className="h-12 w-12 border-2 border-card ring-0"
                     data-testid={`avatar-hero-${member.heroId}`}
                   >
                     {member.icon ? (
                       <AvatarImage src={member.icon} alt={member.name} />
                     ) : null}
-                    <AvatarFallback className="text-[10px] font-medium bg-muted">
+                    <AvatarFallback className="text-xs font-medium bg-muted">
                       {member.name.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
