@@ -1,47 +1,83 @@
-import type { BossList, BossTeam, ProcessedBattle, BattleType } from "@shared/schema";
+import type { ProcessedBattle, BattleType } from "@shared/schema";
 import { getHeroName } from "./heroNames";
 
-export function determineBattleType(heroId: number | undefined): BattleType {
+// Типы для данных с сервера
+export interface ServerBossList {
+  id: number;
+  gameId: number;
+  label: string | null;
+  desc: string | null;
+  heroId: number | null;
+}
+
+export interface ServerBossTeam {
+  id: number;
+  bossGameId: number;
+  heroId: number | null;
+  unitId: number | null;
+  bossLevelId: number | null;
+}
+
+export interface ServerHeroIcon {
+  id: number;
+  heroId: number;
+  iconUrl: string;
+}
+
+export function determineBattleType(heroId: number | null | undefined): BattleType {
   if (heroId && heroId >= 3999 && heroId <= 4999) {
     return "titanic";
   }
   return "heroic";
 }
 
-export function processBattles(
-  bossList: BossList[],
-  bossTeam: BossTeam[],
-  heroIcons: Map<number, string>
+export function processBattlesFromServer(
+  bossList: ServerBossList[],
+  bossTeam: ServerBossTeam[],
+  heroIcons: ServerHeroIcon[]
 ): ProcessedBattle[] {
-  const battles: ProcessedBattle[] = bossList
-    .filter((boss) => boss.id > 226)
-    .map((boss) => {
-      const teamMembers = bossTeam
-        .filter((t) => {
-          const teamBossId = t.bossId ?? t.id;
-          return teamBossId === boss.id;
-        })
-        .slice(0, 5)
-        .map((t) => {
-          // Поддержка как heroId так и unitId
-          const heroId = t.heroId ?? t.unitId ?? 0;
-          return {
-            heroId: heroId,
-            name: getHeroName(heroId),
-            icon: heroIcons.get(heroId),
-          };
-        });
+  const iconMap = new Map(heroIcons.map((h) => [h.heroId, h.iconUrl]));
 
-      return {
-        id: boss.id,
-        chapter: String(boss.label ?? "Unknown Chapter"),
-        battleNumber: String(boss.desc ?? "Unknown Battle"),
-        type: determineBattleType(boss.heroId),
-        team: teamMembers,
-      };
-    });
+  const battles: ProcessedBattle[] = bossList.map((boss) => {
+    const teamMembers = bossTeam
+      .filter((t) => t.bossGameId === boss.gameId)
+      .slice(0, 5)
+      .map((t) => {
+        const heroId = t.heroId ?? t.unitId ?? 0;
+        return {
+          heroId: heroId,
+          name: getHeroName(heroId),
+          icon: iconMap.get(heroId),
+        };
+      });
 
-  return battles.sort((a, b) => b.id - a.id);
+    return {
+      id: boss.id,
+      gameId: boss.gameId,
+      chapter: boss.label ?? "Unknown Chapter",
+      battleNumber: boss.desc ?? "Unknown Battle",
+      type: determineBattleType(boss.heroId),
+      team: teamMembers,
+    };
+  });
+
+  return battles.sort((a, b) => b.gameId - a.gameId);
+}
+
+// Типы для загрузки файлов (локальная обработка)
+export interface InputBossList {
+  id: number;
+  label?: string;
+  desc?: string;
+  heroId?: number;
+}
+
+export interface InputBossTeam {
+  id: number;
+  bossId?: number;
+  heroId?: number;
+  unitId?: number;
+  bossLevelId?: number;
 }
 
 export function parseCSV(text: string): Record<string, unknown>[] {
@@ -174,4 +210,3 @@ export function validateBossTeam(data: Record<string, unknown>[]): ValidationRes
 
   return { valid: errors.length === 0, errors, warnings };
 }
-

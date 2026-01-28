@@ -1,66 +1,32 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { DataUploader } from "@/components/DataUploader";
 import { BattleCard } from "@/components/BattleCard";
 import { BattleFilters } from "@/components/BattleFilters";
-import { Library, Swords, Shield, AlertCircle } from "lucide-react";
-import { processBattles } from "@/lib/battleUtils";
-import type { BossList, BossTeam, BossLevel, ProcessedBattle, BattleType } from "@shared/schema";
+import { Library, Swords, Shield, AlertCircle, Loader2 } from "lucide-react";
+import { processBattlesFromServer, type ServerBossList, type ServerBossTeam, type ServerHeroIcon } from "@/lib/battleUtils";
+import type { ProcessedBattle, BattleType } from "@shared/schema";
+
+interface BattlesResponse {
+  bossList: ServerBossList[];
+  bossTeam: ServerBossTeam[];
+  heroIcons: ServerHeroIcon[];
+}
 
 export default function BattleLibrary() {
-  const [bossList, setBossList] = useState<BossList[]>([]);
-  const [bossTeam, setBossTeam] = useState<BossTeam[]>([]);
-  const [bossLevel, setBossLevel] = useState<BossLevel[]>([]);
-  const [heroIcons, setHeroIcons] = useState<Map<number, string>>(new Map());
-
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
   const [chapterFilter, setChapterFilter] = useState("all");
 
-  const loadedStatus = {
-    bossList: bossList.length > 0,
-    bossTeam: bossTeam.length > 0,
-    bossLevel: bossLevel.length > 0,
-    heroIcons: heroIcons.size > 0,
-  };
-
-  const loadedCounts = {
-    bossList: bossList.length,
-    bossTeam: bossTeam.length,
-    bossLevel: bossLevel.length,
-    heroIcons: heroIcons.size,
-  };
-
-  const handleDataLoaded = useCallback(
-    (type: "bossList" | "bossTeam" | "bossLevel", data: Record<string, unknown>[]) => {
-      switch (type) {
-        case "bossList":
-          setBossList(data as unknown as BossList[]);
-          break;
-        case "bossTeam":
-          setBossTeam(data as unknown as BossTeam[]);
-          break;
-        case "bossLevel":
-          setBossLevel(data as unknown as BossLevel[]);
-          break;
-      }
-    },
-    []
-  );
-
-  const handleIconsLoaded = useCallback((icons: Map<number, string>) => {
-    setHeroIcons((prev) => {
-      const merged = new Map(prev);
-      icons.forEach((url, id) => merged.set(id, url));
-      return merged;
-    });
-  }, []);
+  const { data, isLoading, error } = useQuery<BattlesResponse>({
+    queryKey: ["/api/battles"],
+  });
 
   const battles = useMemo<ProcessedBattle[]>(() => {
-    if (!loadedStatus.bossList) return [];
-    return processBattles(bossList, bossTeam, heroIcons);
-  }, [bossList, bossTeam, heroIcons, loadedStatus.bossList]);
+    if (!data) return [];
+    return processBattlesFromServer(data.bossList, data.bossTeam, data.heroIcons);
+  }, [data]);
 
   const chapters = useMemo(() => {
     const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapter)));
@@ -74,7 +40,7 @@ export default function BattleLibrary() {
       const query = searchQuery.toLowerCase();
       result = result.filter(
         (b) =>
-          b.id.toString().includes(query) ||
+          b.gameId.toString().includes(query) ||
           b.chapter.toLowerCase().includes(query) ||
           b.battleNumber.toLowerCase().includes(query) ||
           b.team.some((t) => t.name.toLowerCase().includes(query))
@@ -98,7 +64,29 @@ export default function BattleLibrary() {
     return { heroic, titanic, total: battles.length };
   }, [battles]);
 
-  const hasData = loadedStatus.bossList && loadedStatus.bossTeam;
+  const hasData = battles.length > 0;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Загрузка библиотеки боёв...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-destructive">
+          <AlertCircle className="h-8 w-8" />
+          <p>Ошибка загрузки данных</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -132,13 +120,6 @@ export default function BattleLibrary() {
           )}
         </header>
 
-        <DataUploader
-          onDataLoaded={handleDataLoaded}
-          onIconsLoaded={handleIconsLoaded}
-          loadedStatus={loadedStatus}
-          loadedCounts={loadedCounts}
-        />
-
         {hasData ? (
           <Card className="border-card-border">
             <CardHeader className="pb-4">
@@ -161,7 +142,7 @@ export default function BattleLibrary() {
               />
 
               {filteredBattles.length > 0 ? (
-                <ScrollArea className="h-[calc(100vh-480px)] min-h-[300px]">
+                <ScrollArea className="h-[calc(100vh-380px)] min-h-[300px]">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
                     {filteredBattles.map((battle) => (
                       <BattleCard key={battle.id} battle={battle} />
@@ -185,10 +166,9 @@ export default function BattleLibrary() {
                 <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
                   <Shield className="h-8 w-8 text-muted-foreground" />
                 </div>
-                <h3 className="text-lg font-medium mb-2">Загрузите данные для начала</h3>
+                <h3 className="text-lg font-medium mb-2">Данные ещё не загружены</h3>
                 <p className="text-sm text-muted-foreground max-w-md">
-                  Загрузите таблицы Boss List и Boss Team чтобы увидеть библиотеку боёв.
-                  Иконки загружаются отдельно из папок.
+                  Администратору необходимо загрузить данные боёв через панель управления.
                 </p>
               </div>
             </CardContent>

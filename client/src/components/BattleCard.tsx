@@ -22,7 +22,7 @@ export function BattleCard({ battle }: BattleCardProps) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
               <span className="font-mono text-xs text-muted-foreground">
-                #{battle.id}
+                #{battle.gameId}
               </span>
               <Badge
                 variant={isHeroic ? "default" : "secondary"}

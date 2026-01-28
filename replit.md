@@ -1,36 +1,58 @@
 # Battle Library Tool
 
 ## Overview
-Инструмент для визуального просмотра и анализа библиотеки боёв из игры Invasion (адвенчуры).
+Инструмент для визуального просмотра и анализа библиотеки боёв из игры Invasion (адвенчуры). 
+Использует серверное хранение данных в PostgreSQL - администратор загружает данные один раз, и они становятся доступны всем пользователям.
 
 ## Текущее состояние
-MVP - полностью работающее приложение для загрузки и просмотра данных о боях.
+MVP с серверным хранением - полностью работающее приложение.
+
+## Архитектура
+
+### База данных (PostgreSQL + Drizzle ORM)
+Таблицы:
+- `boss_list` - основная таблица боёв (id, gameId, label, desc, heroId)
+- `boss_team` - состав команды противников (id, bossGameId, heroId, unitId, bossLevelId)
+- `hero_icons` - иконки персонажей (id, heroId, iconUrl)
+
+### API Endpoints
+- `GET /api/battles` - получить все данные для отображения библиотеки
+- `GET /api/admin/stats` - статистика по загруженным данным
+- `POST /api/admin/boss-list` - загрузить данные боёв
+- `POST /api/admin/boss-team` - загрузить состав команд
+- `POST /api/admin/hero-icons` - загрузить иконки
+
+### Страницы
+- `/` - Библиотека боёв (просмотр для всех пользователей)
+- `/admin` - Панель администратора (загрузка данных)
 
 ## Функциональность
 - Загрузка таблиц через drag-n-drop или кнопку (CSV/JSON)
 - Поддержка папок с отдельными JSON-файлами для каждой записи
 - Визуальные карточки боёв с:
-  - ID боя
+  - ID боя (gameId)
   - Составом команды (аватары + имена героев)
   - Главой (label)
   - Номером боя (desc)
   - Типом (героический/титанический)
 - Фильтрация по типу боя, главе, поиск
 - Тёмная/светлая тема
+- Серверное хранение - данные сохраняются в PostgreSQL
 
 ## Структура данных
-### Таблицы для загрузки:
-1. **boss_list** (invasion_boss_list-boss_list) - основная таблица боёв
+
+### Входные данные для загрузки:
+1. **boss_list** (invasion_boss_list-boss_list)
    - id, label (глава), desc (номер боя), heroId (для определения типа)
-2. **boss_team** (invasion_boss_list-boss_team) - состав команды
-   - id, bossId, heroId, bossLevelId
-3. **boss_level** (invasion_boss_list-boss_level) - профили сложности
-   - id, name
+   - Записи с ID <= 226 отфильтрованы как неактуальные
+   
+2. **boss_team** (invasion_boss_list-boss_team)
+   - id, bossId, heroId, unitId, bossLevelId
 
 ### Иконки персонажей:
-- Загружаются из папок отдельно для героев, крипов и титанов
-- ID извлекается из имени файла (первое число)
-- Поддерживаются форматы: PNG, JPG, GIF, WebP, SVG
+- Загружаются из папок (PNG, JPG, WebP, SVG)
+- ID извлекается из последнего числа в имени файла (titan_big_4003.png → 4003)
+- Сохраняются как base64 в базе данных
 
 ### Имена героев:
 - Встроены в код (client/src/lib/heroNames.ts)
@@ -39,12 +61,13 @@ MVP - полностью работающее приложение для заг
 ### Логика типа боя:
 - heroId 3999-4999 = титанический
 - Остальные = героический
-- Записи с ID <= 226 не актуальны и отфильтрованы
 
 ## Технологии
 - Frontend: React, TypeScript, Tailwind CSS, Shadcn/ui
-- Обработка данных на клиенте (без backend API для данных)
-- In-memory storage в браузере
+- Backend: Express.js, Drizzle ORM
+- Database: PostgreSQL (Neon)
+- Валидация: Zod
+- Data fetching: TanStack Query
 
 ## Запуск
 ```bash
@@ -58,12 +81,18 @@ client/src/
 ├── components/
 │   ├── BattleCard.tsx      # Карточка боя
 │   ├── BattleFilters.tsx   # Фильтры и поиск
-│   ├── DataUploader.tsx    # Загрузка файлов
+│   ├── DataUploader.tsx    # (Legacy) Локальная загрузка
 │   └── ThemeToggle.tsx     # Переключатель темы
 ├── lib/
-│   └── battleUtils.ts      # Парсинг и обработка данных
+│   ├── battleUtils.ts      # Парсинг и обработка данных
+│   └── heroNames.ts        # Справочник имён героев
 ├── pages/
-│   └── BattleLibrary.tsx   # Главная страница
+│   ├── BattleLibrary.tsx   # Главная страница библиотеки
+│   └── AdminPanel.tsx      # Панель администратора
+server/
+├── db.ts                   # Подключение к PostgreSQL
+├── storage.ts              # CRUD операции с БД
+├── routes.ts               # API endpoints
 shared/
-└── schema.ts               # Типы данных
+└── schema.ts               # Drizzle схема + типы
 ```
