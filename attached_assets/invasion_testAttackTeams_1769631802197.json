@@ -1,0 +1,59 @@
+{
+    "columns": {
+        "id": {
+            "type": "int",
+            "autoIncrement": true
+        },
+        "invasionId": {
+            "type": "int"
+        },
+        "bossId": {
+            "type": "int"
+        },
+        "bossLevel": {
+            "type": "int"
+        },
+        "team": {
+            "type": "json",
+            "jsonSchema": null
+        },
+        "effect": {
+            "type": "json",
+            "jsonSchema": null
+        },
+        "defendersFragments": {
+            "type": "json",
+            "jsonSchema": null
+        },
+        "Comment": {
+            "type": "string",
+            "nullable": false,
+            "description": "Комментарий по составу. Создается автоматически парсингом defendersFragments тут:  https:\/\/defendersFragments.replit.app"
+        },
+        "Chapter": {
+            "type": "int",
+            "description": "Для какой главы сделана запись"
+        },
+        "Level": {
+            "type": "int",
+            "description": "Для какого боя в главе сделана запись"
+        },
+        "mainBuff": {
+            "type": "int",
+            "description": "Сколько основного баффа было у записи"
+        },
+        "enemyType": {
+            "type": "enum",
+            "allowedValues": [
+                "Герои",
+                "Титаны"
+            ]
+        }
+    },
+    "table": {
+        "index": [
+            "id"
+        ],
+        "comment": "@test"
+    }
+}

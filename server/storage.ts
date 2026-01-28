@@ -1,8 +1,11 @@
 import { 
   bossList, bossTeam, bossLevel, heroIcons, heroNames, heroSortOrder, titanElements,
+  attackTeams, petIcons, appSettings,
   type InsertBossList, type InsertBossTeam, type InsertBossLevel, 
   type InsertHeroIcon, type InsertHeroName, type InsertHeroSortOrder, type InsertTitanElement,
-  type BossList, type BossTeam, type BossLevel, type HeroIcon, type HeroName, type HeroSortOrder, type TitanElement
+  type InsertAttackTeam, type InsertPetIcon, type InsertAppSetting,
+  type BossList, type BossTeam, type BossLevel, type HeroIcon, type HeroName, type HeroSortOrder, type TitanElement,
+  type AttackTeam, type PetIcon, type AppSetting
 } from "@shared/schema";
 import { db } from "./db";
 import { gt, sql } from "drizzle-orm";
@@ -35,6 +38,17 @@ export interface IStorage {
   getAllTitanElements(): Promise<TitanElement[]>;
   insertTitanElements(data: InsertTitanElement[]): Promise<void>;
   clearTitanElements(): Promise<void>;
+  
+  getAllAttackTeams(): Promise<AttackTeam[]>;
+  insertAttackTeams(data: InsertAttackTeam[]): Promise<void>;
+  clearAttackTeams(): Promise<void>;
+  
+  getAllPetIcons(): Promise<PetIcon[]>;
+  insertPetIcons(data: InsertPetIcon[]): Promise<void>;
+  clearPetIcons(): Promise<void>;
+  
+  getSetting(key: string): Promise<string | null>;
+  setSetting(key: string, value: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -180,6 +194,71 @@ export class DatabaseStorage implements IStorage {
 
   async clearTitanElements(): Promise<void> {
     await db.delete(titanElements);
+  }
+
+  // Attack Teams
+  async getAllAttackTeams(): Promise<AttackTeam[]> {
+    return await db.select().from(attackTeams);
+  }
+
+  async insertAttackTeams(data: InsertAttackTeam[]): Promise<void> {
+    if (data.length === 0) return;
+    const BATCH_SIZE = 100;
+    for (let i = 0; i < data.length; i += BATCH_SIZE) {
+      const batch = data.slice(i, i + BATCH_SIZE);
+      await db.insert(attackTeams).values(batch).onConflictDoUpdate({
+        target: attackTeams.gameId,
+        set: { 
+          invasionId: sql`excluded.invasion_id`,
+          bossId: sql`excluded.boss_id`,
+          bossLevel: sql`excluded.boss_level`,
+          chapter: sql`excluded.chapter`,
+          level: sql`excluded.level`,
+          enemyType: sql`excluded.enemy_type`,
+          mainBuff: sql`excluded.main_buff`,
+          comment: sql`excluded.comment`,
+          defendersFragments: sql`excluded.defenders_fragments`,
+        },
+      });
+    }
+  }
+
+  async clearAttackTeams(): Promise<void> {
+    await db.delete(attackTeams);
+  }
+
+  // Pet Icons
+  async getAllPetIcons(): Promise<PetIcon[]> {
+    return await db.select().from(petIcons);
+  }
+
+  async insertPetIcons(data: InsertPetIcon[]): Promise<void> {
+    if (data.length === 0) return;
+    const BATCH_SIZE = 50;
+    for (let i = 0; i < data.length; i += BATCH_SIZE) {
+      const batch = data.slice(i, i + BATCH_SIZE);
+      await db.insert(petIcons).values(batch).onConflictDoUpdate({
+        target: petIcons.petId,
+        set: { iconUrl: sql`excluded.icon_url` },
+      });
+    }
+  }
+
+  async clearPetIcons(): Promise<void> {
+    await db.delete(petIcons);
+  }
+
+  // App Settings
+  async getSetting(key: string): Promise<string | null> {
+    const result = await db.select().from(appSettings).where(sql`${appSettings.key} = ${key}`);
+    return result.length > 0 ? result[0].value : null;
+  }
+
+  async setSetting(key: string, value: string): Promise<void> {
+    await db.insert(appSettings).values({ key, value }).onConflictDoUpdate({
+      target: appSettings.key,
+      set: { value: sql`excluded.value` },
+    });
   }
 }
 

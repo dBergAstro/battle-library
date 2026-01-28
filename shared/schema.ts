@@ -110,6 +110,47 @@ export const insertTitanElementSchema = createInsertSchema(titanElements).omit({
 export type InsertTitanElement = z.infer<typeof insertTitanElementSchema>;
 export type TitanElement = typeof titanElements.$inferSelect;
 
+// Attack Teams - записи (replays)
+export const attackTeams = pgTable("attack_teams", {
+  id: serial("id").primaryKey(),
+  gameId: integer("game_id").notNull().unique(), // id из исходных данных
+  invasionId: integer("invasion_id"),
+  bossId: integer("boss_id"),
+  bossLevel: integer("boss_level"),
+  chapter: integer("chapter"),
+  level: integer("level"), // номер боя в главе
+  enemyType: text("enemy_type"), // "Герои" или "Титаны"
+  mainBuff: integer("main_buff"),
+  comment: text("comment"),
+  defendersFragments: text("defenders_fragments"), // JSON строка
+});
+
+export const insertAttackTeamSchema = createInsertSchema(attackTeams).omit({ id: true });
+export type InsertAttackTeam = z.infer<typeof insertAttackTeamSchema>;
+export type AttackTeam = typeof attackTeams.$inferSelect;
+
+// Pet Icons - иконки питомцев
+export const petIcons = pgTable("pet_icons", {
+  id: serial("id").primaryKey(),
+  petId: integer("pet_id").notNull().unique(),
+  iconUrl: text("icon_url").notNull(),
+});
+
+export const insertPetIconSchema = createInsertSchema(petIcons).omit({ id: true });
+export type InsertPetIcon = z.infer<typeof insertPetIconSchema>;
+export type PetIcon = typeof petIcons.$inferSelect;
+
+// App Settings - настройки приложения
+export const appSettings = pgTable("app_settings", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(),
+  value: text("value").notNull(),
+});
+
+export const insertAppSettingSchema = createInsertSchema(appSettings).omit({ id: true });
+export type InsertAppSetting = z.infer<typeof insertAppSettingSchema>;
+export type AppSetting = typeof appSettings.$inferSelect;
+
 // Тип боя
 export type BattleType = "heroic" | "titanic";
 
@@ -120,6 +161,44 @@ export type ElementType = "вода" | "огонь" | "земля" | "тьма" 
 export interface TotemInfo {
   element: ElementType;
   points: number;
+}
+
+// Грейд персонажа по фрагментам
+export type FragmentGrade = "purple" | "orange" | "red"; // 1-2, 3-6, 7+
+
+// Структура defendersFragments из JSON
+export interface DefendersFragments {
+  units: number[];
+  petId?: number;
+  favor?: Record<string, number>; // heroId -> petId
+  spirits?: number[];
+  fragments?: Record<string, number>; // id -> fragment count
+  effects?: Record<string, number>;
+}
+
+// Обработанный член команды в записи
+export interface ProcessedReplayMember {
+  heroId: number;
+  name: string;
+  icon?: string;
+  fragmentCount: number;
+  grade: FragmentGrade;
+  favorPetId?: number; // питомец в покровительстве
+  favorPetIcon?: string;
+}
+
+// Обработанная запись для отображения
+export interface ProcessedReplay {
+  id: number;
+  gameId: number;
+  chapter: number;
+  level: number;
+  enemyType: "Герои" | "Титаны";
+  mainBuff?: number;
+  comment?: string;
+  mainPetId?: number;
+  mainPetIcon?: string;
+  team: ProcessedReplayMember[];
 }
 
 // Обработанные данные боя для отображения

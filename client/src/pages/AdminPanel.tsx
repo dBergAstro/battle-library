@@ -21,7 +21,10 @@ import {
   ArrowUpDown,
   Flame,
   Search,
-  Eye
+  Eye,
+  Swords,
+  Settings,
+  Dog
 } from "lucide-react";
 import {
   parseCSV,
@@ -43,6 +46,9 @@ interface StatsResponse {
   heroNames: number;
   heroSortOrder: number;
   titanElements: number;
+  attackTeams: number;
+  petIcons: number;
+  mainBuffName: string | null;
 }
 
 interface TableConfig {
@@ -106,6 +112,17 @@ export default function AdminPanel() {
   // Titan elements input
   const [titanElementsText, setTitanElementsText] = useState("");
   const [titanElementsUploading, setTitanElementsUploading] = useState(false);
+
+  // Attack teams (replays) input
+  const [attackTeamsUploading, setAttackTeamsUploading] = useState(false);
+  const attackTeamsInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Pet icons input
+  const petIconsInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Main buff name setting
+  const [mainBuffName, setMainBuffName] = useState("");
+  const [mainBuffSaving, setMainBuffSaving] = useState(false);
 
   const [heroSearchQuery, setHeroSearchQuery] = useState("");
 
@@ -898,6 +915,242 @@ export default function AdminPanel() {
                 ))}
               </div>
             </ScrollArea>
+          </CardContent>
+        </Card>
+
+        {/* Attack Teams (Replays) Upload */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Swords className="h-5 w-5 text-primary" />
+              Записи (Replays)
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Загрузите таблицу invasion_testAttackTeams (JSON файл или папка)
+            </p>
+            <input
+              type="file"
+              ref={attackTeamsInputRef}
+              className="hidden"
+              accept=".json"
+              multiple
+              onChange={async (e) => {
+                const files = e.target.files;
+                if (!files || files.length === 0) return;
+                
+                setAttackTeamsUploading(true);
+                setErrors((prev) => ({ ...prev, attackTeams: "" }));
+                
+                try {
+                  let allData: Record<string, unknown>[] = [];
+                  
+                  for (const file of Array.from(files)) {
+                    const text = await file.text();
+                    const parsed = parseJSON(text);
+                    // Filter out schema files
+                    const dataRows = parsed.filter((row) => !("columns" in row) && !("table" in row));
+                    allData = allData.concat(dataRows);
+                  }
+                  
+                  if (allData.length === 0) {
+                    throw new Error("Нет данных для загрузки");
+                  }
+                  
+                  await uploadToServer("/api/admin/attack-teams", allData);
+                  queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                  queryClient.invalidateQueries({ queryKey: ["/api/replays"] });
+                } catch (error) {
+                  setErrors((prev) => ({ 
+                    ...prev, 
+                    attackTeams: error instanceof Error ? error.message : "Ошибка загрузки" 
+                  }));
+                } finally {
+                  setAttackTeamsUploading(false);
+                  if (attackTeamsInputRef.current) {
+                    attackTeamsInputRef.current.value = "";
+                  }
+                }
+              }}
+              data-testid="input-attack-teams"
+            />
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => attackTeamsInputRef.current?.click()}
+                disabled={attackTeamsUploading}
+                data-testid="button-upload-attack-teams"
+              >
+                {attackTeamsUploading ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <FolderOpen className="h-4 w-4 mr-1" />
+                )}
+                Загрузить записи
+              </Button>
+              {(stats?.attackTeams ?? 0) > 0 && (
+                <Badge variant="secondary">
+                  Загружено: {stats?.attackTeams} записей
+                </Badge>
+              )}
+            </div>
+            {errors.attackTeams && (
+              <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                <span>{errors.attackTeams}</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Pet Icons Upload */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Dog className="h-5 w-5 text-primary" />
+              Иконки питомцев
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Загрузите папку с иконками питомцев (ID извлекается из имени файла)
+            </p>
+            <input
+              type="file"
+              ref={petIconsInputRef}
+              className="hidden"
+              accept="image/*"
+              multiple
+              onChange={async (e) => {
+                const files = e.target.files;
+                if (!files || files.length === 0) return;
+                
+                setErrors((prev) => ({ ...prev, petIcons: "" }));
+                
+                try {
+                  const iconData: { petId: number; iconUrl: string }[] = [];
+                  
+                  for (const file of Array.from(files)) {
+                    // Extract ID from filename (e.g., pet_6001.png -> 6001)
+                    const match = file.name.match(/(\d+)/);
+                    if (!match) continue;
+                    
+                    const petId = parseInt(match[1], 10);
+                    if (isNaN(petId)) continue;
+                    
+                    // Convert to base64
+                    const base64 = await new Promise<string>((resolve) => {
+                      const reader = new FileReader();
+                      reader.onload = () => resolve(reader.result as string);
+                      reader.readAsDataURL(file);
+                    });
+                    
+                    iconData.push({ petId, iconUrl: base64 });
+                  }
+                  
+                  if (iconData.length === 0) {
+                    throw new Error("Не удалось извлечь ID питомцев из имён файлов");
+                  }
+                  
+                  await uploadToServer("/api/admin/pet-icons", iconData);
+                  queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                  queryClient.invalidateQueries({ queryKey: ["/api/replays"] });
+                } catch (error) {
+                  setErrors((prev) => ({ 
+                    ...prev, 
+                    petIcons: error instanceof Error ? error.message : "Ошибка загрузки" 
+                  }));
+                } finally {
+                  if (petIconsInputRef.current) {
+                    petIconsInputRef.current.value = "";
+                  }
+                }
+              }}
+              data-testid="input-pet-icons"
+            />
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => petIconsInputRef.current?.click()}
+                data-testid="button-upload-pet-icons"
+              >
+                <FolderOpen className="h-4 w-4 mr-1" />
+                Загрузить иконки
+              </Button>
+              {(stats?.petIcons ?? 0) > 0 && (
+                <Badge variant="secondary">
+                  Загружено: {stats?.petIcons} иконок
+                </Badge>
+              )}
+            </div>
+            {errors.petIcons && (
+              <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                <span>{errors.petIcons}</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Main Buff Setting */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Settings className="h-5 w-5 text-primary" />
+              Настройки баффов
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                Название основного баффа
+              </label>
+              <p className="text-xs text-muted-foreground mb-2">
+                Укажите ключ основного баффа из effects (например: percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30)
+              </p>
+              <Input
+                placeholder="percentInOutDamageMod..."
+                value={mainBuffName}
+                onChange={(e) => setMainBuffName(e.target.value)}
+                className="mb-2"
+                data-testid="input-main-buff-name"
+              />
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={async () => {
+                  if (!mainBuffName.trim()) return;
+                  setMainBuffSaving(true);
+                  try {
+                    await apiRequest("POST", "/api/admin/settings/main-buff", { name: mainBuffName.trim() });
+                    queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                  } catch (error) {
+                    console.error("Error saving main buff name:", error);
+                  } finally {
+                    setMainBuffSaving(false);
+                  }
+                }}
+                disabled={mainBuffSaving || !mainBuffName.trim()}
+                data-testid="button-save-main-buff"
+              >
+                {mainBuffSaving ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                )}
+                Сохранить
+              </Button>
+              {stats?.mainBuffName && (
+                <Badge variant="secondary" className="max-w-[200px] truncate" title={stats.mainBuffName}>
+                  Текущий: {stats.mainBuffName.slice(0, 30)}...
+                </Badge>
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>

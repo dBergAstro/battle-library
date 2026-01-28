@@ -58,6 +58,24 @@ const titanElementsInputSchema = z.array(z.object({
   points: z.number(),
 }));
 
+const attackTeamsInputSchema = z.array(z.object({
+  id: coerceNumberRequired,
+  invasionId: coerceNumber,
+  bossId: coerceNumber,
+  bossLevel: coerceNumber,
+  Chapter: coerceNumber,
+  Level: coerceNumber,
+  enemyType: z.string().optional().nullable(),
+  mainBuff: coerceNumber,
+  Comment: z.string().optional().nullable(),
+  defendersFragments: z.any().optional().nullable(),
+}).passthrough());
+
+const petIconsInputSchema = z.array(z.object({
+  petId: z.number(),
+  iconUrl: z.string().max(2000000),
+}));
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -273,7 +291,7 @@ export async function registerRoutes(
   // Get stats
   app.get("/api/admin/stats", async (_req, res) => {
     try {
-      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData] = await Promise.all([
+      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData, attackTeamsData, petIconsData] = await Promise.all([
         storage.getAllBossList(),
         storage.getAllBossTeam(),
         storage.getAllBossLevel(),
@@ -281,7 +299,11 @@ export async function registerRoutes(
         storage.getAllHeroNames(),
         storage.getAllHeroSortOrder(),
         storage.getAllTitanElements(),
+        storage.getAllAttackTeams(),
+        storage.getAllPetIcons(),
       ]);
+
+      const mainBuffName = await storage.getSetting("mainBuffName");
 
       res.json({
         bossList: bossListData.length,
@@ -291,10 +313,106 @@ export async function registerRoutes(
         heroNames: heroNamesData.length,
         heroSortOrder: heroSortOrderData.length,
         titanElements: titanElementsData.length,
+        attackTeams: attackTeamsData.length,
+        petIcons: petIconsData.length,
+        mainBuffName: mainBuffName,
       });
     } catch (error) {
       console.error("Error fetching stats:", error);
       res.status(500).json({ error: "Failed to fetch stats" });
+    }
+  });
+
+  // Upload Attack Teams (Replays)
+  app.post("/api/admin/attack-teams", async (req, res) => {
+    try {
+      const parsed = attackTeamsInputSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
+      }
+
+      await storage.clearAttackTeams();
+      const mapped = parsed.data.map((item) => ({
+        gameId: item.id,
+        invasionId: item.invasionId || null,
+        bossId: item.bossId || null,
+        bossLevel: item.bossLevel || null,
+        chapter: item.Chapter || null,
+        level: item.Level || null,
+        enemyType: item.enemyType || null,
+        mainBuff: item.mainBuff || null,
+        comment: item.Comment || null,
+        defendersFragments: item.defendersFragments ? JSON.stringify(item.defendersFragments) : null,
+      }));
+
+      await storage.insertAttackTeams(mapped);
+      res.json({ success: true, count: mapped.length });
+    } catch (error) {
+      console.error("Error uploading attack teams:", error);
+      res.status(500).json({ error: "Failed to upload attack teams" });
+    }
+  });
+
+  // Upload Pet Icons
+  app.post("/api/admin/pet-icons", async (req, res) => {
+    try {
+      const parsed = petIconsInputSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
+      }
+
+      // Дедупликация по petId
+      const seen = new Map<number, typeof parsed.data[0]>();
+      for (const item of parsed.data) {
+        seen.set(item.petId, item);
+      }
+      const deduplicated = Array.from(seen.values());
+
+      await storage.insertPetIcons(deduplicated);
+      res.json({ success: true, count: deduplicated.length });
+    } catch (error) {
+      console.error("Error uploading pet icons:", error);
+      res.status(500).json({ error: "Failed to upload pet icons" });
+    }
+  });
+
+  // Set Main Buff Name
+  app.post("/api/admin/settings/main-buff", async (req, res) => {
+    try {
+      const { name } = req.body;
+      if (typeof name !== "string") {
+        return res.status(400).json({ error: "Invalid name" });
+      }
+      await storage.setSetting("mainBuffName", name);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error setting main buff name:", error);
+      res.status(500).json({ error: "Failed to set main buff name" });
+    }
+  });
+
+  // Get Replays data
+  app.get("/api/replays", async (_req, res) => {
+    try {
+      const [attackTeamsData, heroIconsData, heroNamesData, petIconsData] = await Promise.all([
+        storage.getAllAttackTeams(),
+        storage.getAllHeroIcons(),
+        storage.getAllHeroNames(),
+        storage.getAllPetIcons(),
+      ]);
+
+      const mainBuffName = await storage.getSetting("mainBuffName");
+
+      res.json({
+        attackTeams: attackTeamsData,
+        heroIcons: heroIconsData,
+        heroNames: heroNamesData,
+        petIcons: petIconsData,
+        mainBuffName: mainBuffName,
+      });
+    } catch (error) {
+      console.error("Error fetching replays:", error);
+      res.status(500).json({ error: "Failed to fetch replays" });
     }
   });
 

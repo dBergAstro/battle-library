@@ -5,8 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { Library, Shield } from "lucide-react";
+import { Library, Shield, Swords } from "lucide-react";
 import BattleLibrary from "@/pages/BattleLibrary";
+import ReplayLibrary from "@/pages/ReplayLibrary";
 import AdminPanel from "@/pages/AdminPanel";
 import NotFound from "@/pages/not-found";
 
@@ -14,6 +15,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={BattleLibrary} />
+      <Route path="/replays" component={ReplayLibrary} />
       <Route path="/admin" component={AdminPanel} />
       <Route component={NotFound} />
     </Switch>
@@ -32,7 +34,17 @@ function Navigation() {
           data-testid="link-library"
         >
           <Library className="h-4 w-4 mr-1" />
-          Библиотека
+          Бои
+        </Button>
+      </Link>
+      <Link href="/replays">
+        <Button
+          size="sm"
+          variant={location === "/replays" ? "default" : "outline"}
+          data-testid="link-replays"
+        >
+          <Swords className="h-4 w-4 mr-1" />
+          Записи
         </Button>
       </Link>
       <Link href="/admin">
