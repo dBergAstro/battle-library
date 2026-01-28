@@ -12,11 +12,15 @@ import {
 import { Search, X, Filter } from "lucide-react";
 import type { BattleType } from "@shared/schema";
 
+export type SourceFilter = "all" | "battles" | "replays";
+
 interface BattleFiltersProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
   typeFilter: BattleType | "all";
   onTypeChange: (value: BattleType | "all") => void;
+  sourceFilter: SourceFilter;
+  onSourceChange: (value: SourceFilter) => void;
   chapterFilter: string;
   onChapterChange: (value: string) => void;
   chapters: string[];
@@ -34,6 +38,8 @@ export function BattleFilters({
   onSearchChange,
   typeFilter,
   onTypeChange,
+  sourceFilter,
+  onSourceChange,
   chapterFilter,
   onChapterChange,
   chapters,
@@ -45,11 +51,12 @@ export function BattleFilters({
   totalCount,
   filteredCount,
 }: BattleFiltersProps) {
-  const hasFilters = searchQuery || typeFilter !== "all" || chapterFilter !== "all" || battleNumberFilter !== "all" || showOnlyWithCreeps;
+  const hasFilters = searchQuery || typeFilter !== "all" || sourceFilter !== "all" || chapterFilter !== "all" || battleNumberFilter !== "all" || showOnlyWithCreeps;
 
   const clearFilters = () => {
     onSearchChange("");
     onTypeChange("all");
+    onSourceChange("all");
     onChapterChange("all");
     onBattleNumberChange("all");
     onShowOnlyWithCreepsChange(false);
@@ -78,6 +85,17 @@ export function BattleFilters({
             </button>
           )}
         </div>
+
+        <Select value={sourceFilter} onValueChange={(v) => onSourceChange(v as SourceFilter)}>
+          <SelectTrigger className="w-full sm:w-[140px]" data-testid="select-source">
+            <SelectValue placeholder="Источник" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Всё</SelectItem>
+            <SelectItem value="battles">Только бои</SelectItem>
+            <SelectItem value="replays">Только записи</SelectItem>
+          </SelectContent>
+        </Select>
 
         <Select value={typeFilter} onValueChange={(v) => onTypeChange(v as BattleType | "all")}>
           <SelectTrigger className="w-full sm:w-[160px]" data-testid="select-type">

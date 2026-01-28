@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
 import { ReplayCard } from "@/components/ReplayCard";
-import { BattleFilters } from "@/components/BattleFilters";
+import { BattleFilters, type SourceFilter } from "@/components/BattleFilters";
 import { Library, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
 import { 
   processBattlesFromServer, 
@@ -46,6 +46,7 @@ type ListItem =
 export default function BattleLibrary() {
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
+  const [sourceFilter, setSourceFilter] = useState<SourceFilter>("all");
   const [chapterFilter, setChapterFilter] = useState("all");
   const [battleNumberFilter, setBattleNumberFilter] = useState("all");
   const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
@@ -136,6 +137,13 @@ export default function BattleLibrary() {
   const filteredList = useMemo(() => {
     let result = combinedList;
 
+    // Фильтр по источнику (бои/записи)
+    if (sourceFilter === "battles") {
+      result = result.filter((item) => item.type === "battle");
+    } else if (sourceFilter === "replays") {
+      result = result.filter((item) => item.type === "replay");
+    }
+
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter((item) => {
@@ -181,7 +189,7 @@ export default function BattleLibrary() {
     }
 
     return result;
-  }, [combinedList, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
+  }, [combinedList, searchQuery, typeFilter, sourceFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
 
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
@@ -259,6 +267,8 @@ export default function BattleLibrary() {
                 onSearchChange={setSearchQuery}
                 typeFilter={typeFilter}
                 onTypeChange={setTypeFilter}
+                sourceFilter={sourceFilter}
+                onSourceChange={setSourceFilter}
                 chapterFilter={chapterFilter}
                 onChapterChange={setChapterFilter}
                 chapters={chapters}
