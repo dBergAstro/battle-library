@@ -23,10 +23,12 @@ export function processBattles(
         })
         .slice(0, 5)
         .map((t) => {
+          // Поддержка как heroId так и unitId
+          const heroId = t.heroId ?? t.unitId ?? 0;
           return {
-            heroId: t.heroId,
-            name: getHeroName(t.heroId),
-            icon: heroIcons.get(t.heroId),
+            heroId: heroId,
+            name: getHeroName(heroId),
+            icon: heroIcons.get(heroId),
           };
         });
 
@@ -72,7 +74,7 @@ export function parseCSV(text: string): Record<string, unknown>[] {
 }
 
 function isNumericField(fieldName: string): boolean {
-  const numericFields = ["id", "heroId", "bossId", "bossLevelId"];
+  const numericFields = ["id", "heroId", "bossId", "bossLevelId", "unitId"];
   return numericFields.includes(fieldName);
 }
 
@@ -161,12 +163,13 @@ export function validateBossTeam(data: Record<string, unknown>[]): ValidationRes
   const hasId = "id" in sample;
   const hasBossId = "bossId" in sample;
   const hasHeroId = "heroId" in sample;
+  const hasUnitId = "unitId" in sample;
 
   if (!hasId && !hasBossId) {
     errors.push("Отсутствует поле 'id' или 'bossId' для связи с боем");
   }
-  if (!hasHeroId) {
-    errors.push("Отсутствует поле 'heroId'");
+  if (!hasHeroId && !hasUnitId) {
+    errors.push("Отсутствует поле 'heroId' или 'unitId'");
   }
 
   return { valid: errors.length === 0, errors, warnings };

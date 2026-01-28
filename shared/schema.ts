@@ -13,8 +13,9 @@ export type BossList = z.infer<typeof bossListSchema>;
 // Boss Team - состав противников
 export const bossTeamSchema = z.object({
   id: z.number(),
-  bossId: z.number(), // Связь с boss_list
-  heroId: z.number(), // ID героя/титана
+  bossId: z.number().optional(), // Связь с boss_list
+  heroId: z.number().optional(), // ID героя/титана (альтернатива unitId)
+  unitId: z.number().optional(), // ID юнита (альтернатива heroId)
   bossLevelId: z.number().optional(), // Профиль сложности
 });
 
