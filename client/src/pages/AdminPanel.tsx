@@ -1391,8 +1391,12 @@ export default function AdminPanel() {
                     /\.(png|jpg|jpeg|webp|svg)$/i.test(f.name)
                   );
                   
-                  if (imageFiles.length === 0) return;
+                  if (imageFiles.length === 0) {
+                    setErrors((prev) => ({ ...prev, spiritIcons: "Не найдены файлы изображений" }));
+                    return;
+                  }
                   
+                  setErrors((prev) => ({ ...prev, spiritIcons: "" }));
                   setSpiritIconsUploading(true);
                   setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { current: 0, total: imageFiles.length } }));
                   
@@ -1421,6 +1425,7 @@ export default function AdminPanel() {
                       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
                     } catch (error) {
                       console.error("Error uploading spirit icons:", error);
+                      setErrors((prev) => ({ ...prev, spiritIcons: "Ошибка загрузки" }));
                     }
                   }
                   
@@ -1429,16 +1434,38 @@ export default function AdminPanel() {
                   if (spiritIconsInputRef.current) spiritIconsInputRef.current.value = "";
                 }}
               />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => spiritIconsInputRef.current?.click()}
-                disabled={spiritIconsUploading}
-                data-testid="button-upload-spirit-icons"
-              >
-                <FolderOpen className="h-4 w-4 mr-1" />
-                Загрузить папку
-              </Button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => spiritIconsInputRef.current?.click()}
+                  disabled={spiritIconsUploading}
+                  data-testid="button-upload-spirit-icons"
+                >
+                  {spiritIconsUploading ? (
+                    <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                  ) : (
+                    <FolderOpen className="h-4 w-4 mr-1" />
+                  )}
+                  {spiritIconsUploading ? "Загрузка..." : "Загрузить папку"}
+                </Button>
+                {iconLoadingProgress.spiritIcons && (
+                  <Badge variant="outline">
+                    {iconLoadingProgress.spiritIcons.current} / {iconLoadingProgress.spiritIcons.total}
+                  </Badge>
+                )}
+                {allSpiritSkills.length > 0 && !spiritIconsUploading && (
+                  <Badge variant="secondary">
+                    Загружено: {allSpiritSkills.filter(s => s.icon).length} иконок
+                  </Badge>
+                )}
+              </div>
+              {errors.spiritIcons && (
+                <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                  <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                  <span>{errors.spiritIcons}</span>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
