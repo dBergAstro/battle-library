@@ -3,26 +3,29 @@ import type { Server } from "http";
 import { z } from "zod";
 import { storage } from "./storage";
 
+// Более гибкие схемы для поддержки разных форматов входных данных
 const bossListInputSchema = z.array(z.object({
   id: z.number(),
   label: z.string().optional().nullable(),
   desc: z.string().optional().nullable(),
   heroId: z.number().optional().nullable(),
-}));
+}).passthrough());
 
 const bossTeamInputSchema = z.array(z.object({
+  rowId: z.number().optional(),
   id: z.number(),
-  bossId: z.number().optional().nullable(),
-  heroId: z.number().optional().nullable(),
   unitId: z.number().optional().nullable(),
+  heroId: z.number().optional().nullable(),
+  bossId: z.number().optional().nullable(),
   bossLevelId: z.number().optional().nullable(),
-}));
+}).passthrough());
 
 const bossLevelInputSchema = z.array(z.object({
   id: z.number(),
+  bossLevel: z.number().optional().nullable(),
   bossId: z.number().optional().nullable(),
   powerLevel: z.number().optional().nullable(),
-}));
+}).passthrough());
 
 const heroIconsInputSchema = z.array(z.object({
   heroId: z.number(),
@@ -109,6 +112,7 @@ export async function registerRoutes(
   });
 
   // Upload Boss Team
+  // Формат: id = bossId (ID боя), unitId = ID юнита/героя
   app.post("/api/admin/boss-team", async (req, res) => {
     try {
       const parsed = bossTeamInputSchema.safeParse(req.body);
@@ -118,6 +122,7 @@ export async function registerRoutes(
 
       await storage.clearBossTeam();
       const mapped = parsed.data.map((item) => ({
+        // id в исходных данных = bossId (ID боя)
         bossGameId: item.bossId ?? item.id,
         heroId: item.heroId || null,
         unitId: item.unitId || null,
@@ -133,6 +138,7 @@ export async function registerRoutes(
   });
 
   // Upload Boss Level
+  // Формат: id = gameId уровня, bossLevel = ID босса, powerLevel = уровень мощности
   app.post("/api/admin/boss-level", async (req, res) => {
     try {
       const parsed = bossLevelInputSchema.safeParse(req.body);
@@ -143,7 +149,7 @@ export async function registerRoutes(
       await storage.clearBossLevel();
       const mapped = parsed.data.map((item) => ({
         gameId: item.id,
-        bossId: item.bossId || null,
+        bossId: item.bossLevel ?? item.bossId ?? null,
         powerLevel: item.powerLevel || null,
       }));
 

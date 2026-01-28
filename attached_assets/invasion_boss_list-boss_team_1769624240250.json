@@ -1,0 +1,41 @@
+{
+    "columns": {
+        "rowId": {
+            "type": "int",
+            "autoIncrement": true
+        },
+        "id": {
+            "type": "int"
+        },
+        "unitId": {
+            "type": "int"
+        },
+        "level": {
+            "type": "string"
+        },
+        "bossLevelId": {
+            "type": "int"
+        },
+        "skin": {
+            "type": "string"
+        },
+        "scale": {
+            "type": "string"
+        },
+        "skills": {
+            "type": "string"
+        },
+        "overrideSkills": {
+            "type": "string"
+        },
+        "minColor": {
+            "type": "string"
+        }
+    },
+    "table": {
+        "comment": null,
+        "index": [
+            "rowId"
+        ]
+    }
+}

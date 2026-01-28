@@ -284,7 +284,13 @@ export function validateBossList(data: Record<string, unknown>[]): ValidationRes
     return { valid: false, errors, warnings };
   }
 
+  // Проверяем что это данные, а не схема таблицы
   const sample = data[0];
+  if ("columns" in sample || "table" in sample) {
+    errors.push("Это файл схемы, а не данные. Загрузите папку с JSON файлами данных.");
+    return { valid: false, errors, warnings };
+  }
+
   if (!("id" in sample)) {
     errors.push("Отсутствует поле 'id'");
   }

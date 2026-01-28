@@ -1,0 +1,32 @@
+{
+    "columns": {
+        "id": {
+            "type": "int"
+        },
+        "bossLevel": {
+            "type": "int"
+        },
+        "unitLevel": {
+            "type": "int"
+        },
+        "powerLevel": {
+            "type": "int"
+        },
+        "spiritSkills": {
+            "type": "json",
+            "jsonSchema": "{\"type\":\"object\",\"properties\":{\"fire\":{\"type\":\"object\",\"properties\":{\"primal\":{\"type\":\"integer\",\"description\":\"id первородного скилла тотема\"},\"elemental\":{\"type\":\"integer\",\"description\":\"id стихийного скилла тотема\"},\"primalLevel\":{\"type\":\"integer\",\"description\":\"Уровень первородного скилла тотема\"},\"elementalLevel\":{\"type\":\"integer\",\"description\":\"Уровень стихийного скилла тотема\"}},\"additionalProperties\":false},\"water\":{\"type\":\"object\",\"properties\":{\"primal\":{\"type\":\"integer\",\"description\":\"id первородного скилла тотема\"},\"elemental\":{\"type\":\"integer\",\"description\":\"id стихийного скилла тотема\"},\"primalLevel\":{\"type\":\"integer\",\"description\":\"Уровень первородного скилла тотема\"},\"elementalLevel\":{\"type\":\"integer\",\"description\":\"Уровень стихийного скилла тотема\"}},\"additionalProperties\":false},\"earth\":{\"type\":\"object\",\"properties\":{\"primal\":{\"type\":\"integer\",\"description\":\"id первородного скилла тотема\"},\"elemental\":{\"type\":\"integer\",\"description\":\"id стихийного скилла тотема\"},\"primalLevel\":{\"type\":\"integer\",\"description\":\"Уровень первородного скилла тотема\"},\"elementalLevel\":{\"type\":\"integer\",\"description\":\"Уровень стихийного скилла тотема\"}},\"additionalProperties\":false},\"dark\":{\"type\":\"object\",\"properties\":{\"primal\":{\"type\":\"integer\",\"description\":\"id первородного скилла тотема\"},\"elemental\":{\"type\":\"integer\",\"description\":\"id стихийного скилла тотема\"},\"primalLevel\":{\"type\":\"integer\",\"description\":\"Уровень первородного скилла тотема\"},\"elementalLevel\":{\"type\":\"integer\",\"description\":\"Уровень стихийного скилла тотема\"}},\"additionalProperties\":false},\"light\":{\"type\":\"object\",\"properties\":{\"primal\":{\"type\":\"integer\",\"description\":\"id первородного скилла тотема\"},\"elemental\":{\"type\":\"integer\",\"description\":\"id стихийного скилла тотема\"},\"primalLevel\":{\"type\":\"integer\",\"description\":\"Уровень первородного скилла тотема\"},\"elementalLevel\":{\"type\":\"integer\",\"description\":\"Уровень стихийного скилла тотема\"}}},\"additionalProperties\":false},\"additionalProperties\":false}"
+        },
+        "defendersFragments": {
+            "type": "json",
+            "jsonSchema": null,
+            "description": "Сюда клиент автоматически записывает состав команды в формате через фрагменты"
+        }
+    },
+    "table": {
+        "comment": null,
+        "index": [
+            "id",
+            "bossLevel"
+        ]
+    }
+}
