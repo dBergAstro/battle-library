@@ -158,8 +158,12 @@ export async function registerRoutes(
 
       await storage.clearBossLevel();
       
-      // Фильтруем записи с rowId > 1090 (актуальные профили сложности)
-      const filtered = parsed.data.filter((item) => (item.rowId ?? 0) > 1090);
+      // Фильтруем записи с rowId > 1090 только если rowId присутствует в данных
+      // (для CSV данных нужна фильтрация, для JSON из папки rowId отсутствует - все данные актуальные)
+      const hasRowId = parsed.data.some((item) => item.rowId != null);
+      const filtered = hasRowId 
+        ? parsed.data.filter((item) => (item.rowId ?? 0) > 1090)
+        : parsed.data;
       
       // Дедупликация по gameId (берём последнюю запись с одинаковым id)
       const seenIds = new Map<number, typeof filtered[0]>();
