@@ -130,13 +130,16 @@ export async function registerRoutes(
       }
 
       await storage.clearBossTeam();
-      const mapped = parsed.data.map((item) => ({
-        // id в исходных данных = bossId (ID боя)
-        bossGameId: item.bossId ?? item.id,
-        heroId: item.heroId || null,
-        unitId: item.unitId || null,
-        bossLevelId: item.bossLevelId || null,
-      }));
+      // Фильтруем записи для актуальных боёв (bossId > 226)
+      const mapped = parsed.data
+        .map((item) => ({
+          // id в исходных данных = bossId (ID боя)
+          bossGameId: item.bossId ?? item.id,
+          heroId: item.heroId || null,
+          unitId: item.unitId || null,
+          bossLevelId: item.bossLevelId || null,
+        }))
+        .filter((item) => item.bossGameId > 226);
 
       await storage.insertBossTeam(mapped);
       res.json({ success: true, count: mapped.length });
@@ -158,12 +161,13 @@ export async function registerRoutes(
 
       await storage.clearBossLevel();
       
-      // Фильтруем записи с rowId > 1090 только если rowId присутствует в данных
-      // (для CSV данных нужна фильтрация, для JSON из папки rowId отсутствует - все данные актуальные)
+      // Фильтруем записи:
+      // - Для CSV с rowId: берём rowId > 1090 (актуальные профили с level = 1)
+      // - Для JSON из папки: берём id >= 101 (актуальные профили сложности)
       const hasRowId = parsed.data.some((item) => item.rowId != null);
       const filtered = hasRowId 
         ? parsed.data.filter((item) => (item.rowId ?? 0) > 1090)
-        : parsed.data;
+        : parsed.data.filter((item) => item.id >= 101);
       
       // Дедупликация по gameId (берём последнюю запись с одинаковым id)
       const seenIds = new Map<number, typeof filtered[0]>();
