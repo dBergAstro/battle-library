@@ -70,16 +70,26 @@ export function BattleCard({ battle }: BattleCardProps) {
               {battle.battleNumber}
             </p>
             {battle.powerLevel != null && (
-              <div className="flex items-center gap-1 mt-1">
-                <Zap className="h-3 w-3 text-yellow-500" />
-                <span className="text-xs font-medium">
-                  {battle.isMixedPowerLevel ? (
-                    <span className="text-orange-500">Смешанный ({battle.powerLevel.toLocaleString()})</span>
-                  ) : (
-                    battle.powerLevel.toLocaleString()
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center gap-1 mt-1 cursor-default">
+                    <Zap className="h-3 w-3 text-yellow-500" />
+                    <span className="text-xs font-medium">
+                      {battle.isMixedPowerLevel ? (
+                        <span className="text-orange-500">Смешанный ({battle.powerLevel.toLocaleString()})</span>
+                      ) : (
+                        battle.powerLevel.toLocaleString()
+                      )}
+                    </span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs">
+                  <p className="font-medium">Power Level</p>
+                  {battle.isMixedPowerLevel && (
+                    <p className="text-muted-foreground">Разные уровни сложности в команде</p>
                   )}
-                </span>
-              </div>
+                </TooltipContent>
+              </Tooltip>
             )}
           </div>
         </div>
