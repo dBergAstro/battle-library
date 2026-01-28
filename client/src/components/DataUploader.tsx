@@ -189,11 +189,20 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
         }
 
         const allRecords: Record<string, unknown>[] = [];
+        let skippedSchemaFiles = 0;
         
         for (const file of jsonFiles) {
           try {
             const text = await file.text();
             const parsed = JSON.parse(text);
+            
+            // Пропускаем файлы со схемой структуры (содержат "columns" и "table")
+            if (typeof parsed === "object" && parsed !== null && !Array.isArray(parsed)) {
+              if ("columns" in parsed && "table" in parsed) {
+                skippedSchemaFiles++;
+                continue;
+              }
+            }
             
             if (Array.isArray(parsed)) {
               allRecords.push(...parsed);
@@ -203,6 +212,10 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
           } catch {
             console.warn(`Ошибка парсинга файла ${file.name}`);
           }
+        }
+        
+        if (skippedSchemaFiles > 0) {
+          console.log(`Пропущено файлов схемы: ${skippedSchemaFiles}`);
         }
 
         if (allRecords.length === 0) {

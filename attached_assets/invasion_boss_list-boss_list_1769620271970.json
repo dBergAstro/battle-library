@@ -1,0 +1,69 @@
+{
+    "columns": {
+        "id": {
+            "type": "int",
+            "autoIncrement": true
+        },
+        "label": {
+            "type": "string"
+        },
+        "desc": {
+            "type": "string"
+        },
+        "creepSpeech": {
+            "type": "string"
+        },
+        "recommendedHeroes": {
+            "type": "string"
+        },
+        "recommendedHeroesTypes": {
+            "type": "string"
+        },
+        "features": {
+            "type": "json"
+        },
+        "heroId": {
+            "type": "int"
+        },
+        "previewScale": {
+            "type": "float"
+        },
+        "previewAlphaMask": {
+            "type": "string"
+        },
+        "skinId": {
+            "type": "int"
+        },
+        "battlegroundAsset": {
+            "type": "int"
+        },
+        "soundtrackAsset:json": {
+            "type": "object",
+            "content": {
+                "asset": {
+                    "type": "string"
+                },
+                "ident": {
+                    "type": "string"
+                }
+            }
+        },
+        "mapAsset": {
+            "type": "string"
+        },
+        "iconAssetTexture": {
+            "type": "string"
+        },
+        "defendersFragments": {
+            "type": "json",
+            "jsonSchema": null,
+            "description": "В это поле вставляется запись команды из invasion_testAttackTeams. Это команда противников будет использоваться как противник "
+        }
+    },
+    "table": {
+        "comment": null,
+        "index": [
+            "id"
+        ]
+    }
+}
