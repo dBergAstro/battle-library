@@ -80,34 +80,34 @@ export function ReplayCard({ replay }: ReplayCardProps) {
           </Tooltip>
         </div>
 
-        <div className="flex items-center gap-1">
-          <div className="flex items-center gap-1 text-xs text-muted-foreground mr-2">
-            <Users className="h-3 w-3" />
-            <span>{replay.team.length}</span>
-          </div>
-          
-          {replay.mainPetIcon && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="mr-1">
-                  <Avatar className="h-10 w-10 ring-2 ring-green-500">
-                    <AvatarImage src={replay.mainPetIcon} alt="Основной питомец" />
-                    <AvatarFallback className="text-xs bg-green-500/20">P</AvatarFallback>
-                  </Avatar>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side="top" className="text-xs">
-                <p className="font-medium">Основной питомец</p>
-                <p className="text-muted-foreground">ID: {replay.mainPetId}</p>
-              </TooltipContent>
-            </Tooltip>
-          )}
-          
-          <div className="flex -space-x-2">
-            {replay.team.map((member, idx) => (
-              <Tooltip key={`${replay.id}-${member.heroId}-${idx}`}>
+        <div className="space-y-1">
+          <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground mr-2">
+              <Users className="h-3 w-3" />
+              <span>{replay.team.length}</span>
+            </div>
+            
+            {replay.mainPetIcon && (
+              <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="relative">
+                  <div className="mr-1">
+                    <Avatar className="h-10 w-10 ring-2 ring-green-500">
+                      <AvatarImage src={replay.mainPetIcon} alt="Основной питомец" />
+                      <AvatarFallback className="text-xs bg-green-500/20">P</AvatarFallback>
+                    </Avatar>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs">
+                  <p className="font-medium">Основной питомец</p>
+                  <p className="text-muted-foreground">ID: {replay.mainPetId}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            
+            <div className="flex gap-1">
+              {replay.team.map((member, idx) => (
+                <Tooltip key={`${replay.id}-${member.heroId}-${idx}`}>
+                  <TooltipTrigger asChild>
                     <Avatar
                       className={`h-11 w-11 border-2 border-card ring-2 ${GRADE_COLORS[member.grade]}`}
                       data-testid={`replay-avatar-${member.heroId}`}
@@ -119,24 +119,44 @@ export function ReplayCard({ replay }: ReplayCardProps) {
                         {member.name.slice(0, 2).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    {member.favorPetIcon && (
-                      <Avatar className="h-4 w-4 absolute -bottom-0.5 -right-0.5 ring-1 ring-card">
-                        <AvatarImage src={member.favorPetIcon} alt="Покровительство" />
-                        <AvatarFallback className="text-[6px] bg-blue-500/20">F</AvatarFallback>
-                      </Avatar>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs">
+                    <p className="font-medium">{member.name}</p>
+                    <p className="text-muted-foreground">Фрагменты: {member.fragmentCount}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+            </div>
+          </div>
+
+          {/* Ряд покровительства питомцев под героями */}
+          {replay.team.some(m => m.favorPetIcon) && (
+            <div className="flex items-center gap-1 ml-[52px]">
+              {replay.mainPetIcon && <div className="w-10 mr-1" />}
+              <div className="flex gap-1">
+                {replay.team.map((member, idx) => (
+                  <div key={`favor-${replay.id}-${idx}`} className="w-11 flex justify-center">
+                    {member.favorPetIcon ? (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Avatar className="h-6 w-6 ring-1 ring-blue-400">
+                            <AvatarImage src={member.favorPetIcon} alt="Покровительство" />
+                            <AvatarFallback className="text-[8px] bg-blue-500/20">F</AvatarFallback>
+                          </Avatar>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom" className="text-xs">
+                          <p className="font-medium">Покровительство</p>
+                          <p className="text-muted-foreground">Питомец: {member.favorPetId}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      <div className="h-6 w-6 border border-dashed border-muted-foreground/30 rounded-full" />
                     )}
                   </div>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="text-xs">
-                  <p className="font-medium">{member.name}</p>
-                  <p className="text-muted-foreground">Фрагменты: {member.fragmentCount}</p>
-                  {member.favorPetId && (
-                    <p className="text-muted-foreground">Покровительство: {member.favorPetId}</p>
-                  )}
-                </TooltipContent>
-              </Tooltip>
-            ))}
-          </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {replay.totems && replay.totems.length > 0 && (
