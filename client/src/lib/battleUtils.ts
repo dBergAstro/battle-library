@@ -1,4 +1,4 @@
-import type { ProcessedBattle, BattleType } from "@shared/schema";
+import type { ProcessedBattle, BattleType, ElementType, TotemInfo } from "@shared/schema";
 import { getHeroName as getDefaultHeroName } from "./heroNames";
 
 // Типы для данных с сервера
@@ -38,6 +38,19 @@ export interface ServerHeroName {
   name: string;
 }
 
+export interface ServerHeroSortOrder {
+  id: number;
+  heroId: number;
+  sortOrder: number;
+}
+
+export interface ServerTitanElement {
+  id: number;
+  titanId: number;
+  element: string;
+  points: number;
+}
+
 export function determineBattleType(heroId: number | null | undefined): BattleType {
   if (heroId && heroId >= 3999 && heroId <= 4999) {
     return "titanic";
@@ -45,37 +58,100 @@ export function determineBattleType(heroId: number | null | undefined): BattleTy
   return "heroic";
 }
 
+// Порог очков для активации тотема
+const ELEMENT_THRESHOLDS: Record<string, number> = {
+  "вода": 3,
+  "огонь": 3,
+  "земля": 3,
+  "тьма": 2,
+  "свет": 2,
+};
+
+// Эмодзи для стихий
+export const ELEMENT_EMOJIS: Record<string, string> = {
+  "вода": "💧",
+  "огонь": "🔥",
+  "земля": "🌍",
+  "тьма": "🌑",
+  "свет": "☀️",
+};
+
+function calculateTotems(
+  teamMembers: { heroId: number }[],
+  titanElementsMap: Map<number, { element: string; points: number }>
+): TotemInfo[] {
+  // Считаем очки по стихиям
+  const elementPoints: Record<string, number> = {};
+
+  for (const member of teamMembers) {
+    const titanData = titanElementsMap.get(member.heroId);
+    if (titanData) {
+      elementPoints[titanData.element] = (elementPoints[titanData.element] || 0) + titanData.points;
+    }
+  }
+
+  // Определяем какие стихии достигли порога
+  const activeTotems: TotemInfo[] = [];
+  
+  for (const [element, points] of Object.entries(elementPoints)) {
+    const threshold = ELEMENT_THRESHOLDS[element];
+    if (threshold && points >= threshold) {
+      activeTotems.push({ element: element as ElementType, points });
+    }
+  }
+
+  // Сортируем по количеству очков (больше = приоритетнее) и берём максимум 2
+  activeTotems.sort((a, b) => b.points - a.points);
+  return activeTotems.slice(0, 2);
+}
+
 export function processBattlesFromServer(
   bossList: ServerBossList[],
   bossTeam: ServerBossTeam[],
   bossLevel: ServerBossLevel[],
   heroIcons: ServerHeroIcon[],
-  heroNames: ServerHeroName[]
+  heroNames: ServerHeroName[],
+  heroSortOrder: ServerHeroSortOrder[],
+  titanElements: ServerTitanElement[]
 ): ProcessedBattle[] {
   const iconMap = new Map(heroIcons.map((h) => [h.heroId, h.iconUrl]));
   const nameMap = new Map(heroNames.map((h) => [h.heroId, h.name]));
-  // bossLevelId in source data references boss_level's original id (stored as gameId)
+  const sortOrderMap = new Map(heroSortOrder.map((h) => [h.heroId, h.sortOrder]));
+  const titanElementsMap = new Map(titanElements.map((t) => [t.titanId, { element: t.element, points: t.points }]));
   const levelMap = new Map(bossLevel.map((l) => [l.gameId, l.powerLevel]));
 
-  // Функция для получения имени героя (сначала из БД, потом из встроенных)
   const getHeroNameFn = (heroId: number): string => {
     return nameMap.get(heroId) || getDefaultHeroName(heroId);
   };
 
   const battles: ProcessedBattle[] = bossList.map((boss) => {
-    const teamMembers = bossTeam
+    const battleType = determineBattleType(boss.heroId);
+    
+    let teamMembers = bossTeam
       .filter((t) => t.bossGameId === boss.gameId)
       .slice(0, 5)
       .map((t) => {
         const heroId = t.heroId ?? t.unitId ?? 0;
-        // Получаем powerLevel через bossLevelId
-        const power = t.bossLevelId ? levelMap.get(t.bossLevelId) : undefined;
         return {
           heroId: heroId,
           name: getHeroNameFn(heroId),
           icon: iconMap.get(heroId),
+          sortOrder: sortOrderMap.get(heroId),
         };
       });
+
+    // Сортируем команду по sortOrder (если есть), иначе по heroId
+    teamMembers.sort((a, b) => {
+      const orderA = a.sortOrder ?? Infinity;
+      const orderB = b.sortOrder ?? Infinity;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.heroId - b.heroId;
+    });
+
+    // Вычисляем тотемы только для титанических боёв
+    const totems = battleType === "titanic" 
+      ? calculateTotems(teamMembers, titanElementsMap) 
+      : [];
 
     // Находим максимальный powerLevel для боя
     const teamPowerLevels = bossTeam
@@ -88,8 +164,9 @@ export function processBattlesFromServer(
       gameId: boss.gameId,
       chapter: boss.label ?? "Unknown Chapter",
       battleNumber: boss.desc ?? "Unknown Battle",
-      type: determineBattleType(boss.heroId),
+      type: battleType,
       powerLevel: maxPowerLevel,
+      totems: totems,
       team: teamMembers,
     };
   });
@@ -265,4 +342,55 @@ export function validateBossLevel(data: Record<string, unknown>[]): ValidationRe
   }
 
   return { valid: errors.length === 0, errors, warnings };
+}
+
+// Парсинг данных порядка сортировки из текста
+// Формат: "id\torder" или "id order" на каждой строке
+export function parseSortOrderText(text: string): Array<{ heroId: number; sortOrder: number }> {
+  const lines = text.trim().split("\n");
+  const result: Array<{ heroId: number; sortOrder: number }> = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    // Разделители: табуляция или пробел
+    const parts = trimmed.split(/[\t\s]+/);
+    if (parts.length >= 2) {
+      const heroId = parseInt(parts[0], 10);
+      const sortOrder = parseFloat(parts[1]);
+
+      if (!isNaN(heroId) && !isNaN(sortOrder)) {
+        result.push({ heroId, sortOrder });
+      }
+    }
+  }
+
+  return result;
+}
+
+// Парсинг данных стихий титанов из текста
+// Формат: "id element points" на каждой строке
+export function parseTitanElementsText(text: string): Array<{ titanId: number; element: string; points: number }> {
+  const lines = text.trim().split("\n");
+  const result: Array<{ titanId: number; element: string; points: number }> = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    // Разделители: табуляция или пробел
+    const parts = trimmed.split(/[\t\s]+/);
+    if (parts.length >= 3) {
+      const titanId = parseInt(parts[0], 10);
+      const element = parts[1].toLowerCase();
+      const points = parseInt(parts[2], 10);
+
+      if (!isNaN(titanId) && !isNaN(points) && element) {
+        result.push({ titanId, element, points });
+      }
+    }
+  }
+
+  return result;
 }

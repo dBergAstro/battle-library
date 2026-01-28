@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Swords, Shield, Users, Zap } from "lucide-react";
 import type { ProcessedBattle } from "@shared/schema";
+import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
 
 interface BattleCardProps {
   battle: ProcessedBattle;
@@ -20,7 +21,7 @@ export function BattleCard({ battle }: BattleCardProps) {
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="font-mono text-xs text-muted-foreground">
                 #{battle.gameId}
               </span>
@@ -44,6 +45,23 @@ export function BattleCard({ battle }: BattleCardProps) {
                   </>
                 )}
               </Badge>
+              {battle.totems && battle.totems.length > 0 && (
+                <div className="flex items-center gap-1" data-testid={`totems-${battle.id}`}>
+                  {battle.totems.map((totem, idx) => (
+                    <Tooltip key={`totem-${idx}`}>
+                      <TooltipTrigger asChild>
+                        <span className="text-lg cursor-default" data-testid={`totem-${totem.element}`}>
+                          {ELEMENT_EMOJIS[totem.element] || totem.element}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="text-xs">
+                        <p className="font-medium">Тотем {totem.element}</p>
+                        <p className="text-muted-foreground">{totem.points} очков</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </div>
+              )}
             </div>
             <h3 className="font-medium text-sm truncate" title={battle.chapter}>
               {battle.chapter}

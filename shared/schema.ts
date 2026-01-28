@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, text, real } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -69,14 +69,14 @@ export const heroIcons = pgTable("hero_icons", {
   id: serial("id").primaryKey(),
   heroId: integer("hero_id").notNull().unique(),
   iconUrl: text("icon_url").notNull(),
-  category: text("category"), // heroes, titans, creeps
+  category: text("category"),
 });
 
 export const insertHeroIconSchema = createInsertSchema(heroIcons).omit({ id: true });
 export type InsertHeroIcon = z.infer<typeof insertHeroIconSchema>;
 export type HeroIcon = typeof heroIcons.$inferSelect;
 
-// Hero Names - имена персонажей (редактируемые через админку)
+// Hero Names - имена персонажей
 export const heroNames = pgTable("hero_names", {
   id: serial("id").primaryKey(),
   heroId: integer("hero_id").notNull().unique(),
@@ -87,8 +87,40 @@ export const insertHeroNameSchema = createInsertSchema(heroNames).omit({ id: tru
 export type InsertHeroName = z.infer<typeof insertHeroNameSchema>;
 export type HeroName = typeof heroNames.$inferSelect;
 
+// Hero Sort Order - порядок сортировки героев/титанов
+export const heroSortOrder = pgTable("hero_sort_order", {
+  id: serial("id").primaryKey(),
+  heroId: integer("hero_id").notNull().unique(),
+  sortOrder: real("sort_order").notNull(),
+});
+
+export const insertHeroSortOrderSchema = createInsertSchema(heroSortOrder).omit({ id: true });
+export type InsertHeroSortOrder = z.infer<typeof insertHeroSortOrderSchema>;
+export type HeroSortOrder = typeof heroSortOrder.$inferSelect;
+
+// Titan Elements - стихии титанов
+export const titanElements = pgTable("titan_elements", {
+  id: serial("id").primaryKey(),
+  titanId: integer("titan_id").notNull().unique(),
+  element: text("element").notNull(), // вода, огонь, земля, тьма, свет
+  points: integer("points").notNull(),
+});
+
+export const insertTitanElementSchema = createInsertSchema(titanElements).omit({ id: true });
+export type InsertTitanElement = z.infer<typeof insertTitanElementSchema>;
+export type TitanElement = typeof titanElements.$inferSelect;
+
 // Тип боя
 export type BattleType = "heroic" | "titanic";
+
+// Типы стихий
+export type ElementType = "вода" | "огонь" | "земля" | "тьма" | "свет";
+
+// Тотем стихии
+export interface TotemInfo {
+  element: ElementType;
+  points: number;
+}
 
 // Обработанные данные боя для отображения
 export interface ProcessedBattle {
@@ -98,9 +130,11 @@ export interface ProcessedBattle {
   battleNumber: string;
   type: BattleType;
   powerLevel?: number;
+  totems: TotemInfo[]; // до 2 тотемов стихий
   team: {
     heroId: number;
     name: string;
     icon?: string;
+    sortOrder?: number;
   }[];
 }

@@ -35,6 +35,17 @@ const heroNamesInputSchema = z.array(z.object({
   name: z.string(),
 }));
 
+const heroSortOrderInputSchema = z.array(z.object({
+  heroId: z.number(),
+  sortOrder: z.number(),
+}));
+
+const titanElementsInputSchema = z.array(z.object({
+  titanId: z.number(),
+  element: z.string(),
+  points: z.number(),
+}));
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -46,12 +57,14 @@ export async function registerRoutes(
   // Get all data for library
   app.get("/api/battles", async (_req, res) => {
     try {
-      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData] = await Promise.all([
+      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData] = await Promise.all([
         storage.getAllBossList(),
         storage.getAllBossTeam(),
         storage.getAllBossLevel(),
         storage.getAllHeroIcons(),
         storage.getAllHeroNames(),
+        storage.getAllHeroSortOrder(),
+        storage.getAllTitanElements(),
       ]);
 
       res.json({
@@ -60,6 +73,8 @@ export async function registerRoutes(
         bossLevel: bossLevelData,
         heroIcons: heroIconsData,
         heroNames: heroNamesData,
+        heroSortOrder: heroSortOrderData,
+        titanElements: titanElementsData,
       });
     } catch (error) {
       console.error("Error fetching battles:", error);
@@ -71,13 +86,11 @@ export async function registerRoutes(
   app.post("/api/admin/boss-list", async (req, res) => {
     try {
       const parsed = bossListInputSchema.safeParse(req.body);
-      
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
       await storage.clearBossList();
-      
       const mapped = parsed.data
         .filter((item) => item.id > 226)
         .map((item) => ({
@@ -99,13 +112,11 @@ export async function registerRoutes(
   app.post("/api/admin/boss-team", async (req, res) => {
     try {
       const parsed = bossTeamInputSchema.safeParse(req.body);
-      
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
       await storage.clearBossTeam();
-      
       const mapped = parsed.data.map((item) => ({
         bossGameId: item.bossId ?? item.id,
         heroId: item.heroId || null,
@@ -125,13 +136,11 @@ export async function registerRoutes(
   app.post("/api/admin/boss-level", async (req, res) => {
     try {
       const parsed = bossLevelInputSchema.safeParse(req.body);
-      
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
       await storage.clearBossLevel();
-      
       const mapped = parsed.data.map((item) => ({
         gameId: item.id,
         bossId: item.bossId || null,
@@ -150,7 +159,6 @@ export async function registerRoutes(
   app.post("/api/admin/hero-icons", async (req, res) => {
     try {
       const parsed = heroIconsInputSchema.safeParse(req.body);
-      
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
@@ -167,7 +175,6 @@ export async function registerRoutes(
   app.post("/api/admin/hero-names", async (req, res) => {
     try {
       const parsed = heroNamesInputSchema.safeParse(req.body);
-      
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
@@ -180,15 +187,51 @@ export async function registerRoutes(
     }
   });
 
+  // Upload Hero Sort Order
+  app.post("/api/admin/hero-sort-order", async (req, res) => {
+    try {
+      const parsed = heroSortOrderInputSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
+      }
+
+      await storage.clearHeroSortOrder();
+      await storage.insertHeroSortOrder(parsed.data);
+      res.json({ success: true, count: parsed.data.length });
+    } catch (error) {
+      console.error("Error uploading hero sort order:", error);
+      res.status(500).json({ error: "Failed to upload hero sort order" });
+    }
+  });
+
+  // Upload Titan Elements
+  app.post("/api/admin/titan-elements", async (req, res) => {
+    try {
+      const parsed = titanElementsInputSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
+      }
+
+      await storage.clearTitanElements();
+      await storage.insertTitanElements(parsed.data);
+      res.json({ success: true, count: parsed.data.length });
+    } catch (error) {
+      console.error("Error uploading titan elements:", error);
+      res.status(500).json({ error: "Failed to upload titan elements" });
+    }
+  });
+
   // Get stats
   app.get("/api/admin/stats", async (_req, res) => {
     try {
-      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData] = await Promise.all([
+      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData] = await Promise.all([
         storage.getAllBossList(),
         storage.getAllBossTeam(),
         storage.getAllBossLevel(),
         storage.getAllHeroIcons(),
         storage.getAllHeroNames(),
+        storage.getAllHeroSortOrder(),
+        storage.getAllTitanElements(),
       ]);
 
       res.json({
@@ -197,6 +240,8 @@ export async function registerRoutes(
         bossLevel: bossLevelData.length,
         heroIcons: heroIconsData.length,
         heroNames: heroNamesData.length,
+        heroSortOrder: heroSortOrderData.length,
+        titanElements: titanElementsData.length,
       });
     } catch (error) {
       console.error("Error fetching stats:", error);

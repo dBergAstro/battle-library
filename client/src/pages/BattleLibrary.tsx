@@ -11,7 +11,9 @@ import {
   type ServerBossTeam, 
   type ServerBossLevel,
   type ServerHeroIcon,
-  type ServerHeroName
+  type ServerHeroName,
+  type ServerHeroSortOrder,
+  type ServerTitanElement
 } from "@/lib/battleUtils";
 import type { ProcessedBattle, BattleType } from "@shared/schema";
 
@@ -21,6 +23,8 @@ interface BattlesResponse {
   bossLevel: ServerBossLevel[];
   heroIcons: ServerHeroIcon[];
   heroNames: ServerHeroName[];
+  heroSortOrder: ServerHeroSortOrder[];
+  titanElements: ServerTitanElement[];
 }
 
 export default function BattleLibrary() {
@@ -39,7 +43,9 @@ export default function BattleLibrary() {
       data.bossTeam, 
       data.bossLevel,
       data.heroIcons, 
-      data.heroNames
+      data.heroNames,
+      data.heroSortOrder || [],
+      data.titanElements || []
     );
   }, [data]);
 

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Upload, 
   FileJson, 
@@ -17,7 +18,8 @@ import {
   Users,
   Zap,
   Plus,
-  X
+  ArrowUpDown,
+  Flame
 } from "lucide-react";
 import {
   parseCSV,
@@ -25,6 +27,8 @@ import {
   validateBossList,
   validateBossTeam,
   validateBossLevel,
+  parseSortOrderText,
+  parseTitanElementsText,
 } from "@/lib/battleUtils";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -34,6 +38,8 @@ interface StatsResponse {
   bossLevel: number;
   heroIcons: number;
   heroNames: number;
+  heroSortOrder: number;
+  titanElements: number;
 }
 
 interface TableConfig {
@@ -90,6 +96,14 @@ export default function AdminPanel() {
   const [newHeroId, setNewHeroId] = useState("");
   const [newHeroName, setNewHeroName] = useState("");
   const [heroNamesUploading, setHeroNamesUploading] = useState(false);
+
+  // Sort order input
+  const [sortOrderText, setSortOrderText] = useState("");
+  const [sortOrderUploading, setSortOrderUploading] = useState(false);
+
+  // Titan elements input
+  const [titanElementsText, setTitanElementsText] = useState("");
+  const [titanElementsUploading, setTitanElementsUploading] = useState(false);
 
   const { data: stats, isLoading: statsLoading } = useQuery<StatsResponse>({
     queryKey: ["/api/admin/stats"],
@@ -327,7 +341,6 @@ export default function AdminPanel() {
     try {
       await apiRequest("POST", "/api/admin/hero-names", [{ heroId, name: heroNameVal }]);
       
-      // Clear inputs after successful save
       setNewHeroId("");
       setNewHeroName("");
       
@@ -337,6 +350,60 @@ export default function AdminPanel() {
       setErrors((prev) => ({ ...prev, heroNames: err instanceof Error ? err.message : "Ошибка сохранения" }));
     } finally {
       setHeroNamesUploading(false);
+    }
+  };
+
+  const handleSaveSortOrder = async () => {
+    const trimmed = sortOrderText.trim();
+    if (!trimmed) {
+      setErrors((prev) => ({ ...prev, sortOrder: "Введите данные порядка сортировки" }));
+      return;
+    }
+
+    const parsed = parseSortOrderText(trimmed);
+    if (parsed.length === 0) {
+      setErrors((prev) => ({ ...prev, sortOrder: "Не удалось распознать данные. Формат: ID порядок" }));
+      return;
+    }
+
+    setSortOrderUploading(true);
+    setErrors((prev) => { const n = { ...prev }; delete n.sortOrder; return n; });
+
+    try {
+      await apiRequest("POST", "/api/admin/hero-sort-order", parsed);
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+    } catch (err) {
+      setErrors((prev) => ({ ...prev, sortOrder: err instanceof Error ? err.message : "Ошибка сохранения" }));
+    } finally {
+      setSortOrderUploading(false);
+    }
+  };
+
+  const handleSaveTitanElements = async () => {
+    const trimmed = titanElementsText.trim();
+    if (!trimmed) {
+      setErrors((prev) => ({ ...prev, titanElements: "Введите данные стихий титанов" }));
+      return;
+    }
+
+    const parsed = parseTitanElementsText(trimmed);
+    if (parsed.length === 0) {
+      setErrors((prev) => ({ ...prev, titanElements: "Не удалось распознать данные. Формат: ID стихия очки" }));
+      return;
+    }
+
+    setTitanElementsUploading(true);
+    setErrors((prev) => { const n = { ...prev }; delete n.titanElements; return n; });
+
+    try {
+      await apiRequest("POST", "/api/admin/titan-elements", parsed);
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+    } catch (err) {
+      setErrors((prev) => ({ ...prev, titanElements: err instanceof Error ? err.message : "Ошибка сохранения" }));
+    } finally {
+      setTitanElementsUploading(false);
     }
   };
 
@@ -370,7 +437,7 @@ export default function AdminPanel() {
                 <span>Загрузка...</span>
               </div>
             ) : stats ? (
-              <div className="grid grid-cols-5 gap-4">
+              <div className="grid grid-cols-4 sm:grid-cols-7 gap-4">
                 <div className="text-center">
                   <p className="text-2xl font-bold">{stats.bossList}</p>
                   <p className="text-xs text-muted-foreground">Боёв</p>
@@ -390,6 +457,14 @@ export default function AdminPanel() {
                 <div className="text-center">
                   <p className="text-2xl font-bold">{stats.heroNames}</p>
                   <p className="text-xs text-muted-foreground">Имён</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">{stats.heroSortOrder}</p>
+                  <p className="text-xs text-muted-foreground">Порядок</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">{stats.titanElements}</p>
+                  <p className="text-xs text-muted-foreground">Стихии</p>
                 </div>
               </div>
             ) : (
@@ -585,22 +660,21 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
 
-        {/* Hero Names */}
+        {/* Hero Names Editor */}
         <Card className="border-card-border">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Users className="h-5 w-5 text-primary" />
-              Имена персонажей
+              Редактирование имён персонажей
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
-              Добавьте или обновите соответствие ID и имени персонажа. 
-              Имена из базы данных имеют приоритет над встроенными.
+              Добавьте или обновите имя персонажа по его ID. Имена из базы имеют приоритет над встроенными.
             </p>
-            <div className="flex gap-2 items-end flex-wrap">
+            <div className="flex items-end gap-3 flex-wrap">
               <div className="flex-1 min-w-[100px]">
-                <label className="text-xs text-muted-foreground mb-1 block">ID героя</label>
+                <label className="text-xs text-muted-foreground mb-1 block">ID персонажа</label>
                 <Input
                   type="number"
                   placeholder="4003"
@@ -622,6 +696,7 @@ export default function AdminPanel() {
                 />
               </div>
               <Button
+                size="sm"
                 onClick={handleAddHeroName}
                 disabled={heroNamesUploading}
                 data-testid="button-add-hero-name"
@@ -629,9 +704,11 @@ export default function AdminPanel() {
                 {heroNamesUploading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  <Plus className="h-4 w-4 mr-1" />
+                  <>
+                    <Plus className="h-4 w-4 mr-1" />
+                    Добавить
+                  </>
                 )}
-                Добавить
               </Button>
             </div>
             {errors.heroNames && (
@@ -643,9 +720,102 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
 
-        <p className="text-xs text-muted-foreground text-center">
-          Данные сохраняются на сервере и будут доступны всем пользователям.
-        </p>
+        {/* Sort Order Editor */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <ArrowUpDown className="h-5 w-5 text-primary" />
+              Порядок сортировки героев/титанов
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Задайте порядок отображения персонажей в бою. Формат: ID порядок (поддерживаются дробные значения, например 4.5)
+            </p>
+            <Textarea
+              placeholder={`11\t1\n1\t2\n24\t3\n7024\t4\n70\t4.5\n50\t5`}
+              value={sortOrderText}
+              onChange={(e) => setSortOrderText(e.target.value)}
+              className="min-h-[150px] font-mono text-sm mb-3"
+              data-testid="textarea-sort-order"
+            />
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={handleSaveSortOrder}
+                disabled={sortOrderUploading}
+                data-testid="button-save-sort-order"
+              >
+                {sortOrderUploading ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                )}
+                Сохранить порядок
+              </Button>
+              {(stats?.heroSortOrder ?? 0) > 0 && (
+                <Badge variant="secondary">
+                  Загружено: {stats?.heroSortOrder} записей
+                </Badge>
+              )}
+            </div>
+            {errors.sortOrder && (
+              <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                <span>{errors.sortOrder}</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Titan Elements Editor */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Flame className="h-5 w-5 text-primary" />
+              Стихии титанов (для тотемов)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-2">
+              Укажите стихию и количество очков для каждого титана.
+            </p>
+            <p className="text-xs text-muted-foreground mb-4">
+              Тотем активируется при 3+ очках воды/огня/земли или 2+ очках света/тьмы. Максимум 2 тотема на бой.
+            </p>
+            <Textarea
+              placeholder={`4000 вода 1\n4001 вода 1\n4004 вода 2\n4010 огонь 1\n4030 тьма 1\n4040 свет 1`}
+              value={titanElementsText}
+              onChange={(e) => setTitanElementsText(e.target.value)}
+              className="min-h-[150px] font-mono text-sm mb-3"
+              data-testid="textarea-titan-elements"
+            />
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={handleSaveTitanElements}
+                disabled={titanElementsUploading}
+                data-testid="button-save-titan-elements"
+              >
+                {titanElementsUploading ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                )}
+                Сохранить стихии
+              </Button>
+              {(stats?.titanElements ?? 0) > 0 && (
+                <Badge variant="secondary">
+                  Загружено: {stats?.titanElements} записей
+                </Badge>
+              )}
+            </div>
+            {errors.titanElements && (
+              <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                <span>{errors.titanElements}</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
