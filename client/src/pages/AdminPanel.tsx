@@ -1,9 +1,12 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { 
   Upload, 
   FileJson, 
@@ -16,7 +19,9 @@ import {
   Shield,
   Users,
   ArrowUpDown,
-  Flame
+  Flame,
+  Search,
+  Eye
 } from "lucide-react";
 import {
   parseCSV,
@@ -102,10 +107,53 @@ export default function AdminPanel() {
   const [titanElementsText, setTitanElementsText] = useState("");
   const [titanElementsUploading, setTitanElementsUploading] = useState(false);
 
+  const [heroSearchQuery, setHeroSearchQuery] = useState("");
+
   const { data: stats, isLoading: statsLoading } = useQuery<StatsResponse>({
     queryKey: ["/api/admin/stats"],
     refetchInterval: 5000,
   });
+
+  interface HeroData {
+    heroId: number;
+    name: string;
+    icon?: string;
+  }
+
+  const { data: battlesData } = useQuery<{
+    heroIcons: Array<{ heroId: number; iconUrl: string }>;
+    heroNames: Array<{ heroId: number; name: string }>;
+  }>({
+    queryKey: ["/api/battles"],
+  });
+
+  const allHeroes = useMemo<HeroData[]>(() => {
+    if (!battlesData) return [];
+    
+    const iconMap = new Map(battlesData.heroIcons.map((h) => [h.heroId, h.iconUrl]));
+    const nameMap = new Map(battlesData.heroNames.map((h) => [h.heroId, h.name]));
+    
+    // Get all unique hero IDs from both icons and names
+    const allIds = new Set<number>();
+    battlesData.heroIcons.forEach((h) => allIds.add(h.heroId));
+    battlesData.heroNames.forEach((h) => allIds.add(h.heroId));
+    
+    return Array.from(allIds)
+      .map((heroId) => ({
+        heroId,
+        name: nameMap.get(heroId) || `ID ${heroId}`,
+        icon: iconMap.get(heroId),
+      }))
+      .sort((a, b) => a.heroId - b.heroId);
+  }, [battlesData]);
+
+  const filteredHeroes = useMemo(() => {
+    if (!heroSearchQuery) return allHeroes;
+    const query = heroSearchQuery.toLowerCase();
+    return allHeroes.filter(
+      (h) => h.heroId.toString().includes(query) || h.name.toLowerCase().includes(query)
+    );
+  }, [allHeroes, heroSearchQuery]);
 
   const uploadToServer = async (endpoint: string, data: Record<string, unknown>[]) => {
     const response = await apiRequest("POST", endpoint, data);
@@ -797,6 +845,59 @@ export default function AdminPanel() {
                 <span>{errors.titanElements}</span>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Hero Icons Viewer */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Eye className="h-5 w-5 text-primary" />
+              Просмотр персонажей и иконок
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Поиск по ID или имени..."
+                value={heroSearchQuery}
+                onChange={(e) => setHeroSearchQuery(e.target.value)}
+                className="pl-9"
+                data-testid="input-hero-search"
+              />
+            </div>
+            
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>Показано: {filteredHeroes.length} из {allHeroes.length}</span>
+            </div>
+
+            <ScrollArea className="h-[400px] border rounded-md">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
+                {filteredHeroes.map((hero) => (
+                  <div 
+                    key={hero.heroId}
+                    className={`flex items-center gap-2 p-2 rounded-md border ${
+                      hero.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
+                    }`}
+                    data-testid={`hero-card-${hero.heroId}`}
+                  >
+                    <Avatar className="h-10 w-10 flex-shrink-0">
+                      {hero.icon ? (
+                        <AvatarImage src={hero.icon} alt={hero.name} />
+                      ) : null}
+                      <AvatarFallback className="text-xs bg-muted">
+                        {hero.name.slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-mono text-muted-foreground">#{hero.heroId}</p>
+                      <p className="text-sm font-medium truncate" title={hero.name}>{hero.name}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
           </CardContent>
         </Card>
       </div>
