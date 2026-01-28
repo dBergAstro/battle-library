@@ -344,6 +344,39 @@ export function validateBossLevel(data: Record<string, unknown>[]): ValidationRe
   return { valid: errors.length === 0, errors, warnings };
 }
 
+// Парсинг данных имён героев из текста
+// Формат: "id\tname" или "id name" на каждой строке
+export function parseHeroNamesText(text: string): Array<{ heroId: number; name: string }> {
+  const lines = text.trim().split("\n");
+  const result: Array<{ heroId: number; name: string }> = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    // Разделитель: табуляция или первый пробел
+    const tabIndex = trimmed.indexOf("\t");
+    let heroId: number;
+    let name: string;
+
+    if (tabIndex !== -1) {
+      heroId = parseInt(trimmed.slice(0, tabIndex), 10);
+      name = trimmed.slice(tabIndex + 1).trim();
+    } else {
+      const spaceIndex = trimmed.indexOf(" ");
+      if (spaceIndex === -1) continue;
+      heroId = parseInt(trimmed.slice(0, spaceIndex), 10);
+      name = trimmed.slice(spaceIndex + 1).trim();
+    }
+
+    if (!isNaN(heroId) && name) {
+      result.push({ heroId, name });
+    }
+  }
+
+  return result;
+}
+
 // Парсинг данных порядка сортировки из текста
 // Формат: "id\torder" или "id order" на каждой строке
 export function parseSortOrderText(text: string): Array<{ heroId: number; sortOrder: number }> {

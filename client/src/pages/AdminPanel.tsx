@@ -3,7 +3,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   Upload, 
@@ -16,8 +15,6 @@ import {
   Image,
   Shield,
   Users,
-  Zap,
-  Plus,
   ArrowUpDown,
   Flame
 } from "lucide-react";
@@ -27,6 +24,7 @@ import {
   validateBossList,
   validateBossTeam,
   validateBossLevel,
+  parseHeroNamesText,
   parseSortOrderText,
   parseTitanElementsText,
 } from "@/lib/battleUtils";
@@ -93,8 +91,7 @@ export default function AdminPanel() {
   const iconFolderRefs = useRef<Record<string, HTMLInputElement | null>>({});
   
   // Hero names editing
-  const [newHeroId, setNewHeroId] = useState("");
-  const [newHeroName, setNewHeroName] = useState("");
+  const [heroNamesText, setHeroNamesText] = useState("");
   const [heroNamesUploading, setHeroNamesUploading] = useState(false);
 
   // Sort order input
@@ -325,13 +322,16 @@ export default function AdminPanel() {
     [queryClient]
   );
 
-  const handleAddHeroName = async () => {
-    const heroIdVal = newHeroId.trim();
-    const heroNameVal = newHeroName.trim();
-    const heroId = parseInt(heroIdVal, 10);
-    
-    if (isNaN(heroId) || !heroNameVal) {
-      setErrors((prev) => ({ ...prev, heroNames: "Введите корректный ID и имя" }));
+  const handleSaveHeroNames = async () => {
+    const trimmed = heroNamesText.trim();
+    if (!trimmed) {
+      setErrors((prev) => ({ ...prev, heroNames: "Введите данные имён персонажей" }));
+      return;
+    }
+
+    const parsed = parseHeroNamesText(trimmed);
+    if (parsed.length === 0) {
+      setErrors((prev) => ({ ...prev, heroNames: "Не удалось распознать данные. Формат: ID имя" }));
       return;
     }
 
@@ -339,11 +339,7 @@ export default function AdminPanel() {
     setErrors((prev) => { const n = { ...prev }; delete n.heroNames; return n; });
 
     try {
-      await apiRequest("POST", "/api/admin/hero-names", [{ heroId, name: heroNameVal }]);
-      
-      setNewHeroId("");
-      setNewHeroName("");
-      
+      await apiRequest("POST", "/api/admin/hero-names", parsed);
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
     } catch (err) {
@@ -670,46 +666,33 @@ export default function AdminPanel() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
-              Добавьте или обновите имя персонажа по его ID. Имена из базы имеют приоритет над встроенными.
+              Добавьте или обновите имена персонажей. Формат: ID[tab]имя на каждой строке. Имена из базы имеют приоритет над встроенными.
             </p>
-            <div className="flex items-end gap-3 flex-wrap">
-              <div className="flex-1 min-w-[100px]">
-                <label className="text-xs text-muted-foreground mb-1 block">ID персонажа</label>
-                <Input
-                  type="number"
-                  placeholder="4003"
-                  value={newHeroId}
-                  onChange={(e) => setNewHeroId(e.target.value)}
-                  className="h-9"
-                  data-testid="input-hero-id"
-                />
-              </div>
-              <div className="flex-[2] min-w-[150px]">
-                <label className="text-xs text-muted-foreground mb-1 block">Имя</label>
-                <Input
-                  type="text"
-                  placeholder="Название персонажа"
-                  value={newHeroName}
-                  onChange={(e) => setNewHeroName(e.target.value)}
-                  className="h-9"
-                  data-testid="input-hero-name"
-                />
-              </div>
+            <Textarea
+              placeholder={`1\tАврора\n2\tГалахад\n3\tКира\n4000\tСигурд`}
+              value={heroNamesText}
+              onChange={(e) => setHeroNamesText(e.target.value)}
+              className="min-h-[200px] font-mono text-sm mb-3"
+              data-testid="textarea-hero-names"
+            />
+            <div className="flex items-center gap-3">
               <Button
-                size="sm"
-                onClick={handleAddHeroName}
+                onClick={handleSaveHeroNames}
                 disabled={heroNamesUploading}
-                data-testid="button-add-hero-name"
+                data-testid="button-save-hero-names"
               >
                 {heroNamesUploading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
                 ) : (
-                  <>
-                    <Plus className="h-4 w-4 mr-1" />
-                    Добавить
-                  </>
+                  <CheckCircle2 className="h-4 w-4 mr-1" />
                 )}
+                Сохранить имена
               </Button>
+              {(stats?.heroNames ?? 0) > 0 && (
+                <Badge variant="secondary">
+                  Загружено: {stats?.heroNames} имён
+                </Badge>
+              )}
             </div>
             {errors.heroNames && (
               <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
