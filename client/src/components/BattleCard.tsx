@@ -22,7 +22,7 @@ export function BattleCard({ battle }: BattleCardProps) {
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="font-mono text-base font-semibold text-foreground">
                 #{battle.gameId}
               </span>
               <Badge
