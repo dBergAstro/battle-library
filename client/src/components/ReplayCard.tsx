@@ -80,114 +80,118 @@ export function ReplayCard({ replay }: ReplayCardProps) {
           </Tooltip>
         </div>
 
-        <div className="space-y-1">
-          <div className="flex items-center gap-1">
-            <div className="flex items-center gap-1 text-xs text-muted-foreground mr-2">
-              <Users className="h-3 w-3" />
-              <span>{replay.team.length}</span>
-            </div>
-            
-            {replay.mainPetIcon && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="mr-1">
-                    <Avatar className="h-10 w-10 ring-2 ring-green-500">
-                      <AvatarImage src={replay.mainPetIcon} alt="Основной питомец" />
-                      <AvatarFallback className="text-xs bg-green-500/20">P</AvatarFallback>
-                    </Avatar>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="text-xs">
-                  <p className="font-medium">Основной питомец</p>
-                  <p className="text-muted-foreground">ID: {replay.mainPetId}</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
-            
-            <div className="flex gap-1">
-              {replay.team.map((member, idx) => (
-                <Tooltip key={`${replay.id}-${member.heroId}-${idx}`}>
-                  <TooltipTrigger asChild>
-                    <Avatar
-                      className={`h-11 w-11 border-2 border-card ring-2 ${GRADE_COLORS[member.grade]}`}
-                      data-testid={`replay-avatar-${member.heroId}`}
-                    >
-                      {member.icon ? (
-                        <AvatarImage src={member.icon} alt={member.name} />
-                      ) : null}
-                      <AvatarFallback className="text-xs font-medium bg-muted">
-                        {member.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="text-xs">
-                    <p className="font-medium">{member.name}</p>
-                    <p className="text-muted-foreground">Фрагменты: {member.fragmentCount}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </div>
-          </div>
-
-          {/* Ряд покровительства питомцев под героями */}
-          {replay.team.some(m => m.favorPetIcon) && (
-            <div className="flex items-center gap-1 ml-[52px]">
-              {replay.mainPetIcon && <div className="w-10 mr-1" />}
-              <div className="flex gap-1">
-                {replay.team.map((member, idx) => (
-                  <div key={`favor-${replay.id}-${idx}`} className="w-11 flex justify-center">
-                    {member.favorPetIcon ? (
-                      <Tooltip>
+        <div className="flex gap-3">
+          {/* Блок тотемов слева (только для титанов) */}
+          {replay.totems && replay.totems.length > 0 && (
+            <div className="flex flex-col gap-1 min-w-[80px]">
+              {replay.totems.map((totem, idx) => (
+                <div key={idx} className="flex items-center gap-1 text-xs bg-muted/50 rounded px-1.5 py-1">
+                  <span className="font-medium text-[11px]">{totem.elementRu}</span>
+                  <div className="flex items-center gap-0.5">
+                    {totem.skills.map((skill, skillIdx) => (
+                      <Tooltip key={skillIdx}>
                         <TooltipTrigger asChild>
-                          <Avatar className="h-6 w-6 ring-1 ring-blue-400">
-                            <AvatarImage src={member.favorPetIcon} alt="Покровительство" />
-                            <AvatarFallback className="text-[8px] bg-blue-500/20">F</AvatarFallback>
-                          </Avatar>
+                          {skill.icon ? (
+                            <Avatar className="h-5 w-5">
+                              <AvatarImage src={skill.icon} alt={skill.name} />
+                              <AvatarFallback className="text-[6px]">{skill.name.slice(0, 1)}</AvatarFallback>
+                            </Avatar>
+                          ) : (
+                            <span className="text-muted-foreground">{skill.skillId}</span>
+                          )}
                         </TooltipTrigger>
-                        <TooltipContent side="bottom" className="text-xs">
-                          <p className="font-medium">Покровительство</p>
-                          <p className="text-muted-foreground">Питомец: {member.favorPetId}</p>
+                        <TooltipContent side="top" className="text-xs">
+                          <p className="font-medium">{skill.name}</p>
+                          <p className="text-muted-foreground">ID: {skill.skillId}</p>
                         </TooltipContent>
                       </Tooltip>
-                    ) : (
-                      <div className="h-6 w-6 border border-dashed border-muted-foreground/30 rounded-full" />
-                    )}
+                    ))}
                   </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Блок команды справа */}
+          <div className="space-y-1 flex-1">
+            <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 text-xs text-muted-foreground mr-2">
+                <Users className="h-3 w-3" />
+                <span>{replay.team.length}</span>
+              </div>
+              
+              {replay.mainPetIcon && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="mr-1">
+                      <Avatar className="h-10 w-10 ring-2 ring-green-500">
+                        <AvatarImage src={replay.mainPetIcon} alt="Основной питомец" />
+                        <AvatarFallback className="text-xs bg-green-500/20">P</AvatarFallback>
+                      </Avatar>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs">
+                    <p className="font-medium">Основной питомец</p>
+                    <p className="text-muted-foreground">ID: {replay.mainPetId}</p>
+                  </TooltipContent>
+                </Tooltip>
+              )}
+              
+              <div className="flex gap-1">
+                {replay.team.map((member, idx) => (
+                  <Tooltip key={`${replay.id}-${member.heroId}-${idx}`}>
+                    <TooltipTrigger asChild>
+                      <Avatar
+                        className={`h-11 w-11 border-2 border-card ring-2 ${GRADE_COLORS[member.grade]}`}
+                        data-testid={`replay-avatar-${member.heroId}`}
+                      >
+                        {member.icon ? (
+                          <AvatarImage src={member.icon} alt={member.name} />
+                        ) : null}
+                        <AvatarFallback className="text-xs font-medium bg-muted">
+                          {member.name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="text-xs">
+                      <p className="font-medium">{member.name}</p>
+                      <p className="text-muted-foreground">Фрагменты: {member.fragmentCount}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 ))}
               </div>
             </div>
-          )}
-        </div>
 
-        {replay.totems && replay.totems.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1">
-            {replay.totems.map((totem, idx) => (
-              <div key={idx} className="flex items-center gap-1 text-xs bg-muted/50 rounded px-1.5 py-0.5">
-                <span className="font-medium">{totem.elementRu}</span>
-                <div className="flex items-center gap-0.5">
-                  {totem.skills.map((skill, skillIdx) => (
-                    <Tooltip key={skillIdx}>
-                      <TooltipTrigger asChild>
-                        {skill.icon ? (
-                          <Avatar className="h-4 w-4">
-                            <AvatarImage src={skill.icon} alt={skill.name} />
-                            <AvatarFallback className="text-[6px]">{skill.name.slice(0, 1)}</AvatarFallback>
-                          </Avatar>
-                        ) : (
-                          <span className="text-muted-foreground">{skill.skillId}</span>
-                        )}
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="text-xs">
-                        <p className="font-medium">{skill.name}</p>
-                        <p className="text-muted-foreground">ID: {skill.skillId}</p>
-                      </TooltipContent>
-                    </Tooltip>
+            {/* Ряд покровительства питомцев под героями */}
+            {replay.team.some(m => m.favorPetIcon) && (
+              <div className="flex items-center gap-1 ml-[52px]">
+                {replay.mainPetIcon && <div className="w-10 mr-1" />}
+                <div className="flex gap-1">
+                  {replay.team.map((member, idx) => (
+                    <div key={`favor-${replay.id}-${idx}`} className="w-11 flex justify-center">
+                      {member.favorPetIcon ? (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Avatar className="h-6 w-6 ring-1 ring-blue-400">
+                              <AvatarImage src={member.favorPetIcon} alt="Покровительство" />
+                              <AvatarFallback className="text-[8px] bg-blue-500/20">F</AvatarFallback>
+                            </Avatar>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom" className="text-xs">
+                            <p className="font-medium">Покровительство</p>
+                            <p className="text-muted-foreground">Питомец: {member.favorPetId}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      ) : (
+                        <div className="h-6 w-6 border border-dashed border-muted-foreground/30 rounded-full" />
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
-            ))}
+            )}
           </div>
-        )}
+        </div>
       </CardContent>
     </Card>
   );
