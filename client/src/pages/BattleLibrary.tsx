@@ -31,6 +31,7 @@ export default function BattleLibrary() {
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
   const [chapterFilter, setChapterFilter] = useState("all");
+  const [battleNumberFilter, setBattleNumberFilter] = useState("all");
 
   const { data, isLoading, error } = useQuery<BattlesResponse>({
     queryKey: ["/api/battles"],
@@ -52,6 +53,21 @@ export default function BattleLibrary() {
   const chapters = useMemo(() => {
     const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapterNumber)));
     return uniqueChapters.sort((a, b) => a - b).map(n => n.toString());
+  }, [battles]);
+
+  // Извлекаем номер боя из строки "Бой X"
+  const extractBattleNumber = (battleNumber: string): number | null => {
+    const match = battleNumber.match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : null;
+  };
+
+  const battleNumbers = useMemo(() => {
+    const uniqueNumbers = new Set<number>();
+    battles.forEach((b) => {
+      const num = extractBattleNumber(b.battleNumber);
+      if (num !== null) uniqueNumbers.add(num);
+    });
+    return Array.from(uniqueNumbers).sort((a, b) => a - b).map(n => n.toString());
   }, [battles]);
 
   const filteredBattles = useMemo(() => {
@@ -77,8 +93,15 @@ export default function BattleLibrary() {
       result = result.filter((b) => b.chapterNumber.toString() === chapterFilter);
     }
 
+    if (battleNumberFilter !== "all") {
+      result = result.filter((b) => {
+        const num = extractBattleNumber(b.battleNumber);
+        return num !== null && num.toString() === battleNumberFilter;
+      });
+    }
+
     return result;
-  }, [battles, searchQuery, typeFilter, chapterFilter]);
+  }, [battles, searchQuery, typeFilter, chapterFilter, battleNumberFilter]);
 
   const stats = useMemo(() => {
     const heroic = battles.filter((b) => b.type === "heroic").length;
@@ -159,6 +182,9 @@ export default function BattleLibrary() {
                 chapterFilter={chapterFilter}
                 onChapterChange={setChapterFilter}
                 chapters={chapters}
+                battleNumberFilter={battleNumberFilter}
+                onBattleNumberChange={setBattleNumberFilter}
+                battleNumbers={battleNumbers}
                 totalCount={battles.length}
                 filteredCount={filteredBattles.length}
               />

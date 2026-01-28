@@ -18,6 +18,9 @@ interface BattleFiltersProps {
   chapterFilter: string;
   onChapterChange: (value: string) => void;
   chapters: string[];
+  battleNumberFilter: string;
+  onBattleNumberChange: (value: string) => void;
+  battleNumbers: string[];
   totalCount: number;
   filteredCount: number;
 }
@@ -30,15 +33,19 @@ export function BattleFilters({
   chapterFilter,
   onChapterChange,
   chapters,
+  battleNumberFilter,
+  onBattleNumberChange,
+  battleNumbers,
   totalCount,
   filteredCount,
 }: BattleFiltersProps) {
-  const hasFilters = searchQuery || typeFilter !== "all" || chapterFilter !== "all";
+  const hasFilters = searchQuery || typeFilter !== "all" || chapterFilter !== "all" || battleNumberFilter !== "all";
 
   const clearFilters = () => {
     onSearchChange("");
     onTypeChange("all");
     onChapterChange("all");
+    onBattleNumberChange("all");
   };
 
   return (
@@ -78,7 +85,7 @@ export function BattleFilters({
         </Select>
 
         <Select value={chapterFilter} onValueChange={onChapterChange}>
-          <SelectTrigger className="w-full sm:w-[200px]" data-testid="select-chapter">
+          <SelectTrigger className="w-full sm:w-[140px]" data-testid="select-chapter">
             <SelectValue placeholder="Глава" />
           </SelectTrigger>
           <SelectContent>
@@ -86,6 +93,20 @@ export function BattleFilters({
             {chapters.map((chapter) => (
               <SelectItem key={`chapter-${chapter}`} value={chapter}>
                 Глава {chapter}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={battleNumberFilter} onValueChange={onBattleNumberChange}>
+          <SelectTrigger className="w-full sm:w-[120px]" data-testid="select-battle-number">
+            <SelectValue placeholder="Бой" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Все бои</SelectItem>
+            {battleNumbers.map((num) => (
+              <SelectItem key={`battle-${num}`} value={num}>
+                Бой {num}
               </SelectItem>
             ))}
           </SelectContent>
