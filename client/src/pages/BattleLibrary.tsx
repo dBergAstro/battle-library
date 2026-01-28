@@ -217,7 +217,7 @@ export default function BattleLibrary() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container max-w-7xl mx-auto px-4 py-6 space-y-6">
-        <header className="flex items-center justify-between gap-4 flex-wrap">
+        <header className="space-y-3">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
               <Library className="h-5 w-5 text-primary" />
