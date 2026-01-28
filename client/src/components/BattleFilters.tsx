@@ -2,30 +2,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { MultiSelect } from "@/components/MultiSelect";
 import { Search, X, Filter } from "lucide-react";
 import type { BattleType } from "@shared/schema";
 
-export type SourceFilter = "all" | "battles" | "replays";
+export type SourceFilter = "battles" | "replays";
 
 interface BattleFiltersProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  typeFilter: BattleType | "all";
-  onTypeChange: (value: BattleType | "all") => void;
-  sourceFilter: SourceFilter;
-  onSourceChange: (value: SourceFilter) => void;
-  chapterFilter: string;
-  onChapterChange: (value: string) => void;
+  typeFilters: BattleType[];
+  onTypeFiltersChange: (values: BattleType[]) => void;
+  sourceFilters: SourceFilter[];
+  onSourceFiltersChange: (values: SourceFilter[]) => void;
+  chapterFilters: string[];
+  onChapterFiltersChange: (values: string[]) => void;
   chapters: string[];
-  battleNumberFilter: string;
-  onBattleNumberChange: (value: string) => void;
+  battleNumberFilters: string[];
+  onBattleNumberFiltersChange: (values: string[]) => void;
   battleNumbers: string[];
   showOnlyWithCreeps: boolean;
   onShowOnlyWithCreepsChange: (value: boolean) => void;
@@ -36,36 +30,61 @@ interface BattleFiltersProps {
 export function BattleFilters({
   searchQuery,
   onSearchChange,
-  typeFilter,
-  onTypeChange,
-  sourceFilter,
-  onSourceChange,
-  chapterFilter,
-  onChapterChange,
+  typeFilters,
+  onTypeFiltersChange,
+  sourceFilters,
+  onSourceFiltersChange,
+  chapterFilters,
+  onChapterFiltersChange,
   chapters,
-  battleNumberFilter,
-  onBattleNumberChange,
+  battleNumberFilters,
+  onBattleNumberFiltersChange,
   battleNumbers,
   showOnlyWithCreeps,
   onShowOnlyWithCreepsChange,
   totalCount,
   filteredCount,
 }: BattleFiltersProps) {
-  const hasFilters = searchQuery || typeFilter !== "all" || sourceFilter !== "all" || chapterFilter !== "all" || battleNumberFilter !== "all" || showOnlyWithCreeps;
+  const hasFilters = searchQuery || 
+    typeFilters.length > 0 || 
+    sourceFilters.length > 0 || 
+    chapterFilters.length > 0 || 
+    battleNumberFilters.length > 0 || 
+    showOnlyWithCreeps;
 
   const clearFilters = () => {
     onSearchChange("");
-    onTypeChange("all");
-    onSourceChange("all");
-    onChapterChange("all");
-    onBattleNumberChange("all");
+    onTypeFiltersChange([]);
+    onSourceFiltersChange([]);
+    onChapterFiltersChange([]);
+    onBattleNumberFiltersChange([]);
     onShowOnlyWithCreepsChange(false);
   };
 
+  const typeOptions = [
+    { value: "heroic", label: "Героические" },
+    { value: "titanic", label: "Титанические" },
+  ];
+
+  const sourceOptions = [
+    { value: "battles", label: "Бои" },
+    { value: "replays", label: "Записи" },
+  ];
+
+  const chapterOptions = chapters.map((ch) => ({
+    value: ch,
+    label: `Глава ${ch}`,
+  }));
+
+  const battleNumberOptions = battleNumbers.map((num) => ({
+    value: num,
+    label: `Бой ${num}`,
+  }));
+
   return (
     <div className="space-y-3">
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
+      <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Поиск по имени героя, ID или главе..."
@@ -86,55 +105,45 @@ export function BattleFilters({
           )}
         </div>
 
-        <Select value={sourceFilter} onValueChange={(v) => onSourceChange(v as SourceFilter)}>
-          <SelectTrigger className="w-full sm:w-[140px]" data-testid="select-source">
-            <SelectValue placeholder="Источник" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Всё</SelectItem>
-            <SelectItem value="battles">Только бои</SelectItem>
-            <SelectItem value="replays">Только записи</SelectItem>
-          </SelectContent>
-        </Select>
+        <MultiSelect
+          options={sourceOptions}
+          selected={sourceFilters}
+          onChange={(v) => onSourceFiltersChange(v as SourceFilter[])}
+          placeholder="Источник"
+          allLabel="Всё"
+          className="w-full sm:w-auto"
+          data-testid="multiselect-source"
+        />
 
-        <Select value={typeFilter} onValueChange={(v) => onTypeChange(v as BattleType | "all")}>
-          <SelectTrigger className="w-full sm:w-[160px]" data-testid="select-type">
-            <SelectValue placeholder="Тип боя" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Все типы</SelectItem>
-            <SelectItem value="heroic">Героические</SelectItem>
-            <SelectItem value="titanic">Титанические</SelectItem>
-          </SelectContent>
-        </Select>
+        <MultiSelect
+          options={typeOptions}
+          selected={typeFilters}
+          onChange={(v) => onTypeFiltersChange(v as BattleType[])}
+          placeholder="Тип"
+          allLabel="Все типы"
+          className="w-full sm:w-auto"
+          data-testid="multiselect-type"
+        />
 
-        <Select value={chapterFilter} onValueChange={onChapterChange}>
-          <SelectTrigger className="w-full sm:w-[140px]" data-testid="select-chapter">
-            <SelectValue placeholder="Глава" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Все главы</SelectItem>
-            {chapters.map((chapter) => (
-              <SelectItem key={`chapter-${chapter}`} value={chapter}>
-                Глава {chapter}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <MultiSelect
+          options={chapterOptions}
+          selected={chapterFilters}
+          onChange={onChapterFiltersChange}
+          placeholder="Глава"
+          allLabel="Все главы"
+          className="w-full sm:w-auto"
+          data-testid="multiselect-chapter"
+        />
 
-        <Select value={battleNumberFilter} onValueChange={onBattleNumberChange}>
-          <SelectTrigger className="w-full sm:w-[120px]" data-testid="select-battle-number">
-            <SelectValue placeholder="Бой" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Все бои</SelectItem>
-            {battleNumbers.map((num) => (
-              <SelectItem key={`battle-${num}`} value={num}>
-                Бой {num}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <MultiSelect
+          options={battleNumberOptions}
+          selected={battleNumberFilters}
+          onChange={onBattleNumberFiltersChange}
+          placeholder="Бой"
+          allLabel="Все бои"
+          className="w-full sm:w-auto"
+          data-testid="multiselect-battle-number"
+        />
 
         <div className="flex items-center gap-2">
           <Checkbox

@@ -45,10 +45,10 @@ type ListItem =
 
 export default function BattleLibrary() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
-  const [sourceFilter, setSourceFilter] = useState<SourceFilter>("all");
-  const [chapterFilter, setChapterFilter] = useState("all");
-  const [battleNumberFilter, setBattleNumberFilter] = useState("all");
+  const [typeFilters, setTypeFilters] = useState<BattleType[]>([]);
+  const [sourceFilters, setSourceFilters] = useState<SourceFilter[]>([]);
+  const [chapterFilters, setChapterFilters] = useState<string[]>([]);
+  const [battleNumberFilters, setBattleNumberFilters] = useState<string[]>([]);
   const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
 
   const { data, isLoading, error } = useQuery<BattlesResponse>({
@@ -137,11 +137,13 @@ export default function BattleLibrary() {
   const filteredList = useMemo(() => {
     let result = combinedList;
 
-    // Фильтр по источнику (бои/записи)
-    if (sourceFilter === "battles") {
-      result = result.filter((item) => item.type === "battle");
-    } else if (sourceFilter === "replays") {
-      result = result.filter((item) => item.type === "replay");
+    // Фильтр по источнику (бои/записи) - массив
+    if (sourceFilters.length > 0) {
+      result = result.filter((item) => {
+        if (sourceFilters.includes("battles") && item.type === "battle") return true;
+        if (sourceFilters.includes("replays") && item.type === "replay") return true;
+        return false;
+      });
     }
 
     if (searchQuery) {
@@ -160,23 +162,26 @@ export default function BattleLibrary() {
       });
     }
 
-    if (typeFilter !== "all") {
+    // Фильтр по типу - массив
+    if (typeFilters.length > 0) {
       result = result.filter((item) => {
         if (item.type === "battle") {
-          return item.data.type === typeFilter;
+          return typeFilters.includes(item.data.type);
         } else {
-          const enemyType = typeFilter === "heroic" ? "Герои" : "Титаны";
-          return item.data.enemyType === enemyType;
+          const battleType = item.data.enemyType === "Герои" ? "heroic" : "titanic";
+          return typeFilters.includes(battleType as BattleType);
         }
       });
     }
 
-    if (chapterFilter !== "all") {
-      result = result.filter((item) => item.chapter.toString() === chapterFilter);
+    // Фильтр по главам - массив
+    if (chapterFilters.length > 0) {
+      result = result.filter((item) => chapterFilters.includes(item.chapter.toString()));
     }
 
-    if (battleNumberFilter !== "all") {
-      result = result.filter((item) => item.level.toString() === battleNumberFilter);
+    // Фильтр по номеру боя - массив
+    if (battleNumberFilters.length > 0) {
+      result = result.filter((item) => battleNumberFilters.includes(item.level.toString()));
     }
 
     if (showOnlyWithCreeps) {
@@ -184,12 +189,12 @@ export default function BattleLibrary() {
         if (item.type === "battle") {
           return item.data.team.some((t) => t.heroId >= 1000 && t.heroId <= 2999);
         }
-        return true; // Записи не фильтруем по крипам
+        return true;
       });
     }
 
     return result;
-  }, [combinedList, searchQuery, typeFilter, sourceFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
+  }, [combinedList, searchQuery, typeFilters, sourceFilters, chapterFilters, battleNumberFilters, showOnlyWithCreeps]);
 
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
@@ -265,15 +270,15 @@ export default function BattleLibrary() {
               <BattleFilters
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
-                typeFilter={typeFilter}
-                onTypeChange={setTypeFilter}
-                sourceFilter={sourceFilter}
-                onSourceChange={setSourceFilter}
-                chapterFilter={chapterFilter}
-                onChapterChange={setChapterFilter}
+                typeFilters={typeFilters}
+                onTypeFiltersChange={setTypeFilters}
+                sourceFilters={sourceFilters}
+                onSourceFiltersChange={setSourceFilters}
+                chapterFilters={chapterFilters}
+                onChapterFiltersChange={setChapterFilters}
                 chapters={chapters}
-                battleNumberFilter={battleNumberFilter}
-                onBattleNumberChange={setBattleNumberFilter}
+                battleNumberFilters={battleNumberFilters}
+                onBattleNumberFiltersChange={setBattleNumberFilters}
                 battleNumbers={battleNumbers}
                 showOnlyWithCreeps={showOnlyWithCreeps}
                 onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
