@@ -2,7 +2,9 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BattleCard } from "@/components/BattleCard";
+import { ReplayCard } from "@/components/ReplayCard";
 import { BattleFilters } from "@/components/BattleFilters";
 import { Library, Swords, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
 import { 
@@ -38,11 +40,8 @@ interface BattlesResponse {
   spiritIcons: ServerSpiritIcon[];
 }
 
-export interface BattleWithReplays extends ProcessedBattle {
-  replays: ProcessedReplay[];
-}
-
 export default function BattleLibrary() {
+  const [activeTab, setActiveTab] = useState<"battles" | "replays">("battles");
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
   const [chapterFilter, setChapterFilter] = useState("all");
@@ -78,47 +77,6 @@ export default function BattleLibrary() {
     );
   }, [data]);
 
-  // Извлекает номер уровня из battleNumber (например, "Бой 5" -> 5)
-  const extractLevelFromBattleNumber = (battleNumber: string): number | null => {
-    const match = battleNumber.match(/(\d+)/);
-    return match ? parseInt(match[1], 10) : null;
-  };
-
-  const battlesWithReplays = useMemo<BattleWithReplays[]>(() => {
-    const replaysByBossId = new Map<number, ProcessedReplay[]>();
-    
-    for (const replay of replays) {
-      // Приоритет 1: Привязка по bossId (если есть)
-      if (replay.bossId) {
-        const battle = battles.find(b => b.gameId === replay.bossId);
-        if (battle) {
-          const existing = replaysByBossId.get(battle.gameId) || [];
-          existing.push(replay);
-          replaysByBossId.set(battle.gameId, existing);
-          continue;
-        }
-      }
-      
-      // Приоритет 2: Привязка по chapter + level (точное совпадение)
-      const battle = battles.find(b => {
-        if (b.chapterNumber !== replay.chapter) return false;
-        const battleLevel = extractLevelFromBattleNumber(b.battleNumber);
-        return battleLevel === replay.level;
-      });
-      
-      if (battle) {
-        const existing = replaysByBossId.get(battle.gameId) || [];
-        existing.push(replay);
-        replaysByBossId.set(battle.gameId, existing);
-      }
-    }
-
-    return battles.map(battle => ({
-      ...battle,
-      replays: replaysByBossId.get(battle.gameId) || []
-    }));
-  }, [battles, replays]);
-
   const chapters = useMemo(() => {
     const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapterNumber)));
     return uniqueChapters.sort((a, b) => a - b).map(n => n.toString());
@@ -139,7 +97,7 @@ export default function BattleLibrary() {
   }, [battles]);
 
   const filteredBattles = useMemo(() => {
-    let result = battlesWithReplays;
+    let result = battles;
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -172,7 +130,36 @@ export default function BattleLibrary() {
     }
 
     return result;
-  }, [battlesWithReplays, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
+  }, [battles, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
+
+  const filteredReplays = useMemo(() => {
+    let result = replays;
+
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (r) =>
+          r.gameId.toString().includes(query) ||
+          r.team.some((t) => t.name.toLowerCase().includes(query)) ||
+          (r.comment && r.comment.toLowerCase().includes(query))
+      );
+    }
+
+    if (typeFilter !== "all") {
+      const enemyType = typeFilter === "heroic" ? "Герои" : "Титаны";
+      result = result.filter((r) => r.enemyType === enemyType);
+    }
+
+    if (chapterFilter !== "all") {
+      result = result.filter((r) => r.chapter.toString() === chapterFilter);
+    }
+
+    if (battleNumberFilter !== "all") {
+      result = result.filter((r) => r.level.toString() === battleNumberFilter);
+    }
+
+    return result;
+  }, [replays, searchQuery, typeFilter, chapterFilter, battleNumberFilter]);
 
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
@@ -242,50 +229,78 @@ export default function BattleLibrary() {
           )}
         </header>
 
-        {hasData ? (
-          <Card className="border-card-border">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Swords className="h-5 w-5 text-primary" />
-                Список боёв
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <BattleFilters
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                typeFilter={typeFilter}
-                onTypeChange={setTypeFilter}
-                chapterFilter={chapterFilter}
-                onChapterChange={setChapterFilter}
-                chapters={chapters}
-                battleNumberFilter={battleNumberFilter}
-                onBattleNumberChange={setBattleNumberFilter}
-                battleNumbers={battleNumbers}
-                showOnlyWithCreeps={showOnlyWithCreeps}
-                onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
-                totalCount={battles.length}
-                filteredCount={filteredBattles.length}
-              />
+        {hasData || replays.length > 0 ? (
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "battles" | "replays")}>
+            <TabsList className="mb-4" data-testid="tabs-list">
+              <TabsTrigger value="battles" data-testid="tab-battles">
+                <Swords className="h-4 w-4 mr-1.5" />
+                Бои ({battles.length})
+              </TabsTrigger>
+              <TabsTrigger value="replays" data-testid="tab-replays">
+                <PlayCircle className="h-4 w-4 mr-1.5" />
+                Записи ({replays.length})
+              </TabsTrigger>
+            </TabsList>
 
-              {filteredBattles.length > 0 ? (
-                <ScrollArea className="h-[calc(100vh-380px)] min-h-[300px]">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
-                    {filteredBattles.map((battle) => (
-                      <BattleCard key={battle.id} battle={battle} replays={battle.replays} />
-                    ))}
-                  </div>
-                </ScrollArea>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <AlertCircle className="h-10 w-10 text-muted-foreground/50 mb-3" />
-                  <p className="text-muted-foreground">
-                    Нет боёв, соответствующих фильтрам
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+            <Card className="border-card-border">
+              <CardContent className="pt-6 space-y-4">
+                <BattleFilters
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  typeFilter={typeFilter}
+                  onTypeChange={setTypeFilter}
+                  chapterFilter={chapterFilter}
+                  onChapterChange={setChapterFilter}
+                  chapters={chapters}
+                  battleNumberFilter={battleNumberFilter}
+                  onBattleNumberChange={setBattleNumberFilter}
+                  battleNumbers={battleNumbers}
+                  showOnlyWithCreeps={showOnlyWithCreeps}
+                  onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
+                  totalCount={activeTab === "battles" ? battles.length : replays.length}
+                  filteredCount={activeTab === "battles" ? filteredBattles.length : filteredReplays.length}
+                />
+
+                <TabsContent value="battles" className="mt-0">
+                  {filteredBattles.length > 0 ? (
+                    <ScrollArea className="h-[calc(100vh-420px)] min-h-[300px]">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
+                        {filteredBattles.map((battle) => (
+                          <BattleCard key={battle.id} battle={battle} />
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <AlertCircle className="h-10 w-10 text-muted-foreground/50 mb-3" />
+                      <p className="text-muted-foreground">
+                        Нет боёв, соответствующих фильтрам
+                      </p>
+                    </div>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="replays" className="mt-0">
+                  {filteredReplays.length > 0 ? (
+                    <ScrollArea className="h-[calc(100vh-420px)] min-h-[300px]">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
+                        {filteredReplays.map((replay) => (
+                          <ReplayCard key={replay.id} replay={replay} />
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <AlertCircle className="h-10 w-10 text-muted-foreground/50 mb-3" />
+                      <p className="text-muted-foreground">
+                        Нет записей, соответствующих фильтрам
+                      </p>
+                    </div>
+                  )}
+                </TabsContent>
+              </CardContent>
+            </Card>
+          </Tabs>
         ) : (
           <Card className="border-card-border">
             <CardContent className="py-16">

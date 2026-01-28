@@ -242,7 +242,6 @@ export interface ProcessedTotem {
 export interface ProcessedReplay {
   id: number;
   gameId: number;
-  bossId?: number; // ID боя для привязки
   chapter: number;
   level: number;
   enemyType: "Герои" | "Титаны";
@@ -252,6 +251,7 @@ export interface ProcessedReplay {
   mainPetIcon?: string;
   team: ProcessedReplayMember[];
   totems?: ProcessedTotem[]; // тотемы со скилами для титанов
+  rawDefendersFragments: string; // оригинальный JSON для копирования
 }
 
 // Обработанные данные боя для отображения

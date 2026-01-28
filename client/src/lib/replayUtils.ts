@@ -167,7 +167,6 @@ export function processReplaysFromServer(
       return {
         id: team.id,
         gameId: team.gameId,
-        bossId: team.bossId ?? undefined,
         chapter: team.chapter ?? 0,
         level: team.level ?? 0,
         enemyType: (team.enemyType as "Герои" | "Титаны") || "Герои",
@@ -177,6 +176,7 @@ export function processReplaysFromServer(
         mainPetIcon,
         team: teamMembers,
         totems: totems.length > 0 ? totems : undefined,
+        rawDefendersFragments: team.defendersFragments!,
       } as ProcessedReplay;
     })
     .filter((r): r is ProcessedReplay => r !== null);
