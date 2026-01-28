@@ -934,14 +934,13 @@ export default function AdminPanel() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Загрузите таблицу invasion_testAttackTeams (JSON файл или папка)
+              Загрузите таблицу invasion_testAttackTeams (папка с JSON файлами)
             </p>
             <input
               type="file"
               ref={attackTeamsInputRef}
               className="hidden"
-              accept=".json"
-              multiple
+              {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
               onChange={async (e) => {
                 const files = e.target.files;
                 if (!files || files.length === 0) return;
@@ -951,8 +950,9 @@ export default function AdminPanel() {
                 
                 try {
                   let allData: Record<string, unknown>[] = [];
+                  const jsonFiles = Array.from(files).filter(f => f.name.endsWith('.json'));
                   
-                  for (const file of Array.from(files)) {
+                  for (const file of jsonFiles) {
                     const text = await file.text();
                     const parsed = parseJSON(text);
                     // Filter out schema files
@@ -961,12 +961,12 @@ export default function AdminPanel() {
                   }
                   
                   if (allData.length === 0) {
-                    throw new Error("Нет данных для загрузки");
+                    throw new Error("Нет данных для загрузки (JSON файлы не найдены)");
                   }
                   
                   await uploadToServer("/api/admin/attack-teams", allData);
                   queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
-                  queryClient.invalidateQueries({ queryKey: ["/api/replays"] });
+                  queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
                 } catch (error) {
                   setErrors((prev) => ({ 
                     ...prev, 
@@ -994,7 +994,7 @@ export default function AdminPanel() {
                 ) : (
                   <FolderOpen className="h-4 w-4 mr-1" />
                 )}
-                Загрузить записи
+                Загрузить записи (папка)
               </Button>
               {(stats?.attackTeams ?? 0) > 0 && (
                 <Badge variant="secondary">

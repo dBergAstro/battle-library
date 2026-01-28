@@ -349,40 +349,19 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
-      // Загружаем boss_list для автозаполнения chapter/level по bossId
-      const bossList = await storage.getBossList();
-      const bossMap = new Map<number, { label: string | null; desc: string | null }>();
-      for (const boss of bossList) {
-        bossMap.set(boss.gameId, { label: boss.label, desc: boss.desc });
-      }
-
       await storage.clearAttackTeams();
-      const mapped = parsed.data.map((item) => {
-        // Автозаполнение chapter и level из boss_list если не указаны
-        let chapter = item.Chapter || null;
-        let level = item.Level || null;
-        
-        if (item.bossId && (!chapter || !level)) {
-          const boss = bossMap.get(item.bossId);
-          if (boss) {
-            if (!chapter) chapter = boss.label;
-            if (!level) level = boss.desc;
-          }
-        }
-
-        return {
-          gameId: item.id,
-          invasionId: item.invasionId || null,
-          bossId: item.bossId || null,
-          bossLevel: item.bossLevel || null,
-          chapter,
-          level,
-          enemyType: item.enemyType || null,
-          mainBuff: item.mainBuff || null,
-          comment: item.Comment || null,
-          defendersFragments: item.defendersFragments ? JSON.stringify(item.defendersFragments) : null,
-        };
-      });
+      const mapped = parsed.data.map((item) => ({
+        gameId: item.id,
+        invasionId: item.invasionId || null,
+        bossId: item.bossId || null,
+        bossLevel: item.bossLevel || null,
+        chapter: item.Chapter || null,
+        level: item.Level || null,
+        enemyType: item.enemyType || null,
+        mainBuff: item.mainBuff || null,
+        comment: item.Comment || null,
+        defendersFragments: item.defendersFragments ? JSON.stringify(item.defendersFragments) : null,
+      }));
 
       await storage.insertAttackTeams(mapped);
       res.json({ success: true, count: mapped.length });
