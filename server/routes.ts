@@ -197,8 +197,16 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
-      await storage.insertHeroIcons(parsed.data);
-      res.json({ success: true, count: parsed.data.length });
+      // Дедупликация по heroId+category (берём последнюю запись)
+      const seen = new Map<string, typeof parsed.data[0]>();
+      for (const item of parsed.data) {
+        const key = `${item.heroId}_${item.category || ''}`;
+        seen.set(key, item);
+      }
+      const deduplicated = Array.from(seen.values());
+
+      await storage.insertHeroIcons(deduplicated);
+      res.json({ success: true, count: deduplicated.length });
     } catch (error) {
       console.error("Error uploading hero icons:", error);
       res.status(500).json({ error: "Failed to upload hero icons" });
@@ -229,9 +237,16 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
+      // Дедупликация по heroId (берём последнюю запись)
+      const seen = new Map<number, typeof parsed.data[0]>();
+      for (const item of parsed.data) {
+        seen.set(item.heroId, item);
+      }
+      const deduplicated = Array.from(seen.values());
+
       await storage.clearHeroSortOrder();
-      await storage.insertHeroSortOrder(parsed.data);
-      res.json({ success: true, count: parsed.data.length });
+      await storage.insertHeroSortOrder(deduplicated);
+      res.json({ success: true, count: deduplicated.length });
     } catch (error) {
       console.error("Error uploading hero sort order:", error);
       res.status(500).json({ error: "Failed to upload hero sort order" });
