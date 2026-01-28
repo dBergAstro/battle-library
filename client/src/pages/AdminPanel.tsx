@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Upload, 
   FileJson, 
@@ -24,7 +25,8 @@ import {
   Eye,
   Swords,
   Settings,
-  Dog
+  Dog,
+  Sparkles
 } from "lucide-react";
 import {
   parseCSV,
@@ -146,6 +148,9 @@ export default function AdminPanel() {
   const { data: battlesData } = useQuery<{
     heroIcons: Array<{ heroId: number; iconUrl: string }>;
     heroNames: Array<{ heroId: number; name: string }>;
+    petIcons: Array<{ petId: number; iconUrl: string }>;
+    spiritSkills: Array<{ skillId: number; name: string }>;
+    spiritIcons: Array<{ skillId: number; iconUrl: string }>;
   }>({
     queryKey: ["/api/battles"],
   });
@@ -177,6 +182,62 @@ export default function AdminPanel() {
       (h) => h.heroId.toString().includes(query) || h.name.toLowerCase().includes(query)
     );
   }, [allHeroes, heroSearchQuery]);
+
+  // Питомцы - используем имена из heroNames (там уже есть питомцы с ID 6000+)
+  const allPets = useMemo(() => {
+    if (!battlesData) return [];
+    const petIconMap = new Map(battlesData.petIcons?.map((p) => [p.petId, p.iconUrl]) || []);
+    const nameMap = new Map(battlesData.heroNames.map((h) => [h.heroId, h.name]));
+    
+    // Собираем все ID питомцев (из иконок питомцев и из имён 6000-6999)
+    const petIds = new Set<number>();
+    battlesData.petIcons?.forEach((p) => petIds.add(p.petId));
+    battlesData.heroNames.filter(h => h.heroId >= 6000 && h.heroId < 7000).forEach(h => petIds.add(h.heroId));
+    
+    return Array.from(petIds)
+      .map((petId) => ({
+        petId,
+        name: nameMap.get(petId) || `Питомец ${petId}`,
+        icon: petIconMap.get(petId),
+      }))
+      .sort((a, b) => a.petId - b.petId);
+  }, [battlesData]);
+
+  const filteredPets = useMemo(() => {
+    if (!heroSearchQuery) return allPets;
+    const query = heroSearchQuery.toLowerCase();
+    return allPets.filter(
+      (p) => p.petId.toString().includes(query) || p.name.toLowerCase().includes(query)
+    );
+  }, [allPets, heroSearchQuery]);
+
+  // Тотемные скилы
+  const allSpiritSkills = useMemo(() => {
+    if (!battlesData) return [];
+    const iconMap = new Map(battlesData.spiritIcons?.map((s) => [s.skillId, s.iconUrl]) || []);
+    const nameMap = new Map(battlesData.spiritSkills?.map((s) => [s.skillId, s.name]) || []);
+    
+    // Собираем все ID скилов
+    const skillIds = new Set<number>();
+    battlesData.spiritIcons?.forEach((s) => skillIds.add(s.skillId));
+    battlesData.spiritSkills?.forEach((s) => skillIds.add(s.skillId));
+    
+    return Array.from(skillIds)
+      .map((skillId) => ({
+        skillId,
+        name: nameMap.get(skillId) || `Скилл ${skillId}`,
+        icon: iconMap.get(skillId),
+      }))
+      .sort((a, b) => a.skillId - b.skillId);
+  }, [battlesData]);
+
+  const filteredSpiritSkills = useMemo(() => {
+    if (!heroSearchQuery) return allSpiritSkills;
+    const query = heroSearchQuery.toLowerCase();
+    return allSpiritSkills.filter(
+      (s) => s.skillId.toString().includes(query) || s.name.toLowerCase().includes(query)
+    );
+  }, [allSpiritSkills, heroSearchQuery]);
 
   const uploadToServer = async (endpoint: string, data: Record<string, unknown>[]) => {
     const response = await apiRequest("POST", endpoint, data);
@@ -871,7 +932,7 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
 
-        {/* Hero Icons Viewer */}
+        {/* Icons Viewer with Tabs */}
         <Card className="border-card-border">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
@@ -890,37 +951,120 @@ export default function AdminPanel() {
                 data-testid="input-hero-search"
               />
             </div>
-            
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>Показано: {filteredHeroes.length} из {allHeroes.length}</span>
-            </div>
 
-            <ScrollArea className="h-[400px] border rounded-md">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
-                {filteredHeroes.map((hero) => (
-                  <div 
-                    key={hero.heroId}
-                    className={`flex items-center gap-2 p-2 rounded-md border ${
-                      hero.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
-                    }`}
-                    data-testid={`hero-card-${hero.heroId}`}
-                  >
-                    <Avatar className="h-10 w-10 flex-shrink-0">
-                      {hero.icon ? (
-                        <AvatarImage src={hero.icon} alt={hero.name} />
-                      ) : null}
-                      <AvatarFallback className="text-xs bg-muted">
-                        {hero.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs font-mono text-muted-foreground">#{hero.heroId}</p>
-                      <p className="text-sm font-medium truncate" title={hero.name}>{hero.name}</p>
-                    </div>
+            <Tabs defaultValue="heroes" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="heroes" className="flex items-center gap-1">
+                  <Users className="h-4 w-4" />
+                  Персонажи ({filteredHeroes.length})
+                </TabsTrigger>
+                <TabsTrigger value="pets" className="flex items-center gap-1">
+                  <Dog className="h-4 w-4" />
+                  Питомцы ({filteredPets.length})
+                </TabsTrigger>
+                <TabsTrigger value="spirits" className="flex items-center gap-1">
+                  <Sparkles className="h-4 w-4" />
+                  Тотемы ({filteredSpiritSkills.length})
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="heroes" className="mt-4">
+                <ScrollArea className="h-[400px] border rounded-md">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
+                    {filteredHeroes.map((hero) => (
+                      <div 
+                        key={hero.heroId}
+                        className={`flex items-center gap-2 p-2 rounded-md border ${
+                          hero.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
+                        }`}
+                        data-testid={`hero-card-${hero.heroId}`}
+                      >
+                        <Avatar className="h-10 w-10 flex-shrink-0">
+                          {hero.icon ? (
+                            <AvatarImage src={hero.icon} alt={hero.name} />
+                          ) : null}
+                          <AvatarFallback className="text-xs bg-muted">
+                            {hero.name.slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-mono text-muted-foreground">#{hero.heroId}</p>
+                          <p className="text-sm font-medium truncate" title={hero.name}>{hero.name}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </ScrollArea>
+                </ScrollArea>
+              </TabsContent>
+
+              <TabsContent value="pets" className="mt-4">
+                <ScrollArea className="h-[400px] border rounded-md">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
+                    {filteredPets.map((pet) => (
+                      <div 
+                        key={pet.petId}
+                        className={`flex items-center gap-2 p-2 rounded-md border ${
+                          pet.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
+                        }`}
+                        data-testid={`pet-card-${pet.petId}`}
+                      >
+                        <Avatar className="h-10 w-10 flex-shrink-0">
+                          {pet.icon ? (
+                            <AvatarImage src={pet.icon} alt={pet.name} />
+                          ) : null}
+                          <AvatarFallback className="text-xs bg-muted">
+                            {pet.name.slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-mono text-muted-foreground">#{pet.petId}</p>
+                          <p className="text-sm font-medium truncate" title={pet.name}>{pet.name}</p>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredPets.length === 0 && (
+                      <div className="col-span-full text-center text-muted-foreground py-8">
+                        Питомцы не найдены
+                      </div>
+                    )}
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+
+              <TabsContent value="spirits" className="mt-4">
+                <ScrollArea className="h-[400px] border rounded-md">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
+                    {filteredSpiritSkills.map((skill) => (
+                      <div 
+                        key={skill.skillId}
+                        className={`flex items-center gap-2 p-2 rounded-md border ${
+                          skill.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
+                        }`}
+                        data-testid={`spirit-card-${skill.skillId}`}
+                      >
+                        <Avatar className="h-10 w-10 flex-shrink-0">
+                          {skill.icon ? (
+                            <AvatarImage src={skill.icon} alt={skill.name} />
+                          ) : null}
+                          <AvatarFallback className="text-xs bg-muted">
+                            {skill.skillId}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-mono text-muted-foreground">#{skill.skillId}</p>
+                          <p className="text-sm font-medium truncate" title={skill.name}>{skill.name}</p>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredSpiritSkills.length === 0 && (
+                      <div className="col-span-full text-center text-muted-foreground py-8">
+                        Тотемные скилы не найдены
+                      </div>
+                    )}
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
 
