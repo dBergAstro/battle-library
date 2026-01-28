@@ -167,6 +167,7 @@ export function processReplaysFromServer(
       return {
         id: team.id,
         gameId: team.gameId,
+        bossId: team.bossId ?? undefined,
         chapter: team.chapter ?? 0,
         level: team.level ?? 0,
         enemyType: (team.enemyType as "Герои" | "Титаны") || "Герои",

@@ -1,17 +1,23 @@
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Swords, Shield, Users, Zap } from "lucide-react";
-import type { ProcessedBattle } from "@shared/schema";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Swords, Shield, Users, Zap, PlayCircle, ChevronDown, ChevronUp } from "lucide-react";
+import type { ProcessedBattle, ProcessedReplay } from "@shared/schema";
 import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
+import { GRADE_COLORS } from "@/lib/replayUtils";
 
 interface BattleCardProps {
   battle: ProcessedBattle;
+  replays?: ProcessedReplay[];
 }
 
-export function BattleCard({ battle }: BattleCardProps) {
+export function BattleCard({ battle, replays = [] }: BattleCardProps) {
   const isHeroic = battle.type === "heroic";
+  const [isReplaysOpen, setIsReplaysOpen] = useState(false);
 
   return (
     <Card
@@ -128,7 +134,141 @@ export function BattleCard({ battle }: BattleCardProps) {
             </span>
           )}
         </div>
+
+        {replays.length > 0 && (
+          <Collapsible open={isReplaysOpen} onOpenChange={setIsReplaysOpen} className="mt-3">
+            <CollapsibleTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-2 text-xs text-green-600 dark:text-green-400 w-full justify-center"
+                data-testid={`toggle-replays-${battle.id}`}
+              >
+                <PlayCircle className="h-3.5 w-3.5" />
+                <span className="font-medium">Записи ({replays.length})</span>
+                {isReplaysOpen ? (
+                  <ChevronUp className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronDown className="h-3.5 w-3.5" />
+                )}
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-2 space-y-2">
+              {replays.map((replay) => (
+                <ReplayItem key={replay.id} replay={replay} />
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
+        )}
       </CardContent>
     </Card>
+  );
+}
+
+interface ReplayItemProps {
+  replay: ProcessedReplay;
+}
+
+function ReplayItem({ replay }: ReplayItemProps) {
+  return (
+    <div 
+      className="p-2 rounded-md bg-muted/30 border border-border/50"
+      data-testid={`replay-item-${replay.id}`}
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <Badge variant="outline" className="text-xs">
+          {replay.enemyType}
+        </Badge>
+        {replay.comment && (
+          <span className="text-xs text-muted-foreground truncate" title={replay.comment}>
+            {replay.comment}
+          </span>
+        )}
+      </div>
+      
+      <div className="flex items-center gap-1">
+        {replay.mainPetIcon && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="relative mr-1">
+                <Avatar className="h-8 w-8 ring-2 ring-green-500">
+                  <AvatarImage src={replay.mainPetIcon} alt="Основной питомец" />
+                  <AvatarFallback className="text-xs bg-green-500/20">P</AvatarFallback>
+                </Avatar>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs">
+              <p className="font-medium">Основной питомец</p>
+              <p className="text-muted-foreground">ID: {replay.mainPetId}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+        
+        <div className="flex -space-x-1.5">
+          {replay.team.map((member, idx) => (
+            <Tooltip key={`${replay.id}-${member.heroId}-${idx}`}>
+              <TooltipTrigger asChild>
+                <div className="relative">
+                  <Avatar
+                    className={`h-9 w-9 ring-2 ${GRADE_COLORS[member.grade]}`}
+                    data-testid={`replay-avatar-${member.heroId}`}
+                  >
+                    {member.icon ? (
+                      <AvatarImage src={member.icon} alt={member.name} />
+                    ) : null}
+                    <AvatarFallback className="text-xs font-medium bg-muted">
+                      {member.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  {member.favorPetIcon && (
+                    <Avatar className="h-4 w-4 absolute -bottom-0.5 -right-0.5 ring-1 ring-card">
+                      <AvatarImage src={member.favorPetIcon} alt="Покровительство" />
+                      <AvatarFallback className="text-[6px] bg-blue-500/20">F</AvatarFallback>
+                    </Avatar>
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                <p className="font-medium">{member.name}</p>
+                <p className="text-muted-foreground">Фрагменты: {member.fragmentCount}</p>
+                {member.favorPetId && (
+                  <p className="text-muted-foreground">Покровительство: {member.favorPetId}</p>
+                )}
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </div>
+      </div>
+
+      {replay.totems && replay.totems.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {replay.totems.map((totem, idx) => (
+            <div key={idx} className="flex items-center gap-1 text-xs bg-background/50 rounded px-1.5 py-0.5">
+              <span className="font-medium">{totem.elementRu}</span>
+              <div className="flex items-center gap-0.5">
+                {totem.skills.map((skill, skillIdx) => (
+                  <Tooltip key={skillIdx}>
+                    <TooltipTrigger asChild>
+                      {skill.icon ? (
+                        <Avatar className="h-4 w-4">
+                          <AvatarImage src={skill.icon} alt={skill.name} />
+                          <AvatarFallback className="text-[6px]">{skill.name.slice(0, 1)}</AvatarFallback>
+                        </Avatar>
+                      ) : (
+                        <span className="text-muted-foreground">{skill.skillId}</span>
+                      )}
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="text-xs">
+                      <p className="font-medium">{skill.name}</p>
+                      <p className="text-muted-foreground">ID: {skill.skillId}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

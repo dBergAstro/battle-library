@@ -242,6 +242,7 @@ export interface ProcessedTotem {
 export interface ProcessedReplay {
   id: number;
   gameId: number;
+  bossId?: number; // ID боя для привязки
   chapter: number;
   level: number;
   enemyType: "Герои" | "Титаны";

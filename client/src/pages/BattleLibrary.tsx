@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
 import { BattleFilters } from "@/components/BattleFilters";
-import { Library, Swords, Shield, AlertCircle, Loader2 } from "lucide-react";
+import { Library, Swords, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
 import { 
   processBattlesFromServer, 
   type ServerBossList, 
@@ -15,7 +15,14 @@ import {
   type ServerHeroSortOrder,
   type ServerTitanElement
 } from "@/lib/battleUtils";
-import type { ProcessedBattle, BattleType } from "@shared/schema";
+import {
+  processReplaysFromServer,
+  type ServerAttackTeam,
+  type ServerPetIcon,
+  type ServerSpiritSkill,
+  type ServerSpiritIcon
+} from "@/lib/replayUtils";
+import type { ProcessedBattle, ProcessedReplay, BattleType } from "@shared/schema";
 
 interface BattlesResponse {
   bossList: ServerBossList[];
@@ -25,6 +32,14 @@ interface BattlesResponse {
   heroNames: ServerHeroName[];
   heroSortOrder: ServerHeroSortOrder[];
   titanElements: ServerTitanElement[];
+  attackTeams: ServerAttackTeam[];
+  petIcons: ServerPetIcon[];
+  spiritSkills: ServerSpiritSkill[];
+  spiritIcons: ServerSpiritIcon[];
+}
+
+export interface BattleWithReplays extends ProcessedBattle {
+  replays: ProcessedReplay[];
 }
 
 export default function BattleLibrary() {
@@ -51,12 +66,64 @@ export default function BattleLibrary() {
     );
   }, [data]);
 
+  const replays = useMemo<ProcessedReplay[]>(() => {
+    if (!data) return [];
+    return processReplaysFromServer(
+      data.attackTeams || [],
+      data.heroIcons || [],
+      data.heroNames || [],
+      data.petIcons || [],
+      data.spiritSkills || [],
+      data.spiritIcons || []
+    );
+  }, [data]);
+
+  // Извлекает номер уровня из battleNumber (например, "Бой 5" -> 5)
+  const extractLevelFromBattleNumber = (battleNumber: string): number | null => {
+    const match = battleNumber.match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : null;
+  };
+
+  const battlesWithReplays = useMemo<BattleWithReplays[]>(() => {
+    const replaysByBossId = new Map<number, ProcessedReplay[]>();
+    
+    for (const replay of replays) {
+      // Приоритет 1: Привязка по bossId (если есть)
+      if (replay.bossId) {
+        const battle = battles.find(b => b.gameId === replay.bossId);
+        if (battle) {
+          const existing = replaysByBossId.get(battle.gameId) || [];
+          existing.push(replay);
+          replaysByBossId.set(battle.gameId, existing);
+          continue;
+        }
+      }
+      
+      // Приоритет 2: Привязка по chapter + level (точное совпадение)
+      const battle = battles.find(b => {
+        if (b.chapterNumber !== replay.chapter) return false;
+        const battleLevel = extractLevelFromBattleNumber(b.battleNumber);
+        return battleLevel === replay.level;
+      });
+      
+      if (battle) {
+        const existing = replaysByBossId.get(battle.gameId) || [];
+        existing.push(replay);
+        replaysByBossId.set(battle.gameId, existing);
+      }
+    }
+
+    return battles.map(battle => ({
+      ...battle,
+      replays: replaysByBossId.get(battle.gameId) || []
+    }));
+  }, [battles, replays]);
+
   const chapters = useMemo(() => {
     const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapterNumber)));
     return uniqueChapters.sort((a, b) => a - b).map(n => n.toString());
   }, [battles]);
 
-  // Извлекаем номер боя из строки "Бой X"
   const extractBattleNumber = (battleNumber: string): number | null => {
     const match = battleNumber.match(/(\d+)/);
     return match ? parseInt(match[1], 10) : null;
@@ -72,7 +139,7 @@ export default function BattleLibrary() {
   }, [battles]);
 
   const filteredBattles = useMemo(() => {
-    let result = battles;
+    let result = battlesWithReplays;
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -98,7 +165,6 @@ export default function BattleLibrary() {
       });
     }
 
-    // Фильтр "только с крипами" - крипы имеют ID в диапазоне 1000-2999
     if (showOnlyWithCreeps) {
       result = result.filter((b) =>
         b.team.some((t) => t.heroId >= 1000 && t.heroId <= 2999)
@@ -106,13 +172,14 @@ export default function BattleLibrary() {
     }
 
     return result;
-  }, [battles, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
+  }, [battlesWithReplays, searchQuery, typeFilter, chapterFilter, battleNumberFilter, showOnlyWithCreeps]);
 
   const stats = useMemo(() => {
-    const heroic = battles.filter((b) => b.type === "heroic").length;
-    const titanic = battles.filter((b) => b.type === "titanic").length;
-    return { heroic, titanic, total: battles.length };
-  }, [battles]);
+    const heroicBattles = battles.filter((b) => b.type === "heroic").length;
+    const titanicBattles = battles.filter((b) => b.type === "titanic").length;
+    const totalReplays = replays.length;
+    return { heroicBattles, titanicBattles, totalBattles: battles.length, totalReplays };
+  }, [battles, replays]);
 
   const hasData = battles.length > 0;
 
@@ -155,16 +222,21 @@ export default function BattleLibrary() {
           </div>
 
           {hasData && (
-            <div className="flex items-center gap-4 text-sm">
+            <div className="flex items-center gap-4 text-sm flex-wrap">
               <div className="flex items-center gap-1.5">
                 <div className="h-2 w-2 rounded-full bg-blue-500" />
                 <span className="text-muted-foreground">Героические:</span>
-                <span className="font-medium">{stats.heroic}</span>
+                <span className="font-medium">{stats.heroicBattles}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="h-2 w-2 rounded-full bg-amber-500" />
                 <span className="text-muted-foreground">Титанические:</span>
-                <span className="font-medium">{stats.titanic}</span>
+                <span className="font-medium">{stats.titanicBattles}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <PlayCircle className="h-3 w-3 text-green-500" />
+                <span className="text-muted-foreground">Записи:</span>
+                <span className="font-medium">{stats.totalReplays}</span>
               </div>
             </div>
           )}
@@ -200,7 +272,7 @@ export default function BattleLibrary() {
                 <ScrollArea className="h-[calc(100vh-380px)] min-h-[300px]">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-4">
                     {filteredBattles.map((battle) => (
-                      <BattleCard key={battle.id} battle={battle} />
+                      <BattleCard key={battle.id} battle={battle} replays={battle.replays} />
                     ))}
                   </div>
                 </ScrollArea>

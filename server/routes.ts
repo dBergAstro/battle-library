@@ -94,10 +94,10 @@ export async function registerRoutes(
     res.json({ status: "ok" });
   });
 
-  // Get all data for library
+  // Get all data for library (battles + replays)
   app.get("/api/battles", async (_req, res) => {
     try {
-      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData] = await Promise.all([
+      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData, attackTeamsData, petIconsData, spiritSkillsData, spiritIconsData] = await Promise.all([
         storage.getAllBossList(),
         storage.getAllBossTeam(),
         storage.getAllBossLevel(),
@@ -105,6 +105,10 @@ export async function registerRoutes(
         storage.getAllHeroNames(),
         storage.getAllHeroSortOrder(),
         storage.getAllTitanElements(),
+        storage.getAllAttackTeams(),
+        storage.getAllPetIcons(),
+        storage.getAllSpiritSkills(),
+        storage.getAllSpiritIcons(),
       ]);
 
       res.json({
@@ -115,6 +119,10 @@ export async function registerRoutes(
         heroNames: heroNamesData,
         heroSortOrder: heroSortOrderData,
         titanElements: titanElementsData,
+        attackTeams: attackTeamsData,
+        petIcons: petIconsData,
+        spiritSkills: spiritSkillsData,
+        spiritIcons: spiritIconsData,
       });
     } catch (error) {
       console.error("Error fetching battles:", error);
