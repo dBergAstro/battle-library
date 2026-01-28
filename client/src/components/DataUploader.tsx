@@ -73,6 +73,7 @@ export function DataUploader({ onDataLoaded, onIconsLoaded, loadedStatus, loaded
   const [warnings, setWarnings] = useState<Record<string, string[]>>({});
   const [schemas, setSchemas] = useState<Record<string, Record<string, unknown>>>({});
   const [iconCounts, setIconCounts] = useState<Record<string, number>>({});
+  const [loadingProgress, setLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
   const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const schemaInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const iconFolderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
@@ -234,22 +235,46 @@ export function DataUploader({ onDataLoaded, onIconsLoaded, loadedStatus, loaded
           return;
         }
 
+        const total = jsonFiles.length;
+        setLoadingProgress((prev) => ({ ...prev, [tableKey]: { current: 0, total } }));
+
         const allRecords: Record<string, unknown>[] = [];
+        const BATCH_SIZE = 50;
         
-        for (const file of jsonFiles) {
-          try {
-            const text = await file.text();
-            const parsed = JSON.parse(text);
-            
+        for (let i = 0; i < jsonFiles.length; i += BATCH_SIZE) {
+          const batch = jsonFiles.slice(i, i + BATCH_SIZE);
+          
+          const batchResults = await Promise.all(
+            batch.map(async (file) => {
+              try {
+                const text = await file.text();
+                const parsed = JSON.parse(text);
+                return parsed;
+              } catch {
+                return null;
+              }
+            })
+          );
+
+          for (const parsed of batchResults) {
+            if (parsed === null) continue;
             if (Array.isArray(parsed)) {
               allRecords.push(...parsed);
             } else if (typeof parsed === "object" && parsed !== null) {
               allRecords.push(parsed);
             }
-          } catch {
-            console.warn(`Ошибка парсинга файла ${file.name}`);
           }
+
+          setLoadingProgress((prev) => ({
+            ...prev,
+            [tableKey]: { current: Math.min(i + BATCH_SIZE, total), total },
+          }));
+
+          // Даём UI обновиться
+          await new Promise((resolve) => setTimeout(resolve, 0));
         }
+
+        setLoadingProgress((prev) => ({ ...prev, [tableKey]: null }));
 
         if (allRecords.length === 0) {
           setErrors((prev) => ({
@@ -290,6 +315,7 @@ export function DataUploader({ onDataLoaded, onIconsLoaded, loadedStatus, loaded
 
         onDataLoaded(tableKey, allRecords);
       } catch (err) {
+        setLoadingProgress((prev) => ({ ...prev, [tableKey]: null }));
         setErrors((prev) => ({
           ...prev,
           [tableKey]: "Ошибка чтения папки",
@@ -483,6 +509,21 @@ export function DataUploader({ onDataLoaded, onIconsLoaded, loadedStatus, loaded
                   </Button>
                 </div>
               </div>
+
+              {loadingProgress[table.key] && (
+                <div className="mt-2">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                    <span>Загрузка файлов...</span>
+                    <span>{loadingProgress[table.key]!.current} / {loadingProgress[table.key]!.total}</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-primary transition-all duration-200"
+                      style={{ width: `${(loadingProgress[table.key]!.current / loadingProgress[table.key]!.total) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              )}
 
               {errors[table.key] && (
                 <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
