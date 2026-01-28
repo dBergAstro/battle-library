@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Swords, Shield, Search, Users, Zap, Loader2 } from "lucide-react";
 import { Link } from "wouter";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { processReplaysFromServer, GRADE_COLORS, GRADE_BG_COLORS, type ServerAttackTeam, type ServerPetIcon } from "@/lib/replayUtils";
+import { processReplaysFromServer, GRADE_COLORS, GRADE_BG_COLORS, type ServerAttackTeam, type ServerPetIcon, type ServerSpiritSkill, type ServerSpiritIcon } from "@/lib/replayUtils";
 import type { ProcessedReplay } from "@shared/schema";
 
 interface ReplaysResponse {
@@ -17,6 +17,8 @@ interface ReplaysResponse {
   heroIcons: Array<{ heroId: number; iconUrl: string }>;
   heroNames: Array<{ heroId: number; name: string }>;
   petIcons: ServerPetIcon[];
+  spiritSkills: ServerSpiritSkill[];
+  spiritIcons: ServerSpiritIcon[];
   mainBuffName: string | null;
 }
 
@@ -35,7 +37,9 @@ export default function ReplayLibrary() {
       data.attackTeams,
       data.heroIcons,
       data.heroNames,
-      data.petIcons
+      data.petIcons,
+      data.spiritSkills || [],
+      data.spiritIcons || []
     );
   }, [data]);
 
@@ -273,6 +277,42 @@ function ReplayCard({ replay }: { replay: ProcessedReplay }) {
                 <p className="text-muted-foreground">ID: {replay.mainPetId}</p>
               </TooltipContent>
             </Tooltip>
+          </div>
+        )}
+
+        {replay.totems && replay.totems.length > 0 && (
+          <div className="pt-2 border-t space-y-2" data-testid={`totems-${replay.id}`}>
+            <span className="text-xs text-muted-foreground font-medium">Тотемы:</span>
+            <div className="flex flex-wrap gap-3">
+              {replay.totems.map((totem) => (
+                <div key={totem.element} className="flex flex-col gap-1">
+                  <span className="text-[10px] text-muted-foreground">{totem.elementRu}</span>
+                  <div className="flex gap-1">
+                    {totem.skills.map((skill) => (
+                      <Tooltip key={skill.skillId}>
+                        <TooltipTrigger asChild>
+                          <Avatar
+                            className="h-8 w-8 border border-card"
+                            data-testid={`avatar-skill-${skill.skillId}`}
+                          >
+                            {skill.icon ? (
+                              <AvatarImage src={skill.icon} alt={skill.name} />
+                            ) : null}
+                            <AvatarFallback className="text-[8px] bg-muted">
+                              {skill.skillId}
+                            </AvatarFallback>
+                          </Avatar>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="text-xs z-[100]">
+                          <p className="font-medium">{skill.name}</p>
+                          <p className="text-muted-foreground">ID: {skill.skillId}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </CardContent>

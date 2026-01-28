@@ -151,6 +151,28 @@ export const insertAppSettingSchema = createInsertSchema(appSettings).omit({ id:
 export type InsertAppSetting = z.infer<typeof insertAppSettingSchema>;
 export type AppSetting = typeof appSettings.$inferSelect;
 
+// Spirit Skills - названия скилов тотемов
+export const spiritSkills = pgTable("spirit_skills", {
+  id: serial("id").primaryKey(),
+  skillId: integer("skill_id").notNull().unique(),
+  name: text("name").notNull(),
+});
+
+export const insertSpiritSkillSchema = createInsertSchema(spiritSkills).omit({ id: true });
+export type InsertSpiritSkill = z.infer<typeof insertSpiritSkillSchema>;
+export type SpiritSkill = typeof spiritSkills.$inferSelect;
+
+// Spirit Icons - иконки скилов тотемов
+export const spiritIcons = pgTable("spirit_icons", {
+  id: serial("id").primaryKey(),
+  skillId: integer("skill_id").notNull().unique(),
+  iconUrl: text("icon_url").notNull(),
+});
+
+export const insertSpiritIconSchema = createInsertSchema(spiritIcons).omit({ id: true });
+export type InsertSpiritIcon = z.infer<typeof insertSpiritIconSchema>;
+export type SpiritIcon = typeof spiritIcons.$inferSelect;
+
 // Тип боя
 export type BattleType = "heroic" | "titanic";
 
@@ -166,12 +188,27 @@ export interface TotemInfo {
 // Грейд персонажа по фрагментам
 export type FragmentGrade = "purple" | "orange" | "red"; // 1-2, 3-6, 7+
 
+// Структура скилов тотема
+export interface SpiritTotemSkills {
+  elemental?: number;
+  primal?: number;
+}
+
+// Структура spirits в defendersFragments
+export interface SpiritsData {
+  water?: SpiritTotemSkills;
+  fire?: SpiritTotemSkills;
+  earth?: SpiritTotemSkills;
+  dark?: SpiritTotemSkills;
+  light?: SpiritTotemSkills;
+}
+
 // Структура defendersFragments из JSON
 export interface DefendersFragments {
   units: number[];
   petId?: number;
   favor?: Record<string, number>; // heroId -> petId
-  spirits?: number[];
+  spirits?: SpiritsData; // тотемы со скилами
   fragments?: Record<string, number>; // id -> fragment count
   effects?: Record<string, number>;
 }
@@ -187,6 +224,20 @@ export interface ProcessedReplayMember {
   favorPetIcon?: string;
 }
 
+// Обработанный скил тотема
+export interface ProcessedSpiritSkill {
+  skillId: number;
+  name: string;
+  icon?: string;
+}
+
+// Обработанный тотем со скилами
+export interface ProcessedTotem {
+  element: "water" | "fire" | "earth" | "dark" | "light";
+  elementRu: string;
+  skills: ProcessedSpiritSkill[];
+}
+
 // Обработанная запись для отображения
 export interface ProcessedReplay {
   id: number;
@@ -199,6 +250,7 @@ export interface ProcessedReplay {
   mainPetId?: number;
   mainPetIcon?: string;
   team: ProcessedReplayMember[];
+  totems?: ProcessedTotem[]; // тотемы со скилами для титанов
 }
 
 // Обработанные данные боя для отображения

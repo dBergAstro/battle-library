@@ -124,6 +124,11 @@ export default function AdminPanel() {
   const [mainBuffName, setMainBuffName] = useState("");
   const [mainBuffSaving, setMainBuffSaving] = useState(false);
 
+  // Spirit skills (totem skills) settings
+  const [spiritSkillsText, setSpiritSkillsText] = useState("");
+  const [spiritSkillsSaving, setSpiritSkillsSaving] = useState(false);
+  const spiritIconsInputRef = useRef<HTMLInputElement | null>(null);
+
   const [heroSearchQuery, setHeroSearchQuery] = useState("");
 
   const { data: stats, isLoading: statsLoading } = useQuery<StatsResponse>({
@@ -1150,6 +1155,142 @@ export default function AdminPanel() {
                   Текущий: {stats.mainBuffName.slice(0, 30)}...
                 </Badge>
               )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Flame className="h-5 w-5 text-primary" />
+              Скилы тотемов
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                Названия скилов
+              </label>
+              <p className="text-xs text-muted-foreground mb-2">
+                Формат: ID название (каждый скил на новой строке). Пример: 4503 Огненный удар
+              </p>
+              <Textarea
+                placeholder="4503 Огненный удар&#10;4506 Пламенный шквал&#10;4509 Водная стена"
+                value={spiritSkillsText}
+                onChange={(e) => setSpiritSkillsText(e.target.value)}
+                className="min-h-[100px] font-mono text-sm mb-2"
+                data-testid="input-spirit-skills"
+              />
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={async () => {
+                  if (!spiritSkillsText.trim()) return;
+                  setSpiritSkillsSaving(true);
+                  try {
+                    const lines = spiritSkillsText.trim().split("\n");
+                    const skills: Array<{ skillId: number; name: string }> = [];
+                    for (const line of lines) {
+                      const trimmed = line.trim();
+                      if (!trimmed) continue;
+                      const match = trimmed.match(/^(\d+)\s+(.+)$/);
+                      if (match) {
+                        skills.push({
+                          skillId: parseInt(match[1]),
+                          name: match[2].trim(),
+                        });
+                      }
+                    }
+                    if (skills.length > 0) {
+                      await apiRequest("POST", "/api/admin/spirit-skills", skills);
+                      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                      queryClient.invalidateQueries({ queryKey: ["/api/replays"] });
+                    }
+                  } catch (error) {
+                    console.error("Error saving spirit skills:", error);
+                  } finally {
+                    setSpiritSkillsSaving(false);
+                  }
+                }}
+                disabled={spiritSkillsSaving || !spiritSkillsText.trim()}
+                data-testid="button-save-spirit-skills"
+              >
+                {spiritSkillsSaving ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                )}
+                Сохранить названия
+              </Button>
+            </div>
+
+            <div className="border-t pt-4">
+              <label className="text-sm font-medium mb-2 block">
+                Иконки скилов
+              </label>
+              <p className="text-xs text-muted-foreground mb-2">
+                Загрузите папку с иконками скилов. ID извлекается из имени файла.
+              </p>
+              <input
+                type="file"
+                ref={spiritIconsInputRef}
+                className="hidden"
+                {...{ webkitdirectory: "true", directory: "true" } as any}
+                onChange={async (e) => {
+                  const files = e.target.files;
+                  if (!files || files.length === 0) return;
+                  
+                  setUploadProgress(0);
+                  setUploading(true);
+                  
+                  const icons: Array<{ skillId: number; iconUrl: string }> = [];
+                  const imageFiles = Array.from(files).filter((f) =>
+                    /\.(png|jpg|jpeg|webp|svg)$/i.test(f.name)
+                  );
+                  
+                  for (let i = 0; i < imageFiles.length; i++) {
+                    const file = imageFiles[i];
+                    const match = file.name.match(/(\d+)/);
+                    if (!match) continue;
+                    
+                    const skillId = parseInt(match[1]);
+                    const base64 = await new Promise<string>((resolve) => {
+                      const reader = new FileReader();
+                      reader.onload = () => resolve(reader.result as string);
+                      reader.readAsDataURL(file);
+                    });
+                    
+                    icons.push({ skillId, iconUrl: base64 });
+                    setUploadProgress(Math.round(((i + 1) / imageFiles.length) * 100));
+                  }
+                  
+                  if (icons.length > 0) {
+                    try {
+                      await apiRequest("POST", "/api/admin/spirit-icons", icons);
+                      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                      queryClient.invalidateQueries({ queryKey: ["/api/replays"] });
+                    } catch (error) {
+                      console.error("Error uploading spirit icons:", error);
+                    }
+                  }
+                  
+                  setUploading(false);
+                  setUploadProgress(0);
+                  if (spiritIconsInputRef.current) spiritIconsInputRef.current.value = "";
+                }}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => spiritIconsInputRef.current?.click()}
+                disabled={uploading}
+                data-testid="button-upload-spirit-icons"
+              >
+                <FolderOpen className="h-4 w-4 mr-1" />
+                Загрузить папку
+              </Button>
             </div>
           </CardContent>
         </Card>

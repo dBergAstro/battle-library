@@ -20,6 +20,8 @@ MVP с серверным хранением, записями (replays) и по
 - `titan_elements` - стихии титанов (id, titanId, element, points)
 - `attack_teams` - записи (replays) с defendersFragments JSON
 - `pet_icons` - иконки питомцев (id, petId, iconUrl)
+- `spirit_skills` - названия скилов тотемов (id, skillId, name)
+- `spirit_icons` - иконки скилов тотемов (id, skillId, iconUrl)
 - `app_settings` - настройки приложения (key, value)
 
 ### API Endpoints
@@ -35,6 +37,8 @@ MVP с серверным хранением, записями (replays) и по
 - `POST /api/admin/titan-elements` - загрузить стихии титанов
 - `POST /api/admin/attack-teams` - загрузить записи (replays)
 - `POST /api/admin/pet-icons` - загрузить иконки питомцев
+- `POST /api/admin/spirit-skills` - загрузить названия скилов тотемов
+- `POST /api/admin/spirit-icons` - загрузить иконки скилов тотемов
 - `POST /api/admin/settings/main-buff` - настроить название основного баффа
 
 ### Страницы

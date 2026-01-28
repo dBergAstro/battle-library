@@ -76,6 +76,16 @@ const petIconsInputSchema = z.array(z.object({
   iconUrl: z.string().max(2000000),
 }));
 
+const spiritSkillsInputSchema = z.array(z.object({
+  skillId: z.number(),
+  name: z.string(),
+}));
+
+const spiritIconsInputSchema = z.array(z.object({
+  skillId: z.number(),
+  iconUrl: z.string().max(2000000),
+}));
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -415,11 +425,13 @@ export async function registerRoutes(
   // Get Replays data
   app.get("/api/replays", async (_req, res) => {
     try {
-      const [attackTeamsData, heroIconsData, heroNamesData, petIconsData] = await Promise.all([
+      const [attackTeamsData, heroIconsData, heroNamesData, petIconsData, spiritSkillsData, spiritIconsData] = await Promise.all([
         storage.getAllAttackTeams(),
         storage.getAllHeroIcons(),
         storage.getAllHeroNames(),
         storage.getAllPetIcons(),
+        storage.getAllSpiritSkills(),
+        storage.getAllSpiritIcons(),
       ]);
 
       const mainBuffName = await storage.getSetting("mainBuffName");
@@ -429,11 +441,53 @@ export async function registerRoutes(
         heroIcons: heroIconsData,
         heroNames: heroNamesData,
         petIcons: petIconsData,
+        spiritSkills: spiritSkillsData,
+        spiritIcons: spiritIconsData,
         mainBuffName: mainBuffName,
       });
     } catch (error) {
       console.error("Error fetching replays:", error);
       res.status(500).json({ error: "Failed to fetch replays" });
+    }
+  });
+
+  // Upload Spirit Skills
+  app.post("/api/admin/spirit-skills", async (req, res) => {
+    try {
+      const parsed = spiritSkillsInputSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
+      }
+
+      await storage.clearSpiritSkills();
+      await storage.insertSpiritSkills(parsed.data);
+      res.json({ success: true, count: parsed.data.length });
+    } catch (error) {
+      console.error("Error uploading spirit skills:", error);
+      res.status(500).json({ error: "Failed to upload spirit skills" });
+    }
+  });
+
+  // Upload Spirit Icons
+  app.post("/api/admin/spirit-icons", async (req, res) => {
+    try {
+      const parsed = spiritIconsInputSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
+      }
+
+      // Дедупликация по skillId
+      const seen = new Map<number, typeof parsed.data[0]>();
+      for (const item of parsed.data) {
+        seen.set(item.skillId, item);
+      }
+      const deduplicated = Array.from(seen.values());
+
+      await storage.insertSpiritIcons(deduplicated);
+      res.json({ success: true, count: deduplicated.length });
+    } catch (error) {
+      console.error("Error uploading spirit icons:", error);
+      res.status(500).json({ error: "Failed to upload spirit icons" });
     }
   });
 

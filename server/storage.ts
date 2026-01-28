@@ -1,11 +1,12 @@
 import { 
   bossList, bossTeam, bossLevel, heroIcons, heroNames, heroSortOrder, titanElements,
-  attackTeams, petIcons, appSettings,
+  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons,
   type InsertBossList, type InsertBossTeam, type InsertBossLevel, 
   type InsertHeroIcon, type InsertHeroName, type InsertHeroSortOrder, type InsertTitanElement,
   type InsertAttackTeam, type InsertPetIcon, type InsertAppSetting,
+  type InsertSpiritSkill, type InsertSpiritIcon,
   type BossList, type BossTeam, type BossLevel, type HeroIcon, type HeroName, type HeroSortOrder, type TitanElement,
-  type AttackTeam, type PetIcon, type AppSetting
+  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon
 } from "@shared/schema";
 import { db } from "./db";
 import { gt, sql } from "drizzle-orm";
@@ -46,6 +47,14 @@ export interface IStorage {
   getAllPetIcons(): Promise<PetIcon[]>;
   insertPetIcons(data: InsertPetIcon[]): Promise<void>;
   clearPetIcons(): Promise<void>;
+  
+  getAllSpiritSkills(): Promise<SpiritSkill[]>;
+  insertSpiritSkills(data: InsertSpiritSkill[]): Promise<void>;
+  clearSpiritSkills(): Promise<void>;
+  
+  getAllSpiritIcons(): Promise<SpiritIcon[]>;
+  insertSpiritIcons(data: InsertSpiritIcon[]): Promise<void>;
+  clearSpiritIcons(): Promise<void>;
   
   getSetting(key: string): Promise<string | null>;
   setSetting(key: string, value: string): Promise<void>;
@@ -246,6 +255,48 @@ export class DatabaseStorage implements IStorage {
 
   async clearPetIcons(): Promise<void> {
     await db.delete(petIcons);
+  }
+
+  // Spirit Skills
+  async getAllSpiritSkills(): Promise<SpiritSkill[]> {
+    return await db.select().from(spiritSkills);
+  }
+
+  async insertSpiritSkills(data: InsertSpiritSkill[]): Promise<void> {
+    if (data.length === 0) return;
+    const BATCH_SIZE = 100;
+    for (let i = 0; i < data.length; i += BATCH_SIZE) {
+      const batch = data.slice(i, i + BATCH_SIZE);
+      await db.insert(spiritSkills).values(batch).onConflictDoUpdate({
+        target: spiritSkills.skillId,
+        set: { name: sql`excluded.name` },
+      });
+    }
+  }
+
+  async clearSpiritSkills(): Promise<void> {
+    await db.delete(spiritSkills);
+  }
+
+  // Spirit Icons
+  async getAllSpiritIcons(): Promise<SpiritIcon[]> {
+    return await db.select().from(spiritIcons);
+  }
+
+  async insertSpiritIcons(data: InsertSpiritIcon[]): Promise<void> {
+    if (data.length === 0) return;
+    const BATCH_SIZE = 50;
+    for (let i = 0; i < data.length; i += BATCH_SIZE) {
+      const batch = data.slice(i, i + BATCH_SIZE);
+      await db.insert(spiritIcons).values(batch).onConflictDoUpdate({
+        target: spiritIcons.skillId,
+        set: { iconUrl: sql`excluded.icon_url` },
+      });
+    }
+  }
+
+  async clearSpiritIcons(): Promise<void> {
+    await db.delete(spiritIcons);
   }
 
   // App Settings
