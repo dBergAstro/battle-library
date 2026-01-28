@@ -29,6 +29,7 @@ const bossTeamInputSchema = z.array(z.object({
 }).passthrough());
 
 const bossLevelInputSchema = z.array(z.object({
+  rowId: coerceNumber,
   id: coerceNumberRequired,
   bossLevel: coerceNumber,
   bossId: coerceNumber,
@@ -147,6 +148,7 @@ export async function registerRoutes(
 
   // Upload Boss Level
   // Формат: id = gameId уровня, bossLevel = ID босса, powerLevel = уровень мощности
+  // Фильтруем записи с rowId > 1090 (актуальные профили с level = 1)
   app.post("/api/admin/boss-level", async (req, res) => {
     try {
       const parsed = bossLevelInputSchema.safeParse(req.body);
@@ -156,9 +158,12 @@ export async function registerRoutes(
 
       await storage.clearBossLevel();
       
+      // Фильтруем записи с rowId > 1090 (актуальные профили сложности)
+      const filtered = parsed.data.filter((item) => (item.rowId ?? 0) > 1090);
+      
       // Дедупликация по gameId (берём последнюю запись с одинаковым id)
-      const seenIds = new Map<number, typeof parsed.data[0]>();
-      for (const item of parsed.data) {
+      const seenIds = new Map<number, typeof filtered[0]>();
+      for (const item of filtered) {
         seenIds.set(item.id, item);
       }
       
