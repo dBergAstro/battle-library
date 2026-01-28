@@ -1,8 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Upload, FileJson, CheckCircle2, AlertCircle, AlertTriangle, X } from "lucide-react";
+import { Upload, FileJson, CheckCircle2, AlertCircle, AlertTriangle, X, FolderOpen } from "lucide-react";
 import {
   parseCSV,
   parseJSON,
@@ -64,6 +64,7 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
   const [dragOver, setDragOver] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [warnings, setWarnings] = useState<Record<string, string[]>>({});
+  const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const validateData = (
     tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo",
@@ -171,6 +172,89 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
     [handleFile]
   );
 
+  const handleFolderInput = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+
+      try {
+        const jsonFiles = Array.from(files).filter((f) => f.name.endsWith(".json"));
+        
+        if (jsonFiles.length === 0) {
+          setErrors((prev) => ({
+            ...prev,
+            [tableKey]: "В папке не найдены JSON файлы",
+          }));
+          return;
+        }
+
+        const allRecords: Record<string, unknown>[] = [];
+        
+        for (const file of jsonFiles) {
+          try {
+            const text = await file.text();
+            const parsed = JSON.parse(text);
+            
+            if (Array.isArray(parsed)) {
+              allRecords.push(...parsed);
+            } else if (typeof parsed === "object" && parsed !== null) {
+              allRecords.push(parsed);
+            }
+          } catch {
+            console.warn(`Ошибка парсинга файла ${file.name}`);
+          }
+        }
+
+        if (allRecords.length === 0) {
+          setErrors((prev) => ({
+            ...prev,
+            [tableKey]: "Не удалось загрузить данные из папки",
+          }));
+          return;
+        }
+
+        const validation = validateData(tableKey, allRecords);
+
+        if (!validation.valid) {
+          setErrors((prev) => ({
+            ...prev,
+            [tableKey]: validation.errors.join("; "),
+          }));
+          return;
+        }
+
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors[tableKey];
+          return newErrors;
+        });
+
+        if (validation.warnings.length > 0) {
+          setWarnings((prev) => ({
+            ...prev,
+            [tableKey]: validation.warnings,
+          }));
+        } else {
+          setWarnings((prev) => {
+            const newWarnings = { ...prev };
+            delete newWarnings[tableKey];
+            return newWarnings;
+          });
+        }
+
+        onDataLoaded(tableKey, allRecords);
+      } catch (err) {
+        setErrors((prev) => ({
+          ...prev,
+          [tableKey]: "Ошибка чтения папки",
+        }));
+      }
+      
+      e.target.value = "";
+    },
+    [onDataLoaded]
+  );
+
   const requiredLoaded = loadedStatus.bossList && loadedStatus.bossTeam;
 
   return (
@@ -226,26 +310,46 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
                     {table.description}
                   </p>
                 </div>
-                <label>
+                <div className="flex gap-1">
+                  <label>
+                    <input
+                      type="file"
+                      accept=".csv,.json"
+                      className="hidden"
+                      onChange={(e) => handleFileInput(e, table.key)}
+                      data-testid={`input-file-${table.key}`}
+                    />
+                    <Button
+                      size="sm"
+                      variant={loadedStatus[table.key] ? "secondary" : "default"}
+                      className="cursor-pointer"
+                      asChild
+                    >
+                      <span>
+                        <Upload className="h-3 w-3 mr-1" />
+                        Файл
+                      </span>
+                    </Button>
+                  </label>
                   <input
                     type="file"
-                    accept=".csv,.json"
+                    ref={(el) => (folderInputRefs.current[table.key] = el)}
                     className="hidden"
-                    onChange={(e) => handleFileInput(e, table.key)}
-                    data-testid={`input-file-${table.key}`}
+                    onChange={(e) => handleFolderInput(e, table.key)}
+                    data-testid={`input-folder-${table.key}`}
+                    {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
                   />
                   <Button
                     size="sm"
-                    variant={loadedStatus[table.key] ? "secondary" : "default"}
+                    variant="outline"
                     className="cursor-pointer"
-                    asChild
+                    onClick={() => folderInputRefs.current[table.key]?.click()}
+                    data-testid={`button-folder-${table.key}`}
                   >
-                    <span>
-                      <Upload className="h-3 w-3 mr-1" />
-                      {loadedStatus[table.key] ? "Заменить" : "Загрузить"}
-                    </span>
+                    <FolderOpen className="h-3 w-3 mr-1" />
+                    Папка
                   </Button>
-                </label>
+                </div>
               </div>
 
               {errors[table.key] && (
@@ -284,7 +388,7 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
         </div>
 
         <p className="text-xs text-muted-foreground mt-4 text-center">
-          Перетащите файлы или нажмите кнопку загрузки. Поддерживаются CSV и JSON.
+          Загрузите файл (CSV/JSON) или папку с отдельными JSON-файлами для каждой записи.
           <br />
           <span className="text-primary">Boss List</span> и <span className="text-primary">Boss Team</span> обязательны.
         </p>
