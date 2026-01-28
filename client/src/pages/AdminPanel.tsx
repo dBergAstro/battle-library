@@ -39,6 +39,7 @@ import {
   parseTitanElementsText,
 } from "@/lib/battleUtils";
 import { apiRequest } from "@/lib/queryClient";
+import { EntityViewer } from "@/components/EntityViewer";
 
 interface StatsResponse {
   bossList: number;
@@ -932,141 +933,16 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
 
-        {/* Icons Viewer with Tabs */}
-        <Card className="border-card-border">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Eye className="h-5 w-5 text-primary" />
-              Просмотр персонажей и иконок
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Поиск по ID или имени..."
-                value={heroSearchQuery}
-                onChange={(e) => setHeroSearchQuery(e.target.value)}
-                className="pl-9"
-                data-testid="input-hero-search"
-              />
-            </div>
-
-            <Tabs defaultValue="heroes" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="heroes" className="flex items-center gap-1">
-                  <Users className="h-4 w-4" />
-                  Персонажи ({filteredHeroes.length})
-                </TabsTrigger>
-                <TabsTrigger value="pets" className="flex items-center gap-1">
-                  <Dog className="h-4 w-4" />
-                  Питомцы ({filteredPets.length})
-                </TabsTrigger>
-                <TabsTrigger value="spirits" className="flex items-center gap-1">
-                  <Sparkles className="h-4 w-4" />
-                  Тотемы ({filteredSpiritSkills.length})
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="heroes" className="mt-4">
-                <ScrollArea className="h-[400px] border rounded-md">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
-                    {filteredHeroes.map((hero) => (
-                      <div 
-                        key={hero.heroId}
-                        className={`flex items-center gap-2 p-2 rounded-md border ${
-                          hero.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
-                        }`}
-                        data-testid={`hero-card-${hero.heroId}`}
-                      >
-                        <Avatar className="h-10 w-10 flex-shrink-0">
-                          {hero.icon ? (
-                            <AvatarImage src={hero.icon} alt={hero.name} />
-                          ) : null}
-                          <AvatarFallback className="text-xs bg-muted">
-                            {hero.name.slice(0, 2).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-mono text-muted-foreground">#{hero.heroId}</p>
-                          <p className="text-sm font-medium truncate" title={hero.name}>{hero.name}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </TabsContent>
-
-              <TabsContent value="pets" className="mt-4">
-                <ScrollArea className="h-[400px] border rounded-md">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
-                    {filteredPets.map((pet) => (
-                      <div 
-                        key={pet.petId}
-                        className={`flex items-center gap-2 p-2 rounded-md border ${
-                          pet.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
-                        }`}
-                        data-testid={`pet-card-${pet.petId}`}
-                      >
-                        <Avatar className="h-10 w-10 flex-shrink-0">
-                          {pet.icon ? (
-                            <AvatarImage src={pet.icon} alt={pet.name} />
-                          ) : null}
-                          <AvatarFallback className="text-xs bg-muted">
-                            {pet.name.slice(0, 2).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-mono text-muted-foreground">#{pet.petId}</p>
-                          <p className="text-sm font-medium truncate" title={pet.name}>{pet.name}</p>
-                        </div>
-                      </div>
-                    ))}
-                    {filteredPets.length === 0 && (
-                      <div className="col-span-full text-center text-muted-foreground py-8">
-                        Питомцы не найдены
-                      </div>
-                    )}
-                  </div>
-                </ScrollArea>
-              </TabsContent>
-
-              <TabsContent value="spirits" className="mt-4">
-                <ScrollArea className="h-[400px] border rounded-md">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
-                    {filteredSpiritSkills.map((skill) => (
-                      <div 
-                        key={skill.skillId}
-                        className={`flex items-center gap-2 p-2 rounded-md border ${
-                          skill.icon ? "border-border" : "border-destructive/50 bg-destructive/5"
-                        }`}
-                        data-testid={`spirit-card-${skill.skillId}`}
-                      >
-                        <Avatar className="h-10 w-10 flex-shrink-0">
-                          {skill.icon ? (
-                            <AvatarImage src={skill.icon} alt={skill.name} />
-                          ) : null}
-                          <AvatarFallback className="text-xs bg-muted">
-                            {skill.skillId}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-mono text-muted-foreground">#{skill.skillId}</p>
-                          <p className="text-sm font-medium truncate" title={skill.name}>{skill.name}</p>
-                        </div>
-                      </div>
-                    ))}
-                    {filteredSpiritSkills.length === 0 && (
-                      <div className="col-span-full text-center text-muted-foreground py-8">
-                        Тотемные скилы не найдены
-                      </div>
-                    )}
-                  </div>
-                </ScrollArea>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
+        {/* Entity Viewer - Unified viewer for all entities with icon upload */}
+        {battlesData && (
+          <EntityViewer
+            heroIcons={battlesData.heroIcons}
+            heroNames={battlesData.heroNames}
+            petIcons={battlesData.petIcons || []}
+            spiritSkills={battlesData.spiritSkills || []}
+            spiritIcons={battlesData.spiritIcons || []}
+          />
+        )}
 
         {/* Attack Teams (Replays) Upload */}
         <Card className="border-card-border">
