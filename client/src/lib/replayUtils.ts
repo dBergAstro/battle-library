@@ -181,8 +181,6 @@ export function processReplaysFromServer(
     })
     .filter((r): r is ProcessedReplay => r !== null);
 
-  return replays.sort((a, b) => {
-    if (a.chapter !== b.chapter) return a.chapter - b.chapter;
-    return a.level - b.level;
-  });
+  // Сортировка как в обычных боях - по gameId в обратном порядке
+  return replays.sort((a, b) => b.gameId - a.gameId);
 }

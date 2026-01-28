@@ -52,11 +52,6 @@ export function ReplayCard({ replay }: ReplayCardProps) {
             <h3 className="font-medium text-sm">
               Глава {replay.chapter}, Бой {replay.level}
             </h3>
-            {replay.comment && (
-              <p className="text-xs text-muted-foreground truncate" title={replay.comment}>
-                {replay.comment}
-              </p>
-            )}
           </div>
           
           <Tooltip>
