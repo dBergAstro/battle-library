@@ -155,7 +155,14 @@ export async function registerRoutes(
       }
 
       await storage.clearBossLevel();
-      const mapped = parsed.data.map((item) => ({
+      
+      // Дедупликация по gameId (берём последнюю запись с одинаковым id)
+      const seenIds = new Map<number, typeof parsed.data[0]>();
+      for (const item of parsed.data) {
+        seenIds.set(item.id, item);
+      }
+      
+      const mapped = Array.from(seenIds.values()).map((item) => ({
         gameId: item.id,
         bossId: item.bossLevel ?? item.bossId ?? null,
         powerLevel: item.powerLevel || null,
