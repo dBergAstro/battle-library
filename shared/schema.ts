@@ -132,6 +132,7 @@ export interface ProcessedBattle {
   battleNumber: string;
   type: BattleType;
   powerLevel?: number;
+  isMixedPowerLevel?: boolean; // true если команда имеет разные bossLevelId
   totems: TotemInfo[]; // до 2 тотемов стихий
   team: {
     heroId: number;

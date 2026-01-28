@@ -69,10 +69,16 @@ export function BattleCard({ battle }: BattleCardProps) {
             <p className="text-xs text-muted-foreground truncate" title={battle.originalLabel || battle.battleNumber}>
               {battle.battleNumber}
             </p>
-            {battle.powerLevel && (
+            {battle.powerLevel != null && (
               <div className="flex items-center gap-1 mt-1">
                 <Zap className="h-3 w-3 text-yellow-500" />
-                <span className="text-xs font-medium">{battle.powerLevel.toLocaleString()}</span>
+                <span className="text-xs font-medium">
+                  {battle.isMixedPowerLevel ? (
+                    <span className="text-orange-500">Смешанный ({battle.powerLevel.toLocaleString()})</span>
+                  ) : (
+                    battle.powerLevel.toLocaleString()
+                  )}
+                </span>
               </div>
             )}
           </div>

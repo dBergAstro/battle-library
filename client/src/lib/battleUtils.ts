@@ -185,11 +185,21 @@ export function processBattlesFromServer(
       ? calculateTotems(teamMembers, titanElementsMap) 
       : [];
 
-    // Находим максимальный powerLevel для боя
-    const teamPowerLevels = bossTeam
-      .filter((t) => t.bossGameId === boss.gameId && t.bossLevelId)
-      .map((t) => levelMap.get(t.bossLevelId!) ?? 0);
-    const maxPowerLevel = teamPowerLevels.length > 0 ? Math.max(...teamPowerLevels) : undefined;
+    // Находим powerLevel для команды и проверяем на смешанность
+    const teamBossLevelIds = bossTeam
+      .filter((t) => t.bossGameId === boss.gameId && t.bossLevelId != null)
+      .map((t) => t.bossLevelId!);
+    
+    // Получаем уникальные bossLevelId
+    const uniqueBossLevelIds = Array.from(new Set(teamBossLevelIds));
+    const isMixedPowerLevel = uniqueBossLevelIds.length > 1;
+    
+    // Берём powerLevel из первого bossLevelId или максимальный если смешанный
+    let powerLevel: number | undefined;
+    if (uniqueBossLevelIds.length > 0) {
+      const powerLevels = uniqueBossLevelIds.map(id => levelMap.get(id)).filter((v): v is number => v != null);
+      powerLevel = powerLevels.length > 0 ? Math.max(...powerLevels) : undefined;
+    }
 
     return {
       id: boss.id,
@@ -199,7 +209,8 @@ export function processBattlesFromServer(
       originalLabel: boss.label ?? "",
       battleNumber: boss.desc ?? "Unknown Battle",
       type: battleType,
-      powerLevel: maxPowerLevel,
+      powerLevel: powerLevel,
+      isMixedPowerLevel: isMixedPowerLevel,
       totems: totems,
       team: teamMembers,
     };
