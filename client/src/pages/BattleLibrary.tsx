@@ -6,13 +6,13 @@ import { BattleCard } from "@/components/BattleCard";
 import { BattleFilters } from "@/components/BattleFilters";
 import { Library, Swords, Shield, AlertCircle } from "lucide-react";
 import { processBattles } from "@/lib/battleUtils";
-import type { BossList, BossTeam, BossLevel, HeroInfo, ProcessedBattle, BattleType } from "@shared/schema";
+import type { BossList, BossTeam, BossLevel, ProcessedBattle, BattleType } from "@shared/schema";
 
 export default function BattleLibrary() {
   const [bossList, setBossList] = useState<BossList[]>([]);
   const [bossTeam, setBossTeam] = useState<BossTeam[]>([]);
   const [bossLevel, setBossLevel] = useState<BossLevel[]>([]);
-  const [heroInfo, setHeroInfo] = useState<HeroInfo[]>([]);
+  const [heroIcons, setHeroIcons] = useState<Map<number, string>>(new Map());
 
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<BattleType | "all">("all");
@@ -22,18 +22,18 @@ export default function BattleLibrary() {
     bossList: bossList.length > 0,
     bossTeam: bossTeam.length > 0,
     bossLevel: bossLevel.length > 0,
-    heroInfo: heroInfo.length > 0,
+    heroIcons: heroIcons.size > 0,
   };
 
   const loadedCounts = {
     bossList: bossList.length,
     bossTeam: bossTeam.length,
     bossLevel: bossLevel.length,
-    heroInfo: heroInfo.length,
+    heroIcons: heroIcons.size,
   };
 
   const handleDataLoaded = useCallback(
-    (type: "bossList" | "bossTeam" | "bossLevel" | "heroInfo", data: Record<string, unknown>[]) => {
+    (type: "bossList" | "bossTeam" | "bossLevel", data: Record<string, unknown>[]) => {
       switch (type) {
         case "bossList":
           setBossList(data as unknown as BossList[]);
@@ -44,18 +44,23 @@ export default function BattleLibrary() {
         case "bossLevel":
           setBossLevel(data as unknown as BossLevel[]);
           break;
-        case "heroInfo":
-          setHeroInfo(data as unknown as HeroInfo[]);
-          break;
       }
     },
     []
   );
 
+  const handleIconsLoaded = useCallback((icons: Map<number, string>) => {
+    setHeroIcons((prev) => {
+      const merged = new Map(prev);
+      icons.forEach((url, id) => merged.set(id, url));
+      return merged;
+    });
+  }, []);
+
   const battles = useMemo<ProcessedBattle[]>(() => {
     if (!loadedStatus.bossList) return [];
-    return processBattles(bossList, bossTeam, heroInfo);
-  }, [bossList, bossTeam, heroInfo, loadedStatus.bossList]);
+    return processBattles(bossList, bossTeam, heroIcons);
+  }, [bossList, bossTeam, heroIcons, loadedStatus.bossList]);
 
   const chapters = useMemo(() => {
     const uniqueChapters = Array.from(new Set(battles.map((b) => b.chapter)));
@@ -129,6 +134,7 @@ export default function BattleLibrary() {
 
         <DataUploader
           onDataLoaded={handleDataLoaded}
+          onIconsLoaded={handleIconsLoaded}
           loadedStatus={loadedStatus}
           loadedCounts={loadedCounts}
         />
@@ -182,7 +188,7 @@ export default function BattleLibrary() {
                 <h3 className="text-lg font-medium mb-2">Загрузите данные для начала</h3>
                 <p className="text-sm text-muted-foreground max-w-md">
                   Загрузите таблицы Boss List и Boss Team чтобы увидеть библиотеку боёв.
-                  Hero Info добавит имена и иконки героев.
+                  Иконки загружаются отдельно из папок.
                 </p>
               </div>
             </CardContent>

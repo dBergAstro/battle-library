@@ -1,4 +1,5 @@
-import type { BossList, BossTeam, HeroInfo, ProcessedBattle, BattleType } from "@shared/schema";
+import type { BossList, BossTeam, ProcessedBattle, BattleType } from "@shared/schema";
+import { getHeroName } from "./heroNames";
 
 export function determineBattleType(heroId: number | undefined): BattleType {
   if (heroId && heroId >= 3999 && heroId <= 4999) {
@@ -10,10 +11,8 @@ export function determineBattleType(heroId: number | undefined): BattleType {
 export function processBattles(
   bossList: BossList[],
   bossTeam: BossTeam[],
-  heroInfo: HeroInfo[]
+  heroIcons: Map<number, string>
 ): ProcessedBattle[] {
-  const heroMap = new Map(heroInfo.map((h) => [h.id, h]));
-
   const battles: ProcessedBattle[] = bossList
     .filter((boss) => boss.id > 226)
     .map((boss) => {
@@ -24,11 +23,10 @@ export function processBattles(
         })
         .slice(0, 5)
         .map((t) => {
-          const hero = heroMap.get(t.heroId);
           return {
             heroId: t.heroId,
-            name: hero?.name || `Hero ${t.heroId}`,
-            icon: hero?.icon,
+            name: getHeroName(t.heroId),
+            icon: heroIcons.get(t.heroId),
           };
         });
 
@@ -174,27 +172,3 @@ export function validateBossTeam(data: Record<string, unknown>[]): ValidationRes
   return { valid: errors.length === 0, errors, warnings };
 }
 
-export function validateHeroInfo(data: Record<string, unknown>[]): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-
-  if (data.length === 0) {
-    errors.push("Данные пустые");
-    return { valid: false, errors, warnings };
-  }
-
-  const sample = data[0];
-  if (!("id" in sample)) {
-    errors.push("Отсутствует поле 'id'");
-  }
-  if (!("name" in sample)) {
-    errors.push("Отсутствует поле 'name'");
-  }
-
-  const hasIcon = "icon" in sample;
-  if (!hasIcon) {
-    warnings.push("Отсутствует поле 'icon' - иконки не будут отображаться");
-  }
-
-  return { valid: errors.length === 0, errors, warnings };
-}

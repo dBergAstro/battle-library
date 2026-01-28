@@ -2,37 +2,37 @@ import { useState, useCallback, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Upload, FileJson, CheckCircle2, AlertCircle, AlertTriangle, X, FolderOpen, FileText } from "lucide-react";
+import { Upload, FileJson, CheckCircle2, AlertCircle, AlertTriangle, X, FolderOpen, FileText, Image } from "lucide-react";
 import {
   parseCSV,
   parseJSON,
   validateBossList,
   validateBossTeam,
-  validateHeroInfo,
   type ValidationResult,
 } from "@/lib/battleUtils";
 
 interface DataUploaderProps {
   onDataLoaded: (
-    type: "bossList" | "bossTeam" | "bossLevel" | "heroInfo",
+    type: "bossList" | "bossTeam" | "bossLevel",
     data: Record<string, unknown>[]
   ) => void;
+  onIconsLoaded: (icons: Map<number, string>) => void;
   loadedStatus: {
     bossList: boolean;
     bossTeam: boolean;
     bossLevel: boolean;
-    heroInfo: boolean;
+    heroIcons: boolean;
   };
   loadedCounts: {
     bossList: number;
     bossTeam: number;
     bossLevel: number;
-    heroInfo: number;
+    heroIcons: number;
   };
 }
 
 interface TableConfig {
-  key: "bossList" | "bossTeam" | "bossLevel" | "heroInfo";
+  key: "bossList" | "bossTeam" | "bossLevel";
   title: string;
   description: string;
 }
@@ -53,23 +53,32 @@ const tables: TableConfig[] = [
     title: "Boss Level",
     description: "invasion_boss_list-boss_level",
   },
-  {
-    key: "heroInfo",
-    title: "Hero Info",
-    description: "Таблица имён и иконок героев",
-  },
 ];
 
-export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataUploaderProps) {
+interface IconFolderConfig {
+  key: string;
+  title: string;
+  description: string;
+}
+
+const iconFolders: IconFolderConfig[] = [
+  { key: "heroes", title: "Герои", description: "Иконки героев (id 1-99)" },
+  { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)" },
+  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)" },
+];
+
+export function DataUploader({ onDataLoaded, onIconsLoaded, loadedStatus, loadedCounts }: DataUploaderProps) {
   const [dragOver, setDragOver] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [warnings, setWarnings] = useState<Record<string, string[]>>({});
   const [schemas, setSchemas] = useState<Record<string, Record<string, unknown>>>({});
+  const [iconCounts, setIconCounts] = useState<Record<string, number>>({});
   const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const schemaInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const iconFolderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const validateData = (
-    tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo",
+    tableKey: "bossList" | "bossTeam" | "bossLevel",
     data: Record<string, unknown>[]
   ): ValidationResult => {
     switch (tableKey) {
@@ -77,15 +86,13 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
         return validateBossList(data);
       case "bossTeam":
         return validateBossTeam(data);
-      case "heroInfo":
-        return validateHeroInfo(data);
       default:
         return { valid: true, errors: [], warnings: [] };
     }
   };
 
   const handleFile = useCallback(
-    async (file: File, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
+    async (file: File, tableKey: "bossList" | "bossTeam" | "bossLevel") => {
       try {
         const text = await file.text();
         let data: Record<string, unknown>[];
@@ -151,7 +158,7 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
   );
 
   const handleDrop = useCallback(
-    (e: React.DragEvent, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
+    (e: React.DragEvent, tableKey: "bossList" | "bossTeam" | "bossLevel") => {
       e.preventDefault();
       setDragOver(null);
 
@@ -164,7 +171,7 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
   );
 
   const handleFileInput = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
+    (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel") => {
       const file = e.target.files?.[0];
       if (file) {
         handleFile(file, tableKey);
@@ -175,7 +182,7 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
   );
 
   const handleSchemaInput = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
+    async (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel") => {
       const file = e.target.files?.[0];
       if (!file) return;
 
@@ -212,7 +219,7 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
   );
 
   const handleFolderInput = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel" | "heroInfo") => {
+    async (e: React.ChangeEvent<HTMLInputElement>, tableKey: "bossList" | "bossTeam" | "bossLevel") => {
       const files = e.target.files;
       if (!files || files.length === 0) return;
 
@@ -294,6 +301,68 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
     [onDataLoaded]
   );
 
+  const handleIconFolderInput = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>, folderKey: string) => {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+
+      try {
+        const imageFiles = Array.from(files).filter((f) => 
+          f.type.startsWith("image/") || 
+          f.name.match(/\.(png|jpg|jpeg|gif|webp|svg)$/i)
+        );
+        
+        if (imageFiles.length === 0) {
+          setErrors((prev) => ({
+            ...prev,
+            [`icons_${folderKey}`]: "В папке не найдены изображения",
+          }));
+          return;
+        }
+
+        const icons = new Map<number, string>();
+        
+        for (const file of imageFiles) {
+          const match = file.name.match(/(\d+)/);
+          if (match) {
+            const heroId = parseInt(match[1], 10);
+            const url = URL.createObjectURL(file);
+            icons.set(heroId, url);
+          }
+        }
+
+        if (icons.size === 0) {
+          setErrors((prev) => ({
+            ...prev,
+            [`icons_${folderKey}`]: "Не удалось извлечь ID из имён файлов",
+          }));
+          return;
+        }
+
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors[`icons_${folderKey}`];
+          return newErrors;
+        });
+
+        setIconCounts((prev) => ({
+          ...prev,
+          [folderKey]: icons.size,
+        }));
+
+        onIconsLoaded(icons);
+      } catch (err) {
+        setErrors((prev) => ({
+          ...prev,
+          [`icons_${folderKey}`]: "Ошибка чтения папки с иконками",
+        }));
+      }
+      
+      e.target.value = "";
+    },
+    [onIconsLoaded]
+  );
+
   const requiredLoaded = loadedStatus.bossList && loadedStatus.bossTeam;
 
   return (
@@ -312,8 +381,8 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
           )}
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {tables.map((table) => (
             <div
               key={table.key}
@@ -332,30 +401,28 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
               onDrop={(e) => handleDrop(e, table.key)}
               data-testid={`dropzone-${table.key}`}
             >
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className="font-medium text-sm">{table.title}</span>
-                    {schemas[table.key] && (
-                      <Badge variant="outline" className="text-xs py-0">
-                        <FileText className="h-3 w-3 mr-1" />
-                        Структура
-                      </Badge>
-                    )}
-                    {loadedStatus[table.key] && (
-                      <>
-                        <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
-                        <span className="text-xs text-muted-foreground">
-                          ({loadedCounts[table.key]} записей)
-                        </span>
-                      </>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground truncate">
-                    {table.description}
-                  </p>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <span className="font-medium text-sm">{table.title}</span>
+                  {schemas[table.key] && (
+                    <Badge variant="outline" className="text-xs py-0">
+                      <FileText className="h-3 w-3 mr-1" />
+                      Структура
+                    </Badge>
+                  )}
+                  {loadedStatus[table.key] && (
+                    <>
+                      <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+                      <span className="text-xs text-muted-foreground">
+                        ({loadedCounts[table.key]} записей)
+                      </span>
+                    </>
+                  )}
                 </div>
-                <div className="flex gap-1 flex-wrap">
+                <p className="text-xs text-muted-foreground truncate">
+                  {table.description}
+                </p>
+                <div className="flex gap-1 flex-wrap mt-1">
                   <input
                     type="file"
                     accept=".json"
@@ -450,10 +517,75 @@ export function DataUploader({ onDataLoaded, loadedStatus, loadedCounts }: DataU
           ))}
         </div>
 
-        <p className="text-xs text-muted-foreground mt-4 text-center">
-          <strong>Структура</strong> — файл описания таблицы (columns). <strong>Файл</strong> — CSV/JSON с данными. <strong>Папка</strong> — папка с отдельными JSON-файлами.
-          <br />
-          <span className="text-primary">Boss List</span> и <span className="text-primary">Boss Team</span> обязательны.
+        <div className="border-t pt-4">
+          <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+            <Image className="h-4 w-4 text-primary" />
+            Иконки персонажей
+            {loadedStatus.heroIcons && (
+              <span className="text-xs text-muted-foreground font-normal">
+                ({loadedCounts.heroIcons} загружено)
+              </span>
+            )}
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {iconFolders.map((folder) => (
+              <div
+                key={folder.key}
+                className={`relative border rounded-md p-3 transition-all ${
+                  iconCounts[folder.key]
+                    ? "border-green-500/50 bg-green-500/5"
+                    : "border-border hover:border-primary/50"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-sm">{folder.title}</span>
+                      {iconCounts[folder.key] && (
+                        <>
+                          <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+                          <span className="text-xs text-muted-foreground">
+                            ({iconCounts[folder.key]})
+                          </span>
+                        </>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground">{folder.description}</p>
+                  </div>
+                  <input
+                    type="file"
+                    ref={(el) => (iconFolderInputRefs.current[folder.key] = el)}
+                    className="hidden"
+                    onChange={(e) => handleIconFolderInput(e, folder.key)}
+                    data-testid={`input-icons-${folder.key}`}
+                    {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
+                  />
+                  <Button
+                    size="sm"
+                    variant={iconCounts[folder.key] ? "secondary" : "outline"}
+                    className="cursor-pointer"
+                    onClick={() => iconFolderInputRefs.current[folder.key]?.click()}
+                    data-testid={`button-icons-${folder.key}`}
+                  >
+                    <FolderOpen className="h-3 w-3 mr-1" />
+                    Папка
+                  </Button>
+                </div>
+
+                {errors[`icons_${folder.key}`] && (
+                  <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                    <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                    <span className="flex-1">{errors[`icons_${folder.key}`]}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-xs text-muted-foreground text-center">
+          <span className="text-primary">Boss List</span> и <span className="text-primary">Boss Team</span> обязательны. 
+          Имена героев встроены. Иконки загружаются из папок по ID в имени файла.
         </p>
       </CardContent>
     </Card>
