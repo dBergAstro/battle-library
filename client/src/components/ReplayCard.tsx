@@ -86,17 +86,19 @@ export function ReplayCard({ replay }: ReplayCardProps) {
                     <Tooltip key={skillIdx}>
                       <TooltipTrigger asChild>
                         {skill.icon ? (
-                          <Avatar className="h-5 w-5">
+                          <Avatar className={`h-5 w-5 ring-1 ${GRADE_COLORS[skill.grade]}`}>
                             <AvatarImage src={skill.icon} alt={skill.name} />
                             <AvatarFallback className="text-[6px]">{skill.name.slice(0, 1)}</AvatarFallback>
                           </Avatar>
                         ) : (
-                          <span className="text-muted-foreground">{skill.skillId}</span>
+                          <span className={`${skill.grade === "red" ? "text-red-500" : skill.grade === "orange" ? "text-orange-500" : "text-purple-500"}`}>
+                            {skill.skillId}
+                          </span>
                         )}
                       </TooltipTrigger>
                       <TooltipContent side="top" className="text-xs">
                         <p className="font-medium">{skill.name}</p>
-                        <p className="text-muted-foreground">ID: {skill.skillId}</p>
+                        <p className="text-muted-foreground">Уровень: {skill.level}</p>
                       </TooltipContent>
                     </Tooltip>
                   ))}

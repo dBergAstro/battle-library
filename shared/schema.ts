@@ -188,10 +188,12 @@ export interface TotemInfo {
 // Грейд персонажа по фрагментам
 export type FragmentGrade = "purple" | "orange" | "red"; // 1-2, 3-6, 7+
 
-// Структура скилов тотема
+// Структура скилов тотема (skillId -> level)
 export interface SpiritTotemSkills {
-  elemental?: number;
+  elemental?: number; // skillId или {skillId: level}
   primal?: number;
+  elementalLevel?: number; // уровень elemental скила
+  primalLevel?: number; // уровень primal скила
 }
 
 // Структура spirits в defendersFragments
@@ -229,6 +231,8 @@ export interface ProcessedSpiritSkill {
   skillId: number;
   name: string;
   icon?: string;
+  level: number; // уровень скила (1-7+)
+  grade: FragmentGrade; // грейд по уровню
 }
 
 // Обработанный тотем со скилами

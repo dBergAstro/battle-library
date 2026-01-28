@@ -84,18 +84,24 @@ function processSpirits(
     const skills: ProcessedSpiritSkill[] = [];
     
     if (totem.elemental) {
+      const level = totem.elementalLevel ?? 1;
       skills.push({
         skillId: totem.elemental,
         name: skillNameMap.get(totem.elemental) || `Скил ${totem.elemental}`,
         icon: skillIconMap.get(totem.elemental),
+        level,
+        grade: getFragmentGrade(level),
       });
     }
     
     if (totem.primal) {
+      const level = totem.primalLevel ?? 1;
       skills.push({
         skillId: totem.primal,
         name: skillNameMap.get(totem.primal) || `Скил ${totem.primal}`,
         icon: skillIconMap.get(totem.primal),
+        level,
+        grade: getFragmentGrade(level),
       });
     }
     
