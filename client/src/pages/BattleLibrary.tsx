@@ -6,6 +6,7 @@ import { BattleCard } from "@/components/BattleCard";
 import { ReplayCard } from "@/components/ReplayCard";
 import { BattleFilters, type SourceFilter } from "@/components/BattleFilters";
 import { CollectionSidebar, type CollectedItem } from "@/components/CollectionSidebar";
+import { AddToCollectionModal } from "@/components/AddToCollectionModal";
 import { Library, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
 import { 
   processBattlesFromServer, 
@@ -52,9 +53,10 @@ export default function BattleLibrary() {
   const [battleNumberFilters, setBattleNumberFilters] = useState<string[]>([]);
   const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
   
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collectionOpen, setCollectionOpen] = useState(false);
   const [collectedItems, setCollectedItems] = useState<Map<string, CollectedItem>>(new Map());
-  const [draggedItem, setDraggedItem] = useState<CollectedItem | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [itemToAdd, setItemToAdd] = useState<CollectedItem | null>(null);
 
   const collectedIds = useMemo(() => {
     const ids = new Set<string>();
@@ -62,53 +64,18 @@ export default function BattleLibrary() {
     return ids;
   }, [collectedItems]);
 
-  const handleBattleDragStart = useCallback((battle: ProcessedBattle) => {
-    const item: CollectedItem = {
-      id: `battle-${battle.id}`,
-      type: "battle",
-      gameId: battle.gameId,
-      label: battle.originalLabel,
-      desc: battle.battleNumber,
-      battleType: battle.type,
-      team: battle.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
-    };
-    setDraggedItem(item);
-    setSidebarOpen(true);
+  const handleAddToCollection = useCallback((item: CollectedItem) => {
+    setItemToAdd(item);
+    setModalOpen(true);
   }, []);
 
-  const handleReplayDragStart = useCallback((replay: ProcessedReplay) => {
-    const item: CollectedItem = {
-      id: `replay-${replay.id}`,
-      type: "replay",
-      gameId: replay.gameId,
-      label: `Глава ${replay.chapter}`,
-      desc: `Бой ${replay.level}`,
-      battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
-      team: replay.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
-      rawDefendersFragments: replay.rawDefendersFragments,
-    };
-    setDraggedItem(item);
-    setSidebarOpen(true);
-  }, []);
-
-  const handleDragEnd = useCallback(() => {
-    setDraggedItem(null);
-  }, []);
-
-  const handleDropItem = useCallback((chapterIndex: number, slotIndex: number, item: CollectedItem) => {
+  const handleConfirmAdd = useCallback((chapterIndex: number, slotIndex: number, item: CollectedItem) => {
     const slotKey = `${chapterIndex}-${slotIndex}`;
     setCollectedItems((prev) => {
       const next = new Map(prev);
-      const entries = Array.from(next.entries());
-      for (const [key, existingItem] of entries) {
-        if (existingItem.id === item.id) {
-          next.delete(key);
-        }
-      }
       next.set(slotKey, item);
       return next;
     });
-    setDraggedItem(null);
   }, []);
 
   const handleRemoveItem = useCallback((slotKey: string) => {
@@ -167,11 +134,9 @@ export default function BattleLibrary() {
     return Array.from(uniqueNumbers).sort((a, b) => a - b).map(n => n.toString());
   }, [battles, replays]);
 
-  // Объединённый и отсортированный список боёв и записей
   const combinedList = useMemo<ListItem[]>(() => {
     const items: ListItem[] = [];
     
-    // Добавляем бои
     for (const battle of battles) {
       const level = extractBattleNumber(battle.battleNumber) ?? 0;
       items.push({
@@ -182,7 +147,6 @@ export default function BattleLibrary() {
       });
     }
     
-    // Добавляем записи
     for (const replay of replays) {
       items.push({
         type: "replay",
@@ -192,11 +156,9 @@ export default function BattleLibrary() {
       });
     }
     
-    // Сортируем по главе, затем по номеру боя
     return items.sort((a, b) => {
       if (a.chapter !== b.chapter) return a.chapter - b.chapter;
       if (a.level !== b.level) return a.level - b.level;
-      // Бои перед записями при одинаковых chapter/level
       if (a.type !== b.type) return a.type === "battle" ? -1 : 1;
       return 0;
     });
@@ -205,7 +167,6 @@ export default function BattleLibrary() {
   const filteredList = useMemo(() => {
     let result = combinedList;
 
-    // Фильтр по источнику (бои/записи) - массив
     if (sourceFilters.length > 0) {
       result = result.filter((item) => {
         if (sourceFilters.includes("battles") && item.type === "battle") return true;
@@ -230,7 +191,6 @@ export default function BattleLibrary() {
       });
     }
 
-    // Фильтр по типу - массив
     if (typeFilters.length > 0) {
       result = result.filter((item) => {
         if (item.type === "battle") {
@@ -242,12 +202,10 @@ export default function BattleLibrary() {
       });
     }
 
-    // Фильтр по главам - массив
     if (chapterFilters.length > 0) {
       result = result.filter((item) => chapterFilters.includes(item.chapter.toString()));
     }
 
-    // Фильтр по номеру боя - массив
     if (battleNumberFilters.length > 0) {
       result = result.filter((item) => battleNumberFilters.includes(item.level.toString()));
     }
@@ -301,13 +259,23 @@ export default function BattleLibrary() {
   return (
     <div className="min-h-screen bg-background">
       <CollectionSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        isOpen={collectionOpen}
+        onToggle={() => setCollectionOpen(!collectionOpen)}
         collectedItems={collectedItems}
         onRemoveItem={handleRemoveItem}
-        onDropItem={handleDropItem}
-        draggedItem={draggedItem}
       />
+      
+      <AddToCollectionModal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setItemToAdd(null);
+        }}
+        itemToAdd={itemToAdd}
+        collectedItems={collectedItems}
+        onAddItem={handleConfirmAdd}
+      />
+
       <div className="container max-w-[1600px] mx-auto px-4 py-6 space-y-6">
         <header className="space-y-3">
           <div className="flex items-center gap-3">
@@ -383,16 +351,14 @@ export default function BattleLibrary() {
                           key={`battle-${item.data.id}`} 
                           battle={item.data} 
                           isCollected={collectedIds.has(`battle-${item.data.id}`)}
-                          onDragStart={handleBattleDragStart}
-                          onDragEnd={handleDragEnd}
+                          onAddToCollection={handleAddToCollection}
                         />
                       ) : (
                         <ReplayCard 
                           key={`replay-${item.data.id}`} 
                           replay={item.data} 
                           isCollected={collectedIds.has(`replay-${item.data.id}`)}
-                          onDragStart={handleReplayDragStart}
-                          onDragEnd={handleDragEnd}
+                          onAddToCollection={handleAddToCollection}
                         />
                       )
                     )}

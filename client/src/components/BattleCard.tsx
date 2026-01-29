@@ -1,46 +1,44 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Swords, Shield, Zap, GripVertical } from "lucide-react";
+import { Swords, Shield, Zap, Plus } from "lucide-react";
 import type { ProcessedBattle } from "@shared/schema";
 import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
 import { cn } from "@/lib/utils";
+import type { CollectedItem } from "./CollectionSidebar";
 
 interface BattleCardProps {
   battle: ProcessedBattle;
   isCollected?: boolean;
-  onDragStart?: (battle: ProcessedBattle) => void;
-  onDragEnd?: () => void;
+  onAddToCollection?: (item: CollectedItem) => void;
 }
 
-export function BattleCard({ battle, isCollected, onDragStart, onDragEnd }: BattleCardProps) {
+export function BattleCard({ battle, isCollected, onAddToCollection }: BattleCardProps) {
   const isHeroic = battle.type === "heroic";
 
-  const handleDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("application/json", JSON.stringify({
-      id: `battle-${battle.id}`,
-      type: "battle",
-      gameId: battle.gameId,
-      label: battle.originalLabel,
-      desc: battle.battleNumber,
-      battleType: battle.type,
-      team: battle.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
-    }));
-    onDragStart?.(battle);
+  const handleAddToCollection = () => {
+    if (onAddToCollection && !isCollected) {
+      const item: CollectedItem = {
+        id: `battle-${battle.id}`,
+        type: "battle",
+        gameId: battle.gameId,
+        label: battle.originalLabel,
+        desc: battle.battleNumber,
+        battleType: battle.type,
+        team: battle.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
+      };
+      onAddToCollection(item);
+    }
   };
 
   return (
     <Card
       className={cn(
         "hover-elevate border-card-border transition-all",
-        isCollected && "ring-2 ring-primary/50 bg-primary/5 opacity-50",
-        !isCollected && "cursor-grab active:cursor-grabbing"
+        isCollected && "ring-2 ring-primary/50 bg-primary/5 opacity-60"
       )}
-      draggable={!isCollected}
-      onDragStart={handleDragStart}
-      onDragEnd={onDragEnd}
       data-testid={`card-battle-${battle.id}`}
     >
       <CardContent className="p-4">
@@ -117,6 +115,25 @@ export function BattleCard({ battle, isCollected, onDragStart, onDragEnd }: Batt
               </Tooltip>
             )}
           </div>
+          
+          {onAddToCollection && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant={isCollected ? "secondary" : "outline"}
+                  size="icon"
+                  disabled={isCollected}
+                  onClick={handleAddToCollection}
+                  data-testid={`button-add-battle-${battle.id}`}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="text-xs">
+                {isCollected ? "Уже в коллекции" : "Добавить в коллекцию"}
+              </TooltipContent>
+            </Tooltip>
+          )}
         </div>
 
         <div className="flex items-center gap-1">

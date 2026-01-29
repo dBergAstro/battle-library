@@ -4,19 +4,19 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { PlayCircle, Copy, Check, GripVertical } from "lucide-react";
+import { PlayCircle, Copy, Check, Plus } from "lucide-react";
 import type { ProcessedReplay } from "@shared/schema";
 import { GRADE_COLORS } from "@/lib/replayUtils";
 import { cn } from "@/lib/utils";
+import type { CollectedItem } from "./CollectionSidebar";
 
 interface ReplayCardProps {
   replay: ProcessedReplay;
   isCollected?: boolean;
-  onDragStart?: (replay: ProcessedReplay) => void;
-  onDragEnd?: () => void;
+  onAddToCollection?: (item: CollectedItem) => void;
 }
 
-export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: ReplayCardProps) {
+export function ReplayCard({ replay, isCollected, onAddToCollection }: ReplayCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -29,31 +29,28 @@ export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: Repl
     }
   };
 
-  const handleDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("application/json", JSON.stringify({
-      id: `replay-${replay.id}`,
-      type: "replay",
-      gameId: replay.gameId,
-      label: `Глава ${replay.chapter}`,
-      desc: `Бой ${replay.level}`,
-      battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
-      team: replay.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
-      rawDefendersFragments: replay.rawDefendersFragments,
-    }));
-    onDragStart?.(replay);
+  const handleAddToCollection = () => {
+    if (onAddToCollection && !isCollected) {
+      const item: CollectedItem = {
+        id: `replay-${replay.id}`,
+        type: "replay",
+        gameId: replay.gameId,
+        label: `Глава ${replay.chapter}`,
+        desc: `Бой ${replay.level}`,
+        battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
+        team: replay.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
+        rawDefendersFragments: replay.rawDefendersFragments,
+      };
+      onAddToCollection(item);
+    }
   };
 
   return (
     <Card
       className={cn(
         "hover-elevate border-card-border",
-        isCollected && "ring-2 ring-primary/50 bg-primary/5 opacity-50",
-        !isCollected && "cursor-grab active:cursor-grabbing"
+        isCollected && "ring-2 ring-primary/50 bg-primary/5 opacity-60"
       )}
-      draggable={!isCollected}
-      onDragStart={handleDragStart}
-      onDragEnd={onDragEnd}
       data-testid={`card-replay-${replay.id}`}
     >
       <CardContent className="p-4">
@@ -80,28 +77,48 @@ export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: Repl
             </h3>
           </div>
           
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleCopy}
-                data-testid={`button-copy-${replay.id}`}
-              >
-                {copied ? (
-                  <Check className="h-4 w-4 text-green-500" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top" className="text-xs">
-              {copied ? "Скопировано!" : "Копировать defendersFragments"}
-            </TooltipContent>
-          </Tooltip>
+          <div className="flex items-center gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleCopy}
+                  data-testid={`button-copy-${replay.id}`}
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4 text-green-500" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                {copied ? "Скопировано!" : "Копировать defendersFragments"}
+              </TooltipContent>
+            </Tooltip>
+            
+            {onAddToCollection && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={isCollected ? "secondary" : "outline"}
+                    size="icon"
+                    disabled={isCollected}
+                    onClick={handleAddToCollection}
+                    data-testid={`button-add-replay-${replay.id}`}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="text-xs">
+                  {isCollected ? "Уже в коллекции" : "Добавить в коллекцию"}
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
         </div>
 
-        {/* Тотемы над составом (только для титанов) */}
         {replay.totems && replay.totems.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-2">
             {replay.totems.map((totem, idx) => (
@@ -134,7 +151,6 @@ export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: Repl
           </div>
         )}
 
-        {/* Блок команды */}
         <div className="flex items-start gap-1">
           {replay.mainPetIcon && (
             <Tooltip>
@@ -153,7 +169,6 @@ export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: Repl
             </Tooltip>
           )}
           
-          {/* Герои с питомцами покровительства в колонках */}
           <div className="flex gap-1">
             {replay.team.map((member, idx) => (
               <div key={`${replay.id}-${member.heroId}-${idx}`} className="flex flex-col items-center gap-0.5">
@@ -177,7 +192,6 @@ export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: Repl
                   </TooltipContent>
                 </Tooltip>
                 
-                {/* Питомец покровительства под героем */}
                 {replay.team.some(m => m.favorPetIcon) && (
                   member.favorPetIcon ? (
                     <Tooltip>
