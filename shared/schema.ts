@@ -224,6 +224,7 @@ export interface ProcessedReplayMember {
   grade: FragmentGrade;
   favorPetId?: number; // питомец в покровительстве
   favorPetIcon?: string;
+  favorPetName?: string;
 }
 
 // Обработанный скил тотема

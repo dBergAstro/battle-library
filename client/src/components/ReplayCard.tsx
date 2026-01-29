@@ -162,8 +162,8 @@ export function ReplayCard({ replay }: ReplayCardProps) {
                         </Avatar>
                       </TooltipTrigger>
                       <TooltipContent side="bottom" className="text-xs">
-                        <p className="font-medium">Покровительство</p>
-                        <p className="text-muted-foreground">Питомец: {member.favorPetId}</p>
+                        <p className="font-medium">{member.favorPetName || `Питомец ${member.favorPetId}`}</p>
+                        <p className="text-muted-foreground">Покровительство</p>
                       </TooltipContent>
                     </Tooltip>
                   ) : (

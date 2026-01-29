@@ -161,6 +161,7 @@ export function processReplaysFromServer(
           grade: getFragmentGrade(fragmentCount),
           favorPetId,
           favorPetIcon: favorPetId ? petIconMap.get(favorPetId) : undefined,
+          favorPetName: favorPetId ? getHeroNameFn(favorPetId) : undefined,
         };
       });
 
