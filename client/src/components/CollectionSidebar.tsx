@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, ChevronDown, X, Copy, Check } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -62,9 +62,20 @@ function SlotContent({ item, slotKey, onRemove }: {
   return (
     <div className="flex flex-col items-center gap-1 w-full h-full p-1.5">
       <div className="flex items-center justify-between w-full">
-        <span className="text-xs font-mono font-semibold text-foreground">
-          #{item.gameId}
-        </span>
+        {item.type === "battle" ? (
+          <span className="text-xs font-mono font-semibold text-foreground">
+            #{item.gameId}
+          </span>
+        ) : (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <AlertCircle className="h-4 w-4 text-amber-500 cursor-help" />
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[200px] text-xs">
+              Создайте новый бой и скопируйте туда defendersFragments из записи
+            </TooltipContent>
+          </Tooltip>
+        )}
         <div className="flex items-center gap-0.5">
           {item.type === "replay" && item.rawDefendersFragments && (
             <Button
