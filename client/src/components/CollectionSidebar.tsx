@@ -60,9 +60,9 @@ function SlotContent({ item, slotKey, onRemove }: {
   };
 
   return (
-    <div className="flex flex-col items-center gap-1 w-full h-full p-1">
+    <div className="flex flex-col items-center gap-1 w-full h-full p-1.5">
       <div className="flex items-center justify-between w-full">
-        <span className="text-[10px] font-mono font-semibold text-foreground">
+        <span className="text-xs font-mono font-semibold text-foreground">
           #{item.gameId}
         </span>
         <div className="flex items-center gap-0.5">
@@ -70,25 +70,25 @@ function SlotContent({ item, slotKey, onRemove }: {
             <Button
               size="icon"
               variant="ghost"
-              className="h-4 w-4"
+              className="h-5 w-5"
               onClick={handleCopy}
               data-testid={`button-copy-${slotKey}`}
             >
               {copied ? (
-                <Check className="h-2.5 w-2.5 text-green-500" />
+                <Check className="h-3 w-3 text-green-500" />
               ) : (
-                <Copy className="h-2.5 w-2.5" />
+                <Copy className="h-3 w-3" />
               )}
             </Button>
           )}
           <Button
             size="icon"
             variant="ghost"
-            className="h-4 w-4"
+            className="h-5 w-5"
             onClick={handleRemove}
             data-testid={`button-remove-${slotKey}`}
           >
-            <X className="h-2.5 w-2.5" />
+            <X className="h-3 w-3" />
           </Button>
         </div>
       </div>
@@ -97,9 +97,9 @@ function SlotContent({ item, slotKey, onRemove }: {
         {item.team.slice(0, 5).map((member, idx) => (
           <Tooltip key={`${slotKey}-member-${idx}`}>
             <TooltipTrigger asChild>
-              <Avatar className="h-5 w-5 border border-border">
+              <Avatar className="h-7 w-7 border border-border">
                 <AvatarImage src={member.icon} alt={member.name} />
-                <AvatarFallback className="text-[6px]">
+                <AvatarFallback className="text-[8px]">
                   {member.name.substring(0, 2)}
                 </AvatarFallback>
               </Avatar>
@@ -140,7 +140,7 @@ export function CollectionSidebar({
         variant="outline"
         className={cn(
           "fixed left-1/2 -translate-x-1/2 z-[9999] rounded-t-none shadow-lg bg-card gap-1",
-          isOpen ? "top-[180px]" : "top-0"
+          isOpen ? "top-[240px]" : "top-0"
         )}
         onClick={onToggle}
         data-testid="button-toggle-collection"
@@ -154,15 +154,15 @@ export function CollectionSidebar({
           "fixed left-0 right-0 top-0 bg-card border-b border-border z-[9998] shadow-lg transition-transform duration-150",
           isOpen ? "translate-y-0" : "-translate-y-full"
         )}
-        style={{ height: "180px" }}
+        style={{ height: "240px" }}
       >
-        <div className="flex items-center justify-between px-4 py-2 border-b border-border">
+        <div className="flex items-center justify-between px-4 py-1.5 border-b border-border">
           <h2 className="font-semibold text-sm">Коллекция боёв</h2>
           <Badge variant="secondary" className="text-xs">{collectedItems.size} / {CHAPTERS * SLOTS_PER_CHAPTER}</Badge>
         </div>
 
-        <ScrollArea className="w-full h-[calc(180px-40px)]">
-          <div className="flex gap-3 p-3">
+        <ScrollArea className="w-full h-[calc(240px-36px)]">
+          <div className="flex gap-2 p-2">
             {Array.from({ length: CHAPTERS }, (_, chapterIndex) => {
               const itemCount = getChapterItemCount(chapterIndex);
 
@@ -170,19 +170,19 @@ export function CollectionSidebar({
                 <div
                   key={chapterIndex}
                   className="flex-shrink-0 border border-border rounded-md overflow-hidden bg-background"
-                  style={{ minWidth: "280px" }}
+                  style={{ minWidth: "320px" }}
                 >
                   <div className="flex items-center justify-between px-2 py-1 bg-muted/50">
-                    <span className="font-medium text-xs">Глава {chapterIndex + 1}</span>
+                    <span className="font-medium text-sm">Глава {chapterIndex + 1}</span>
                     <Badge 
                       variant={itemCount > 0 ? "default" : "secondary"} 
-                      className="text-[10px] px-1.5 py-0"
+                      className="text-xs"
                     >
                       {itemCount}/{SLOTS_PER_CHAPTER}
                     </Badge>
                   </div>
 
-                  <div className="grid grid-cols-4 gap-1 p-1">
+                  <div className="grid grid-cols-4 gap-1.5 p-1.5">
                     {Array.from({ length: SLOTS_PER_CHAPTER }, (_, slotIndex) => {
                       const slotKey = getChapterSlotKey(chapterIndex, slotIndex);
                       const item = collectedItems.get(slotKey);
@@ -191,7 +191,7 @@ export function CollectionSidebar({
                         <div
                           key={slotIndex}
                           className={cn(
-                            "flex items-center justify-center rounded border border-dashed min-h-[48px] transition-colors",
+                            "flex items-center justify-center rounded border border-dashed min-h-[70px] transition-colors",
                             item
                               ? "border-border bg-muted/30 border-solid"
                               : "border-muted-foreground/30"
@@ -205,7 +205,7 @@ export function CollectionSidebar({
                               onRemove={() => onRemoveItem(slotKey)} 
                             />
                           ) : (
-                            <span className="text-[10px] text-muted-foreground/50">
+                            <span className="text-xs text-muted-foreground/50">
                               {slotIndex + 1}
                             </span>
                           )}

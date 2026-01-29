@@ -278,7 +278,7 @@ export default function BattleLibrary() {
 
       <div 
         className="container max-w-[1600px] mx-auto px-4 py-6 space-y-6 transition-all duration-150"
-        style={{ marginTop: collectionOpen ? "180px" : "0" }}
+        style={{ marginTop: collectionOpen ? "200px" : "0" }}
       >
         <header className="space-y-3">
           <div className="flex items-center gap-3">
