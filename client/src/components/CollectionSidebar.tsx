@@ -220,15 +220,6 @@ export function CollectionSidebar({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 z-[9997]"
-          style={{ top: "180px" }}
-          onClick={onToggle}
-          data-testid="collection-overlay"
-        />
-      )}
     </>
   );
 }

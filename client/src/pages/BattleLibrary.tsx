@@ -276,7 +276,10 @@ export default function BattleLibrary() {
         onAddItem={handleConfirmAdd}
       />
 
-      <div className="container max-w-[1600px] mx-auto px-4 py-6 space-y-6">
+      <div 
+        className="container max-w-[1600px] mx-auto px-4 py-6 space-y-6 transition-all duration-150"
+        style={{ marginTop: collectionOpen ? "180px" : "0" }}
+      >
         <header className="space-y-3">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
