@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2, ArrowUp } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2, ArrowUp, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -204,6 +204,55 @@ export function CollectionSidebar({
     return maxBossId + 1;
   };
 
+  // Export collection to JSON format
+  const handleExportCollection = () => {
+    const result: Record<string, string | number> = {};
+    let bossIndex = 1;
+    
+    for (let ch = 0; ch < CHAPTERS; ch++) {
+      // Add chapter header
+      result[`__VAR_CHAPTER_${ch + 1}`] = `Бои ${ch + 1} главы`;
+      
+      for (let sl = 0; sl < SLOTS_PER_CHAPTER; sl++) {
+        const key = `${ch}-${sl}`;
+        const item = collectedItems.get(key);
+        
+        if (item?.type === "replay") {
+          // For replays, use recommended ID
+          result[`boss_${bossIndex}`] = getReplayRecommendedId(key);
+        } else if (item) {
+          // For battles, use gameId
+          result[`boss_${bossIndex}`] = item.gameId;
+        } else {
+          // Empty slot - use 0 or skip
+          result[`boss_${bossIndex}`] = 0;
+        }
+        bossIndex++;
+      }
+    }
+    
+    // Format JSON with proper indentation
+    const jsonString = JSON.stringify(result, null, 3);
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(jsonString).then(() => {
+      // Could add a toast notification here
+    }).catch(err => {
+      console.error("Failed to copy:", err);
+    });
+    
+    // Also download as file
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "collection_export.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
       <div 
@@ -221,22 +270,40 @@ export function CollectionSidebar({
           <span className="text-xs">Коллекция ({collectedItems.size})</span>
         </Button>
         {collectedItems.size > 0 && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="sm"
-                variant="outline"
-                className="rounded-t-none shadow-lg bg-card"
-                onClick={onClearCollection}
-                data-testid="button-clear-collection"
-              >
-                <Trash2 className="h-4 w-4 text-destructive" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="text-xs">
-              Очистить коллекцию
-            </TooltipContent>
-          </Tooltip>
+          <>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="rounded-t-none shadow-lg bg-card"
+                  onClick={handleExportCollection}
+                  data-testid="button-export-collection"
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">
+                Экспорт коллекции
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="rounded-t-none shadow-lg bg-card"
+                  onClick={onClearCollection}
+                  data-testid="button-clear-collection"
+                >
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">
+                Очистить коллекцию
+              </TooltipContent>
+            </Tooltip>
+          </>
         )}
       </div>
 
