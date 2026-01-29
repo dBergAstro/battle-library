@@ -277,7 +277,7 @@ export default function BattleLibrary() {
       />
 
       <div 
-        className="container max-w-[1600px] mx-auto px-4 py-6 space-y-6 transition-all duration-150"
+        className="container max-w-[1600px] mx-auto px-4 py-4 space-y-4 transition-all duration-150"
         style={{ marginTop: collectionOpen ? "200px" : "0" }}
       >
         <header className="space-y-3">

@@ -140,7 +140,7 @@ export function CollectionSidebar({
         variant="outline"
         className={cn(
           "fixed left-1/2 -translate-x-1/2 z-[9999] rounded-t-none shadow-lg bg-card gap-1",
-          isOpen ? "top-[240px]" : "top-0"
+          isOpen ? "top-[200px]" : "top-0"
         )}
         onClick={onToggle}
         data-testid="button-toggle-collection"
@@ -154,14 +154,9 @@ export function CollectionSidebar({
           "fixed left-0 right-0 top-0 bg-card border-b border-border z-[9998] shadow-lg transition-transform duration-150",
           isOpen ? "translate-y-0" : "-translate-y-full"
         )}
-        style={{ height: "240px" }}
+        style={{ height: "200px" }}
       >
-        <div className="flex items-center justify-between px-4 py-1.5 border-b border-border">
-          <h2 className="font-semibold text-sm">Коллекция боёв</h2>
-          <Badge variant="secondary" className="text-xs">{collectedItems.size} / {CHAPTERS * SLOTS_PER_CHAPTER}</Badge>
-        </div>
-
-        <ScrollArea className="w-full h-[calc(240px-36px)]">
+        <ScrollArea className="w-full h-full">
           <div className="flex gap-2 p-2">
             {Array.from({ length: CHAPTERS }, (_, chapterIndex) => {
               const itemCount = getChapterItemCount(chapterIndex);
