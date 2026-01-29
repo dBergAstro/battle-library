@@ -167,6 +167,7 @@ export function processReplaysFromServer(
 
       const mainPetId = defenders.petId;
       const mainPetIcon = mainPetId ? petIconMap.get(mainPetId) : undefined;
+      const mainPetName = mainPetId ? getHeroNameFn(mainPetId) : undefined;
       
       // Обработка тотемов со скилами
       const totems = processSpirits(defenders.spirits, skillNameMap, skillIconMap);
@@ -181,6 +182,7 @@ export function processReplaysFromServer(
         comment: team.comment ?? undefined,
         mainPetId,
         mainPetIcon,
+        mainPetName,
         team: teamMembers,
         totems: totems.length > 0 ? totems : undefined,
         rawDefendersFragments: team.defendersFragments!,

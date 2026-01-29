@@ -254,6 +254,7 @@ export interface ProcessedReplay {
   comment?: string;
   mainPetId?: number;
   mainPetIcon?: string;
+  mainPetName?: string;
   team: ProcessedReplayMember[];
   totems?: ProcessedTotem[]; // тотемы со скилами для титанов
   rawDefendersFragments: string; // оригинальный JSON для копирования

@@ -121,8 +121,8 @@ export function ReplayCard({ replay }: ReplayCardProps) {
                 </div>
               </TooltipTrigger>
               <TooltipContent side="top" className="text-xs">
-                <p className="font-medium">Основной питомец</p>
-                <p className="text-muted-foreground">ID: {replay.mainPetId}</p>
+                <p className="font-medium">{replay.mainPetName || `Питомец ${replay.mainPetId}`}</p>
+                <p className="text-muted-foreground">Основной питомец</p>
               </TooltipContent>
             </Tooltip>
           )}
