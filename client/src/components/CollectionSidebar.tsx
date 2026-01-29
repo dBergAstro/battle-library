@@ -154,6 +154,16 @@ export function CollectionSidebar({
     return count;
   };
 
+  const isChapterTitanic = (chapterIndex: number): boolean => {
+    for (let i = 0; i < SLOTS_PER_CHAPTER; i++) {
+      const item = collectedItems.get(getChapterSlotKey(chapterIndex, i));
+      if (item?.battleType === "titanic") {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Calculate recommended IDs for replays in order of their position
   const getReplayRecommendedId = (slotKey: string): number => {
     let replayIndex = 0;
@@ -198,14 +208,32 @@ export function CollectionSidebar({
             {Array.from({ length: CHAPTERS }, (_, chapterIndex) => {
               const itemCount = getChapterItemCount(chapterIndex);
 
+              const isTitanic = isChapterTitanic(chapterIndex);
+
               return (
                 <div
                   key={chapterIndex}
                   className="flex-shrink-0 border border-border rounded-md overflow-hidden bg-background"
                   style={{ minWidth: "320px" }}
                 >
-                  <div className="flex items-center justify-between px-2 py-1 bg-muted/50">
-                    <span className="font-medium text-sm">Глава {chapterIndex + 1}</span>
+                  <div className={cn(
+                    "flex items-center justify-between px-2 py-1",
+                    isTitanic ? "bg-amber-500/20" : "bg-muted/50"
+                  )}>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-sm">Глава {chapterIndex + 1}</span>
+                      {itemCount > 0 && (
+                        <Badge 
+                          variant="outline" 
+                          className={cn(
+                            "text-[10px] px-1.5 py-0",
+                            isTitanic ? "border-amber-500 text-amber-500" : "border-blue-500 text-blue-500"
+                          )}
+                        >
+                          {isTitanic ? "Титаны" : "Герои"}
+                        </Badge>
+                      )}
+                    </div>
                     <Badge 
                       variant={itemCount > 0 ? "default" : "secondary"} 
                       className="text-xs"
