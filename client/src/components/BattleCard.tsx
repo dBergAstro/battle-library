@@ -26,6 +26,7 @@ export function BattleCard({ battle, isCollected, onDragStart, onDragEnd }: Batt
       label: battle.originalLabel,
       desc: battle.battleNumber,
       battleType: battle.type,
+      team: battle.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
     }));
     onDragStart?.(battle);
   };

@@ -38,6 +38,8 @@ export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: Repl
       label: `Глава ${replay.chapter}`,
       desc: `Бой ${replay.level}`,
       battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
+      team: replay.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
+      rawDefendersFragments: replay.rawDefendersFragments,
     }));
     onDragStart?.(replay);
   };

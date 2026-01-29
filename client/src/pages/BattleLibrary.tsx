@@ -70,6 +70,7 @@ export default function BattleLibrary() {
       label: battle.originalLabel,
       desc: battle.battleNumber,
       battleType: battle.type,
+      team: battle.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
     };
     setDraggedItem(item);
     setSidebarOpen(true);
@@ -83,6 +84,8 @@ export default function BattleLibrary() {
       label: `Глава ${replay.chapter}`,
       desc: `Бой ${replay.level}`,
       battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
+      team: replay.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
+      rawDefendersFragments: replay.rawDefendersFragments,
     };
     setDraggedItem(item);
     setSidebarOpen(true);
