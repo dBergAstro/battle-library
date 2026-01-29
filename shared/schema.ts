@@ -195,6 +195,7 @@ export const collectionItems = pgTable("collection_items", {
   battleType: text("battle_type"),
   teamJson: text("team_json"),
   rawDefendersFragments: text("raw_defenders_fragments"),
+  mainBuff: integer("main_buff"),
   createdAt: bigint("created_at", { mode: "number" }).notNull(),
 });
 

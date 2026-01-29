@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2 } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -23,6 +23,7 @@ export interface CollectedItem {
   team: TeamMember[];
   rawDefendersFragments?: string;
   bossHeroId?: number; // ID главного героя боя
+  mainBuff?: number; // Размер основного баффа
 }
 
 interface CollectionSidebarProps {
@@ -75,17 +76,25 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
             #{item.gameId}
           </span>
         ) : (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="text-xs font-mono font-semibold text-amber-500 ml-3 cursor-help flex items-center gap-1">
-                <AlertCircle className="h-3 w-3" />
-                #{recommendedId}
+          <div className="flex items-center gap-1 ml-3">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="text-xs font-mono font-semibold text-amber-500 cursor-help flex items-center gap-0.5">
+                  <AlertCircle className="h-3 w-3" />
+                  #{recommendedId}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[220px] text-xs">
+                Рекомендуемый ID. Создайте новый бой с этим ID и скопируйте defendersFragments
+              </TooltipContent>
+            </Tooltip>
+            {item.mainBuff != null && item.mainBuff > 0 && (
+              <span className="flex items-center text-[10px] text-muted-foreground gap-0.5">
+                <ArrowUp className="h-2.5 w-2.5" />
+                {item.mainBuff}%
               </span>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-[220px] text-xs">
-              Рекомендуемый ID. Создайте новый бой с этим ID и скопируйте defendersFragments
-            </TooltipContent>
-          </Tooltip>
+            )}
+          </div>
         )}
         <div className="flex items-center gap-0.5">
           {item.type === "replay" && item.rawDefendersFragments && (

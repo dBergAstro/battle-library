@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { PlayCircle, Copy, Check, Plus, Hash } from "lucide-react";
+import { PlayCircle, Copy, Check, Plus, Hash, ArrowUp } from "lucide-react";
 import type { ProcessedReplay } from "@shared/schema";
 import { GRADE_COLORS } from "@/lib/replayUtils";
 import { cn } from "@/lib/utils";
@@ -44,6 +44,7 @@ export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], 
         battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
         team: replay.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
         rawDefendersFragments: replay.rawDefendersFragments,
+        mainBuff: replay.mainBuff ?? undefined,
       };
       onAddToCollection(item);
     }
@@ -75,6 +76,12 @@ export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], 
               >
                 {replay.enemyType === "Герои" ? "Героический" : "Титанический"}
               </Badge>
+              {replay.mainBuff != null && replay.mainBuff > 0 && (
+                <Badge variant="secondary" className="flex items-center gap-0.5">
+                  <ArrowUp className="h-3 w-3" />
+                  <span>{replay.mainBuff}%</span>
+                </Badge>
+              )}
             </div>
             <h3 className="font-medium text-sm">
               Глава {replay.chapter}, Бой {replay.level}

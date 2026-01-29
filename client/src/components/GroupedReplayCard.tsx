@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { PlayCircle, Copy, Check, Plus, Hash, Layers } from "lucide-react";
+import { PlayCircle, Copy, Check, Plus, Hash, Layers, ArrowUp } from "lucide-react";
 import type { ReplayGroup, ProcessedReplay, ProcessedTotem } from "@shared/schema";
 import { GRADE_COLORS, GRADE_ORDER } from "@/lib/replayUtils";
 import { cn } from "@/lib/utils";
@@ -129,6 +129,7 @@ export function GroupedReplayCard({
         battleType: r.enemyType === "Герои" ? "heroic" : "titanic",
         team: r.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
         rawDefendersFragments: r.rawDefendersFragments,
+        mainBuff: r.mainBuff ?? undefined,
       };
       onAddToCollection(item);
     }
@@ -175,6 +176,12 @@ export function GroupedReplayCard({
                   <Badge variant="secondary" className="gap-1">
                     <Layers className="h-3 w-3" />
                     {group.replays.length}
+                  </Badge>
+                )}
+                {replay.mainBuff != null && replay.mainBuff > 0 && (
+                  <Badge variant="secondary" className="flex items-center gap-0.5">
+                    <ArrowUp className="h-3 w-3" />
+                    <span>{replay.mainBuff}%</span>
                   </Badge>
                 )}
               </div>
