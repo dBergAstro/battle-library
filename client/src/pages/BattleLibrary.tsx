@@ -280,48 +280,50 @@ export default function BattleLibrary() {
         className="container max-w-[1600px] mx-auto px-4 py-4 space-y-4 transition-all duration-150"
         style={{ marginTop: collectionOpen ? "200px" : "0" }}
       >
-        <header className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
-              <Library className="h-5 w-5 text-primary" />
+        {!collectionOpen && (
+          <header className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
+                <Library className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-xl font-semibold">Библиотека боёв</h1>
+                <p className="text-sm text-muted-foreground">
+                  Инструмент для просмотра и анализа боёв Invasion
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-semibold">Библиотека боёв</h1>
-              <p className="text-sm text-muted-foreground">
-                Инструмент для просмотра и анализа боёв Invasion
-              </p>
-            </div>
-          </div>
 
-          {hasData && (
-            <div className="flex items-center gap-4 text-sm flex-wrap">
-              <div className="flex items-center gap-1.5">
-                <div className="h-2 w-2 rounded-full bg-blue-500" />
-                <span className="text-muted-foreground">Героические:</span>
-                <span className="font-medium">{stats.heroicBattles}</span>
+            {hasData && (
+              <div className="flex items-center gap-4 text-sm flex-wrap">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-blue-500" />
+                  <span className="text-muted-foreground">Героические:</span>
+                  <span className="font-medium">{stats.heroicBattles}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-amber-500" />
+                  <span className="text-muted-foreground">Титанические:</span>
+                  <span className="font-medium">{stats.titanicBattles}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <PlayCircle className="h-3 w-3 text-green-500" />
+                  <span className="text-muted-foreground">Записей героических:</span>
+                  <span className="font-medium">{stats.heroicReplays}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <PlayCircle className="h-3 w-3 text-amber-500" />
+                  <span className="text-muted-foreground">Записей титанических:</span>
+                  <span className="font-medium">{stats.titanicReplays}</span>
+                </div>
+                <div className="flex items-center gap-1.5 border-l pl-4 ml-2">
+                  <span className="text-muted-foreground">Всего:</span>
+                  <span className="font-medium">{stats.grandTotal}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1.5">
-                <div className="h-2 w-2 rounded-full bg-amber-500" />
-                <span className="text-muted-foreground">Титанические:</span>
-                <span className="font-medium">{stats.titanicBattles}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <PlayCircle className="h-3 w-3 text-green-500" />
-                <span className="text-muted-foreground">Записей героических:</span>
-                <span className="font-medium">{stats.heroicReplays}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <PlayCircle className="h-3 w-3 text-amber-500" />
-                <span className="text-muted-foreground">Записей титанических:</span>
-                <span className="font-medium">{stats.titanicReplays}</span>
-              </div>
-              <div className="flex items-center gap-1.5 border-l pl-4 ml-2">
-                <span className="text-muted-foreground">Всего:</span>
-                <span className="font-medium">{stats.grandTotal}</span>
-              </div>
-            </div>
-          )}
-        </header>
+            )}
+          </header>
+        )}
 
         {hasData ? (
           <Card className="border-card-border">
