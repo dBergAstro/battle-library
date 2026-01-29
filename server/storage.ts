@@ -1,12 +1,12 @@
 import { 
   bossList, bossTeam, bossLevel, heroIcons, heroNames, heroSortOrder, titanElements,
-  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons, battleTags,
+  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons, battleTags, collectionItems,
   type InsertBossList, type InsertBossTeam, type InsertBossLevel, 
   type InsertHeroIcon, type InsertHeroName, type InsertHeroSortOrder, type InsertTitanElement,
   type InsertAttackTeam, type InsertPetIcon, type InsertAppSetting,
-  type InsertSpiritSkill, type InsertSpiritIcon, type InsertBattleTag,
+  type InsertSpiritSkill, type InsertSpiritIcon, type InsertBattleTag, type InsertCollectionItem,
   type BossList, type BossTeam, type BossLevel, type HeroIcon, type HeroName, type HeroSortOrder, type TitanElement,
-  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon, type BattleTag
+  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon, type BattleTag, type CollectionItem
 } from "@shared/schema";
 import { db } from "./db";
 import { gt, sql, eq, and } from "drizzle-orm";
@@ -64,6 +64,11 @@ export interface IStorage {
   addBattleTag(battleGameId: number, tag: string): Promise<void>;
   removeBattleTag(battleGameId: number, tag: string): Promise<void>;
   getAllUniqueTags(): Promise<string[]>;
+  
+  getAllCollectionItems(): Promise<CollectionItem[]>;
+  addCollectionItem(data: InsertCollectionItem): Promise<void>;
+  removeCollectionItem(itemId: string): Promise<void>;
+  clearCollection(): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -344,6 +349,23 @@ export class DatabaseStorage implements IStorage {
   async getAllUniqueTags(): Promise<string[]> {
     const result = await db.selectDistinct({ tag: battleTags.tag }).from(battleTags);
     return result.map(r => r.tag);
+  }
+
+  // Collection Items
+  async getAllCollectionItems(): Promise<CollectionItem[]> {
+    return await db.select().from(collectionItems).orderBy(collectionItems.createdAt);
+  }
+
+  async addCollectionItem(data: InsertCollectionItem): Promise<void> {
+    await db.insert(collectionItems).values(data).onConflictDoNothing();
+  }
+
+  async removeCollectionItem(itemId: string): Promise<void> {
+    await db.delete(collectionItems).where(eq(collectionItems.itemId, itemId));
+  }
+
+  async clearCollection(): Promise<void> {
+    await db.delete(collectionItems);
   }
 }
 

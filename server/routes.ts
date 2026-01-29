@@ -537,5 +537,58 @@ export async function registerRoutes(
     }
   });
 
+  // Collection endpoints
+  app.get("/api/collection", async (_req, res) => {
+    try {
+      const items = await storage.getAllCollectionItems();
+      res.json(items);
+    } catch (error) {
+      console.error("Error fetching collection:", error);
+      res.status(500).json({ error: "Failed to fetch collection" });
+    }
+  });
+
+  app.post("/api/collection", async (req, res) => {
+    try {
+      const { itemId, itemType, gameId, label, desc, battleType, team, rawDefendersFragments } = req.body;
+      await storage.addCollectionItem({
+        itemId,
+        itemType,
+        gameId,
+        label: label || null,
+        desc: desc || null,
+        battleType: battleType || null,
+        teamJson: team ? JSON.stringify(team) : null,
+        rawDefendersFragments: rawDefendersFragments || null,
+        createdAt: Date.now(),
+      });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error adding to collection:", error);
+      res.status(500).json({ error: "Failed to add to collection" });
+    }
+  });
+
+  app.delete("/api/collection/:itemId", async (req, res) => {
+    try {
+      const itemId = decodeURIComponent(req.params.itemId);
+      await storage.removeCollectionItem(itemId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error removing from collection:", error);
+      res.status(500).json({ error: "Failed to remove from collection" });
+    }
+  });
+
+  app.delete("/api/collection", async (_req, res) => {
+    try {
+      await storage.clearCollection();
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error clearing collection:", error);
+      res.status(500).json({ error: "Failed to clear collection" });
+    }
+  });
+
   return httpServer;
 }
