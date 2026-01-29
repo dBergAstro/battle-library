@@ -1,5 +1,6 @@
-import { useState, useMemo, useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
@@ -70,6 +71,82 @@ export default function BattleLibrary() {
   const [modalOpen, setModalOpen] = useState(false);
   const [itemToAdd, setItemToAdd] = useState<CollectedItem | null>(null);
 
+  interface ServerCollectionItem {
+    id: number;
+    itemId: string;
+    itemType: string;
+    gameId: number;
+    label: string | null;
+    desc: string | null;
+    battleType: string | null;
+    teamJson: string | null;
+    rawDefendersFragments: string | null;
+    createdAt: number;
+  }
+
+  const { data: collectionData } = useQuery<ServerCollectionItem[]>({
+    queryKey: ["/api/collection"],
+  });
+
+  useEffect(() => {
+    if (collectionData) {
+      const map = new Map<string, CollectedItem>();
+      for (const item of collectionData) {
+        const slotKey = item.itemId.split(":")[0];
+        map.set(slotKey, {
+          id: item.itemId.split(":").slice(1).join(":"),
+          type: item.itemType as "battle" | "replay",
+          gameId: item.gameId,
+          label: item.label || "",
+          desc: item.desc || "",
+          battleType: (item.battleType as "heroic" | "titanic") || "heroic",
+          team: item.teamJson ? JSON.parse(item.teamJson) : [],
+          rawDefendersFragments: item.rawDefendersFragments || undefined,
+        });
+      }
+      setCollectedItems(map);
+    }
+  }, [collectionData]);
+
+  const addToCollectionMutation = useMutation({
+    mutationFn: async (data: { slotKey: string; item: CollectedItem }) => {
+      await apiRequest("POST", "/api/collection", {
+        itemId: `${data.slotKey}:${data.item.id}`,
+        itemType: data.item.type,
+        gameId: data.item.gameId,
+        label: data.item.label,
+        desc: data.item.desc,
+        battleType: data.item.battleType,
+        team: data.item.team,
+        rawDefendersFragments: data.item.rawDefendersFragments,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/collection"] });
+    },
+  });
+
+  const removeFromCollectionMutation = useMutation({
+    mutationFn: async (slotKey: string) => {
+      const item = collectedItems.get(slotKey);
+      if (item) {
+        await apiRequest("DELETE", `/api/collection/${encodeURIComponent(`${slotKey}:${item.id}`)}`);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/collection"] });
+    },
+  });
+
+  const clearCollectionMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("DELETE", "/api/collection");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/collection"] });
+    },
+  });
+
   const collectedIds = useMemo(() => {
     const ids = new Set<string>();
     collectedItems.forEach((item) => ids.add(item.id));
@@ -88,7 +165,8 @@ export default function BattleLibrary() {
       next.set(slotKey, item);
       return next;
     });
-  }, []);
+    addToCollectionMutation.mutate({ slotKey, item });
+  }, [addToCollectionMutation]);
 
   const handleRemoveItem = useCallback((slotKey: string) => {
     setCollectedItems((prev) => {
@@ -96,7 +174,13 @@ export default function BattleLibrary() {
       next.delete(slotKey);
       return next;
     });
-  }, []);
+    removeFromCollectionMutation.mutate(slotKey);
+  }, [removeFromCollectionMutation]);
+
+  const handleClearCollection = useCallback(() => {
+    setCollectedItems(new Map());
+    clearCollectionMutation.mutate();
+  }, [clearCollectionMutation]);
 
   const { data, isLoading, error } = useQuery<BattlesResponse>({
     queryKey: ["/api/battles"],
@@ -416,6 +500,7 @@ export default function BattleLibrary() {
         onToggle={() => setCollectionOpen(!collectionOpen)}
         collectedItems={collectedItems}
         onRemoveItem={handleRemoveItem}
+        onClearCollection={handleClearCollection}
         maxBossId={data?.maxBossId || 0}
       />
       

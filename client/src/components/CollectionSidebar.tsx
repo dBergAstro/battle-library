@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -30,6 +30,7 @@ interface CollectionSidebarProps {
   onToggle: () => void;
   collectedItems: Map<string, CollectedItem>;
   onRemoveItem: (chapterSlotKey: string) => void;
+  onClearCollection: () => void;
   maxBossId: number;
 }
 
@@ -149,6 +150,7 @@ export function CollectionSidebar({
   onToggle,
   collectedItems,
   onRemoveItem,
+  onClearCollection,
   maxBossId,
 }: CollectionSidebarProps) {
   const getChapterSlotKey = (chapterIndex: number, slotIndex: number) => 
@@ -194,17 +196,39 @@ export function CollectionSidebar({
 
   return (
     <>
-      <Button
-        size="sm"
-        variant="outline"
-        className="fixed left-1/2 -translate-x-1/2 z-[9999] rounded-t-none shadow-lg bg-card gap-1 transition-[top] duration-200 ease-out"
+      <div 
+        className="fixed left-1/2 -translate-x-1/2 z-[9999] flex gap-1 transition-[top] duration-200 ease-out"
         style={{ top: isOpen ? "200px" : "0" }}
-        onClick={onToggle}
-        data-testid="button-toggle-collection"
       >
-        {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        <span className="text-xs">Коллекция ({collectedItems.size})</span>
-      </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          className="rounded-t-none shadow-lg bg-card gap-1"
+          onClick={onToggle}
+          data-testid="button-toggle-collection"
+        >
+          {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          <span className="text-xs">Коллекция ({collectedItems.size})</span>
+        </Button>
+        {collectedItems.size > 0 && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="sm"
+                variant="outline"
+                className="rounded-t-none shadow-lg bg-card"
+                onClick={onClearCollection}
+                data-testid="button-clear-collection"
+              >
+                <Trash2 className="h-4 w-4 text-destructive" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="text-xs">
+              Очистить коллекцию
+            </TooltipContent>
+          </Tooltip>
+        )}
+      </div>
 
       <div
         className="fixed left-0 right-0 top-0 bg-card border-b border-border z-[9998] shadow-lg transition-transform duration-200 ease-out"
