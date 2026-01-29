@@ -138,10 +138,8 @@ export function CollectionSidebar({
       <Button
         size="sm"
         variant="outline"
-        className={cn(
-          "fixed left-1/2 -translate-x-1/2 z-[9999] rounded-t-none shadow-lg bg-card gap-1",
-          isOpen ? "top-[200px]" : "top-0"
-        )}
+        className="fixed left-1/2 -translate-x-1/2 z-[9999] rounded-t-none shadow-lg bg-card gap-1 transition-[top] duration-200 ease-out"
+        style={{ top: isOpen ? "200px" : "0" }}
         onClick={onToggle}
         data-testid="button-toggle-collection"
       >
@@ -150,11 +148,11 @@ export function CollectionSidebar({
       </Button>
 
       <div
-        className={cn(
-          "fixed left-0 right-0 top-0 bg-card border-b border-border z-[9998] shadow-lg transition-transform duration-150",
-          isOpen ? "translate-y-0" : "-translate-y-full"
-        )}
-        style={{ height: "200px" }}
+        className="fixed left-0 right-0 top-0 bg-card border-b border-border z-[9998] shadow-lg transition-transform duration-200 ease-out"
+        style={{ 
+          height: "200px",
+          transform: isOpen ? "translateY(0)" : "translateY(-100%)"
+        }}
       >
         <ScrollArea className="w-full h-full">
           <div className="flex gap-2 p-2">
