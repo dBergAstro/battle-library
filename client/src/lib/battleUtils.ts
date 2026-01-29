@@ -156,7 +156,10 @@ export function processBattlesFromServer(
     return nameMap.get(heroId) || getDefaultHeroName(heroId);
   };
 
-  const battles: ProcessedBattle[] = bossList.map((boss) => {
+  // Фильтруем неактуальные бои (gameId <= 225)
+  const filteredBossList = bossList.filter(boss => boss.gameId > 225);
+
+  const battles: ProcessedBattle[] = filteredBossList.map((boss) => {
     const battleType = determineBattleType(boss.heroId);
     
     let teamMembers = bossTeam
