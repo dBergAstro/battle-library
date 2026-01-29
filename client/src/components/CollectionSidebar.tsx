@@ -143,8 +143,9 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
                 </div>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="text-xs">
-                {member.name}
-                {isBossHero && <span className="text-yellow-500 ml-1">(Главный)</span>}
+                <div>{member.name}</div>
+                <div className="text-muted-foreground">ID: {member.heroId}</div>
+                {isBossHero && <span className="text-yellow-500">(Главный)</span>}
               </TooltipContent>
             </Tooltip>
           );
