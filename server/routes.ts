@@ -323,6 +323,10 @@ export async function registerRoutes(
 
       const mainBuffName = await storage.getSetting("mainBuffName");
 
+      // Разделяем записи на героические и титанические
+      const heroicReplays = attackTeamsData.filter(r => r.enemyType === "Герои").length;
+      const titanicReplays = attackTeamsData.filter(r => r.enemyType === "Титаны").length;
+
       res.json({
         bossList: bossListData.length,
         bossTeam: bossTeamData.length,
@@ -332,6 +336,8 @@ export async function registerRoutes(
         heroSortOrder: heroSortOrderData.length,
         titanElements: titanElementsData.length,
         attackTeams: attackTeamsData.length,
+        heroicReplays,
+        titanicReplays,
         petIcons: petIconsData.length,
         mainBuffName: mainBuffName,
       });

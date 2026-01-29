@@ -50,6 +50,8 @@ interface StatsResponse {
   heroSortOrder: number;
   titanElements: number;
   attackTeams: number;
+  heroicReplays: number;
+  titanicReplays: number;
   petIcons: number;
   mainBuffName: string | null;
 }
@@ -1017,9 +1019,17 @@ export default function AdminPanel() {
                 Загрузить записи (папка)
               </Button>
               {(stats?.attackTeams ?? 0) > 0 && (
-                <Badge variant="secondary">
-                  Загружено: {stats?.attackTeams} записей
-                </Badge>
+                <div className="flex flex-wrap gap-1">
+                  <Badge variant="secondary">
+                    Всего: {stats?.attackTeams}
+                  </Badge>
+                  <Badge variant="outline" className="border-blue-500 text-blue-600">
+                    Героических: {stats?.heroicReplays ?? 0}
+                  </Badge>
+                  <Badge variant="outline" className="border-amber-500 text-amber-600">
+                    Титанических: {stats?.titanicReplays ?? 0}
+                  </Badge>
+                </div>
               )}
             </div>
             {errors.attackTeams && (
