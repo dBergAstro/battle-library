@@ -11,12 +11,20 @@ interface TagsModalProps {
   battleGameId: number;
   tags: string[];
   allTags: string[];
+  // For external control (optional)
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showTrigger?: boolean;
 }
 
-export function TagsModal({ battleGameId, tags, allTags }: TagsModalProps) {
-  const [open, setOpen] = useState(false);
+export function TagsModal({ battleGameId, tags, allTags, isOpen, onOpenChange, showTrigger = true }: TagsModalProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
   const [newTag, setNewTag] = useState("");
   const queryClient = useQueryClient();
+  
+  // Use external control if provided, otherwise internal state
+  const open = isOpen !== undefined ? isOpen : internalOpen;
+  const setOpen = onOpenChange || setInternalOpen;
 
   const addTagMutation = useMutation({
     mutationFn: async (tag: string) => {
@@ -54,16 +62,18 @@ export function TagsModal({ battleGameId, tags, allTags }: TagsModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8"
-          data-testid={`button-tags-${battleGameId}`}
-        >
-          <Tag className="h-4 w-4" />
-        </Button>
-      </DialogTrigger>
+      {showTrigger && (
+        <DialogTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            data-testid={`button-tags-${battleGameId}`}
+          >
+            <Tag className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Теги для боя #{battleGameId}</DialogTitle>

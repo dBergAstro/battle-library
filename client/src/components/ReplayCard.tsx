@@ -4,20 +4,24 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { PlayCircle, Copy, Check, Plus } from "lucide-react";
+import { PlayCircle, Copy, Check, Plus, Hash } from "lucide-react";
 import type { ProcessedReplay } from "@shared/schema";
 import { GRADE_COLORS } from "@/lib/replayUtils";
 import { cn } from "@/lib/utils";
 import type { CollectedItem } from "./CollectionSidebar";
+import { TagsModal } from "./TagsModal";
 
 interface ReplayCardProps {
   replay: ProcessedReplay;
   isCollected?: boolean;
   onAddToCollection?: (item: CollectedItem) => void;
+  tags?: string[];
+  allTags?: string[];
 }
 
-export function ReplayCard({ replay, isCollected, onAddToCollection }: ReplayCardProps) {
+export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], allTags = [] }: ReplayCardProps) {
   const [copied, setCopied] = useState(false);
+  const [tagsModalOpen, setTagsModalOpen] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -77,24 +81,42 @@ export function ReplayCard({ replay, isCollected, onAddToCollection }: ReplayCar
             </h3>
           </div>
           
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
+                  className="h-7 w-7"
                   onClick={handleCopy}
                   data-testid={`button-copy-${replay.id}`}
                 >
                   {copied ? (
-                    <Check className="h-4 w-4 text-green-500" />
+                    <Check className="h-3.5 w-3.5 text-green-500" />
                   ) : (
-                    <Copy className="h-4 w-4" />
+                    <Copy className="h-3.5 w-3.5" />
                   )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="top" className="text-xs">
                 {copied ? "Скопировано!" : "Копировать defendersFragments"}
+              </TooltipContent>
+            </Tooltip>
+            
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant={tags.length > 0 ? "secondary" : "ghost"}
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setTagsModalOpen(true)}
+                  data-testid={`button-tags-replay-${replay.id}`}
+                >
+                  <Hash className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                {tags.length > 0 ? `Теги: ${tags.join(", ")}` : "Добавить теги"}
               </TooltipContent>
             </Tooltip>
             
@@ -104,11 +126,12 @@ export function ReplayCard({ replay, isCollected, onAddToCollection }: ReplayCar
                   <Button
                     variant={isCollected ? "secondary" : "outline"}
                     size="icon"
+                    className="h-7 w-7"
                     disabled={isCollected}
                     onClick={handleAddToCollection}
                     data-testid={`button-add-replay-${replay.id}`}
                   >
-                    <Plus className="h-4 w-4" />
+                    <Plus className="h-3.5 w-3.5" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="left" className="text-xs">
@@ -214,7 +237,26 @@ export function ReplayCard({ replay, isCollected, onAddToCollection }: ReplayCar
             ))}
           </div>
         </div>
+        
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-2 pt-2 border-t border-border/50">
+            {tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="text-xs px-1.5 py-0">
+                #{tag}
+              </Badge>
+            ))}
+          </div>
+        )}
       </CardContent>
+      
+      <TagsModal
+        isOpen={tagsModalOpen}
+        onOpenChange={setTagsModalOpen}
+        showTrigger={false}
+        battleGameId={replay.gameId}
+        tags={tags}
+        allTags={allTags}
+      />
     </Card>
   );
 }

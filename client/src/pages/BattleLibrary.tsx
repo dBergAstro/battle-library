@@ -485,6 +485,8 @@ export default function BattleLibrary() {
                           replay={item.data} 
                           isCollected={collectedIds.has(`replay-${item.data.id}`)}
                           onAddToCollection={handleAddToCollection}
+                          tags={battleTagsMap.get(item.data.gameId) || []}
+                          allTags={allUniqueTags}
                         />
                       )
                     )}
