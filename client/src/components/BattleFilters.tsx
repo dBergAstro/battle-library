@@ -4,11 +4,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/MultiSelect";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, X, Filter, ArrowUpDown } from "lucide-react";
+import { Search, X, Filter, ArrowUp, ArrowDown } from "lucide-react";
 import type { BattleType } from "@shared/schema";
 
 export type SourceFilter = "battles" | "replays";
 export type SortMethod = "chapter" | "power";
+export type SortDirection = "asc" | "desc";
 
 interface BattleFiltersProps {
   searchQuery: string;
@@ -27,6 +28,8 @@ interface BattleFiltersProps {
   onShowOnlyWithCreepsChange: (value: boolean) => void;
   sortMethod: SortMethod;
   onSortMethodChange: (value: SortMethod) => void;
+  sortDirection: SortDirection;
+  onSortDirectionChange: (value: SortDirection) => void;
   totalCount: number;
   filteredCount: number;
 }
@@ -48,6 +51,8 @@ export function BattleFilters({
   onShowOnlyWithCreepsChange,
   sortMethod,
   onSortMethodChange,
+  sortDirection,
+  onSortDirectionChange,
   totalCount,
   filteredCount,
 }: BattleFiltersProps) {
@@ -176,8 +181,20 @@ export function BattleFilters({
             </span>
           </div>
           
-          <div className="flex items-center gap-2">
-            <ArrowUpDown className="h-4 w-4" />
+          <div className="flex items-center gap-1">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8"
+              onClick={() => onSortDirectionChange(sortDirection === "asc" ? "desc" : "asc")}
+              data-testid="button-toggle-sort-direction"
+            >
+              {sortDirection === "asc" ? (
+                <ArrowUp className="h-4 w-4" />
+              ) : (
+                <ArrowDown className="h-4 w-4" />
+              )}
+            </Button>
             <Select value={sortMethod} onValueChange={(v) => onSortMethodChange(v as SortMethod)}>
               <SelectTrigger className="h-8 w-[200px]" data-testid="select-sort-method">
                 <SelectValue />

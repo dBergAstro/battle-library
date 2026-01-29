@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
 import { ReplayCard } from "@/components/ReplayCard";
-import { BattleFilters, type SourceFilter, type SortMethod } from "@/components/BattleFilters";
+import { BattleFilters, type SourceFilter, type SortMethod, type SortDirection } from "@/components/BattleFilters";
 import { CollectionSidebar, type CollectedItem } from "@/components/CollectionSidebar";
 import { AddToCollectionModal } from "@/components/AddToCollectionModal";
 import { Library, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
@@ -54,6 +54,7 @@ export default function BattleLibrary() {
   const [battleNumberFilters, setBattleNumberFilters] = useState<string[]>([]);
   const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
   const [sortMethod, setSortMethod] = useState<SortMethod>("chapter");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   
   const [collectionOpen, setCollectionOpen] = useState(false);
   const [collectedItems, setCollectedItems] = useState<Map<string, CollectedItem>>(new Map());
@@ -228,19 +229,21 @@ export default function BattleLibrary() {
       return 0; // Replays don't have power level
     };
 
+    const dir = sortDirection === "asc" ? 1 : -1;
+
     if (sortMethod === "power") {
-      result.sort((a, b) => getPowerLevel(b) - getPowerLevel(a));
+      result.sort((a, b) => (getPowerLevel(b) - getPowerLevel(a)) * dir);
     } else {
       // Default: chapter -> level -> power
       result.sort((a, b) => {
-        if (a.chapter !== b.chapter) return a.chapter - b.chapter;
-        if (a.level !== b.level) return a.level - b.level;
-        return getPowerLevel(b) - getPowerLevel(a);
+        if (a.chapter !== b.chapter) return (a.chapter - b.chapter) * dir;
+        if (a.level !== b.level) return (a.level - b.level) * dir;
+        return (getPowerLevel(b) - getPowerLevel(a)) * dir;
       });
     }
 
     return result;
-  }, [combinedList, searchQuery, typeFilters, sourceFilters, chapterFilters, battleNumberFilters, showOnlyWithCreeps, sortMethod]);
+  }, [combinedList, searchQuery, typeFilters, sourceFilters, chapterFilters, battleNumberFilters, showOnlyWithCreeps, sortMethod, sortDirection]);
 
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
@@ -371,6 +374,8 @@ export default function BattleLibrary() {
                 onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
                 sortMethod={sortMethod}
                 onSortMethodChange={setSortMethod}
+                sortDirection={sortDirection}
+                onSortDirectionChange={setSortDirection}
                 totalCount={combinedList.length}
                 filteredCount={filteredList.length}
               />
