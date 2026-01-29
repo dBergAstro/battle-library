@@ -28,20 +28,36 @@ export function GroupedReplayCard({
   allTags = [] 
 }: GroupedReplayCardProps) {
   const [copied, setCopied] = useState(false);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
   const [tagsModalOpen, setTagsModalOpen] = useState(false);
   const [selectModalOpen, setSelectModalOpen] = useState(false);
+  const [copyModalOpen, setCopyModalOpen] = useState(false);
   
   const replay = group.displayReplay;
   const hasMultiple = group.replays.length > 1;
   const allCollected = group.replays.every(r => isCollected?.(r.id));
 
-  const handleCopy = async () => {
+  const copyReplayFragments = async (r: ProcessedReplay) => {
     try {
-      await navigator.clipboard.writeText(replay.rawDefendersFragments);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(r.rawDefendersFragments);
+      setCopiedId(r.id);
+      setTimeout(() => setCopiedId(null), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
+    }
+  };
+
+  const handleCopy = async () => {
+    if (hasMultiple) {
+      setCopyModalOpen(true);
+    } else {
+      try {
+        await navigator.clipboard.writeText(replay.rawDefendersFragments);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error("Failed to copy:", err);
+      }
     }
   };
 
@@ -315,6 +331,46 @@ export function GroupedReplayCard({
                   {collected && (
                     <Badge variant="secondary" className="ml-auto">
                       В коллекции
+                    </Badge>
+                  )}
+                </Button>
+              );
+            })}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={copyModalOpen} onOpenChange={setCopyModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Выберите бой для копирования</DialogTitle>
+            <DialogDescription>
+              Эта команда используется в нескольких боях с разными конфигами. Выберите нужный.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-2 max-h-[400px] overflow-y-auto">
+            {group.replays.map((r) => {
+              const isCopied = copiedId === r.id;
+              return (
+                <Button
+                  key={r.id}
+                  variant={isCopied ? "secondary" : "outline"}
+                  className="justify-start gap-2 h-auto py-2"
+                  onClick={() => copyReplayFragments(r)}
+                  data-testid={`button-copy-replay-${r.id}`}
+                >
+                  {isCopied ? (
+                    <Check className="h-4 w-4 text-green-500" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                  <span className="font-mono text-sm">#{r.gameId}</span>
+                  <span className="text-muted-foreground">
+                    Глава {r.chapter}, Бой {r.level}
+                  </span>
+                  {isCopied && (
+                    <Badge variant="secondary" className="ml-auto text-green-600">
+                      Скопировано
                     </Badge>
                   )}
                 </Button>
