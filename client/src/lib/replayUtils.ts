@@ -42,6 +42,27 @@ export interface ServerSpiritIcon {
   iconUrl: string;
 }
 
+export interface ServerBoss {
+  gameId: number;
+  label: string | null;
+  desc: string | null;
+  heroId: number | null;
+}
+
+// Извлекает номер главы из label типа "Адвенчура Ашероны 3 глава"
+function extractChapterFromLabel(label: string | null): number | null {
+  if (!label) return null;
+  const match = label.match(/(\d+)\s*глава/i);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+// Извлекает номер боя из desc типа "Бой 1"
+function extractLevelFromDesc(desc: string | null): number | null {
+  if (!desc) return null;
+  const match = desc.match(/(?:Бой|бой)\s*(\d+)/i);
+  return match ? parseInt(match[1], 10) : null;
+}
+
 export function getFragmentGrade(fragments: number): FragmentGrade {
   if (fragments >= 7) return "red";
   if (fragments >= 3) return "orange";
@@ -130,20 +151,24 @@ export function processReplaysFromServer(
   heroNames: Array<{ heroId: number; name: string }>,
   petIcons: ServerPetIcon[],
   spiritSkills: ServerSpiritSkill[] = [],
-  spiritIcons: ServerSpiritIcon[] = []
+  spiritIcons: ServerSpiritIcon[] = [],
+  bossList: ServerBoss[] = []
 ): ProcessedReplay[] {
   const iconMap = new Map(heroIcons.map((h) => [h.heroId, h.iconUrl]));
   const nameMap = new Map(heroNames.map((h) => [h.heroId, h.name]));
   const petIconMap = new Map(petIcons.map((p) => [p.petId, p.iconUrl]));
   const skillNameMap = new Map(spiritSkills.map((s) => [s.skillId, s.name]));
   const skillIconMap = new Map(spiritIcons.map((s) => [s.skillId, s.iconUrl]));
+  
+  // Создаём мап для быстрого поиска боя по gameId (bossId)
+  const bossMap = new Map(bossList.map((b) => [b.gameId, b]));
 
   const getHeroNameFn = (heroId: number): string => {
     return nameMap.get(heroId) || getDefaultHeroName(heroId);
   };
 
   const replays: ProcessedReplay[] = attackTeams
-    .filter((team) => team.defendersFragments && team.chapter && team.level)
+    .filter((team) => team.defendersFragments && team.bossId)
     .map((team) => {
       let defenders: DefendersFragments;
       try {
@@ -178,12 +203,33 @@ export function processReplaysFromServer(
       
       // Обработка тотемов со скилами
       const totems = processSpirits(defenders.spirits, skillNameMap, skillIconMap);
+      
+      // Определяем chapter и level: сначала из team, потом из bossMap по bossId
+      let chapter = team.chapter;
+      let level = team.level;
+      
+      if ((chapter === null || chapter === undefined || level === null || level === undefined) && team.bossId) {
+        const boss = bossMap.get(team.bossId);
+        if (boss) {
+          if (chapter === null || chapter === undefined) {
+            chapter = extractChapterFromLabel(boss.label);
+          }
+          if (level === null || level === undefined) {
+            level = extractLevelFromDesc(boss.desc);
+          }
+        }
+      }
+      
+      // Пропускаем записи без chapter или level
+      if (chapter === null || chapter === undefined || level === null || level === undefined) {
+        return null;
+      }
 
       return {
         id: team.id,
         gameId: team.gameId,
-        chapter: team.chapter ?? 0,
-        level: team.level ?? 0,
+        chapter,
+        level,
         enemyType: (team.enemyType as "Герои" | "Титаны") || "Герои",
         mainBuff: team.mainBuff ?? undefined,
         comment: team.comment ?? undefined,

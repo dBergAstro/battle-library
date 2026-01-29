@@ -226,7 +226,8 @@ export default function BattleLibrary() {
       data.heroNames || [],
       data.petIcons || [],
       data.spiritSkills || [],
-      data.spiritIcons || []
+      data.spiritIcons || [],
+      data.bossList || []
     );
   }, [data]);
 
