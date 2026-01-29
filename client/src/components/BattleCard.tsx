@@ -34,7 +34,8 @@ export function BattleCard({ battle, isCollected, onDragStart, onDragEnd }: Batt
     <Card
       className={cn(
         "hover-elevate border-card-border transition-all",
-        isCollected && "ring-2 ring-primary/50 bg-primary/5"
+        isCollected && "ring-2 ring-primary/50 bg-primary/5 opacity-50",
+        !isCollected && "cursor-grab active:cursor-grabbing"
       )}
       draggable={!isCollected}
       onDragStart={handleDragStart}
