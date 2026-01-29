@@ -551,10 +551,15 @@ export async function registerRoutes(
   app.post("/api/collection", async (req, res) => {
     try {
       const { itemId, itemType, gameId, label, desc, battleType, team, rawDefendersFragments } = req.body;
+      const numericGameId = typeof gameId === 'string' ? parseInt(gameId, 10) : gameId;
+      if (isNaN(numericGameId)) {
+        res.status(400).json({ error: "Invalid gameId" });
+        return;
+      }
       await storage.addCollectionItem({
         itemId,
         itemType,
-        gameId,
+        gameId: numericGameId,
         label: label || null,
         desc: desc || null,
         battleType: battleType || null,

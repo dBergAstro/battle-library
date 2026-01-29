@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, real } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, text, real, bigint } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -195,7 +195,7 @@ export const collectionItems = pgTable("collection_items", {
   battleType: text("battle_type"),
   teamJson: text("team_json"),
   rawDefendersFragments: text("raw_defenders_fragments"),
-  createdAt: integer("created_at").notNull(),
+  createdAt: bigint("created_at", { mode: "number" }).notNull(),
 });
 
 export const insertCollectionItemSchema = createInsertSchema(collectionItems).omit({ id: true });

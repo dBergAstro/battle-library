@@ -90,6 +90,9 @@ export function GroupedReplayCard({
   const hasMultiple = group.replays.length > 1;
   const anyCollected = group.replays.some(r => isCollected?.(r.id));
   const mergedTotems = getMergedTotems(group.replays);
+  
+  const isTitanic = replay.enemyType === "Титаны";
+  const displayTeam = isTitanic ? [...replay.team].reverse() : replay.team;
 
   const copyReplayFragments = async (r: ProcessedReplay) => {
     try {
@@ -289,7 +292,7 @@ export function GroupedReplayCard({
             )}
             
             <div className="flex gap-1">
-              {replay.team.map((member, idx) => (
+              {displayTeam.map((member, idx) => (
                 <div key={`${replay.id}-${member.heroId}-${idx}`} className="flex flex-col items-center gap-0.5">
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -311,7 +314,7 @@ export function GroupedReplayCard({
                     </TooltipContent>
                   </Tooltip>
                   
-                  {replay.team.some(m => m.favorPetIcon) && (
+                  {displayTeam.some(m => m.favorPetIcon) && (
                     member.favorPetIcon ? (
                       <Tooltip>
                         <TooltipTrigger asChild>
