@@ -250,7 +250,8 @@ export default function BattleLibrary() {
   };
 
   const battleNumbers = useMemo(() => {
-    const battleNums = battles.map((b) => extractBattleNumber(b.battleNumber)).filter((n): n is number => n !== null);
+    // Для legacy боёв используем legacyBattleNum, для новых - парсим из battleNumber
+    const battleNums = battles.map((b) => b.legacyBattleNum ?? extractBattleNumber(b.battleNumber)).filter((n): n is number => n !== null);
     const replayNums = replays.map((r) => r.level);
     const uniqueNumbers = new Set([...battleNums, ...replayNums]);
     return Array.from(uniqueNumbers).sort((a, b) => a - b).map(n => n.toString());
@@ -262,7 +263,8 @@ export default function BattleLibrary() {
     const items: ListItem[] = [];
     
     for (const battle of battles) {
-      const level = extractBattleNumber(battle.battleNumber) ?? 0;
+      // Для legacy боёв (gameId < 338) используем вычисленный legacyBattleNum
+      const level = battle.legacyBattleNum ?? extractBattleNumber(battle.battleNumber) ?? 0;
       items.push({
         type: "battle",
         data: battle,
