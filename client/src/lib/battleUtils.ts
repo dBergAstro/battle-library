@@ -201,12 +201,9 @@ export function processBattlesFromServer(
       powerLevel = powerLevels.length > 0 ? Math.max(...powerLevels) : undefined;
     }
 
-    // Для Legacy боёв добавляем номер боя
+    // Для Legacy боёв вычисляем номер боя
     const isLegacy = boss.gameId < 338;
     const legacyBattleNum = isLegacy ? ((boss.gameId - 227) % 8) + 1 : null;
-    const battleNumberText = isLegacy && boss.desc
-      ? `Бой ${legacyBattleNum}: ${boss.desc}`
-      : boss.desc ?? "Unknown Battle";
 
     return {
       id: boss.id,
@@ -214,7 +211,8 @@ export function processBattlesFromServer(
       chapterNumber: extractChapter(boss.gameId, boss.label),
       adventureName: extractAdventureName(boss.gameId, boss.label),
       originalLabel: boss.label ?? "",
-      battleNumber: battleNumberText,
+      battleNumber: boss.desc ?? "Unknown Battle",
+      legacyBattleNum: legacyBattleNum,
       type: battleType,
       powerLevel: powerLevel,
       isMixedPowerLevel: isMixedPowerLevel,

@@ -266,6 +266,7 @@ export interface ProcessedBattle {
   adventureName: string; // название адвенчуры
   originalLabel: string; // оригинальный label
   battleNumber: string;
+  legacyBattleNum: number | null; // номер боя для Legacy (1-8)
   type: BattleType;
   powerLevel?: number;
   isMixedPowerLevel?: boolean; // true если команда имеет разные bossLevelId
