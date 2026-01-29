@@ -273,6 +273,7 @@ export interface ProcessedBattle {
   powerLevel?: number;
   isMixedPowerLevel?: boolean; // true если команда имеет разные bossLevelId
   totems: TotemInfo[]; // до 2 тотемов стихий
+  bossHeroId?: number; // ID главного героя боя (из boss_list.heroId)
   team: {
     heroId: number;
     name: string;

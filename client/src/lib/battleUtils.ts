@@ -217,6 +217,7 @@ export function processBattlesFromServer(
       powerLevel: powerLevel,
       isMixedPowerLevel: isMixedPowerLevel,
       totems: totems,
+      bossHeroId: boss.heroId ?? undefined,
       team: teamMembers,
     };
   });

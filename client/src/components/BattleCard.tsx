@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Swords, Shield, Zap, Plus } from "lucide-react";
+import { Swords, Shield, Zap, Plus, Star } from "lucide-react";
 import type { ProcessedBattle } from "@shared/schema";
 import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,7 @@ export function BattleCard({ battle, isCollected, onAddToCollection }: BattleCar
         desc: battle.battleNumber,
         battleType: battle.type,
         team: battle.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
+        bossHeroId: battle.bossHeroId,
       };
       onAddToCollection(item);
     }
@@ -138,27 +139,36 @@ export function BattleCard({ battle, isCollected, onAddToCollection }: BattleCar
 
         <div className="flex items-center gap-1">
           <div className="flex -space-x-2">
-            {battle.team.map((member, idx) => (
-              <Tooltip key={`${battle.id}-${member.heroId}-${idx}`}>
-                <TooltipTrigger asChild>
-                  <Avatar
-                    className="h-12 w-12 border-2 border-card ring-0"
-                    data-testid={`avatar-hero-${member.heroId}`}
-                  >
-                    {member.icon ? (
-                      <AvatarImage src={member.icon} alt={member.name} />
-                    ) : null}
-                    <AvatarFallback className="text-xs font-medium bg-muted">
-                      {member.name.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="text-xs">
-                  <p className="font-medium">{member.name}</p>
-                  <p className="text-muted-foreground">ID: {member.heroId}</p>
-                </TooltipContent>
-              </Tooltip>
-            ))}
+            {battle.team.map((member, idx) => {
+              const isBossHero = battle.bossHeroId === member.heroId;
+              return (
+                <Tooltip key={`${battle.id}-${member.heroId}-${idx}`}>
+                  <TooltipTrigger asChild>
+                    <div className="relative">
+                      <Avatar
+                        className="h-12 w-12 border-2 border-card ring-0"
+                        data-testid={`avatar-hero-${member.heroId}`}
+                      >
+                        {member.icon ? (
+                          <AvatarImage src={member.icon} alt={member.name} />
+                        ) : null}
+                        <AvatarFallback className="text-xs font-medium bg-muted">
+                          {member.name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      {isBossHero && (
+                        <Star className="absolute -top-1 -right-1 h-4 w-4 text-yellow-500 fill-yellow-500 drop-shadow" />
+                      )}
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs">
+                    <p className="font-medium">{member.name}</p>
+                    <p className="text-muted-foreground">ID: {member.heroId}</p>
+                    {isBossHero && <p className="text-yellow-500">Главный герой</p>}
+                  </TooltipContent>
+                </Tooltip>
+              );
+            })}
           </div>
           {battle.team.length === 0 && (
             <span className="text-xs text-muted-foreground italic">

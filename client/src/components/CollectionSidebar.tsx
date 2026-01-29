@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -22,6 +22,7 @@ export interface CollectedItem {
   battleType: "heroic" | "titanic";
   team: TeamMember[];
   rawDefendersFragments?: string;
+  bossHeroId?: number; // ID главного героя боя
 }
 
 interface CollectionSidebarProps {
@@ -114,21 +115,30 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
       </div>
       
       <div className="flex items-center justify-center gap-0.5 flex-wrap">
-        {item.team.slice(0, 5).map((member, idx) => (
-          <Tooltip key={`${slotKey}-member-${idx}`}>
-            <TooltipTrigger asChild>
-              <Avatar className="h-7 w-7 border border-border">
-                <AvatarImage src={member.icon} alt={member.name} />
-                <AvatarFallback className="text-[8px]">
-                  {member.name.substring(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="text-xs">
-              {member.name}
-            </TooltipContent>
-          </Tooltip>
-        ))}
+        {item.team.slice(0, 5).map((member, idx) => {
+          const isBossHero = item.bossHeroId === member.heroId;
+          return (
+            <Tooltip key={`${slotKey}-member-${idx}`}>
+              <TooltipTrigger asChild>
+                <div className="relative">
+                  <Avatar className="h-7 w-7 border border-border">
+                    <AvatarImage src={member.icon} alt={member.name} />
+                    <AvatarFallback className="text-[8px]">
+                      {member.name.substring(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
+                  {isBossHero && (
+                    <Star className="absolute -top-0.5 -right-0.5 h-3 w-3 text-yellow-500 fill-yellow-500 drop-shadow" />
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">
+                {member.name}
+                {isBossHero && <span className="text-yellow-500 ml-1">(Главный)</span>}
+              </TooltipContent>
+            </Tooltip>
+          );
+        })}
       </div>
     </div>
   );
