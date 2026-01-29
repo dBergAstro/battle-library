@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
 import { ReplayCard } from "@/components/ReplayCard";
-import { BattleFilters, type SourceFilter } from "@/components/BattleFilters";
+import { BattleFilters, type SourceFilter, type SortMethod } from "@/components/BattleFilters";
 import { CollectionSidebar, type CollectedItem } from "@/components/CollectionSidebar";
 import { AddToCollectionModal } from "@/components/AddToCollectionModal";
 import { Library, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
@@ -53,6 +53,7 @@ export default function BattleLibrary() {
   const [chapterFilters, setChapterFilters] = useState<string[]>([]);
   const [battleNumberFilters, setBattleNumberFilters] = useState<string[]>([]);
   const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
+  const [sortMethod, setSortMethod] = useState<SortMethod>("chapter");
   
   const [collectionOpen, setCollectionOpen] = useState(false);
   const [collectedItems, setCollectedItems] = useState<Map<string, CollectedItem>>(new Map());
@@ -219,8 +220,27 @@ export default function BattleLibrary() {
       });
     }
 
+    // Apply sorting
+    const getPowerLevel = (item: ListItem): number => {
+      if (item.type === "battle") {
+        return item.data.powerLevel || 0;
+      }
+      return 0; // Replays don't have power level
+    };
+
+    if (sortMethod === "power") {
+      result.sort((a, b) => getPowerLevel(b) - getPowerLevel(a));
+    } else {
+      // Default: chapter -> level -> power
+      result.sort((a, b) => {
+        if (a.chapter !== b.chapter) return a.chapter - b.chapter;
+        if (a.level !== b.level) return a.level - b.level;
+        return getPowerLevel(b) - getPowerLevel(a);
+      });
+    }
+
     return result;
-  }, [combinedList, searchQuery, typeFilters, sourceFilters, chapterFilters, battleNumberFilters, showOnlyWithCreeps]);
+  }, [combinedList, searchQuery, typeFilters, sourceFilters, chapterFilters, battleNumberFilters, showOnlyWithCreeps, sortMethod]);
 
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
@@ -349,6 +369,8 @@ export default function BattleLibrary() {
                 battleNumbers={battleNumbers}
                 showOnlyWithCreeps={showOnlyWithCreeps}
                 onShowOnlyWithCreepsChange={setShowOnlyWithCreeps}
+                sortMethod={sortMethod}
+                onSortMethodChange={setSortMethod}
                 totalCount={combinedList.length}
                 filteredCount={filteredList.length}
               />

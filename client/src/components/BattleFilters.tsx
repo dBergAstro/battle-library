@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/MultiSelect";
-import { Search, X, Filter } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Search, X, Filter, ArrowUpDown } from "lucide-react";
 import type { BattleType } from "@shared/schema";
 
 export type SourceFilter = "battles" | "replays";
+export type SortMethod = "chapter" | "power";
 
 interface BattleFiltersProps {
   searchQuery: string;
@@ -23,6 +25,8 @@ interface BattleFiltersProps {
   battleNumbers: string[];
   showOnlyWithCreeps: boolean;
   onShowOnlyWithCreepsChange: (value: boolean) => void;
+  sortMethod: SortMethod;
+  onSortMethodChange: (value: SortMethod) => void;
   totalCount: number;
   filteredCount: number;
 }
@@ -42,6 +46,8 @@ export function BattleFilters({
   battleNumbers,
   showOnlyWithCreeps,
   onShowOnlyWithCreepsChange,
+  sortMethod,
+  onSortMethodChange,
   totalCount,
   filteredCount,
 }: BattleFiltersProps) {
@@ -159,14 +165,29 @@ export function BattleFilters({
       </div>
 
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Filter className="h-4 w-4" />
-          <span>
-            Показано: <span className="font-medium text-foreground">{filteredCount}</span>
-            {filteredCount !== totalCount && (
-              <> из <span className="font-medium text-foreground">{totalCount}</span></>
-            )}
-          </span>
+        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4" />
+            <span>
+              Показано: <span className="font-medium text-foreground">{filteredCount}</span>
+              {filteredCount !== totalCount && (
+                <> из <span className="font-medium text-foreground">{totalCount}</span></>
+              )}
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <ArrowUpDown className="h-4 w-4" />
+            <Select value={sortMethod} onValueChange={(v) => onSortMethodChange(v as SortMethod)}>
+              <SelectTrigger className="h-8 w-[200px]" data-testid="select-sort-method">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="chapter">По главе → бою → силе</SelectItem>
+                <SelectItem value="power">По силе (Power Level)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {hasFilters && (
