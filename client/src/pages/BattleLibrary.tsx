@@ -322,11 +322,21 @@ export default function BattleLibrary() {
     }
 
     if (chapterFilters.length > 0) {
-      result = result.filter((item) => chapterFilters.includes(item.chapter.toString()));
+      result = result.filter((item) => {
+        if (item.type === "replayGroup") {
+          return item.data.replays.some(r => chapterFilters.includes(r.chapter.toString()));
+        }
+        return chapterFilters.includes(item.chapter.toString());
+      });
     }
 
     if (battleNumberFilters.length > 0) {
-      result = result.filter((item) => battleNumberFilters.includes(item.level.toString()));
+      result = result.filter((item) => {
+        if (item.type === "replayGroup") {
+          return item.data.replays.some(r => battleNumberFilters.includes(r.level.toString()));
+        }
+        return battleNumberFilters.includes(item.level.toString());
+      });
     }
 
     if (showOnlyWithCreeps) {

@@ -184,6 +184,24 @@ export const insertBattleTagSchema = createInsertSchema(battleTags).omit({ id: t
 export type InsertBattleTag = z.infer<typeof insertBattleTagSchema>;
 export type BattleTag = typeof battleTags.$inferSelect;
 
+// Collection Items - элементы коллекции пользователя
+export const collectionItems = pgTable("collection_items", {
+  id: serial("id").primaryKey(),
+  itemId: text("item_id").notNull().unique(),
+  itemType: text("item_type").notNull(),
+  gameId: integer("game_id").notNull(),
+  label: text("label"),
+  desc: text("desc"),
+  battleType: text("battle_type"),
+  teamJson: text("team_json"),
+  rawDefendersFragments: text("raw_defenders_fragments"),
+  createdAt: integer("created_at").notNull(),
+});
+
+export const insertCollectionItemSchema = createInsertSchema(collectionItems).omit({ id: true });
+export type InsertCollectionItem = z.infer<typeof insertCollectionItemSchema>;
+export type CollectionItem = typeof collectionItems.$inferSelect;
+
 // Тип боя
 export type BattleType = "heroic" | "titanic";
 
