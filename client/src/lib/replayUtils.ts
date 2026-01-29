@@ -60,6 +60,12 @@ export const GRADE_BG_COLORS: Record<FragmentGrade, string> = {
   red: "bg-red-500/20",
 };
 
+export const GRADE_ORDER: Record<FragmentGrade, number> = {
+  purple: 1,
+  orange: 2,
+  red: 3,
+};
+
 const ELEMENT_NAMES: Record<string, string> = {
   water: "Вода",
   fire: "Огонь",

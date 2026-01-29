@@ -6,11 +6,64 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PlayCircle, Copy, Check, Plus, Hash, Layers } from "lucide-react";
-import type { ReplayGroup, ProcessedReplay } from "@shared/schema";
-import { GRADE_COLORS } from "@/lib/replayUtils";
+import type { ReplayGroup, ProcessedReplay, ProcessedTotem } from "@shared/schema";
+import { GRADE_COLORS, GRADE_ORDER } from "@/lib/replayUtils";
 import { cn } from "@/lib/utils";
 import type { CollectedItem } from "./CollectionSidebar";
 import { TagsModal } from "./TagsModal";
+
+function getMergedTotems(replays: ProcessedReplay[]): ProcessedTotem[] {
+  const totemMap = new Map<string, ProcessedTotem>();
+  
+  for (const replay of replays) {
+    if (!replay.totems) continue;
+    
+    for (const totem of replay.totems) {
+      const existing = totemMap.get(totem.element);
+      if (!existing) {
+        totemMap.set(totem.element, {
+          element: totem.element,
+          elementRu: totem.elementRu,
+          skills: totem.skills.map(s => ({ ...s }))
+        });
+      } else {
+        for (const skill of totem.skills) {
+          const existingSkill = existing.skills.find(s => s.skillId === skill.skillId);
+          if (!existingSkill) {
+            existing.skills.push({ ...skill });
+          } else if (GRADE_ORDER[skill.grade] > GRADE_ORDER[existingSkill.grade]) {
+            Object.assign(existingSkill, skill);
+          }
+        }
+      }
+    }
+  }
+  
+  return Array.from(totemMap.values());
+}
+
+function renderCompactSkills(totems: ProcessedTotem[] | undefined) {
+  if (!totems || totems.length === 0) return null;
+  
+  return (
+    <div className="flex items-center gap-1 flex-wrap">
+      {totems.map((totem, idx) => (
+        <div key={idx} className="flex items-center gap-0.5">
+          <span className="text-xs opacity-60">{totem.elementRu.slice(0, 1)}:</span>
+          {totem.skills.map((skill, skillIdx) => (
+            <Avatar key={skillIdx} className={`h-4 w-4 ring-1 ${GRADE_COLORS[skill.grade]}`}>
+              {skill.icon ? (
+                <AvatarImage src={skill.icon} alt={skill.name} />
+              ) : (
+                <AvatarFallback className="text-[5px]">{skill.skillId}</AvatarFallback>
+              )}
+            </Avatar>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 interface GroupedReplayCardProps {
   group: ReplayGroup;
@@ -36,6 +89,7 @@ export function GroupedReplayCard({
   const replay = group.displayReplay;
   const hasMultiple = group.replays.length > 1;
   const allCollected = group.replays.every(r => isCollected?.(r.id));
+  const mergedTotems = getMergedTotems(group.replays);
 
   const copyReplayFragments = async (r: ProcessedReplay) => {
     try {
@@ -184,9 +238,9 @@ export function GroupedReplayCard({
             </div>
           </div>
 
-          {replay.totems && replay.totems.length > 0 && (
+          {mergedTotems && mergedTotems.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">
-              {replay.totems.map((totem, idx) => (
+              {mergedTotems.map((totem, idx) => (
                 <div key={idx} className="flex items-center gap-1.5 text-xs bg-muted/50 rounded px-2 py-1">
                   <span className="font-medium">{totem.elementRu}</span>
                   <div className="flex items-center gap-1">
@@ -316,7 +370,7 @@ export function GroupedReplayCard({
                 <Button
                   key={r.id}
                   variant={collected ? "secondary" : "outline"}
-                  className="justify-start gap-2 h-auto py-2"
+                  className="justify-start gap-2 h-auto py-2 flex-wrap"
                   disabled={collected}
                   onClick={() => {
                     addReplayToCollection(r);
@@ -324,14 +378,21 @@ export function GroupedReplayCard({
                   }}
                   data-testid={`button-select-replay-${r.id}`}
                 >
-                  <span className="font-mono text-sm">#{r.gameId}</span>
-                  <span className="text-muted-foreground">
-                    Глава {r.chapter}, Бой {r.level}
-                  </span>
-                  {collected && (
-                    <Badge variant="secondary" className="ml-auto">
-                      В коллекции
-                    </Badge>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-sm">#{r.gameId}</span>
+                    <span className="text-muted-foreground">
+                      Глава {r.chapter}, Бой {r.level}
+                    </span>
+                    {collected && (
+                      <Badge variant="secondary">
+                        В коллекции
+                      </Badge>
+                    )}
+                  </div>
+                  {r.totems && r.totems.length > 0 && (
+                    <div className="w-full mt-1">
+                      {renderCompactSkills(r.totems)}
+                    </div>
                   )}
                 </Button>
               );
@@ -355,23 +416,30 @@ export function GroupedReplayCard({
                 <Button
                   key={r.id}
                   variant={isCopied ? "secondary" : "outline"}
-                  className="justify-start gap-2 h-auto py-2"
+                  className="justify-start gap-2 h-auto py-2 flex-wrap"
                   onClick={() => copyReplayFragments(r)}
                   data-testid={`button-copy-replay-${r.id}`}
                 >
-                  {isCopied ? (
-                    <Check className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Copy className="h-4 w-4" />
-                  )}
-                  <span className="font-mono text-sm">#{r.gameId}</span>
-                  <span className="text-muted-foreground">
-                    Глава {r.chapter}, Бой {r.level}
-                  </span>
-                  {isCopied && (
-                    <Badge variant="secondary" className="ml-auto text-green-600">
-                      Скопировано
-                    </Badge>
+                  <div className="flex items-center gap-2">
+                    {isCopied ? (
+                      <Check className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
+                    <span className="font-mono text-sm">#{r.gameId}</span>
+                    <span className="text-muted-foreground">
+                      Глава {r.chapter}, Бой {r.level}
+                    </span>
+                    {isCopied && (
+                      <Badge variant="secondary" className="text-green-600">
+                        Скопировано
+                      </Badge>
+                    )}
+                  </div>
+                  {r.totems && r.totems.length > 0 && (
+                    <div className="w-full mt-1">
+                      {renderCompactSkills(r.totems)}
+                    </div>
                   )}
                 </Button>
               );
