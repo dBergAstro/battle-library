@@ -1,15 +1,15 @@
 import { 
   bossList, bossTeam, bossLevel, heroIcons, heroNames, heroSortOrder, titanElements,
-  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons,
+  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons, battleTags,
   type InsertBossList, type InsertBossTeam, type InsertBossLevel, 
   type InsertHeroIcon, type InsertHeroName, type InsertHeroSortOrder, type InsertTitanElement,
   type InsertAttackTeam, type InsertPetIcon, type InsertAppSetting,
-  type InsertSpiritSkill, type InsertSpiritIcon,
+  type InsertSpiritSkill, type InsertSpiritIcon, type InsertBattleTag,
   type BossList, type BossTeam, type BossLevel, type HeroIcon, type HeroName, type HeroSortOrder, type TitanElement,
-  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon
+  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon, type BattleTag
 } from "@shared/schema";
 import { db } from "./db";
-import { gt, sql } from "drizzle-orm";
+import { gt, sql, eq, and } from "drizzle-orm";
 
 export interface IStorage {
   getAllBossList(): Promise<BossList[]>;
@@ -58,6 +58,12 @@ export interface IStorage {
   
   getSetting(key: string): Promise<string | null>;
   setSetting(key: string, value: string): Promise<void>;
+  
+  getAllBattleTags(): Promise<BattleTag[]>;
+  getBattleTags(battleGameId: number): Promise<BattleTag[]>;
+  addBattleTag(battleGameId: number, tag: string): Promise<void>;
+  removeBattleTag(battleGameId: number, tag: string): Promise<void>;
+  getAllUniqueTags(): Promise<string[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -310,6 +316,34 @@ export class DatabaseStorage implements IStorage {
       target: appSettings.key,
       set: { value: sql`excluded.value` },
     });
+  }
+
+  // Battle Tags
+  async getAllBattleTags(): Promise<BattleTag[]> {
+    return await db.select().from(battleTags);
+  }
+
+  async getBattleTags(battleGameId: number): Promise<BattleTag[]> {
+    return await db.select().from(battleTags).where(eq(battleTags.battleGameId, battleGameId));
+  }
+
+  async addBattleTag(battleGameId: number, tag: string): Promise<void> {
+    // Check if tag already exists for this battle
+    const existing = await db.select().from(battleTags)
+      .where(and(eq(battleTags.battleGameId, battleGameId), eq(battleTags.tag, tag)));
+    if (existing.length === 0) {
+      await db.insert(battleTags).values({ battleGameId, tag });
+    }
+  }
+
+  async removeBattleTag(battleGameId: number, tag: string): Promise<void> {
+    await db.delete(battleTags)
+      .where(and(eq(battleTags.battleGameId, battleGameId), eq(battleTags.tag, tag)));
+  }
+
+  async getAllUniqueTags(): Promise<string[]> {
+    const result = await db.selectDistinct({ tag: battleTags.tag }).from(battleTags);
+    return result.map(r => r.tag);
   }
 }
 

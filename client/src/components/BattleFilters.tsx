@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/MultiSelect";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, X, Filter, ArrowUp, ArrowDown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Search, X, Filter, ArrowUp, ArrowDown, Hash } from "lucide-react";
 import type { BattleType } from "@shared/schema";
 
 export type SourceFilter = "battles" | "replays";
@@ -30,6 +33,7 @@ interface BattleFiltersProps {
   onSortMethodChange: (value: SortMethod) => void;
   sortDirection: SortDirection;
   onSortDirectionChange: (value: SortDirection) => void;
+  allTags: string[];
   totalCount: number;
   filteredCount: number;
 }
@@ -53,9 +57,22 @@ export function BattleFilters({
   onSortMethodChange,
   sortDirection,
   onSortDirectionChange,
+  allTags,
   totalCount,
   filteredCount,
 }: BattleFiltersProps) {
+  const [tagsOpen, setTagsOpen] = useState(false);
+
+  const ELEMENT_TAGS = ["#вода", "#огонь", "#земля", "#тьма", "#свет"];
+
+  const handleTagClick = (tag: string) => {
+    const hashtag = tag.startsWith("#") ? tag : `#${tag}`;
+    if (!searchQuery.includes(hashtag)) {
+      onSearchChange(searchQuery ? `${searchQuery} ${hashtag}` : hashtag);
+    }
+    setTagsOpen(false);
+  };
+
   const hasFilters = searchQuery || 
     typeFilters.length > 0 || 
     sourceFilters.length > 0 || 
@@ -95,25 +112,80 @@ export function BattleFilters({
   return (
     <div className="space-y-3">
       <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Поиск по имени героя, ID или главе..."
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="pl-9"
-            data-testid="input-search"
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              onClick={() => onSearchChange("")}
-              data-testid="button-clear-search"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
+        <div className="flex gap-2 flex-1 min-w-[200px]">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Поиск по имени героя, ID, #тегу..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="pl-9"
+              data-testid="input-search"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                onClick={() => onSearchChange("")}
+                data-testid="button-clear-search"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          
+          <Popover open={tagsOpen} onOpenChange={setTagsOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="icon" data-testid="button-show-tags">
+                <Hash className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80" align="end">
+              <div className="space-y-3">
+                <div>
+                  <h4 className="font-medium text-sm mb-2">Стихии титанов</h4>
+                  <div className="flex flex-wrap gap-1">
+                    {ELEMENT_TAGS.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className="cursor-pointer hover-elevate"
+                        onClick={() => handleTagClick(tag)}
+                        data-testid={`tag-element-${tag}`}
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                
+                {allTags.length > 0 && (
+                  <div>
+                    <h4 className="font-medium text-sm mb-2">Пользовательские теги</h4>
+                    <div className="flex flex-wrap gap-1 max-h-40 overflow-y-auto">
+                      {allTags.map((tag) => (
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="cursor-pointer hover-elevate"
+                          onClick={() => handleTagClick(tag)}
+                          data-testid={`tag-user-${tag}`}
+                        >
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {allTags.length === 0 && (
+                  <p className="text-xs text-muted-foreground">
+                    Добавляйте теги к боям кнопкой тега на карточке
+                  </p>
+                )}
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
 
         <MultiSelect

@@ -8,14 +8,17 @@ import type { ProcessedBattle } from "@shared/schema";
 import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
 import { cn } from "@/lib/utils";
 import type { CollectedItem } from "./CollectionSidebar";
+import { TagsModal } from "./TagsModal";
 
 interface BattleCardProps {
   battle: ProcessedBattle;
   isCollected?: boolean;
   onAddToCollection?: (item: CollectedItem) => void;
+  tags?: string[];
+  allTags?: string[];
 }
 
-export function BattleCard({ battle, isCollected, onAddToCollection }: BattleCardProps) {
+export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], allTags = [] }: BattleCardProps) {
   const isHeroic = battle.type === "heroic";
 
   const handleAddToCollection = () => {
@@ -117,25 +120,42 @@ export function BattleCard({ battle, isCollected, onAddToCollection }: BattleCar
             )}
           </div>
           
-          {onAddToCollection && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant={isCollected ? "secondary" : "outline"}
-                  size="icon"
-                  disabled={isCollected}
-                  onClick={handleAddToCollection}
-                  data-testid={`button-add-battle-${battle.id}`}
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="left" className="text-xs">
-                {isCollected ? "Уже в коллекции" : "Добавить в коллекцию"}
-              </TooltipContent>
-            </Tooltip>
-          )}
+          <div className="flex items-center gap-1">
+            <TagsModal 
+              battleGameId={battle.gameId} 
+              tags={tags} 
+              allTags={allTags} 
+            />
+            {onAddToCollection && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={isCollected ? "secondary" : "outline"}
+                    size="icon"
+                    disabled={isCollected}
+                    onClick={handleAddToCollection}
+                    data-testid={`button-add-battle-${battle.id}`}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="text-xs">
+                  {isCollected ? "Уже в коллекции" : "Добавить в коллекцию"}
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
         </div>
+
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-2">
+            {tags.map((tag) => (
+              <Badge key={tag} variant="outline" className="text-xs py-0">
+                #{tag}
+              </Badge>
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center gap-1">
           <div className="flex -space-x-2">

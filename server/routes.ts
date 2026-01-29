@@ -488,5 +488,54 @@ export async function registerRoutes(
     }
   });
 
+  // Battle Tags API
+  app.get("/api/tags", async (_req, res) => {
+    try {
+      const tags = await storage.getAllBattleTags();
+      const uniqueTags = await storage.getAllUniqueTags();
+      res.json({ tags, uniqueTags });
+    } catch (error) {
+      console.error("Error fetching tags:", error);
+      res.status(500).json({ error: "Failed to fetch tags" });
+    }
+  });
+
+  app.get("/api/tags/unique", async (_req, res) => {
+    try {
+      const uniqueTags = await storage.getAllUniqueTags();
+      res.json({ tags: uniqueTags });
+    } catch (error) {
+      console.error("Error fetching unique tags:", error);
+      res.status(500).json({ error: "Failed to fetch unique tags" });
+    }
+  });
+
+  app.post("/api/tags/:battleGameId", async (req, res) => {
+    try {
+      const battleGameId = parseInt(req.params.battleGameId, 10);
+      const { tag } = req.body;
+      if (!tag || typeof tag !== "string") {
+        return res.status(400).json({ error: "Tag is required" });
+      }
+      await storage.addBattleTag(battleGameId, tag.toLowerCase().trim());
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error adding tag:", error);
+      res.status(500).json({ error: "Failed to add tag" });
+    }
+  });
+
+  app.delete("/api/tags/:battleGameId/:tag", async (req, res) => {
+    try {
+      const battleGameId = parseInt(req.params.battleGameId, 10);
+      const tag = decodeURIComponent(req.params.tag);
+      await storage.removeBattleTag(battleGameId, tag);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error removing tag:", error);
+      res.status(500).json({ error: "Failed to remove tag" });
+    }
+  });
+
   return httpServer;
 }

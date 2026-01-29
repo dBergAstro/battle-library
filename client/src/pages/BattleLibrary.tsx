@@ -25,7 +25,12 @@ import {
   type ServerSpiritSkill,
   type ServerSpiritIcon
 } from "@/lib/replayUtils";
-import type { ProcessedBattle, ProcessedReplay, BattleType } from "@shared/schema";
+import type { ProcessedBattle, ProcessedReplay, BattleType, BattleTag } from "@shared/schema";
+
+interface TagsResponse {
+  tags: BattleTag[];
+  uniqueTags: string[];
+}
 
 interface BattlesResponse {
   bossList: ServerBossList[];
@@ -93,6 +98,25 @@ export default function BattleLibrary() {
     queryKey: ["/api/battles"],
   });
 
+  const { data: tagsData } = useQuery<TagsResponse>({
+    queryKey: ["/api/tags"],
+  });
+
+  // Карта battleGameId -> tags[]
+  const battleTagsMap = useMemo(() => {
+    const map = new Map<number, string[]>();
+    if (tagsData?.tags) {
+      for (const tag of tagsData.tags) {
+        const existing = map.get(tag.battleGameId) || [];
+        existing.push(tag.tag);
+        map.set(tag.battleGameId, existing);
+      }
+    }
+    return map;
+  }, [tagsData]);
+
+  const allUniqueTags = useMemo(() => tagsData?.uniqueTags || [], [tagsData]);
+
   const battles = useMemo<ProcessedBattle[]>(() => {
     if (!data) return [];
     return processBattlesFromServer(
@@ -116,6 +140,12 @@ export default function BattleLibrary() {
       data.spiritSkills || [],
       data.spiritIcons || []
     );
+  }, [data]);
+
+  // Карта titan ID -> element для фильтрации по хештегам стихий
+  const titanElementsMap = useMemo(() => {
+    if (!data?.titanElements) return new Map<number, string>();
+    return new Map(data.titanElements.map(t => [t.titanId, t.element.toLowerCase()]));
   }, [data]);
 
   const chapters = useMemo(() => {
@@ -167,6 +197,15 @@ export default function BattleLibrary() {
     });
   }, [battles, replays]);
 
+  // Парсинг хештегов стихий из строки поиска
+  const ELEMENT_HASHTAGS: Record<string, string> = {
+    "#вода": "вода",
+    "#огонь": "огонь",
+    "#земля": "земля",
+    "#тьма": "тьма",
+    "#свет": "свет",
+  };
+
   const filteredList = useMemo(() => {
     let result = combinedList;
 
@@ -180,18 +219,64 @@ export default function BattleLibrary() {
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      result = result.filter((item) => {
-        if (item.type === "battle") {
-          const b = item.data;
-          return b.gameId.toString().includes(query) ||
-            b.team.some((t) => t.name.toLowerCase().includes(query));
+      
+      // Извлекаем хештеги стихий, пользовательские теги и обычный текст поиска
+      const elementHashtags: string[] = [];
+      const userTags: string[] = [];
+      let textQuery = query;
+      
+      // Разбираем хештеги
+      const hashtagRegex = /#(\S+)/g;
+      let match;
+      while ((match = hashtagRegex.exec(query)) !== null) {
+        const tagName = match[1].toLowerCase();
+        const fullHashtag = `#${tagName}`;
+        
+        if (ELEMENT_HASHTAGS[fullHashtag]) {
+          elementHashtags.push(ELEMENT_HASHTAGS[fullHashtag]);
         } else {
-          const r = item.data;
-          return r.gameId.toString().includes(query) ||
-            r.team.some((t) => t.name.toLowerCase().includes(query)) ||
-            (r.comment && r.comment.toLowerCase().includes(query));
+          userTags.push(tagName);
         }
-      });
+        textQuery = textQuery.replace(fullHashtag, "").trim();
+      }
+      
+      // Фильтруем по хештегам стихий (бои с титанами указанной стихии)
+      if (elementHashtags.length > 0) {
+        result = result.filter((item) => {
+          const team = item.type === "battle" ? item.data.team : item.data.team;
+          return team.some((member) => {
+            const titanElement = titanElementsMap.get(member.heroId);
+            return titanElement && elementHashtags.includes(titanElement);
+          });
+        });
+      }
+      
+      // Фильтруем по пользовательским тегам
+      if (userTags.length > 0) {
+        result = result.filter((item) => {
+          if (item.type === "battle") {
+            const battleTags = battleTagsMap.get(item.data.gameId) || [];
+            return userTags.every(tag => battleTags.includes(tag));
+          }
+          return false; // Replays don't have user tags yet
+        });
+      }
+      
+      // Фильтруем по текстовому запросу
+      if (textQuery) {
+        result = result.filter((item) => {
+          if (item.type === "battle") {
+            const b = item.data;
+            return b.gameId.toString().includes(textQuery) ||
+              b.team.some((t) => t.name.toLowerCase().includes(textQuery));
+          } else {
+            const r = item.data;
+            return r.gameId.toString().includes(textQuery) ||
+              r.team.some((t) => t.name.toLowerCase().includes(textQuery)) ||
+              (r.comment && r.comment.toLowerCase().includes(textQuery));
+          }
+        });
+      }
     }
 
     if (typeFilters.length > 0) {
@@ -243,7 +328,7 @@ export default function BattleLibrary() {
     }
 
     return result;
-  }, [combinedList, searchQuery, typeFilters, sourceFilters, chapterFilters, battleNumberFilters, showOnlyWithCreeps, sortMethod, sortDirection]);
+  }, [combinedList, searchQuery, typeFilters, sourceFilters, chapterFilters, battleNumberFilters, showOnlyWithCreeps, sortMethod, sortDirection, titanElementsMap, battleTagsMap]);
 
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
@@ -376,6 +461,7 @@ export default function BattleLibrary() {
                 onSortMethodChange={setSortMethod}
                 sortDirection={sortDirection}
                 onSortDirectionChange={setSortDirection}
+                allTags={allUniqueTags}
                 totalCount={combinedList.length}
                 filteredCount={filteredList.length}
               />
@@ -390,6 +476,8 @@ export default function BattleLibrary() {
                           battle={item.data} 
                           isCollected={collectedIds.has(`battle-${item.data.id}`)}
                           onAddToCollection={handleAddToCollection}
+                          tags={battleTagsMap.get(item.data.gameId) || []}
+                          allTags={allUniqueTags}
                         />
                       ) : (
                         <ReplayCard 

@@ -173,6 +173,17 @@ export const insertSpiritIconSchema = createInsertSchema(spiritIcons).omit({ id:
 export type InsertSpiritIcon = z.infer<typeof insertSpiritIconSchema>;
 export type SpiritIcon = typeof spiritIcons.$inferSelect;
 
+// Battle Tags - пользовательские теги для боёв
+export const battleTags = pgTable("battle_tags", {
+  id: serial("id").primaryKey(),
+  battleGameId: integer("battle_game_id").notNull(),
+  tag: text("tag").notNull(),
+});
+
+export const insertBattleTagSchema = createInsertSchema(battleTags).omit({ id: true });
+export type InsertBattleTag = z.infer<typeof insertBattleTagSchema>;
+export type BattleTag = typeof battleTags.$inferSelect;
+
 // Тип боя
 export type BattleType = "heroic" | "titanic";
 
