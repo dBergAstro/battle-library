@@ -213,10 +213,9 @@ export default function BattleLibrary() {
 
     if (showOnlyWithCreeps) {
       result = result.filter((item) => {
-        if (item.type === "battle") {
-          return item.data.team.some((t) => t.heroId >= 1000 && t.heroId <= 2999);
-        }
-        return true;
+        const team = item.type === "battle" ? item.data.team : item.data.team;
+        // Show only if ALL team members are creeps (ID 1000-3999), no heroes or titans
+        return team.length > 0 && team.every((t) => t.heroId >= 1000 && t.heroId <= 3999);
       });
     }
 
