@@ -220,24 +220,17 @@ export function CollectionSidebar({
         </ScrollArea>
       </div>
 
-      <Button
-        variant="default"
-        className="fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] shadow-lg px-4"
-        onClick={onToggle}
-        data-testid="button-toggle-sidebar"
-      >
-        {isOpen ? (
-          <>
-            <ChevronLeft className="h-4 w-4 mr-2" />
-            Скрыть коллекцию
-          </>
-        ) : (
-          <>
-            <ChevronRight className="h-4 w-4 mr-2" />
-            Коллекция боёв ({collectedItems.size})
-          </>
-        )}
-      </Button>
+      {!isOpen && (
+        <Button
+          size="icon"
+          variant="outline"
+          className="fixed left-0 top-1/2 -translate-y-1/2 z-[60] rounded-l-none shadow-lg"
+          onClick={onToggle}
+          data-testid="button-toggle-sidebar"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+      )}
 
       {isOpen && (
         <div
