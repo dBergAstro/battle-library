@@ -88,7 +88,7 @@ export function GroupedReplayCard({
   
   const replay = group.displayReplay;
   const hasMultiple = group.replays.length > 1;
-  const allCollected = group.replays.every(r => isCollected?.(r.id));
+  const anyCollected = group.replays.some(r => isCollected?.(r.id));
   const mergedTotems = getMergedTotems(group.replays);
 
   const copyReplayFragments = async (r: ProcessedReplay) => {
@@ -146,7 +146,7 @@ export function GroupedReplayCard({
       <Card
         className={cn(
           "hover-elevate border-card-border",
-          allCollected && "ring-2 ring-primary/50 bg-primary/5 opacity-60"
+          anyCollected && "ring-2 ring-primary/50 bg-primary/5 opacity-60"
         )}
         data-testid={`card-group-${group.groupKey}`}
       >
@@ -221,9 +221,9 @@ export function GroupedReplayCard({
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
-                      variant={allCollected ? "secondary" : "outline"}
+                      variant={anyCollected ? "secondary" : "outline"}
                       size="sm"
-                      disabled={allCollected}
+                      disabled={anyCollected}
                       onClick={handleAddToCollection}
                       data-testid={`button-add-group-${group.groupKey}`}
                     >
@@ -231,7 +231,7 @@ export function GroupedReplayCard({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="left" className="text-xs">
-                    {allCollected ? "Все в коллекции" : hasMultiple ? "Выбрать бой для коллекции" : "Добавить в коллекцию"}
+                    {anyCollected ? "Уже в коллекции" : hasMultiple ? "Выбрать бой для коллекции" : "Добавить в коллекцию"}
                   </TooltipContent>
                 </Tooltip>
               )}
