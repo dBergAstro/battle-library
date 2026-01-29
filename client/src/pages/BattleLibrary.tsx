@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
 import { ReplayCard } from "@/components/ReplayCard";
+import { GroupedReplayCard } from "@/components/GroupedReplayCard";
 import { BattleFilters, type SourceFilter, type SortMethod, type SortDirection } from "@/components/BattleFilters";
 import { CollectionSidebar, type CollectedItem } from "@/components/CollectionSidebar";
 import { AddToCollectionModal } from "@/components/AddToCollectionModal";
@@ -20,12 +21,13 @@ import {
 } from "@/lib/battleUtils";
 import {
   processReplaysFromServer,
+  groupReplays,
   type ServerAttackTeam,
   type ServerPetIcon,
   type ServerSpiritSkill,
   type ServerSpiritIcon
 } from "@/lib/replayUtils";
-import type { ProcessedBattle, ProcessedReplay, BattleType, BattleTag } from "@shared/schema";
+import type { ProcessedBattle, ProcessedReplay, BattleType, BattleTag, ReplayGroup } from "@shared/schema";
 
 interface TagsResponse {
   tags: BattleTag[];
@@ -49,7 +51,8 @@ interface BattlesResponse {
 
 type ListItem = 
   | { type: "battle"; data: ProcessedBattle; chapter: number; level: number }
-  | { type: "replay"; data: ProcessedReplay; chapter: number; level: number };
+  | { type: "replay"; data: ProcessedReplay; chapter: number; level: number }
+  | { type: "replayGroup"; data: ReplayGroup; chapter: number; level: number };
 
 export default function BattleLibrary() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,6 +63,7 @@ export default function BattleLibrary() {
   const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
   const [sortMethod, setSortMethod] = useState<SortMethod>("chapter");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  const [groupReplaysEnabled, setGroupReplaysEnabled] = useState(true);
   
   const [collectionOpen, setCollectionOpen] = useState(false);
   const [collectedItems, setCollectedItems] = useState<Map<string, CollectedItem>>(new Map());
@@ -167,6 +171,8 @@ export default function BattleLibrary() {
     return Array.from(uniqueNumbers).sort((a, b) => a - b).map(n => n.toString());
   }, [battles, replays]);
 
+  const replayGroups = useMemo(() => groupReplays(replays), [replays]);
+
   const combinedList = useMemo<ListItem[]>(() => {
     const items: ListItem[] = [];
     
@@ -180,13 +186,24 @@ export default function BattleLibrary() {
       });
     }
     
-    for (const replay of replays) {
-      items.push({
-        type: "replay",
-        data: replay,
-        chapter: replay.chapter,
-        level: replay.level,
-      });
+    if (groupReplaysEnabled) {
+      for (const group of replayGroups) {
+        items.push({
+          type: "replayGroup",
+          data: group,
+          chapter: group.displayReplay.chapter,
+          level: group.minLevel,
+        });
+      }
+    } else {
+      for (const replay of replays) {
+        items.push({
+          type: "replay",
+          data: replay,
+          chapter: replay.chapter,
+          level: replay.level,
+        });
+      }
     }
     
     return items.sort((a, b) => {
@@ -195,7 +212,7 @@ export default function BattleLibrary() {
       if (a.type !== b.type) return a.type === "battle" ? -1 : 1;
       return 0;
     });
-  }, [battles, replays]);
+  }, [battles, replays, replayGroups, groupReplaysEnabled]);
 
   // Парсинг хештегов стихий из строки поиска
   const ELEMENT_HASHTAGS: Record<string, string> = {
@@ -212,7 +229,7 @@ export default function BattleLibrary() {
     if (sourceFilters.length > 0) {
       result = result.filter((item) => {
         if (sourceFilters.includes("battles") && item.type === "battle") return true;
-        if (sourceFilters.includes("replays") && item.type === "replay") return true;
+        if (sourceFilters.includes("replays") && (item.type === "replay" || item.type === "replayGroup")) return true;
         return false;
       });
     }
@@ -243,7 +260,11 @@ export default function BattleLibrary() {
       // Фильтруем по хештегам стихий (бои с титанами указанной стихии)
       if (elementHashtags.length > 0) {
         result = result.filter((item) => {
-          const team = item.type === "battle" ? item.data.team : item.data.team;
+          const team = item.type === "battle" 
+            ? item.data.team 
+            : item.type === "replayGroup" 
+              ? item.data.displayReplay.team 
+              : item.data.team;
           return team.some((member) => {
             const titanElement = titanElementsMap.get(member.heroId);
             return titanElement && elementHashtags.includes(titanElement);
@@ -254,11 +275,13 @@ export default function BattleLibrary() {
       // Фильтруем по пользовательским тегам
       if (userTags.length > 0) {
         result = result.filter((item) => {
-          if (item.type === "battle") {
-            const battleTags = battleTagsMap.get(item.data.gameId) || [];
-            return userTags.every(tag => battleTags.includes(tag));
-          }
-          return false; // Replays don't have user tags yet
+          const gameId = item.type === "battle" 
+            ? item.data.gameId 
+            : item.type === "replayGroup" 
+              ? item.data.displayReplay.gameId 
+              : item.data.gameId;
+          const itemTags = battleTagsMap.get(gameId) || [];
+          return userTags.every(tag => itemTags.includes(tag));
         });
       }
       
@@ -269,6 +292,11 @@ export default function BattleLibrary() {
             const b = item.data;
             return b.gameId.toString().includes(textQuery) ||
               b.team.some((t) => t.name.toLowerCase().includes(textQuery));
+          } else if (item.type === "replayGroup") {
+            const r = item.data.displayReplay;
+            return r.gameId.toString().includes(textQuery) ||
+              r.team.some((t) => t.name.toLowerCase().includes(textQuery)) ||
+              (r.comment && r.comment.toLowerCase().includes(textQuery));
           } else {
             const r = item.data;
             return r.gameId.toString().includes(textQuery) ||
@@ -283,6 +311,9 @@ export default function BattleLibrary() {
       result = result.filter((item) => {
         if (item.type === "battle") {
           return typeFilters.includes(item.data.type);
+        } else if (item.type === "replayGroup") {
+          const battleType = item.data.displayReplay.enemyType === "Герои" ? "heroic" : "titanic";
+          return typeFilters.includes(battleType as BattleType);
         } else {
           const battleType = item.data.enemyType === "Герои" ? "heroic" : "titanic";
           return typeFilters.includes(battleType as BattleType);
@@ -300,7 +331,11 @@ export default function BattleLibrary() {
 
     if (showOnlyWithCreeps) {
       result = result.filter((item) => {
-        const team = item.type === "battle" ? item.data.team : item.data.team;
+        const team = item.type === "battle" 
+          ? item.data.team 
+          : item.type === "replayGroup" 
+            ? item.data.displayReplay.team 
+            : item.data.team;
         // Show only if ALL team members are creeps (ID 1000-3999), no heroes or titans
         return team.length > 0 && team.every((t) => t.heroId >= 1000 && t.heroId <= 3999);
       });
@@ -469,27 +504,42 @@ export default function BattleLibrary() {
               {filteredList.length > 0 ? (
                 <ScrollArea className="h-[calc(100vh-320px)] min-h-[400px]">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-4">
-                    {filteredList.map((item) => 
-                      item.type === "battle" ? (
-                        <BattleCard 
-                          key={`battle-${item.data.id}`} 
-                          battle={item.data} 
-                          isCollected={collectedIds.has(`battle-${item.data.id}`)}
-                          onAddToCollection={handleAddToCollection}
-                          tags={battleTagsMap.get(item.data.gameId) || []}
-                          allTags={allUniqueTags}
-                        />
-                      ) : (
-                        <ReplayCard 
-                          key={`replay-${item.data.id}`} 
-                          replay={item.data} 
-                          isCollected={collectedIds.has(`replay-${item.data.id}`)}
-                          onAddToCollection={handleAddToCollection}
-                          tags={battleTagsMap.get(item.data.gameId) || []}
-                          allTags={allUniqueTags}
-                        />
-                      )
-                    )}
+                    {filteredList.map((item) => {
+                      if (item.type === "battle") {
+                        return (
+                          <BattleCard 
+                            key={`battle-${item.data.id}`} 
+                            battle={item.data} 
+                            isCollected={collectedIds.has(`battle-${item.data.id}`)}
+                            onAddToCollection={handleAddToCollection}
+                            tags={battleTagsMap.get(item.data.gameId) || []}
+                            allTags={allUniqueTags}
+                          />
+                        );
+                      } else if (item.type === "replayGroup") {
+                        return (
+                          <GroupedReplayCard
+                            key={`group-${item.data.groupKey}`}
+                            group={item.data}
+                            isCollected={(replayId) => collectedIds.has(`replay-${replayId}`)}
+                            onAddToCollection={handleAddToCollection}
+                            tags={battleTagsMap.get(item.data.displayReplay.gameId) || []}
+                            allTags={allUniqueTags}
+                          />
+                        );
+                      } else {
+                        return (
+                          <ReplayCard 
+                            key={`replay-${item.data.id}`} 
+                            replay={item.data} 
+                            isCollected={collectedIds.has(`replay-${item.data.id}`)}
+                            onAddToCollection={handleAddToCollection}
+                            tags={battleTagsMap.get(item.data.gameId) || []}
+                            allTags={allUniqueTags}
+                          />
+                        );
+                      }
+                    })}
                   </div>
                 </ScrollArea>
               ) : (
