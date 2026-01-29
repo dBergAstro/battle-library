@@ -4,15 +4,19 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { PlayCircle, Copy, Check } from "lucide-react";
+import { PlayCircle, Copy, Check, GripVertical } from "lucide-react";
 import type { ProcessedReplay } from "@shared/schema";
 import { GRADE_COLORS } from "@/lib/replayUtils";
+import { cn } from "@/lib/utils";
 
 interface ReplayCardProps {
   replay: ProcessedReplay;
+  isCollected?: boolean;
+  onDragStart?: (replay: ProcessedReplay) => void;
+  onDragEnd?: () => void;
 }
 
-export function ReplayCard({ replay }: ReplayCardProps) {
+export function ReplayCard({ replay, isCollected, onDragStart, onDragEnd }: ReplayCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -25,9 +29,28 @@ export function ReplayCard({ replay }: ReplayCardProps) {
     }
   };
 
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("application/json", JSON.stringify({
+      id: `replay-${replay.id}`,
+      type: "replay",
+      gameId: replay.gameId,
+      label: `Глава ${replay.chapter}`,
+      desc: `Бой ${replay.level}`,
+      battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
+    }));
+    onDragStart?.(replay);
+  };
+
   return (
     <Card
-      className="hover-elevate border-card-border"
+      className={cn(
+        "hover-elevate border-card-border",
+        isCollected && "ring-2 ring-primary/50 bg-primary/5"
+      )}
+      draggable={!isCollected}
+      onDragStart={handleDragStart}
+      onDragEnd={onDragEnd}
       data-testid={`card-replay-${replay.id}`}
     >
       <CardContent className="p-4">

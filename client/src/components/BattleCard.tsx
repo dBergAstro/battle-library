@@ -2,20 +2,43 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Swords, Shield, Zap } from "lucide-react";
+import { Swords, Shield, Zap, GripVertical } from "lucide-react";
 import type { ProcessedBattle } from "@shared/schema";
 import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
+import { cn } from "@/lib/utils";
 
 interface BattleCardProps {
   battle: ProcessedBattle;
+  isCollected?: boolean;
+  onDragStart?: (battle: ProcessedBattle) => void;
+  onDragEnd?: () => void;
 }
 
-export function BattleCard({ battle }: BattleCardProps) {
+export function BattleCard({ battle, isCollected, onDragStart, onDragEnd }: BattleCardProps) {
   const isHeroic = battle.type === "heroic";
+
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("application/json", JSON.stringify({
+      id: `battle-${battle.id}`,
+      type: "battle",
+      gameId: battle.gameId,
+      label: battle.originalLabel,
+      desc: battle.battleNumber,
+      battleType: battle.type,
+    }));
+    onDragStart?.(battle);
+  };
 
   return (
     <Card
-      className="hover-elevate border-card-border transition-all"
+      className={cn(
+        "hover-elevate border-card-border transition-all",
+        isCollected && "ring-2 ring-primary/50 bg-primary/5"
+      )}
+      draggable={!isCollected}
+      onDragStart={handleDragStart}
+      onDragEnd={onDragEnd}
       data-testid={`card-battle-${battle.id}`}
     >
       <CardContent className="p-4">
@@ -29,8 +52,8 @@ export function BattleCard({ battle }: BattleCardProps) {
                 variant={isHeroic ? "default" : "secondary"}
                 className={
                   isHeroic
-                    ? "bg-blue-600 hover:bg-blue-600"
-                    : "bg-amber-600 hover:bg-amber-600 text-white"
+                    ? "bg-blue-600"
+                    : "bg-amber-600 text-white"
                 }
               >
                 {isHeroic ? (

@@ -1,10 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BattleCard } from "@/components/BattleCard";
 import { ReplayCard } from "@/components/ReplayCard";
 import { BattleFilters, type SourceFilter } from "@/components/BattleFilters";
+import { CollectionSidebar, type CollectedItem } from "@/components/CollectionSidebar";
 import { Library, Shield, AlertCircle, Loader2, PlayCircle } from "lucide-react";
 import { 
   processBattlesFromServer, 
@@ -50,6 +51,70 @@ export default function BattleLibrary() {
   const [chapterFilters, setChapterFilters] = useState<string[]>([]);
   const [battleNumberFilters, setBattleNumberFilters] = useState<string[]>([]);
   const [showOnlyWithCreeps, setShowOnlyWithCreeps] = useState(false);
+  
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collectedItems, setCollectedItems] = useState<Map<string, CollectedItem>>(new Map());
+  const [draggedItem, setDraggedItem] = useState<CollectedItem | null>(null);
+
+  const collectedIds = useMemo(() => {
+    const ids = new Set<string>();
+    collectedItems.forEach((item) => ids.add(item.id));
+    return ids;
+  }, [collectedItems]);
+
+  const handleBattleDragStart = useCallback((battle: ProcessedBattle) => {
+    const item: CollectedItem = {
+      id: `battle-${battle.id}`,
+      type: "battle",
+      gameId: battle.gameId,
+      label: battle.originalLabel,
+      desc: battle.battleNumber,
+      battleType: battle.type,
+    };
+    setDraggedItem(item);
+    setSidebarOpen(true);
+  }, []);
+
+  const handleReplayDragStart = useCallback((replay: ProcessedReplay) => {
+    const item: CollectedItem = {
+      id: `replay-${replay.id}`,
+      type: "replay",
+      gameId: replay.gameId,
+      label: `Глава ${replay.chapter}`,
+      desc: `Бой ${replay.level}`,
+      battleType: replay.enemyType === "Герои" ? "heroic" : "titanic",
+    };
+    setDraggedItem(item);
+    setSidebarOpen(true);
+  }, []);
+
+  const handleDragEnd = useCallback(() => {
+    setDraggedItem(null);
+  }, []);
+
+  const handleDropItem = useCallback((chapterIndex: number, slotIndex: number, item: CollectedItem) => {
+    const slotKey = `${chapterIndex}-${slotIndex}`;
+    setCollectedItems((prev) => {
+      const next = new Map(prev);
+      const entries = Array.from(next.entries());
+      for (const [key, existingItem] of entries) {
+        if (existingItem.id === item.id) {
+          next.delete(key);
+        }
+      }
+      next.set(slotKey, item);
+      return next;
+    });
+    setDraggedItem(null);
+  }, []);
+
+  const handleRemoveItem = useCallback((slotKey: string) => {
+    setCollectedItems((prev) => {
+      const next = new Map(prev);
+      next.delete(slotKey);
+      return next;
+    });
+  }, []);
 
   const { data, isLoading, error } = useQuery<BattlesResponse>({
     queryKey: ["/api/battles"],
@@ -232,6 +297,14 @@ export default function BattleLibrary() {
 
   return (
     <div className="min-h-screen bg-background">
+      <CollectionSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        collectedItems={collectedItems}
+        onRemoveItem={handleRemoveItem}
+        onDropItem={handleDropItem}
+        draggedItem={draggedItem}
+      />
       <div className="container max-w-[1600px] mx-auto px-4 py-6 space-y-6">
         <header className="space-y-3">
           <div className="flex items-center gap-3">
@@ -303,9 +376,21 @@ export default function BattleLibrary() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-4">
                     {filteredList.map((item) => 
                       item.type === "battle" ? (
-                        <BattleCard key={`battle-${item.data.id}`} battle={item.data} />
+                        <BattleCard 
+                          key={`battle-${item.data.id}`} 
+                          battle={item.data} 
+                          isCollected={collectedIds.has(`battle-${item.data.id}`)}
+                          onDragStart={handleBattleDragStart}
+                          onDragEnd={handleDragEnd}
+                        />
                       ) : (
-                        <ReplayCard key={`replay-${item.data.id}`} replay={item.data} />
+                        <ReplayCard 
+                          key={`replay-${item.data.id}`} 
+                          replay={item.data} 
+                          isCollected={collectedIds.has(`replay-${item.data.id}`)}
+                          onDragStart={handleReplayDragStart}
+                          onDragEnd={handleDragEnd}
+                        />
                       )
                     )}
                   </div>
