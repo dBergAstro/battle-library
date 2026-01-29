@@ -105,7 +105,7 @@ export function CollectionSidebar({
     <>
       <div
         className={cn(
-          "fixed left-0 top-0 h-full bg-card border-r border-border z-50 transition-transform duration-300 ease-in-out shadow-lg",
+          "fixed left-0 top-0 h-full bg-card border-r border-border z-50 shadow-lg",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
         style={{ width: "320px" }}
@@ -221,16 +221,22 @@ export function CollectionSidebar({
       </div>
 
       <Button
-        size="icon"
-        variant="outline"
-        className={cn(
-          "fixed left-0 top-1/2 -translate-y-1/2 z-40 rounded-l-none transition-all duration-300",
-          isOpen ? "translate-x-[320px]" : "translate-x-0"
-        )}
+        variant="default"
+        className="fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] shadow-lg px-4"
         onClick={onToggle}
         data-testid="button-toggle-sidebar"
       >
-        {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+        {isOpen ? (
+          <>
+            <ChevronLeft className="h-4 w-4 mr-2" />
+            Скрыть коллекцию
+          </>
+        ) : (
+          <>
+            <ChevronRight className="h-4 w-4 mr-2" />
+            Коллекция боёв ({collectedItems.size})
+          </>
+        )}
       </Button>
 
       {isOpen && (
