@@ -199,8 +199,11 @@ export default function BattleLibrary() {
   const stats = useMemo(() => {
     const heroicBattles = battles.filter((b) => b.type === "heroic").length;
     const titanicBattles = battles.filter((b) => b.type === "titanic").length;
+    const heroicReplays = replays.filter((r) => r.enemyType === "Герои").length;
+    const titanicReplays = replays.filter((r) => r.enemyType === "Титаны").length;
     const totalReplays = replays.length;
-    return { heroicBattles, titanicBattles, totalBattles: battles.length, totalReplays };
+    const grandTotal = battles.length + replays.length;
+    return { heroicBattles, titanicBattles, totalBattles: battles.length, heroicReplays, titanicReplays, totalReplays, grandTotal };
   }, [battles, replays]);
 
   const hasData = battles.length > 0 || replays.length > 0;
@@ -257,8 +260,17 @@ export default function BattleLibrary() {
               </div>
               <div className="flex items-center gap-1.5">
                 <PlayCircle className="h-3 w-3 text-green-500" />
-                <span className="text-muted-foreground">Записи:</span>
-                <span className="font-medium">{stats.totalReplays}</span>
+                <span className="text-muted-foreground">Записей героических:</span>
+                <span className="font-medium">{stats.heroicReplays}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <PlayCircle className="h-3 w-3 text-amber-500" />
+                <span className="text-muted-foreground">Записей титанических:</span>
+                <span className="font-medium">{stats.titanicReplays}</span>
+              </div>
+              <div className="flex items-center gap-1.5 border-l pl-4 ml-2">
+                <span className="text-muted-foreground">Всего:</span>
+                <span className="font-medium">{stats.grandTotal}</span>
               </div>
             </div>
           )}
