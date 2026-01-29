@@ -271,6 +271,16 @@ export interface ProcessedReplay {
   rawDefendersFragments: string; // оригинальный JSON для копирования
 }
 
+// Группа записей с одинаковым составом
+export interface ReplayGroup {
+  groupKey: string; // ключ группировки (sorted units)
+  replays: ProcessedReplay[]; // все записи в группе
+  levelRange: string; // диапазон боёв, например "1...8" или "3"
+  minLevel: number;
+  maxLevel: number;
+  displayReplay: ProcessedReplay; // представительная запись для отображения
+}
+
 // Обработанные данные боя для отображения
 export interface ProcessedBattle {
   id: number;

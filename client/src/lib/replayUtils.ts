@@ -5,7 +5,8 @@ import type {
   DefendersFragments,
   ProcessedTotem,
   ProcessedSpiritSkill,
-  SpiritsData
+  SpiritsData,
+  ReplayGroup
 } from "@shared/schema";
 import { getHeroName as getDefaultHeroName } from "./heroNames";
 
@@ -192,4 +193,66 @@ export function processReplaysFromServer(
 
   // Сортировка как в обычных боях - по gameId в обратном порядке
   return replays.sort((a, b) => b.gameId - a.gameId);
+}
+
+// Создаёт ключ группировки из отсортированных units
+function createGroupKey(replay: ProcessedReplay): string {
+  const unitIds = replay.team.map(m => m.heroId).sort((a, b) => a - b);
+  return unitIds.join("-");
+}
+
+// Группирует записи с одинаковым составом
+export function groupReplays(replays: ProcessedReplay[]): ReplayGroup[] {
+  const groupMap = new Map<string, ProcessedReplay[]>();
+  
+  for (const replay of replays) {
+    const key = createGroupKey(replay);
+    const existing = groupMap.get(key) || [];
+    existing.push(replay);
+    groupMap.set(key, existing);
+  }
+  
+  const groups: ReplayGroup[] = [];
+  
+  groupMap.forEach((groupReplays, groupKey) => {
+    // Сортируем по level внутри группы
+    groupReplays.sort((a: ProcessedReplay, b: ProcessedReplay) => a.level - b.level);
+    
+    const minLevel = groupReplays[0].level;
+    const maxLevel = groupReplays[groupReplays.length - 1].level;
+    
+    // Формируем строку диапазона
+    const levelRange = minLevel === maxLevel 
+      ? String(minLevel) 
+      : `${minLevel}...${maxLevel}`;
+    
+    // Берём запись с максимальным грейдом как представительную
+    const displayReplay = groupReplays.reduce((best: ProcessedReplay, current: ProcessedReplay) => {
+      const bestMaxGrade = getMaxGrade(best);
+      const currentMaxGrade = getMaxGrade(current);
+      return currentMaxGrade > bestMaxGrade ? current : best;
+    }, groupReplays[0]);
+    
+    groups.push({
+      groupKey,
+      replays: groupReplays,
+      levelRange,
+      minLevel,
+      maxLevel,
+      displayReplay,
+    });
+  });
+  
+  // Сортируем группы по gameId первой записи (по убыванию)
+  return groups.sort((a, b) => b.displayReplay.gameId - a.displayReplay.gameId);
+}
+
+// Возвращает числовое значение максимального грейда в записи
+function getMaxGrade(replay: ProcessedReplay): number {
+  let maxGrade = 0;
+  for (const member of replay.team) {
+    const grade = member.grade === "red" ? 3 : member.grade === "orange" ? 2 : 1;
+    if (grade > maxGrade) maxGrade = grade;
+  }
+  return maxGrade;
 }
