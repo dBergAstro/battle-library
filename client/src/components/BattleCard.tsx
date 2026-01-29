@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Swords, Shield, Users, Zap } from "lucide-react";
+import { Swords, Shield, Zap } from "lucide-react";
 import type { ProcessedBattle } from "@shared/schema";
 import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
 
@@ -95,10 +95,6 @@ export function BattleCard({ battle }: BattleCardProps) {
         </div>
 
         <div className="flex items-center gap-1">
-          <div className="flex items-center gap-1 text-xs text-muted-foreground mr-2">
-            <Users className="h-3 w-3" />
-            <span>{battle.team.length}</span>
-          </div>
           <div className="flex -space-x-2">
             {battle.team.map((member, idx) => (
               <Tooltip key={`${battle.id}-${member.heroId}-${idx}`}>

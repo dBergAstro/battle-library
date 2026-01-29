@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { PlayCircle, Users, Copy, Check } from "lucide-react";
+import { PlayCircle, Copy, Check } from "lucide-react";
 import type { ProcessedReplay } from "@shared/schema";
 import { GRADE_COLORS } from "@/lib/replayUtils";
 
@@ -110,11 +110,6 @@ export function ReplayCard({ replay }: ReplayCardProps) {
 
         {/* Блок команды */}
         <div className="flex items-start gap-1">
-          <div className="flex items-center gap-1 text-xs text-muted-foreground mr-2 pt-4">
-            <Users className="h-3 w-3" />
-            <span>{replay.team.length}</span>
-          </div>
-          
           {replay.mainPetIcon && (
             <Tooltip>
               <TooltipTrigger asChild>
