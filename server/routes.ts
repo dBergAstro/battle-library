@@ -111,6 +111,9 @@ export async function registerRoutes(
         storage.getAllSpiritIcons(),
       ]);
 
+      // Calculate max boss ID for recommended new battle IDs
+      const maxBossId = bossListData.reduce((max, boss) => Math.max(max, boss.gameId), 0);
+
       res.json({
         bossList: bossListData,
         bossTeam: bossTeamData,
@@ -123,6 +126,7 @@ export async function registerRoutes(
         petIcons: petIconsData,
         spiritSkills: spiritSkillsData,
         spiritIcons: spiritIconsData,
+        maxBossId,
       });
     } catch (error) {
       console.error("Error fetching battles:", error);

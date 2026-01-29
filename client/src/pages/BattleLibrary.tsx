@@ -39,6 +39,7 @@ interface BattlesResponse {
   petIcons: ServerPetIcon[];
   spiritSkills: ServerSpiritSkill[];
   spiritIcons: ServerSpiritIcon[];
+  maxBossId: number;
 }
 
 type ListItem = 
@@ -263,6 +264,7 @@ export default function BattleLibrary() {
         onToggle={() => setCollectionOpen(!collectionOpen)}
         collectedItems={collectedItems}
         onRemoveItem={handleRemoveItem}
+        maxBossId={data?.maxBossId || 0}
       />
       
       <AddToCollectionModal

@@ -29,15 +29,18 @@ interface CollectionSidebarProps {
   onToggle: () => void;
   collectedItems: Map<string, CollectedItem>;
   onRemoveItem: (chapterSlotKey: string) => void;
+  maxBossId: number;
 }
 
 const CHAPTERS = 7;
 const SLOTS_PER_CHAPTER = 8;
 
-function SlotContent({ item, slotKey, onRemove }: { 
+function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: { 
   item: CollectedItem; 
   slotKey: string; 
+  slotNumber: number;
   onRemove: () => void;
+  recommendedId?: number;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -60,19 +63,25 @@ function SlotContent({ item, slotKey, onRemove }: {
   };
 
   return (
-    <div className="flex flex-col items-center gap-1 w-full h-full p-1.5">
+    <div className="flex flex-col items-center gap-1 w-full h-full p-1.5 relative">
+      <span className="absolute top-0.5 left-1 text-[9px] text-muted-foreground/60 font-mono">
+        {slotNumber}
+      </span>
       <div className="flex items-center justify-between w-full">
         {item.type === "battle" ? (
-          <span className="text-xs font-mono font-semibold text-foreground">
+          <span className="text-xs font-mono font-semibold text-foreground ml-3">
             #{item.gameId}
           </span>
         ) : (
           <Tooltip>
             <TooltipTrigger asChild>
-              <AlertCircle className="h-4 w-4 text-amber-500 cursor-help" />
+              <span className="text-xs font-mono font-semibold text-amber-500 ml-3 cursor-help flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                #{recommendedId}
+              </span>
             </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-[200px] text-xs">
-              Создайте новый бой и скопируйте туда defendersFragments из записи
+            <TooltipContent side="bottom" className="max-w-[220px] text-xs">
+              Рекомендуемый ID. Создайте новый бой с этим ID и скопируйте defendersFragments
             </TooltipContent>
           </Tooltip>
         )}
@@ -130,6 +139,7 @@ export function CollectionSidebar({
   onToggle,
   collectedItems,
   onRemoveItem,
+  maxBossId,
 }: CollectionSidebarProps) {
   const getChapterSlotKey = (chapterIndex: number, slotIndex: number) => 
     `${chapterIndex}-${slotIndex}`;
@@ -142,6 +152,24 @@ export function CollectionSidebar({
       }
     }
     return count;
+  };
+
+  // Calculate recommended IDs for replays in order of their position
+  const getReplayRecommendedId = (slotKey: string): number => {
+    let replayIndex = 0;
+    for (let ch = 0; ch < CHAPTERS; ch++) {
+      for (let sl = 0; sl < SLOTS_PER_CHAPTER; sl++) {
+        const key = `${ch}-${sl}`;
+        const item = collectedItems.get(key);
+        if (item?.type === "replay") {
+          if (key === slotKey) {
+            return maxBossId + 1 + replayIndex;
+          }
+          replayIndex++;
+        }
+      }
+    }
+    return maxBossId + 1;
   };
 
   return (
@@ -205,8 +233,10 @@ export function CollectionSidebar({
                           {item ? (
                             <SlotContent 
                               item={item} 
-                              slotKey={slotKey} 
-                              onRemove={() => onRemoveItem(slotKey)} 
+                              slotKey={slotKey}
+                              slotNumber={slotIndex + 1}
+                              onRemove={() => onRemoveItem(slotKey)}
+                              recommendedId={item.type === "replay" ? getReplayRecommendedId(slotKey) : undefined}
                             />
                           ) : (
                             <span className="text-xs text-muted-foreground/50">
