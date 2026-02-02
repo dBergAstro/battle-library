@@ -32,6 +32,19 @@ export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], 
         battleType: battle.type,
         team: battle.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
         bossHeroId: battle.bossHeroId,
+        totems: battle.totems?.map(t => {
+          const elementMap: Record<string, "water" | "fire" | "earth" | "dark" | "light"> = {
+            "вода": "water", "огонь": "fire", "земля": "earth", "тьма": "dark", "свет": "light"
+          };
+          const elementRuMap: Record<string, string> = {
+            "вода": "Вода", "огонь": "Огонь", "земля": "Земля", "тьма": "Тьма", "свет": "Свет"
+          };
+          return {
+            element: elementMap[t.element] || "water",
+            elementRu: elementRuMap[t.element] || t.element,
+            skills: []
+          };
+        }),
       };
       onAddToCollection(item);
     }

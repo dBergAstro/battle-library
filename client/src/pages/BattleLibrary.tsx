@@ -82,6 +82,7 @@ export default function BattleLibrary() {
     teamJson: string | null;
     rawDefendersFragments: string | null;
     mainBuff: number | null;
+    totemsJson: string | null;
     createdAt: number;
   }
 
@@ -104,6 +105,7 @@ export default function BattleLibrary() {
           team: item.teamJson ? JSON.parse(item.teamJson) : [],
           rawDefendersFragments: item.rawDefendersFragments || undefined,
           mainBuff: item.mainBuff ?? undefined,
+          totems: item.totemsJson ? JSON.parse(item.totemsJson) : undefined,
         });
       }
       setCollectedItems(map);
@@ -122,6 +124,7 @@ export default function BattleLibrary() {
         team: data.item.team,
         rawDefendersFragments: data.item.rawDefendersFragments,
         mainBuff: data.item.mainBuff,
+        totems: data.item.totems,
       });
     },
     onSuccess: () => {

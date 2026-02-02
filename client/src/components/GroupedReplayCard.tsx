@@ -130,6 +130,16 @@ export function GroupedReplayCard({
         team: r.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
         rawDefendersFragments: r.rawDefendersFragments,
         mainBuff: r.mainBuff ?? undefined,
+        totems: r.totems?.map(t => ({
+          element: t.element,
+          elementRu: t.elementRu,
+          skills: t.skills.map(s => ({
+            skillId: s.skillId,
+            name: s.name,
+            icon: s.icon,
+            grade: s.grade
+          }))
+        })),
       };
       onAddToCollection(item);
     }

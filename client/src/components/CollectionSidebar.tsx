@@ -13,6 +13,19 @@ export interface TeamMember {
   icon?: string;
 }
 
+export interface CollectedTotemSkill {
+  skillId: number;
+  name: string;
+  icon?: string;
+  grade: "purple" | "orange" | "red";
+}
+
+export interface CollectedTotem {
+  element: "water" | "fire" | "earth" | "dark" | "light";
+  elementRu: string;
+  skills: CollectedTotemSkill[];
+}
+
 export interface CollectedItem {
   id: string;
   type: "battle" | "replay";
@@ -24,6 +37,7 @@ export interface CollectedItem {
   rawDefendersFragments?: string;
   bossHeroId?: number; // ID главного героя боя
   mainBuff?: number; // Размер основного баффа
+  totems?: CollectedTotem[]; // Тотемы для титанических боёв
 }
 
 interface CollectionSidebarProps {
@@ -151,9 +165,62 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
           );
         })}
       </div>
+      
+      {item.battleType === "titanic" && item.totems && item.totems.length > 0 && (
+        <div className="flex items-center justify-center gap-1 mt-0.5">
+          {item.totems.map((totem, idx) => (
+            <Tooltip key={`${slotKey}-totem-${idx}`}>
+              <TooltipTrigger asChild>
+                <div className="flex items-center gap-0.5 bg-muted/50 rounded px-1 py-0.5 cursor-help">
+                  <span className="text-xs">{ELEMENT_EMOJIS[totem.element]}</span>
+                  {totem.skills.map((skill, skillIdx) => (
+                    skill.icon ? (
+                      <Avatar key={skillIdx} className={`h-4 w-4 ring-1 ${GRADE_RING_COLORS[skill.grade]}`}>
+                        <AvatarImage src={skill.icon} alt={skill.name} />
+                        <AvatarFallback className="text-[5px]">{skill.skillId}</AvatarFallback>
+                      </Avatar>
+                    ) : (
+                      <span key={skillIdx} className="text-[8px] font-mono">{skill.skillId}</span>
+                    )
+                  ))}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">
+                <p className="font-medium mb-1">{totem.elementRu}</p>
+                {totem.skills.map((skill, skillIdx) => (
+                  <div key={skillIdx} className="flex items-center gap-1">
+                    <span className={`w-2 h-2 rounded-full ${GRADE_BG_COLORS[skill.grade]}`} />
+                    <span>{skill.name}</span>
+                  </div>
+                ))}
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
+
+const ELEMENT_EMOJIS: Record<string, string> = {
+  water: "💧",
+  fire: "🔥",
+  earth: "🌍",
+  dark: "🌑",
+  light: "☀️"
+};
+
+const GRADE_RING_COLORS: Record<string, string> = {
+  purple: "ring-purple-500",
+  orange: "ring-orange-500",
+  red: "ring-red-500"
+};
+
+const GRADE_BG_COLORS: Record<string, string> = {
+  purple: "bg-purple-500",
+  orange: "bg-orange-500",
+  red: "bg-red-500"
+};
 
 export function CollectionSidebar({
   isOpen,

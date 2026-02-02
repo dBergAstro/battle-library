@@ -45,6 +45,16 @@ export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], 
         team: replay.team.map(m => ({ heroId: m.heroId, name: m.name, icon: m.icon })),
         rawDefendersFragments: replay.rawDefendersFragments,
         mainBuff: replay.mainBuff ?? undefined,
+        totems: replay.totems?.map(t => ({
+          element: t.element,
+          elementRu: t.elementRu,
+          skills: t.skills.map(s => ({
+            skillId: s.skillId,
+            name: s.name,
+            icon: s.icon,
+            grade: s.grade
+          }))
+        })),
       };
       onAddToCollection(item);
     }
