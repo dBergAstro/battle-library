@@ -230,7 +230,7 @@ export function processReplaysFromServer(
         gameId: team.gameId,
         chapter,
         level,
-        enemyType: (team.enemyType as "Герои" | "Титаны") || "Герои",
+        enemyType: defenders.units.some(id => id >= 4000 && id <= 4999) ? "Титаны" : "Герои",
         mainBuff: team.mainBuff ?? undefined,
         comment: team.comment ?? undefined,
         mainPetId,
