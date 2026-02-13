@@ -10,6 +10,7 @@ export const bossList = pgTable("boss_list", {
   label: text("label"),
   desc: text("desc"),
   heroId: integer("hero_id"),
+  defendersFragments: text("defenders_fragments"),
 });
 
 export const bossListRelations = relations(bossList, ({ many }) => ({

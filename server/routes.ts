@@ -111,11 +111,14 @@ export async function registerRoutes(
         storage.getAllSpiritIcons(),
       ]);
 
-      // Calculate max boss ID for recommended new battle IDs
+      // Filter out boss entries that were created from replays (have defendersFragments)
+      const filteredBossList = bossListData.filter(boss => !boss.defendersFragments);
+      
+      // Calculate max boss ID for recommended new battle IDs (use full list for ID calculation)
       const maxBossId = bossListData.reduce((max, boss) => Math.max(max, boss.gameId), 0);
 
       res.json({
-        bossList: bossListData,
+        bossList: filteredBossList,
         bossTeam: bossTeamData,
         bossLevel: bossLevelData,
         heroIcons: heroIconsData,
@@ -145,12 +148,16 @@ export async function registerRoutes(
       await storage.clearBossList();
       const mapped = parsed.data
         .filter((item) => item.id > 226)
-        .map((item) => ({
-          gameId: item.id,
-          label: item.label || null,
-          desc: item.desc || null,
-          heroId: item.heroId || null,
-        }));
+        .map((item) => {
+          const df = (item as any).defendersFragments;
+          return {
+            gameId: item.id,
+            label: item.label || null,
+            desc: item.desc || null,
+            heroId: item.heroId || null,
+            defendersFragments: df ? (typeof df === 'string' ? df : JSON.stringify(df)) : null,
+          };
+        });
 
       await storage.insertBossList(mapped);
       res.json({ success: true, count: mapped.length });
