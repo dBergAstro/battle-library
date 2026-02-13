@@ -106,6 +106,7 @@ export default function BattleLibrary() {
           rawDefendersFragments: item.rawDefendersFragments || undefined,
           mainBuff: item.mainBuff ?? undefined,
           totems: item.totemsJson ? JSON.parse(item.totemsJson) : undefined,
+          bossHeroId: item.bossHeroId ?? undefined,
         });
       }
       setCollectedItems(map);
@@ -125,6 +126,7 @@ export default function BattleLibrary() {
         rawDefendersFragments: data.item.rawDefendersFragments,
         mainBuff: data.item.mainBuff,
         totems: data.item.totems,
+        bossHeroId: data.item.bossHeroId,
       });
     },
     onSuccess: () => {

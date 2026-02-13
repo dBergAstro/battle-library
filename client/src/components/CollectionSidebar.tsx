@@ -140,7 +140,7 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
       
       <div className="flex items-center justify-center gap-0.5 flex-wrap">
         {item.team.slice(0, 5).map((member, idx) => {
-          const isBossHero = item.bossHeroId === member.heroId;
+          const isBossHero = item.type === "battle" && item.bossHeroId === member.heroId;
           return (
             <Tooltip key={`${slotKey}-member-${idx}`}>
               <TooltipTrigger asChild>

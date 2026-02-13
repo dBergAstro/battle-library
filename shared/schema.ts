@@ -198,6 +198,7 @@ export const collectionItems = pgTable("collection_items", {
   rawDefendersFragments: text("raw_defenders_fragments"),
   mainBuff: integer("main_buff"),
   totemsJson: text("totems_json"),
+  bossHeroId: integer("boss_hero_id"),
   createdAt: bigint("created_at", { mode: "number" }).notNull(),
 });
 
