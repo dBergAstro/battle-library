@@ -1,0 +1,2012 @@
+[
+  {
+    "game_id": 101,
+    "boss_id": 80,
+    "power_level": 200
+  },
+  {
+    "game_id": 110,
+    "boss_id": 80,
+    "power_level": 200
+  },
+  {
+    "game_id": 121,
+    "boss_id": 80,
+    "power_level": 325
+  },
+  {
+    "game_id": 131,
+    "boss_id": 80,
+    "power_level": 300
+  },
+  {
+    "game_id": 141,
+    "boss_id": 80,
+    "power_level": 425
+  },
+  {
+    "game_id": 151,
+    "boss_id": 80,
+    "power_level": 475
+  },
+  {
+    "game_id": 161,
+    "boss_id": 80,
+    "power_level": 525
+  },
+  {
+    "game_id": 201,
+    "boss_id": 80,
+    "power_level": 225
+  },
+  {
+    "game_id": 211,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 221,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 231,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 241,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 251,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 261,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 301,
+    "boss_id": 80,
+    "power_level": 225
+  },
+  {
+    "game_id": 311,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 321,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 331,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 341,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 351,
+    "boss_id": 80,
+    "power_level": 475
+  },
+  {
+    "game_id": 361,
+    "boss_id": 80,
+    "power_level": 400
+  },
+  {
+    "game_id": 401,
+    "boss_id": 80,
+    "power_level": 225
+  },
+  {
+    "game_id": 411,
+    "boss_id": 80,
+    "power_level": 350
+  },
+  {
+    "game_id": 421,
+    "boss_id": 80,
+    "power_level": 750
+  },
+  {
+    "game_id": 431,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 441,
+    "boss_id": 80,
+    "power_level": 1300
+  },
+  {
+    "game_id": 451,
+    "boss_id": 80,
+    "power_level": 375
+  },
+  {
+    "game_id": 461,
+    "boss_id": 80,
+    "power_level": 1950
+  },
+  {
+    "game_id": 501,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 511,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 521,
+    "boss_id": 80,
+    "power_level": 275
+  },
+  {
+    "game_id": 531,
+    "boss_id": 80,
+    "power_level": 575
+  },
+  {
+    "game_id": 541,
+    "boss_id": 80,
+    "power_level": 425
+  },
+  {
+    "game_id": 551,
+    "boss_id": 80,
+    "power_level": 400
+  },
+  {
+    "game_id": 561,
+    "boss_id": 80,
+    "power_level": 600
+  },
+  {
+    "game_id": 601,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 611,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 621,
+    "boss_id": 80,
+    "power_level": 400
+  },
+  {
+    "game_id": 631,
+    "boss_id": 80,
+    "power_level": 420
+  },
+  {
+    "game_id": 641,
+    "boss_id": 80,
+    "power_level": 700
+  },
+  {
+    "game_id": 651,
+    "boss_id": 80,
+    "power_level": 600
+  },
+  {
+    "game_id": 661,
+    "boss_id": 80,
+    "power_level": 1250
+  },
+  {
+    "game_id": 701,
+    "boss_id": 80,
+    "power_level": 225
+  },
+  {
+    "game_id": 711,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 721,
+    "boss_id": 80,
+    "power_level": 250
+  },
+  {
+    "game_id": 731,
+    "boss_id": 80,
+    "power_level": 400
+  },
+  {
+    "game_id": 741,
+    "boss_id": 80,
+    "power_level": 500
+  },
+  {
+    "game_id": 751,
+    "boss_id": 80,
+    "power_level": 700
+  },
+  {
+    "game_id": 761,
+    "boss_id": 80,
+    "power_level": 650
+  },
+  {
+    "game_id": 102,
+    "boss_id": 85,
+    "power_level": 200
+  },
+  {
+    "game_id": 111,
+    "boss_id": 85,
+    "power_level": 225
+  },
+  {
+    "game_id": 122,
+    "boss_id": 85,
+    "power_level": 400
+  },
+  {
+    "game_id": 132,
+    "boss_id": 85,
+    "power_level": 425
+  },
+  {
+    "game_id": 142,
+    "boss_id": 85,
+    "power_level": 550
+  },
+  {
+    "game_id": 152,
+    "boss_id": 85,
+    "power_level": 600
+  },
+  {
+    "game_id": 162,
+    "boss_id": 85,
+    "power_level": 700
+  },
+  {
+    "game_id": 202,
+    "boss_id": 85,
+    "power_level": 225
+  },
+  {
+    "game_id": 212,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 222,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 232,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 242,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 252,
+    "boss_id": 85,
+    "power_level": 700
+  },
+  {
+    "game_id": 262,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 302,
+    "boss_id": 85,
+    "power_level": 225
+  },
+  {
+    "game_id": 312,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 322,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 332,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 342,
+    "boss_id": 85,
+    "power_level": 350
+  },
+  {
+    "game_id": 352,
+    "boss_id": 85,
+    "power_level": 600
+  },
+  {
+    "game_id": 362,
+    "boss_id": 85,
+    "power_level": 800
+  },
+  {
+    "game_id": 402,
+    "boss_id": 85,
+    "power_level": 225
+  },
+  {
+    "game_id": 412,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 422,
+    "boss_id": 85,
+    "power_level": 675
+  },
+  {
+    "game_id": 432,
+    "boss_id": 85,
+    "power_level": 300
+  },
+  {
+    "game_id": 442,
+    "boss_id": 85,
+    "power_level": 1150
+  },
+  {
+    "game_id": 452,
+    "boss_id": 85,
+    "power_level": 500
+  },
+  {
+    "game_id": 462,
+    "boss_id": 85,
+    "power_level": 1400
+  },
+  {
+    "game_id": 502,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 512,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 522,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 532,
+    "boss_id": 85,
+    "power_level": 550
+  },
+  {
+    "game_id": 542,
+    "boss_id": 85,
+    "power_level": 650
+  },
+  {
+    "game_id": 552,
+    "boss_id": 85,
+    "power_level": 500
+  },
+  {
+    "game_id": 562,
+    "boss_id": 85,
+    "power_level": 700
+  },
+  {
+    "game_id": 602,
+    "boss_id": 85,
+    "power_level": 500
+  },
+  {
+    "game_id": 612,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 622,
+    "boss_id": 85,
+    "power_level": 730
+  },
+  {
+    "game_id": 632,
+    "boss_id": 85,
+    "power_level": 650
+  },
+  {
+    "game_id": 642,
+    "boss_id": 85,
+    "power_level": 750
+  },
+  {
+    "game_id": 652,
+    "boss_id": 85,
+    "power_level": 950
+  },
+  {
+    "game_id": 662,
+    "boss_id": 85,
+    "power_level": 1400
+  },
+  {
+    "game_id": 702,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 712,
+    "boss_id": 85,
+    "power_level": 250
+  },
+  {
+    "game_id": 722,
+    "boss_id": 85,
+    "power_level": 350
+  },
+  {
+    "game_id": 732,
+    "boss_id": 85,
+    "power_level": 450
+  },
+  {
+    "game_id": 742,
+    "boss_id": 85,
+    "power_level": 600
+  },
+  {
+    "game_id": 752,
+    "boss_id": 85,
+    "power_level": 800
+  },
+  {
+    "game_id": 762,
+    "boss_id": 85,
+    "power_level": 700
+  },
+  {
+    "game_id": 1562,
+    "boss_id": 85,
+    "power_level": 1120
+  },
+  {
+    "game_id": 103,
+    "boss_id": 90,
+    "power_level": 200
+  },
+  {
+    "game_id": 112,
+    "boss_id": 90,
+    "power_level": 275
+  },
+  {
+    "game_id": 123,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 133,
+    "boss_id": 90,
+    "power_level": 600
+  },
+  {
+    "game_id": 143,
+    "boss_id": 90,
+    "power_level": 725
+  },
+  {
+    "game_id": 153,
+    "boss_id": 90,
+    "power_level": 1200
+  },
+  {
+    "game_id": 163,
+    "boss_id": 90,
+    "power_level": 625
+  },
+  {
+    "game_id": 203,
+    "boss_id": 90,
+    "power_level": 225
+  },
+  {
+    "game_id": 213,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 223,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 233,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 243,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 253,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 263,
+    "boss_id": 90,
+    "power_level": 400
+  },
+  {
+    "game_id": 303,
+    "boss_id": 90,
+    "power_level": 225
+  },
+  {
+    "game_id": 313,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 323,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 333,
+    "boss_id": 90,
+    "power_level": 350
+  },
+  {
+    "game_id": 343,
+    "boss_id": 90,
+    "power_level": 500
+  },
+  {
+    "game_id": 353,
+    "boss_id": 90,
+    "power_level": 800
+  },
+  {
+    "game_id": 363,
+    "boss_id": 90,
+    "power_level": 600
+  },
+  {
+    "game_id": 403,
+    "boss_id": 90,
+    "power_level": 225
+  },
+  {
+    "game_id": 413,
+    "boss_id": 90,
+    "power_level": 275
+  },
+  {
+    "game_id": 423,
+    "boss_id": 90,
+    "power_level": 625
+  },
+  {
+    "game_id": 433,
+    "boss_id": 90,
+    "power_level": 350
+  },
+  {
+    "game_id": 443,
+    "boss_id": 90,
+    "power_level": 930
+  },
+  {
+    "game_id": 453,
+    "boss_id": 90,
+    "power_level": 550
+  },
+  {
+    "game_id": 463,
+    "boss_id": 90,
+    "power_level": 1600
+  },
+  {
+    "game_id": 503,
+    "boss_id": 90,
+    "power_level": 250
+  },
+  {
+    "game_id": 513,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 523,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 533,
+    "boss_id": 90,
+    "power_level": 500
+  },
+  {
+    "game_id": 543,
+    "boss_id": 90,
+    "power_level": 400
+  },
+  {
+    "game_id": 553,
+    "boss_id": 90,
+    "power_level": 570
+  },
+  {
+    "game_id": 563,
+    "boss_id": 90,
+    "power_level": 750
+  },
+  {
+    "game_id": 603,
+    "boss_id": 90,
+    "power_level": 350
+  },
+  {
+    "game_id": 613,
+    "boss_id": 90,
+    "power_level": 250
+  },
+  {
+    "game_id": 623,
+    "boss_id": 90,
+    "power_level": 540
+  },
+  {
+    "game_id": 633,
+    "boss_id": 90,
+    "power_level": 470
+  },
+  {
+    "game_id": 643,
+    "boss_id": 90,
+    "power_level": 900
+  },
+  {
+    "game_id": 653,
+    "boss_id": 90,
+    "power_level": 950
+  },
+  {
+    "game_id": 663,
+    "boss_id": 90,
+    "power_level": 1700
+  },
+  {
+    "game_id": 703,
+    "boss_id": 90,
+    "power_level": 275
+  },
+  {
+    "game_id": 713,
+    "boss_id": 90,
+    "power_level": 300
+  },
+  {
+    "game_id": 723,
+    "boss_id": 90,
+    "power_level": 400
+  },
+  {
+    "game_id": 733,
+    "boss_id": 90,
+    "power_level": 500
+  },
+  {
+    "game_id": 743,
+    "boss_id": 90,
+    "power_level": 700
+  },
+  {
+    "game_id": 753,
+    "boss_id": 90,
+    "power_level": 800
+  },
+  {
+    "game_id": 763,
+    "boss_id": 90,
+    "power_level": 750
+  },
+  {
+    "game_id": 861,
+    "boss_id": 90,
+    "power_level": 550
+  },
+  {
+    "game_id": 864,
+    "boss_id": 90,
+    "power_level": 600
+  },
+  {
+    "game_id": 104,
+    "boss_id": 100,
+    "power_level": 1500
+  },
+  {
+    "game_id": 113,
+    "boss_id": 100,
+    "power_level": 275
+  },
+  {
+    "game_id": 124,
+    "boss_id": 100,
+    "power_level": 475
+  },
+  {
+    "game_id": 134,
+    "boss_id": 100,
+    "power_level": 450
+  },
+  {
+    "game_id": 144,
+    "boss_id": 100,
+    "power_level": 775
+  },
+  {
+    "game_id": 154,
+    "boss_id": 100,
+    "power_level": 1050
+  },
+  {
+    "game_id": 164,
+    "boss_id": 100,
+    "power_level": 850
+  },
+  {
+    "game_id": 204,
+    "boss_id": 100,
+    "power_level": 300
+  },
+  {
+    "game_id": 214,
+    "boss_id": 100,
+    "power_level": 1400
+  },
+  {
+    "game_id": 224,
+    "boss_id": 100,
+    "power_level": 350
+  },
+  {
+    "game_id": 234,
+    "boss_id": 100,
+    "power_level": 300
+  },
+  {
+    "game_id": 244,
+    "boss_id": 100,
+    "power_level": 450
+  },
+  {
+    "game_id": 254,
+    "boss_id": 100,
+    "power_level": 300
+  },
+  {
+    "game_id": 264,
+    "boss_id": 100,
+    "power_level": 500
+  },
+  {
+    "game_id": 304,
+    "boss_id": 100,
+    "power_level": 300
+  },
+  {
+    "game_id": 314,
+    "boss_id": 100,
+    "power_level": 350
+  },
+  {
+    "game_id": 324,
+    "boss_id": 100,
+    "power_level": 350
+  },
+  {
+    "game_id": 334,
+    "boss_id": 100,
+    "power_level": 450
+  },
+  {
+    "game_id": 344,
+    "boss_id": 100,
+    "power_level": 600
+  },
+  {
+    "game_id": 354,
+    "boss_id": 100,
+    "power_level": 1000
+  },
+  {
+    "game_id": 364,
+    "boss_id": 100,
+    "power_level": 700
+  },
+  {
+    "game_id": 404,
+    "boss_id": 100,
+    "power_level": 200
+  },
+  {
+    "game_id": 414,
+    "boss_id": 100,
+    "power_level": 325
+  },
+  {
+    "game_id": 424,
+    "boss_id": 100,
+    "power_level": 650
+  },
+  {
+    "game_id": 434,
+    "boss_id": 100,
+    "power_level": 400
+  },
+  {
+    "game_id": 444,
+    "boss_id": 100,
+    "power_level": 1000
+  },
+  {
+    "game_id": 454,
+    "boss_id": 100,
+    "power_level": 650
+  },
+  {
+    "game_id": 464,
+    "boss_id": 100,
+    "power_level": 1600
+  },
+  {
+    "game_id": 504,
+    "boss_id": 100,
+    "power_level": 275
+  },
+  {
+    "game_id": 514,
+    "boss_id": 100,
+    "power_level": 350
+  },
+  {
+    "game_id": 524,
+    "boss_id": 100,
+    "power_level": 350
+  },
+  {
+    "game_id": 534,
+    "boss_id": 100,
+    "power_level": 725
+  },
+  {
+    "game_id": 544,
+    "boss_id": 100,
+    "power_level": 725
+  },
+  {
+    "game_id": 554,
+    "boss_id": 100,
+    "power_level": 700
+  },
+  {
+    "game_id": 564,
+    "boss_id": 100,
+    "power_level": 800
+  },
+  {
+    "game_id": 604,
+    "boss_id": 100,
+    "power_level": 350
+  },
+  {
+    "game_id": 614,
+    "boss_id": 100,
+    "power_level": 325
+  },
+  {
+    "game_id": 624,
+    "boss_id": 100,
+    "power_level": 580
+  },
+  {
+    "game_id": 634,
+    "boss_id": 100,
+    "power_level": 320
+  },
+  {
+    "game_id": 644,
+    "boss_id": 100,
+    "power_level": 1100
+  },
+  {
+    "game_id": 654,
+    "boss_id": 100,
+    "power_level": 750
+  },
+  {
+    "game_id": 664,
+    "boss_id": 100,
+    "power_level": 1800
+  },
+  {
+    "game_id": 704,
+    "boss_id": 100,
+    "power_level": 300
+  },
+  {
+    "game_id": 714,
+    "boss_id": 100,
+    "power_level": 325
+  },
+  {
+    "game_id": 724,
+    "boss_id": 100,
+    "power_level": 450
+  },
+  {
+    "game_id": 734,
+    "boss_id": 100,
+    "power_level": 725
+  },
+  {
+    "game_id": 744,
+    "boss_id": 100,
+    "power_level": 1200
+  },
+  {
+    "game_id": 754,
+    "boss_id": 100,
+    "power_level": 1100
+  },
+  {
+    "game_id": 764,
+    "boss_id": 100,
+    "power_level": 775
+  },
+  {
+    "game_id": 862,
+    "boss_id": 100,
+    "power_level": 750
+  },
+  {
+    "game_id": 105,
+    "boss_id": 110,
+    "power_level": 325
+  },
+  {
+    "game_id": 114,
+    "boss_id": 110,
+    "power_level": 400
+  },
+  {
+    "game_id": 125,
+    "boss_id": 110,
+    "power_level": 575
+  },
+  {
+    "game_id": 135,
+    "boss_id": 110,
+    "power_level": 450
+  },
+  {
+    "game_id": 145,
+    "boss_id": 110,
+    "power_level": 725
+  },
+  {
+    "game_id": 155,
+    "boss_id": 110,
+    "power_level": 1500
+  },
+  {
+    "game_id": 165,
+    "boss_id": 110,
+    "power_level": 1000
+  },
+  {
+    "game_id": 205,
+    "boss_id": 110,
+    "power_level": 350
+  },
+  {
+    "game_id": 215,
+    "boss_id": 110,
+    "power_level": 450
+  },
+  {
+    "game_id": 225,
+    "boss_id": 110,
+    "power_level": 450
+  },
+  {
+    "game_id": 235,
+    "boss_id": 110,
+    "power_level": 300
+  },
+  {
+    "game_id": 245,
+    "boss_id": 110,
+    "power_level": 550
+  },
+  {
+    "game_id": 255,
+    "boss_id": 110,
+    "power_level": 450
+  },
+  {
+    "game_id": 265,
+    "boss_id": 110,
+    "power_level": 600
+  },
+  {
+    "game_id": 305,
+    "boss_id": 110,
+    "power_level": 300
+  },
+  {
+    "game_id": 315,
+    "boss_id": 110,
+    "power_level": 425
+  },
+  {
+    "game_id": 325,
+    "boss_id": 110,
+    "power_level": 450
+  },
+  {
+    "game_id": 335,
+    "boss_id": 110,
+    "power_level": 525
+  },
+  {
+    "game_id": 345,
+    "boss_id": 110,
+    "power_level": 750
+  },
+  {
+    "game_id": 355,
+    "boss_id": 110,
+    "power_level": 775
+  },
+  {
+    "game_id": 365,
+    "boss_id": 110,
+    "power_level": 650
+  },
+  {
+    "game_id": 405,
+    "boss_id": 110,
+    "power_level": 200
+  },
+  {
+    "game_id": 415,
+    "boss_id": 110,
+    "power_level": 325
+  },
+  {
+    "game_id": 425,
+    "boss_id": 110,
+    "power_level": 700
+  },
+  {
+    "game_id": 435,
+    "boss_id": 110,
+    "power_level": 475
+  },
+  {
+    "game_id": 445,
+    "boss_id": 110,
+    "power_level": 1250
+  },
+  {
+    "game_id": 455,
+    "boss_id": 110,
+    "power_level": 700
+  },
+  {
+    "game_id": 465,
+    "boss_id": 110,
+    "power_level": 1700
+  },
+  {
+    "game_id": 505,
+    "boss_id": 110,
+    "power_level": 325
+  },
+  {
+    "game_id": 515,
+    "boss_id": 110,
+    "power_level": 400
+  },
+  {
+    "game_id": 525,
+    "boss_id": 110,
+    "power_level": 450
+  },
+  {
+    "game_id": 535,
+    "boss_id": 110,
+    "power_level": 600
+  },
+  {
+    "game_id": 545,
+    "boss_id": 110,
+    "power_level": 600
+  },
+  {
+    "game_id": 555,
+    "boss_id": 110,
+    "power_level": 650
+  },
+  {
+    "game_id": 565,
+    "boss_id": 110,
+    "power_level": 850
+  },
+  {
+    "game_id": 605,
+    "boss_id": 110,
+    "power_level": 350
+  },
+  {
+    "game_id": 615,
+    "boss_id": 110,
+    "power_level": 290
+  },
+  {
+    "game_id": 625,
+    "boss_id": 110,
+    "power_level": 600
+  },
+  {
+    "game_id": 635,
+    "boss_id": 110,
+    "power_level": 550
+  },
+  {
+    "game_id": 645,
+    "boss_id": 110,
+    "power_level": 1300
+  },
+  {
+    "game_id": 655,
+    "boss_id": 110,
+    "power_level": 750
+  },
+  {
+    "game_id": 665,
+    "boss_id": 110,
+    "power_level": 1850
+  },
+  {
+    "game_id": 705,
+    "boss_id": 110,
+    "power_level": 250
+  },
+  {
+    "game_id": 715,
+    "boss_id": 110,
+    "power_level": 325
+  },
+  {
+    "game_id": 725,
+    "boss_id": 110,
+    "power_level": 550
+  },
+  {
+    "game_id": 735,
+    "boss_id": 110,
+    "power_level": 600
+  },
+  {
+    "game_id": 745,
+    "boss_id": 110,
+    "power_level": 1300
+  },
+  {
+    "game_id": 755,
+    "boss_id": 110,
+    "power_level": 1000
+  },
+  {
+    "game_id": 765,
+    "boss_id": 110,
+    "power_level": 950
+  },
+  {
+    "game_id": 863,
+    "boss_id": 110,
+    "power_level": 650
+  },
+  {
+    "game_id": 865,
+    "boss_id": 110,
+    "power_level": 700
+  },
+  {
+    "game_id": 106,
+    "boss_id": 120,
+    "power_level": 350
+  },
+  {
+    "game_id": 115,
+    "boss_id": 120,
+    "power_level": 400
+  },
+  {
+    "game_id": 126,
+    "boss_id": 120,
+    "power_level": 575
+  },
+  {
+    "game_id": 136,
+    "boss_id": 120,
+    "power_level": 550
+  },
+  {
+    "game_id": 146,
+    "boss_id": 120,
+    "power_level": 900
+  },
+  {
+    "game_id": 156,
+    "boss_id": 120,
+    "power_level": 2200
+  },
+  {
+    "game_id": 166,
+    "boss_id": 120,
+    "power_level": 1000
+  },
+  {
+    "game_id": 206,
+    "boss_id": 120,
+    "power_level": 400
+  },
+  {
+    "game_id": 216,
+    "boss_id": 120,
+    "power_level": 425
+  },
+  {
+    "game_id": 226,
+    "boss_id": 120,
+    "power_level": 800
+  },
+  {
+    "game_id": 236,
+    "boss_id": 120,
+    "power_level": 700
+  },
+  {
+    "game_id": 246,
+    "boss_id": 120,
+    "power_level": 700
+  },
+  {
+    "game_id": 256,
+    "boss_id": 120,
+    "power_level": 1250
+  },
+  {
+    "game_id": 266,
+    "boss_id": 120,
+    "power_level": 900
+  },
+  {
+    "game_id": 306,
+    "boss_id": 120,
+    "power_level": 300
+  },
+  {
+    "game_id": 316,
+    "boss_id": 120,
+    "power_level": 425
+  },
+  {
+    "game_id": 326,
+    "boss_id": 120,
+    "power_level": 600
+  },
+  {
+    "game_id": 336,
+    "boss_id": 120,
+    "power_level": 600
+  },
+  {
+    "game_id": 346,
+    "boss_id": 120,
+    "power_level": 750
+  },
+  {
+    "game_id": 356,
+    "boss_id": 120,
+    "power_level": 1025
+  },
+  {
+    "game_id": 366,
+    "boss_id": 120,
+    "power_level": 900
+  },
+  {
+    "game_id": 406,
+    "boss_id": 120,
+    "power_level": 150
+  },
+  {
+    "game_id": 416,
+    "boss_id": 120,
+    "power_level": 350
+  },
+  {
+    "game_id": 426,
+    "boss_id": 120,
+    "power_level": 200
+  },
+  {
+    "game_id": 436,
+    "boss_id": 120,
+    "power_level": 525
+  },
+  {
+    "game_id": 446,
+    "boss_id": 120,
+    "power_level": 1250
+  },
+  {
+    "game_id": 456,
+    "boss_id": 120,
+    "power_level": 800
+  },
+  {
+    "game_id": 466,
+    "boss_id": 120,
+    "power_level": 1850
+  },
+  {
+    "game_id": 506,
+    "boss_id": 120,
+    "power_level": 350
+  },
+  {
+    "game_id": 516,
+    "boss_id": 120,
+    "power_level": 600
+  },
+  {
+    "game_id": 526,
+    "boss_id": 120,
+    "power_level": 600
+  },
+  {
+    "game_id": 536,
+    "boss_id": 120,
+    "power_level": 725
+  },
+  {
+    "game_id": 546,
+    "boss_id": 120,
+    "power_level": 1200
+  },
+  {
+    "game_id": 556,
+    "boss_id": 120,
+    "power_level": 1000
+  },
+  {
+    "game_id": 566,
+    "boss_id": 120,
+    "power_level": 1000
+  },
+  {
+    "game_id": 606,
+    "boss_id": 120,
+    "power_level": 350
+  },
+  {
+    "game_id": 616,
+    "boss_id": 120,
+    "power_level": 390
+  },
+  {
+    "game_id": 626,
+    "boss_id": 120,
+    "power_level": 660
+  },
+  {
+    "game_id": 636,
+    "boss_id": 120,
+    "power_level": 500
+  },
+  {
+    "game_id": 646,
+    "boss_id": 120,
+    "power_level": 1250
+  },
+  {
+    "game_id": 656,
+    "boss_id": 120,
+    "power_level": 1200
+  },
+  {
+    "game_id": 666,
+    "boss_id": 120,
+    "power_level": 1750
+  },
+  {
+    "game_id": 706,
+    "boss_id": 120,
+    "power_level": 375
+  },
+  {
+    "game_id": 716,
+    "boss_id": 120,
+    "power_level": 400
+  },
+  {
+    "game_id": 726,
+    "boss_id": 120,
+    "power_level": 550
+  },
+  {
+    "game_id": 736,
+    "boss_id": 120,
+    "power_level": 1000
+  },
+  {
+    "game_id": 746,
+    "boss_id": 120,
+    "power_level": 1700
+  },
+  {
+    "game_id": 756,
+    "boss_id": 120,
+    "power_level": 1000
+  },
+  {
+    "game_id": 766,
+    "boss_id": 120,
+    "power_level": 1100
+  },
+  {
+    "game_id": 107,
+    "boss_id": 130,
+    "power_level": 250
+  },
+  {
+    "game_id": 108,
+    "boss_id": 130,
+    "power_level": 425
+  },
+  {
+    "game_id": 116,
+    "boss_id": 130,
+    "power_level": 450
+  },
+  {
+    "game_id": 117,
+    "boss_id": 130,
+    "power_level": 525
+  },
+  {
+    "game_id": 127,
+    "boss_id": 130,
+    "power_level": 525
+  },
+  {
+    "game_id": 128,
+    "boss_id": 130,
+    "power_level": 525
+  },
+  {
+    "game_id": 137,
+    "boss_id": 130,
+    "power_level": 625
+  },
+  {
+    "game_id": 138,
+    "boss_id": 130,
+    "power_level": 750
+  },
+  {
+    "game_id": 147,
+    "boss_id": 130,
+    "power_level": 875
+  },
+  {
+    "game_id": 148,
+    "boss_id": 130,
+    "power_level": 1150
+  },
+  {
+    "game_id": 157,
+    "boss_id": 130,
+    "power_level": 1050
+  },
+  {
+    "game_id": 158,
+    "boss_id": 130,
+    "power_level": 1025
+  },
+  {
+    "game_id": 167,
+    "boss_id": 130,
+    "power_level": 1500
+  },
+  {
+    "game_id": 168,
+    "boss_id": 130,
+    "power_level": 1400
+  },
+  {
+    "game_id": 207,
+    "boss_id": 130,
+    "power_level": 400
+  },
+  {
+    "game_id": 208,
+    "boss_id": 130,
+    "power_level": 2200
+  },
+  {
+    "game_id": 217,
+    "boss_id": 130,
+    "power_level": 475
+  },
+  {
+    "game_id": 218,
+    "boss_id": 130,
+    "power_level": 550
+  },
+  {
+    "game_id": 227,
+    "boss_id": 130,
+    "power_level": 500
+  },
+  {
+    "game_id": 228,
+    "boss_id": 130,
+    "power_level": 700
+  },
+  {
+    "game_id": 237,
+    "boss_id": 130,
+    "power_level": 750
+  },
+  {
+    "game_id": 238,
+    "boss_id": 130,
+    "power_level": 600
+  },
+  {
+    "game_id": 247,
+    "boss_id": 130,
+    "power_level": 750
+  },
+  {
+    "game_id": 248,
+    "boss_id": 130,
+    "power_level": 1075
+  },
+  {
+    "game_id": 257,
+    "boss_id": 130,
+    "power_level": 850
+  },
+  {
+    "game_id": 258,
+    "boss_id": 130,
+    "power_level": 1175
+  },
+  {
+    "game_id": 267,
+    "boss_id": 130,
+    "power_level": 1000
+  },
+  {
+    "game_id": 268,
+    "boss_id": 130,
+    "power_level": 1475
+  },
+  {
+    "game_id": 307,
+    "boss_id": 130,
+    "power_level": 400
+  },
+  {
+    "game_id": 308,
+    "boss_id": 130,
+    "power_level": 550
+  },
+  {
+    "game_id": 317,
+    "boss_id": 130,
+    "power_level": 500
+  },
+  {
+    "game_id": 318,
+    "boss_id": 130,
+    "power_level": 550
+  },
+  {
+    "game_id": 327,
+    "boss_id": 130,
+    "power_level": 475
+  },
+  {
+    "game_id": 328,
+    "boss_id": 130,
+    "power_level": 700
+  },
+  {
+    "game_id": 337,
+    "boss_id": 130,
+    "power_level": 600
+  },
+  {
+    "game_id": 338,
+    "boss_id": 130,
+    "power_level": 750
+  },
+  {
+    "game_id": 347,
+    "boss_id": 130,
+    "power_level": 875
+  },
+  {
+    "game_id": 348,
+    "boss_id": 130,
+    "power_level": 1175
+  },
+  {
+    "game_id": 357,
+    "boss_id": 130,
+    "power_level": 1000
+  },
+  {
+    "game_id": 358,
+    "boss_id": 130,
+    "power_level": 1600
+  },
+  {
+    "game_id": 367,
+    "boss_id": 130,
+    "power_level": 800
+  },
+  {
+    "game_id": 368,
+    "boss_id": 130,
+    "power_level": 1200
+  },
+  {
+    "game_id": 407,
+    "boss_id": 130,
+    "power_level": 150
+  },
+  {
+    "game_id": 408,
+    "boss_id": 130,
+    "power_level": 175
+  },
+  {
+    "game_id": 417,
+    "boss_id": 130,
+    "power_level": 375
+  },
+  {
+    "game_id": 418,
+    "boss_id": 130,
+    "power_level": 325
+  },
+  {
+    "game_id": 427,
+    "boss_id": 130,
+    "power_level": 800
+  },
+  {
+    "game_id": 428,
+    "boss_id": 130,
+    "power_level": 1050
+  },
+  {
+    "game_id": 437,
+    "boss_id": 130,
+    "power_level": 750
+  },
+  {
+    "game_id": 438,
+    "boss_id": 130,
+    "power_level": 675
+  },
+  {
+    "game_id": 447,
+    "boss_id": 130,
+    "power_level": 1250
+  },
+  {
+    "game_id": 448,
+    "boss_id": 130,
+    "power_level": 1700
+  },
+  {
+    "game_id": 457,
+    "boss_id": 130,
+    "power_level": 1150
+  },
+  {
+    "game_id": 458,
+    "boss_id": 130,
+    "power_level": 1325
+  },
+  {
+    "game_id": 467,
+    "boss_id": 130,
+    "power_level": 2100
+  },
+  {
+    "game_id": 468,
+    "boss_id": 130,
+    "power_level": 2650
+  },
+  {
+    "game_id": 507,
+    "boss_id": 130,
+    "power_level": 425
+  },
+  {
+    "game_id": 508,
+    "boss_id": 130,
+    "power_level": 425
+  },
+  {
+    "game_id": 517,
+    "boss_id": 130,
+    "power_level": 500
+  },
+  {
+    "game_id": 518,
+    "boss_id": 130,
+    "power_level": 500
+  },
+  {
+    "game_id": 527,
+    "boss_id": 130,
+    "power_level": 475
+  },
+  {
+    "game_id": 528,
+    "boss_id": 130,
+    "power_level": 600
+  },
+  {
+    "game_id": 537,
+    "boss_id": 130,
+    "power_level": 800
+  },
+  {
+    "game_id": 538,
+    "boss_id": 130,
+    "power_level": 850
+  },
+  {
+    "game_id": 547,
+    "boss_id": 130,
+    "power_level": 725
+  },
+  {
+    "game_id": 548,
+    "boss_id": 130,
+    "power_level": 1100
+  },
+  {
+    "game_id": 557,
+    "boss_id": 130,
+    "power_level": 1200
+  },
+  {
+    "game_id": 558,
+    "boss_id": 130,
+    "power_level": 1400
+  },
+  {
+    "game_id": 567,
+    "boss_id": 130,
+    "power_level": 1200
+  },
+  {
+    "game_id": 568,
+    "boss_id": 130,
+    "power_level": 1400
+  },
+  {
+    "game_id": 607,
+    "boss_id": 130,
+    "power_level": 380
+  },
+  {
+    "game_id": 608,
+    "boss_id": 130,
+    "power_level": 385
+  },
+  {
+    "game_id": 617,
+    "boss_id": 130,
+    "power_level": 410
+  },
+  {
+    "game_id": 618,
+    "boss_id": 130,
+    "power_level": 410
+  },
+  {
+    "game_id": 627,
+    "boss_id": 130,
+    "power_level": 690
+  },
+  {
+    "game_id": 628,
+    "boss_id": 130,
+    "power_level": 300
+  },
+  {
+    "game_id": 637,
+    "boss_id": 130,
+    "power_level": 500
+  },
+  {
+    "game_id": 638,
+    "boss_id": 130,
+    "power_level": 750
+  },
+  {
+    "game_id": 647,
+    "boss_id": 130,
+    "power_level": 1300
+  },
+  {
+    "game_id": 648,
+    "boss_id": 130,
+    "power_level": 1650
+  },
+  {
+    "game_id": 657,
+    "boss_id": 130,
+    "power_level": 1500
+  },
+  {
+    "game_id": 658,
+    "boss_id": 130,
+    "power_level": 1700
+  },
+  {
+    "game_id": 667,
+    "boss_id": 130,
+    "power_level": 2050
+  },
+  {
+    "game_id": 668,
+    "boss_id": 130,
+    "power_level": 2650
+  },
+  {
+    "game_id": 707,
+    "boss_id": 130,
+    "power_level": 450
+  },
+  {
+    "game_id": 708,
+    "boss_id": 130,
+    "power_level": 500
+  },
+  {
+    "game_id": 717,
+    "boss_id": 130,
+    "power_level": 450
+  },
+  {
+    "game_id": 718,
+    "boss_id": 130,
+    "power_level": 500
+  },
+  {
+    "game_id": 727,
+    "boss_id": 130,
+    "power_level": 600
+  },
+  {
+    "game_id": 728,
+    "boss_id": 130,
+    "power_level": 600
+  },
+  {
+    "game_id": 737,
+    "boss_id": 130,
+    "power_level": 800
+  },
+  {
+    "game_id": 738,
+    "boss_id": 130,
+    "power_level": 950
+  },
+  {
+    "game_id": 747,
+    "boss_id": 130,
+    "power_level": 1250
+  },
+  {
+    "game_id": 748,
+    "boss_id": 130,
+    "power_level": 1500
+  },
+  {
+    "game_id": 757,
+    "boss_id": 130,
+    "power_level": 1200
+  },
+  {
+    "game_id": 758,
+    "boss_id": 130,
+    "power_level": 1700
+  },
+  {
+    "game_id": 767,
+    "boss_id": 130,
+    "power_level": 1400
+  },
+  {
+    "game_id": 768,
+    "boss_id": 130,
+    "power_level": 1600
+  },
+  {
+    "game_id": 858,
+    "boss_id": 130,
+    "power_level": 1650
+  },
+  {
+    "game_id": 859,
+    "boss_id": 130,
+    "power_level": 380
+  },
+  {
+    "game_id": 860,
+    "boss_id": 130,
+    "power_level": 385
+  },
+  {
+    "game_id": 1672,
+    "boss_id": 130,
+    "power_level": 1200
+  }
+]

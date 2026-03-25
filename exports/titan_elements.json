@@ -1,0 +1,117 @@
+[
+  {
+    "titan_id": 4000,
+    "element": "вода",
+    "points": 1
+  },
+  {
+    "titan_id": 4001,
+    "element": "вода",
+    "points": 1
+  },
+  {
+    "titan_id": 4002,
+    "element": "вода",
+    "points": 1
+  },
+  {
+    "titan_id": 4003,
+    "element": "вода",
+    "points": 1
+  },
+  {
+    "titan_id": 4004,
+    "element": "вода",
+    "points": 2
+  },
+  {
+    "titan_id": 4010,
+    "element": "огонь",
+    "points": 1
+  },
+  {
+    "titan_id": 4011,
+    "element": "огонь",
+    "points": 1
+  },
+  {
+    "titan_id": 4012,
+    "element": "огонь",
+    "points": 1
+  },
+  {
+    "titan_id": 4013,
+    "element": "огонь",
+    "points": 1
+  },
+  {
+    "titan_id": 4014,
+    "element": "огонь",
+    "points": 2
+  },
+  {
+    "titan_id": 4020,
+    "element": "земля",
+    "points": 1
+  },
+  {
+    "titan_id": 4021,
+    "element": "земля",
+    "points": 1
+  },
+  {
+    "titan_id": 4022,
+    "element": "земля",
+    "points": 1
+  },
+  {
+    "titan_id": 4023,
+    "element": "земля",
+    "points": 1
+  },
+  {
+    "titan_id": 4024,
+    "element": "земля",
+    "points": 2
+  },
+  {
+    "titan_id": 4030,
+    "element": "тьма",
+    "points": 1
+  },
+  {
+    "titan_id": 4031,
+    "element": "тьма",
+    "points": 1
+  },
+  {
+    "titan_id": 4032,
+    "element": "тьма",
+    "points": 1
+  },
+  {
+    "titan_id": 4033,
+    "element": "тьма",
+    "points": 1
+  },
+  {
+    "titan_id": 4040,
+    "element": "свет",
+    "points": 1
+  },
+  {
+    "titan_id": 4041,
+    "element": "свет",
+    "points": 1
+  },
+  {
+    "titan_id": 4042,
+    "element": "свет",
+    "points": 1
+  },
+  {
+    "titan_id": 4043,
+    "element": "свет",
+    "points": 1
+  }
+]

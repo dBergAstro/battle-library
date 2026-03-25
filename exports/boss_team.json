@@ -1,0 +1,10844 @@
+[
+  {
+    "boss_game_id": 227,
+    "hero_id": null,
+    "unit_id": 1000,
+    "boss_level_id": 102
+  },
+  {
+    "boss_game_id": 227,
+    "hero_id": null,
+    "unit_id": 1001,
+    "boss_level_id": 102
+  },
+  {
+    "boss_game_id": 227,
+    "hero_id": null,
+    "unit_id": 1004,
+    "boss_level_id": 102
+  },
+  {
+    "boss_game_id": 227,
+    "hero_id": null,
+    "unit_id": 1004,
+    "boss_level_id": 102
+  },
+  {
+    "boss_game_id": 227,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 102
+  },
+  {
+    "boss_game_id": 228,
+    "hero_id": null,
+    "unit_id": 26,
+    "boss_level_id": 103
+  },
+  {
+    "boss_game_id": 228,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 103
+  },
+  {
+    "boss_game_id": 228,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 103
+  },
+  {
+    "boss_game_id": 228,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 103
+  },
+  {
+    "boss_game_id": 228,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 103
+  },
+  {
+    "boss_game_id": 229,
+    "hero_id": null,
+    "unit_id": 2010,
+    "boss_level_id": 104
+  },
+  {
+    "boss_game_id": 230,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 105
+  },
+  {
+    "boss_game_id": 230,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 105
+  },
+  {
+    "boss_game_id": 230,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 105
+  },
+  {
+    "boss_game_id": 230,
+    "hero_id": null,
+    "unit_id": 1055,
+    "boss_level_id": 105
+  },
+  {
+    "boss_game_id": 230,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 105
+  },
+  {
+    "boss_game_id": 231,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 106
+  },
+  {
+    "boss_game_id": 231,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 106
+  },
+  {
+    "boss_game_id": 231,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 106
+  },
+  {
+    "boss_game_id": 231,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 106
+  },
+  {
+    "boss_game_id": 231,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 106
+  },
+  {
+    "boss_game_id": 232,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 107
+  },
+  {
+    "boss_game_id": 232,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 107
+  },
+  {
+    "boss_game_id": 232,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 107
+  },
+  {
+    "boss_game_id": 232,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 107
+  },
+  {
+    "boss_game_id": 232,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 107
+  },
+  {
+    "boss_game_id": 233,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 108
+  },
+  {
+    "boss_game_id": 233,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 108
+  },
+  {
+    "boss_game_id": 233,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 108
+  },
+  {
+    "boss_game_id": 233,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 108
+  },
+  {
+    "boss_game_id": 233,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 108
+  },
+  {
+    "boss_game_id": 234,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 110
+  },
+  {
+    "boss_game_id": 234,
+    "hero_id": null,
+    "unit_id": 1033,
+    "boss_level_id": 110
+  },
+  {
+    "boss_game_id": 234,
+    "hero_id": null,
+    "unit_id": 1034,
+    "boss_level_id": 110
+  },
+  {
+    "boss_game_id": 234,
+    "hero_id": null,
+    "unit_id": 1031,
+    "boss_level_id": 110
+  },
+  {
+    "boss_game_id": 234,
+    "hero_id": null,
+    "unit_id": 1031,
+    "boss_level_id": 110
+  },
+  {
+    "boss_game_id": 235,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 111
+  },
+  {
+    "boss_game_id": 235,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 111
+  },
+  {
+    "boss_game_id": 235,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 111
+  },
+  {
+    "boss_game_id": 235,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 111
+  },
+  {
+    "boss_game_id": 235,
+    "hero_id": null,
+    "unit_id": 1003,
+    "boss_level_id": 111
+  },
+  {
+    "boss_game_id": 236,
+    "hero_id": null,
+    "unit_id": 1062,
+    "boss_level_id": 112
+  },
+  {
+    "boss_game_id": 236,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 112
+  },
+  {
+    "boss_game_id": 236,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 112
+  },
+  {
+    "boss_game_id": 236,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 112
+  },
+  {
+    "boss_game_id": 236,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 112
+  },
+  {
+    "boss_game_id": 237,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 113
+  },
+  {
+    "boss_game_id": 237,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 113
+  },
+  {
+    "boss_game_id": 237,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 113
+  },
+  {
+    "boss_game_id": 237,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 113
+  },
+  {
+    "boss_game_id": 237,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 113
+  },
+  {
+    "boss_game_id": 238,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 114
+  },
+  {
+    "boss_game_id": 238,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 114
+  },
+  {
+    "boss_game_id": 238,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 114
+  },
+  {
+    "boss_game_id": 238,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 114
+  },
+  {
+    "boss_game_id": 238,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 114
+  },
+  {
+    "boss_game_id": 239,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 115
+  },
+  {
+    "boss_game_id": 239,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 115
+  },
+  {
+    "boss_game_id": 239,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 115
+  },
+  {
+    "boss_game_id": 239,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 115
+  },
+  {
+    "boss_game_id": 239,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 115
+  },
+  {
+    "boss_game_id": 240,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 116
+  },
+  {
+    "boss_game_id": 240,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 116
+  },
+  {
+    "boss_game_id": 240,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 116
+  },
+  {
+    "boss_game_id": 240,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 116
+  },
+  {
+    "boss_game_id": 240,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 116
+  },
+  {
+    "boss_game_id": 241,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 117
+  },
+  {
+    "boss_game_id": 241,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 117
+  },
+  {
+    "boss_game_id": 241,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 117
+  },
+  {
+    "boss_game_id": 241,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 117
+  },
+  {
+    "boss_game_id": 241,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 117
+  },
+  {
+    "boss_game_id": 242,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 121
+  },
+  {
+    "boss_game_id": 242,
+    "hero_id": null,
+    "unit_id": 1062,
+    "boss_level_id": 121
+  },
+  {
+    "boss_game_id": 242,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 121
+  },
+  {
+    "boss_game_id": 242,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 121
+  },
+  {
+    "boss_game_id": 242,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 121
+  },
+  {
+    "boss_game_id": 243,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 122
+  },
+  {
+    "boss_game_id": 243,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 122
+  },
+  {
+    "boss_game_id": 243,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 122
+  },
+  {
+    "boss_game_id": 243,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 122
+  },
+  {
+    "boss_game_id": 243,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 122
+  },
+  {
+    "boss_game_id": 244,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 123
+  },
+  {
+    "boss_game_id": 244,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 123
+  },
+  {
+    "boss_game_id": 244,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 123
+  },
+  {
+    "boss_game_id": 244,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 123
+  },
+  {
+    "boss_game_id": 244,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 123
+  },
+  {
+    "boss_game_id": 245,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 124
+  },
+  {
+    "boss_game_id": 245,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 124
+  },
+  {
+    "boss_game_id": 245,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 124
+  },
+  {
+    "boss_game_id": 245,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 124
+  },
+  {
+    "boss_game_id": 245,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 124
+  },
+  {
+    "boss_game_id": 246,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 125
+  },
+  {
+    "boss_game_id": 246,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 125
+  },
+  {
+    "boss_game_id": 246,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 125
+  },
+  {
+    "boss_game_id": 246,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 125
+  },
+  {
+    "boss_game_id": 246,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 125
+  },
+  {
+    "boss_game_id": 247,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 126
+  },
+  {
+    "boss_game_id": 247,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 126
+  },
+  {
+    "boss_game_id": 247,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 126
+  },
+  {
+    "boss_game_id": 247,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 126
+  },
+  {
+    "boss_game_id": 247,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 126
+  },
+  {
+    "boss_game_id": 248,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 127
+  },
+  {
+    "boss_game_id": 248,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 127
+  },
+  {
+    "boss_game_id": 248,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 127
+  },
+  {
+    "boss_game_id": 248,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 127
+  },
+  {
+    "boss_game_id": 248,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 127
+  },
+  {
+    "boss_game_id": 249,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 128
+  },
+  {
+    "boss_game_id": 249,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 128
+  },
+  {
+    "boss_game_id": 249,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 128
+  },
+  {
+    "boss_game_id": 249,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 128
+  },
+  {
+    "boss_game_id": 249,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 128
+  },
+  {
+    "boss_game_id": 250,
+    "hero_id": null,
+    "unit_id": 2026,
+    "boss_level_id": 131
+  },
+  {
+    "boss_game_id": 250,
+    "hero_id": null,
+    "unit_id": 2027,
+    "boss_level_id": 131
+  },
+  {
+    "boss_game_id": 250,
+    "hero_id": null,
+    "unit_id": 2028,
+    "boss_level_id": 131
+  },
+  {
+    "boss_game_id": 251,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 132
+  },
+  {
+    "boss_game_id": 251,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 132
+  },
+  {
+    "boss_game_id": 251,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 132
+  },
+  {
+    "boss_game_id": 251,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 132
+  },
+  {
+    "boss_game_id": 251,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 132
+  },
+  {
+    "boss_game_id": 252,
+    "hero_id": null,
+    "unit_id": 1069,
+    "boss_level_id": 133
+  },
+  {
+    "boss_game_id": 253,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 134
+  },
+  {
+    "boss_game_id": 253,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 134
+  },
+  {
+    "boss_game_id": 253,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 134
+  },
+  {
+    "boss_game_id": 253,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 134
+  },
+  {
+    "boss_game_id": 253,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 134
+  },
+  {
+    "boss_game_id": 254,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 135
+  },
+  {
+    "boss_game_id": 254,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 135
+  },
+  {
+    "boss_game_id": 254,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 135
+  },
+  {
+    "boss_game_id": 254,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 135
+  },
+  {
+    "boss_game_id": 254,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 135
+  },
+  {
+    "boss_game_id": 255,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 136
+  },
+  {
+    "boss_game_id": 255,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 136
+  },
+  {
+    "boss_game_id": 255,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 136
+  },
+  {
+    "boss_game_id": 255,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 136
+  },
+  {
+    "boss_game_id": 255,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 136
+  },
+  {
+    "boss_game_id": 256,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 137
+  },
+  {
+    "boss_game_id": 256,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 137
+  },
+  {
+    "boss_game_id": 256,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 137
+  },
+  {
+    "boss_game_id": 256,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 137
+  },
+  {
+    "boss_game_id": 256,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 137
+  },
+  {
+    "boss_game_id": 257,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 138
+  },
+  {
+    "boss_game_id": 257,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 138
+  },
+  {
+    "boss_game_id": 257,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 138
+  },
+  {
+    "boss_game_id": 257,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 138
+  },
+  {
+    "boss_game_id": 257,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 138
+  },
+  {
+    "boss_game_id": 258,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 141
+  },
+  {
+    "boss_game_id": 258,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 141
+  },
+  {
+    "boss_game_id": 258,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 141
+  },
+  {
+    "boss_game_id": 258,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 141
+  },
+  {
+    "boss_game_id": 258,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 141
+  },
+  {
+    "boss_game_id": 259,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 142
+  },
+  {
+    "boss_game_id": 259,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 142
+  },
+  {
+    "boss_game_id": 259,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 142
+  },
+  {
+    "boss_game_id": 259,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 142
+  },
+  {
+    "boss_game_id": 259,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 142
+  },
+  {
+    "boss_game_id": 260,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 143
+  },
+  {
+    "boss_game_id": 260,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 143
+  },
+  {
+    "boss_game_id": 260,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 143
+  },
+  {
+    "boss_game_id": 260,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 143
+  },
+  {
+    "boss_game_id": 260,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 143
+  },
+  {
+    "boss_game_id": 261,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 144
+  },
+  {
+    "boss_game_id": 261,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 144
+  },
+  {
+    "boss_game_id": 261,
+    "hero_id": null,
+    "unit_id": 1057,
+    "boss_level_id": 144
+  },
+  {
+    "boss_game_id": 261,
+    "hero_id": null,
+    "unit_id": 45,
+    "boss_level_id": 144
+  },
+  {
+    "boss_game_id": 261,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 144
+  },
+  {
+    "boss_game_id": 262,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 145
+  },
+  {
+    "boss_game_id": 262,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 145
+  },
+  {
+    "boss_game_id": 262,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 145
+  },
+  {
+    "boss_game_id": 262,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 145
+  },
+  {
+    "boss_game_id": 262,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 145
+  },
+  {
+    "boss_game_id": 263,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 146
+  },
+  {
+    "boss_game_id": 263,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 146
+  },
+  {
+    "boss_game_id": 263,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 146
+  },
+  {
+    "boss_game_id": 263,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 146
+  },
+  {
+    "boss_game_id": 263,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 146
+  },
+  {
+    "boss_game_id": 264,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 147
+  },
+  {
+    "boss_game_id": 264,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 147
+  },
+  {
+    "boss_game_id": 264,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 147
+  },
+  {
+    "boss_game_id": 264,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 147
+  },
+  {
+    "boss_game_id": 264,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 147
+  },
+  {
+    "boss_game_id": 265,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 148
+  },
+  {
+    "boss_game_id": 265,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 148
+  },
+  {
+    "boss_game_id": 265,
+    "hero_id": null,
+    "unit_id": 66,
+    "boss_level_id": 148
+  },
+  {
+    "boss_game_id": 265,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 148
+  },
+  {
+    "boss_game_id": 265,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 148
+  },
+  {
+    "boss_game_id": 266,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 151
+  },
+  {
+    "boss_game_id": 266,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 151
+  },
+  {
+    "boss_game_id": 266,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 151
+  },
+  {
+    "boss_game_id": 266,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 151
+  },
+  {
+    "boss_game_id": 267,
+    "hero_id": null,
+    "unit_id": 1040,
+    "boss_level_id": 152
+  },
+  {
+    "boss_game_id": 267,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 152
+  },
+  {
+    "boss_game_id": 267,
+    "hero_id": null,
+    "unit_id": 1044,
+    "boss_level_id": 152
+  },
+  {
+    "boss_game_id": 267,
+    "hero_id": null,
+    "unit_id": 1042,
+    "boss_level_id": 152
+  },
+  {
+    "boss_game_id": 267,
+    "hero_id": null,
+    "unit_id": 1045,
+    "boss_level_id": 152
+  },
+  {
+    "boss_game_id": 268,
+    "hero_id": null,
+    "unit_id": 1036,
+    "boss_level_id": 153
+  },
+  {
+    "boss_game_id": 269,
+    "hero_id": null,
+    "unit_id": 1056,
+    "boss_level_id": 154
+  },
+  {
+    "boss_game_id": 269,
+    "hero_id": null,
+    "unit_id": 1056,
+    "boss_level_id": 154
+  },
+  {
+    "boss_game_id": 269,
+    "hero_id": null,
+    "unit_id": 1055,
+    "boss_level_id": 154
+  },
+  {
+    "boss_game_id": 269,
+    "hero_id": null,
+    "unit_id": 1051,
+    "boss_level_id": 154
+  },
+  {
+    "boss_game_id": 269,
+    "hero_id": null,
+    "unit_id": 1051,
+    "boss_level_id": 154
+  },
+  {
+    "boss_game_id": 270,
+    "hero_id": null,
+    "unit_id": 1026,
+    "boss_level_id": 155
+  },
+  {
+    "boss_game_id": 271,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 1562
+  },
+  {
+    "boss_game_id": 271,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 1562
+  },
+  {
+    "boss_game_id": 271,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 1562
+  },
+  {
+    "boss_game_id": 271,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 1562
+  },
+  {
+    "boss_game_id": 271,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 1562
+  },
+  {
+    "boss_game_id": 272,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 157
+  },
+  {
+    "boss_game_id": 272,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 157
+  },
+  {
+    "boss_game_id": 272,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 157
+  },
+  {
+    "boss_game_id": 272,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 157
+  },
+  {
+    "boss_game_id": 272,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 157
+  },
+  {
+    "boss_game_id": 273,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 158
+  },
+  {
+    "boss_game_id": 273,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 158
+  },
+  {
+    "boss_game_id": 273,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 158
+  },
+  {
+    "boss_game_id": 273,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 158
+  },
+  {
+    "boss_game_id": 273,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 158
+  },
+  {
+    "boss_game_id": 273,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 158
+  },
+  {
+    "boss_game_id": 274,
+    "hero_id": null,
+    "unit_id": 1068,
+    "boss_level_id": 161
+  },
+  {
+    "boss_game_id": 274,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 161
+  },
+  {
+    "boss_game_id": 274,
+    "hero_id": null,
+    "unit_id": 1065,
+    "boss_level_id": 161
+  },
+  {
+    "boss_game_id": 274,
+    "hero_id": null,
+    "unit_id": 1066,
+    "boss_level_id": 161
+  },
+  {
+    "boss_game_id": 274,
+    "hero_id": null,
+    "unit_id": 1064,
+    "boss_level_id": 161
+  },
+  {
+    "boss_game_id": 275,
+    "hero_id": null,
+    "unit_id": 66,
+    "boss_level_id": 162
+  },
+  {
+    "boss_game_id": 275,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 162
+  },
+  {
+    "boss_game_id": 275,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 162
+  },
+  {
+    "boss_game_id": 275,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 162
+  },
+  {
+    "boss_game_id": 275,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 162
+  },
+  {
+    "boss_game_id": 276,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 163
+  },
+  {
+    "boss_game_id": 276,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 163
+  },
+  {
+    "boss_game_id": 276,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 163
+  },
+  {
+    "boss_game_id": 276,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 163
+  },
+  {
+    "boss_game_id": 276,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 163
+  },
+  {
+    "boss_game_id": 277,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 164
+  },
+  {
+    "boss_game_id": 277,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 164
+  },
+  {
+    "boss_game_id": 277,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 164
+  },
+  {
+    "boss_game_id": 277,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 164
+  },
+  {
+    "boss_game_id": 277,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 164
+  },
+  {
+    "boss_game_id": 278,
+    "hero_id": null,
+    "unit_id": 2024,
+    "boss_level_id": 165
+  },
+  {
+    "boss_game_id": 279,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 166
+  },
+  {
+    "boss_game_id": 279,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 166
+  },
+  {
+    "boss_game_id": 279,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 166
+  },
+  {
+    "boss_game_id": 279,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 166
+  },
+  {
+    "boss_game_id": 279,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 166
+  },
+  {
+    "boss_game_id": 280,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 1672
+  },
+  {
+    "boss_game_id": 280,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 1672
+  },
+  {
+    "boss_game_id": 280,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 1672
+  },
+  {
+    "boss_game_id": 280,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 1672
+  },
+  {
+    "boss_game_id": 280,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 1672
+  },
+  {
+    "boss_game_id": 281,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 168
+  },
+  {
+    "boss_game_id": 281,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 168
+  },
+  {
+    "boss_game_id": 281,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 168
+  },
+  {
+    "boss_game_id": 281,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 168
+  },
+  {
+    "boss_game_id": 281,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 168
+  },
+  {
+    "boss_game_id": 281,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 168
+  },
+  {
+    "boss_game_id": 282,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 201
+  },
+  {
+    "boss_game_id": 282,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 201
+  },
+  {
+    "boss_game_id": 282,
+    "hero_id": null,
+    "unit_id": 8,
+    "boss_level_id": 201
+  },
+  {
+    "boss_game_id": 282,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 201
+  },
+  {
+    "boss_game_id": 282,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 201
+  },
+  {
+    "boss_game_id": 283,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 202
+  },
+  {
+    "boss_game_id": 283,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 202
+  },
+  {
+    "boss_game_id": 283,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 202
+  },
+  {
+    "boss_game_id": 283,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 202
+  },
+  {
+    "boss_game_id": 283,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 202
+  },
+  {
+    "boss_game_id": 284,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 203
+  },
+  {
+    "boss_game_id": 284,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 203
+  },
+  {
+    "boss_game_id": 284,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 203
+  },
+  {
+    "boss_game_id": 284,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 203
+  },
+  {
+    "boss_game_id": 284,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 203
+  },
+  {
+    "boss_game_id": 285,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 204
+  },
+  {
+    "boss_game_id": 285,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 204
+  },
+  {
+    "boss_game_id": 285,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 204
+  },
+  {
+    "boss_game_id": 285,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 204
+  },
+  {
+    "boss_game_id": 285,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 204
+  },
+  {
+    "boss_game_id": 286,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 205
+  },
+  {
+    "boss_game_id": 286,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 205
+  },
+  {
+    "boss_game_id": 286,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 205
+  },
+  {
+    "boss_game_id": 286,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 205
+  },
+  {
+    "boss_game_id": 286,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 205
+  },
+  {
+    "boss_game_id": 287,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 206
+  },
+  {
+    "boss_game_id": 287,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 206
+  },
+  {
+    "boss_game_id": 287,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 206
+  },
+  {
+    "boss_game_id": 287,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 206
+  },
+  {
+    "boss_game_id": 287,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 206
+  },
+  {
+    "boss_game_id": 288,
+    "hero_id": null,
+    "unit_id": 1061,
+    "boss_level_id": 207
+  },
+  {
+    "boss_game_id": 288,
+    "hero_id": null,
+    "unit_id": 1061,
+    "boss_level_id": 207
+  },
+  {
+    "boss_game_id": 288,
+    "hero_id": null,
+    "unit_id": 1065,
+    "boss_level_id": 207
+  },
+  {
+    "boss_game_id": 288,
+    "hero_id": null,
+    "unit_id": 1063,
+    "boss_level_id": 207
+  },
+  {
+    "boss_game_id": 288,
+    "hero_id": null,
+    "unit_id": 1063,
+    "boss_level_id": 207
+  },
+  {
+    "boss_game_id": 288,
+    "hero_id": null,
+    "unit_id": 37,
+    "boss_level_id": 207
+  },
+  {
+    "boss_game_id": 289,
+    "hero_id": null,
+    "unit_id": 2010,
+    "boss_level_id": 208
+  },
+  {
+    "boss_game_id": 290,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 290,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 290,
+    "hero_id": null,
+    "unit_id": 1021,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 290,
+    "hero_id": null,
+    "unit_id": 1023,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 290,
+    "hero_id": null,
+    "unit_id": 1020,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 291,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 212
+  },
+  {
+    "boss_game_id": 291,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 212
+  },
+  {
+    "boss_game_id": 291,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 212
+  },
+  {
+    "boss_game_id": 291,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 212
+  },
+  {
+    "boss_game_id": 291,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 212
+  },
+  {
+    "boss_game_id": 292,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 213
+  },
+  {
+    "boss_game_id": 292,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 213
+  },
+  {
+    "boss_game_id": 292,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 213
+  },
+  {
+    "boss_game_id": 292,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 213
+  },
+  {
+    "boss_game_id": 292,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 213
+  },
+  {
+    "boss_game_id": 293,
+    "hero_id": null,
+    "unit_id": 1016,
+    "boss_level_id": 214
+  },
+  {
+    "boss_game_id": 294,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 215
+  },
+  {
+    "boss_game_id": 294,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 215
+  },
+  {
+    "boss_game_id": 294,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 215
+  },
+  {
+    "boss_game_id": 294,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 215
+  },
+  {
+    "boss_game_id": 294,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 215
+  },
+  {
+    "boss_game_id": 295,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 216
+  },
+  {
+    "boss_game_id": 295,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 216
+  },
+  {
+    "boss_game_id": 295,
+    "hero_id": null,
+    "unit_id": 22,
+    "boss_level_id": 216
+  },
+  {
+    "boss_game_id": 295,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 216
+  },
+  {
+    "boss_game_id": 295,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 216
+  },
+  {
+    "boss_game_id": 296,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 217
+  },
+  {
+    "boss_game_id": 296,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 217
+  },
+  {
+    "boss_game_id": 296,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 217
+  },
+  {
+    "boss_game_id": 296,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 217
+  },
+  {
+    "boss_game_id": 296,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 217
+  },
+  {
+    "boss_game_id": 297,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 218
+  },
+  {
+    "boss_game_id": 297,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 218
+  },
+  {
+    "boss_game_id": 297,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 218
+  },
+  {
+    "boss_game_id": 297,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 218
+  },
+  {
+    "boss_game_id": 297,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 218
+  },
+  {
+    "boss_game_id": 298,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 221
+  },
+  {
+    "boss_game_id": 298,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 221
+  },
+  {
+    "boss_game_id": 298,
+    "hero_id": null,
+    "unit_id": 1054,
+    "boss_level_id": 221
+  },
+  {
+    "boss_game_id": 298,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 221
+  },
+  {
+    "boss_game_id": 299,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 222
+  },
+  {
+    "boss_game_id": 299,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 222
+  },
+  {
+    "boss_game_id": 299,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 222
+  },
+  {
+    "boss_game_id": 299,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 222
+  },
+  {
+    "boss_game_id": 299,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 222
+  },
+  {
+    "boss_game_id": 300,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 223
+  },
+  {
+    "boss_game_id": 300,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 223
+  },
+  {
+    "boss_game_id": 300,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 223
+  },
+  {
+    "boss_game_id": 300,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 223
+  },
+  {
+    "boss_game_id": 300,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 223
+  },
+  {
+    "boss_game_id": 301,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 224
+  },
+  {
+    "boss_game_id": 301,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 224
+  },
+  {
+    "boss_game_id": 301,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 224
+  },
+  {
+    "boss_game_id": 301,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 224
+  },
+  {
+    "boss_game_id": 301,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 224
+  },
+  {
+    "boss_game_id": 302,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 225
+  },
+  {
+    "boss_game_id": 302,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 225
+  },
+  {
+    "boss_game_id": 302,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 225
+  },
+  {
+    "boss_game_id": 302,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 225
+  },
+  {
+    "boss_game_id": 302,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 225
+  },
+  {
+    "boss_game_id": 303,
+    "hero_id": null,
+    "unit_id": 2011,
+    "boss_level_id": 226
+  },
+  {
+    "boss_game_id": 304,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 227
+  },
+  {
+    "boss_game_id": 304,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 227
+  },
+  {
+    "boss_game_id": 304,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 227
+  },
+  {
+    "boss_game_id": 304,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 227
+  },
+  {
+    "boss_game_id": 304,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 227
+  },
+  {
+    "boss_game_id": 305,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 228
+  },
+  {
+    "boss_game_id": 305,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 228
+  },
+  {
+    "boss_game_id": 305,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 228
+  },
+  {
+    "boss_game_id": 305,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 228
+  },
+  {
+    "boss_game_id": 305,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 228
+  },
+  {
+    "boss_game_id": 306,
+    "hero_id": null,
+    "unit_id": 1068,
+    "boss_level_id": 231
+  },
+  {
+    "boss_game_id": 306,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 231
+  },
+  {
+    "boss_game_id": 306,
+    "hero_id": null,
+    "unit_id": 1065,
+    "boss_level_id": 231
+  },
+  {
+    "boss_game_id": 306,
+    "hero_id": null,
+    "unit_id": 1066,
+    "boss_level_id": 231
+  },
+  {
+    "boss_game_id": 306,
+    "hero_id": null,
+    "unit_id": 1064,
+    "boss_level_id": 231
+  },
+  {
+    "boss_game_id": 307,
+    "hero_id": null,
+    "unit_id": 1062,
+    "boss_level_id": 232
+  },
+  {
+    "boss_game_id": 307,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 232
+  },
+  {
+    "boss_game_id": 307,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 232
+  },
+  {
+    "boss_game_id": 307,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 232
+  },
+  {
+    "boss_game_id": 307,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 232
+  },
+  {
+    "boss_game_id": 308,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 233
+  },
+  {
+    "boss_game_id": 308,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 233
+  },
+  {
+    "boss_game_id": 308,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 233
+  },
+  {
+    "boss_game_id": 308,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 233
+  },
+  {
+    "boss_game_id": 308,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 233
+  },
+  {
+    "boss_game_id": 309,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 234
+  },
+  {
+    "boss_game_id": 309,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 234
+  },
+  {
+    "boss_game_id": 309,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 234
+  },
+  {
+    "boss_game_id": 309,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 234
+  },
+  {
+    "boss_game_id": 309,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 234
+  },
+  {
+    "boss_game_id": 310,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 235
+  },
+  {
+    "boss_game_id": 310,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 235
+  },
+  {
+    "boss_game_id": 310,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 235
+  },
+  {
+    "boss_game_id": 310,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 235
+  },
+  {
+    "boss_game_id": 310,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 235
+  },
+  {
+    "boss_game_id": 311,
+    "hero_id": null,
+    "unit_id": 1069,
+    "boss_level_id": 236
+  },
+  {
+    "boss_game_id": 312,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 237
+  },
+  {
+    "boss_game_id": 312,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 237
+  },
+  {
+    "boss_game_id": 312,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 237
+  },
+  {
+    "boss_game_id": 312,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 237
+  },
+  {
+    "boss_game_id": 312,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 237
+  },
+  {
+    "boss_game_id": 313,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 238
+  },
+  {
+    "boss_game_id": 313,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 238
+  },
+  {
+    "boss_game_id": 313,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 238
+  },
+  {
+    "boss_game_id": 313,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 238
+  },
+  {
+    "boss_game_id": 313,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 238
+  },
+  {
+    "boss_game_id": 314,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 241
+  },
+  {
+    "boss_game_id": 314,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 241
+  },
+  {
+    "boss_game_id": 314,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 241
+  },
+  {
+    "boss_game_id": 314,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 241
+  },
+  {
+    "boss_game_id": 315,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 242
+  },
+  {
+    "boss_game_id": 315,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 242
+  },
+  {
+    "boss_game_id": 315,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 242
+  },
+  {
+    "boss_game_id": 315,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 242
+  },
+  {
+    "boss_game_id": 316,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 243
+  },
+  {
+    "boss_game_id": 316,
+    "hero_id": null,
+    "unit_id": 2028,
+    "boss_level_id": 243
+  },
+  {
+    "boss_game_id": 316,
+    "hero_id": null,
+    "unit_id": 2027,
+    "boss_level_id": 243
+  },
+  {
+    "boss_game_id": 316,
+    "hero_id": null,
+    "unit_id": 2026,
+    "boss_level_id": 243
+  },
+  {
+    "boss_game_id": 316,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 243
+  },
+  {
+    "boss_game_id": 317,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 244
+  },
+  {
+    "boss_game_id": 317,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 244
+  },
+  {
+    "boss_game_id": 317,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 244
+  },
+  {
+    "boss_game_id": 317,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 244
+  },
+  {
+    "boss_game_id": 317,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 244
+  },
+  {
+    "boss_game_id": 318,
+    "hero_id": null,
+    "unit_id": 1051,
+    "boss_level_id": 245
+  },
+  {
+    "boss_game_id": 318,
+    "hero_id": null,
+    "unit_id": 1051,
+    "boss_level_id": 245
+  },
+  {
+    "boss_game_id": 318,
+    "hero_id": null,
+    "unit_id": 7025,
+    "boss_level_id": 245
+  },
+  {
+    "boss_game_id": 319,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 246
+  },
+  {
+    "boss_game_id": 319,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 246
+  },
+  {
+    "boss_game_id": 319,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 246
+  },
+  {
+    "boss_game_id": 319,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 246
+  },
+  {
+    "boss_game_id": 319,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 246
+  },
+  {
+    "boss_game_id": 320,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 247
+  },
+  {
+    "boss_game_id": 320,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 247
+  },
+  {
+    "boss_game_id": 320,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 247
+  },
+  {
+    "boss_game_id": 320,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 247
+  },
+  {
+    "boss_game_id": 320,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 247
+  },
+  {
+    "boss_game_id": 321,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 248
+  },
+  {
+    "boss_game_id": 321,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 248
+  },
+  {
+    "boss_game_id": 321,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 248
+  },
+  {
+    "boss_game_id": 321,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 248
+  },
+  {
+    "boss_game_id": 321,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 248
+  },
+  {
+    "boss_game_id": 322,
+    "hero_id": null,
+    "unit_id": 1000,
+    "boss_level_id": 251
+  },
+  {
+    "boss_game_id": 322,
+    "hero_id": null,
+    "unit_id": 1001,
+    "boss_level_id": 251
+  },
+  {
+    "boss_game_id": 322,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 251
+  },
+  {
+    "boss_game_id": 322,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 251
+  },
+  {
+    "boss_game_id": 322,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 251
+  },
+  {
+    "boss_game_id": 323,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 252
+  },
+  {
+    "boss_game_id": 323,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 252
+  },
+  {
+    "boss_game_id": 323,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 252
+  },
+  {
+    "boss_game_id": 323,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 252
+  },
+  {
+    "boss_game_id": 323,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 252
+  },
+  {
+    "boss_game_id": 324,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 253
+  },
+  {
+    "boss_game_id": 324,
+    "hero_id": null,
+    "unit_id": 8,
+    "boss_level_id": 253
+  },
+  {
+    "boss_game_id": 324,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 253
+  },
+  {
+    "boss_game_id": 324,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 253
+  },
+  {
+    "boss_game_id": 324,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 253
+  },
+  {
+    "boss_game_id": 325,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 254
+  },
+  {
+    "boss_game_id": 325,
+    "hero_id": null,
+    "unit_id": 37,
+    "boss_level_id": 254
+  },
+  {
+    "boss_game_id": 325,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 254
+  },
+  {
+    "boss_game_id": 325,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 254
+  },
+  {
+    "boss_game_id": 325,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 254
+  },
+  {
+    "boss_game_id": 326,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 255
+  },
+  {
+    "boss_game_id": 326,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 255
+  },
+  {
+    "boss_game_id": 326,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 255
+  },
+  {
+    "boss_game_id": 326,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 255
+  },
+  {
+    "boss_game_id": 326,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 255
+  },
+  {
+    "boss_game_id": 327,
+    "hero_id": null,
+    "unit_id": 2003,
+    "boss_level_id": 256
+  },
+  {
+    "boss_game_id": 328,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 257
+  },
+  {
+    "boss_game_id": 328,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 257
+  },
+  {
+    "boss_game_id": 328,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 257
+  },
+  {
+    "boss_game_id": 328,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 257
+  },
+  {
+    "boss_game_id": 328,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 257
+  },
+  {
+    "boss_game_id": 329,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 258
+  },
+  {
+    "boss_game_id": 329,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 258
+  },
+  {
+    "boss_game_id": 329,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 258
+  },
+  {
+    "boss_game_id": 329,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 258
+  },
+  {
+    "boss_game_id": 329,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 258
+  },
+  {
+    "boss_game_id": 330,
+    "hero_id": null,
+    "unit_id": 2019,
+    "boss_level_id": 261
+  },
+  {
+    "boss_game_id": 330,
+    "hero_id": null,
+    "unit_id": 2020,
+    "boss_level_id": 261
+  },
+  {
+    "boss_game_id": 330,
+    "hero_id": null,
+    "unit_id": 2021,
+    "boss_level_id": 261
+  },
+  {
+    "boss_game_id": 330,
+    "hero_id": null,
+    "unit_id": 2022,
+    "boss_level_id": 261
+  },
+  {
+    "boss_game_id": 331,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 262
+  },
+  {
+    "boss_game_id": 331,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 262
+  },
+  {
+    "boss_game_id": 331,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 262
+  },
+  {
+    "boss_game_id": 331,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 262
+  },
+  {
+    "boss_game_id": 331,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 262
+  },
+  {
+    "boss_game_id": 332,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 263
+  },
+  {
+    "boss_game_id": 332,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 263
+  },
+  {
+    "boss_game_id": 332,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 263
+  },
+  {
+    "boss_game_id": 332,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 263
+  },
+  {
+    "boss_game_id": 332,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 263
+  },
+  {
+    "boss_game_id": 333,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 264
+  },
+  {
+    "boss_game_id": 333,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 264
+  },
+  {
+    "boss_game_id": 333,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 264
+  },
+  {
+    "boss_game_id": 333,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 264
+  },
+  {
+    "boss_game_id": 333,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 264
+  },
+  {
+    "boss_game_id": 334,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 265
+  },
+  {
+    "boss_game_id": 334,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 265
+  },
+  {
+    "boss_game_id": 334,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 265
+  },
+  {
+    "boss_game_id": 334,
+    "hero_id": null,
+    "unit_id": 22,
+    "boss_level_id": 265
+  },
+  {
+    "boss_game_id": 334,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 265
+  },
+  {
+    "boss_game_id": 335,
+    "hero_id": null,
+    "unit_id": 5005,
+    "boss_level_id": 266
+  },
+  {
+    "boss_game_id": 336,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 267
+  },
+  {
+    "boss_game_id": 336,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 267
+  },
+  {
+    "boss_game_id": 336,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 267
+  },
+  {
+    "boss_game_id": 336,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 267
+  },
+  {
+    "boss_game_id": 336,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 267
+  },
+  {
+    "boss_game_id": 337,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 268
+  },
+  {
+    "boss_game_id": 337,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 268
+  },
+  {
+    "boss_game_id": 337,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 268
+  },
+  {
+    "boss_game_id": 337,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 268
+  },
+  {
+    "boss_game_id": 337,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 268
+  },
+  {
+    "boss_game_id": 338,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 301
+  },
+  {
+    "boss_game_id": 338,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 301
+  },
+  {
+    "boss_game_id": 338,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 301
+  },
+  {
+    "boss_game_id": 338,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 301
+  },
+  {
+    "boss_game_id": 338,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 301
+  },
+  {
+    "boss_game_id": 339,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 302
+  },
+  {
+    "boss_game_id": 339,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 302
+  },
+  {
+    "boss_game_id": 339,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 302
+  },
+  {
+    "boss_game_id": 339,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 302
+  },
+  {
+    "boss_game_id": 339,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 302
+  },
+  {
+    "boss_game_id": 340,
+    "hero_id": null,
+    "unit_id": 1010,
+    "boss_level_id": 303
+  },
+  {
+    "boss_game_id": 340,
+    "hero_id": null,
+    "unit_id": 1010,
+    "boss_level_id": 303
+  },
+  {
+    "boss_game_id": 340,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 303
+  },
+  {
+    "boss_game_id": 340,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 303
+  },
+  {
+    "boss_game_id": 340,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 303
+  },
+  {
+    "boss_game_id": 341,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 304
+  },
+  {
+    "boss_game_id": 341,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 304
+  },
+  {
+    "boss_game_id": 341,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 304
+  },
+  {
+    "boss_game_id": 341,
+    "hero_id": null,
+    "unit_id": 1043,
+    "boss_level_id": 304
+  },
+  {
+    "boss_game_id": 341,
+    "hero_id": null,
+    "unit_id": 1043,
+    "boss_level_id": 304
+  },
+  {
+    "boss_game_id": 342,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 305
+  },
+  {
+    "boss_game_id": 342,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 305
+  },
+  {
+    "boss_game_id": 342,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 305
+  },
+  {
+    "boss_game_id": 342,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 305
+  },
+  {
+    "boss_game_id": 342,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 305
+  },
+  {
+    "boss_game_id": 343,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 306
+  },
+  {
+    "boss_game_id": 343,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 306
+  },
+  {
+    "boss_game_id": 343,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 306
+  },
+  {
+    "boss_game_id": 343,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 306
+  },
+  {
+    "boss_game_id": 343,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 306
+  },
+  {
+    "boss_game_id": 344,
+    "hero_id": null,
+    "unit_id": 1040,
+    "boss_level_id": 307
+  },
+  {
+    "boss_game_id": 344,
+    "hero_id": null,
+    "unit_id": 1045,
+    "boss_level_id": 307
+  },
+  {
+    "boss_game_id": 344,
+    "hero_id": null,
+    "unit_id": 1042,
+    "boss_level_id": 307
+  },
+  {
+    "boss_game_id": 344,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 307
+  },
+  {
+    "boss_game_id": 344,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 307
+  },
+  {
+    "boss_game_id": 345,
+    "hero_id": null,
+    "unit_id": 2003,
+    "boss_level_id": 308
+  },
+  {
+    "boss_game_id": 346,
+    "hero_id": null,
+    "unit_id": 1004,
+    "boss_level_id": 311
+  },
+  {
+    "boss_game_id": 346,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 311
+  },
+  {
+    "boss_game_id": 346,
+    "hero_id": null,
+    "unit_id": 1023,
+    "boss_level_id": 311
+  },
+  {
+    "boss_game_id": 346,
+    "hero_id": null,
+    "unit_id": 1065,
+    "boss_level_id": 311
+  },
+  {
+    "boss_game_id": 347,
+    "hero_id": null,
+    "unit_id": 1030,
+    "boss_level_id": 312
+  },
+  {
+    "boss_game_id": 347,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 312
+  },
+  {
+    "boss_game_id": 347,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 312
+  },
+  {
+    "boss_game_id": 347,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 312
+  },
+  {
+    "boss_game_id": 347,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 312
+  },
+  {
+    "boss_game_id": 348,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 313
+  },
+  {
+    "boss_game_id": 348,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 313
+  },
+  {
+    "boss_game_id": 348,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 313
+  },
+  {
+    "boss_game_id": 348,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 313
+  },
+  {
+    "boss_game_id": 348,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 313
+  },
+  {
+    "boss_game_id": 349,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 314
+  },
+  {
+    "boss_game_id": 349,
+    "hero_id": null,
+    "unit_id": 37,
+    "boss_level_id": 314
+  },
+  {
+    "boss_game_id": 349,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 314
+  },
+  {
+    "boss_game_id": 349,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 314
+  },
+  {
+    "boss_game_id": 349,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 314
+  },
+  {
+    "boss_game_id": 350,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 315
+  },
+  {
+    "boss_game_id": 350,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 315
+  },
+  {
+    "boss_game_id": 350,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 315
+  },
+  {
+    "boss_game_id": 350,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 315
+  },
+  {
+    "boss_game_id": 350,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 315
+  },
+  {
+    "boss_game_id": 351,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 316
+  },
+  {
+    "boss_game_id": 351,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 316
+  },
+  {
+    "boss_game_id": 351,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 316
+  },
+  {
+    "boss_game_id": 351,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 316
+  },
+  {
+    "boss_game_id": 351,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 316
+  },
+  {
+    "boss_game_id": 352,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 317
+  },
+  {
+    "boss_game_id": 352,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 317
+  },
+  {
+    "boss_game_id": 352,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 317
+  },
+  {
+    "boss_game_id": 352,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 317
+  },
+  {
+    "boss_game_id": 352,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 317
+  },
+  {
+    "boss_game_id": 353,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 318
+  },
+  {
+    "boss_game_id": 353,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 318
+  },
+  {
+    "boss_game_id": 353,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 318
+  },
+  {
+    "boss_game_id": 353,
+    "hero_id": null,
+    "unit_id": 22,
+    "boss_level_id": 318
+  },
+  {
+    "boss_game_id": 353,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 318
+  },
+  {
+    "boss_game_id": 354,
+    "hero_id": null,
+    "unit_id": 1051,
+    "boss_level_id": 321
+  },
+  {
+    "boss_game_id": 354,
+    "hero_id": null,
+    "unit_id": 1051,
+    "boss_level_id": 321
+  },
+  {
+    "boss_game_id": 354,
+    "hero_id": null,
+    "unit_id": 1054,
+    "boss_level_id": 321
+  },
+  {
+    "boss_game_id": 354,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 321
+  },
+  {
+    "boss_game_id": 355,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 322
+  },
+  {
+    "boss_game_id": 355,
+    "hero_id": null,
+    "unit_id": 26,
+    "boss_level_id": 322
+  },
+  {
+    "boss_game_id": 355,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 322
+  },
+  {
+    "boss_game_id": 355,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 322
+  },
+  {
+    "boss_game_id": 355,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 322
+  },
+  {
+    "boss_game_id": 356,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 323
+  },
+  {
+    "boss_game_id": 356,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 323
+  },
+  {
+    "boss_game_id": 356,
+    "hero_id": null,
+    "unit_id": 66,
+    "boss_level_id": 323
+  },
+  {
+    "boss_game_id": 356,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 323
+  },
+  {
+    "boss_game_id": 356,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 323
+  },
+  {
+    "boss_game_id": 357,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 324
+  },
+  {
+    "boss_game_id": 357,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 324
+  },
+  {
+    "boss_game_id": 357,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 324
+  },
+  {
+    "boss_game_id": 357,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 324
+  },
+  {
+    "boss_game_id": 358,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 325
+  },
+  {
+    "boss_game_id": 358,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 325
+  },
+  {
+    "boss_game_id": 358,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 325
+  },
+  {
+    "boss_game_id": 358,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 325
+  },
+  {
+    "boss_game_id": 358,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 325
+  },
+  {
+    "boss_game_id": 359,
+    "hero_id": null,
+    "unit_id": 1026,
+    "boss_level_id": 326
+  },
+  {
+    "boss_game_id": 359,
+    "hero_id": null,
+    "unit_id": 1026,
+    "boss_level_id": 326
+  },
+  {
+    "boss_game_id": 360,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 327
+  },
+  {
+    "boss_game_id": 360,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 327
+  },
+  {
+    "boss_game_id": 360,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 327
+  },
+  {
+    "boss_game_id": 360,
+    "hero_id": null,
+    "unit_id": 45,
+    "boss_level_id": 327
+  },
+  {
+    "boss_game_id": 360,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 327
+  },
+  {
+    "boss_game_id": 361,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 328
+  },
+  {
+    "boss_game_id": 361,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 328
+  },
+  {
+    "boss_game_id": 361,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 328
+  },
+  {
+    "boss_game_id": 361,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 328
+  },
+  {
+    "boss_game_id": 361,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 328
+  },
+  {
+    "boss_game_id": 362,
+    "hero_id": null,
+    "unit_id": 1064,
+    "boss_level_id": 331
+  },
+  {
+    "boss_game_id": 362,
+    "hero_id": null,
+    "unit_id": 1064,
+    "boss_level_id": 331
+  },
+  {
+    "boss_game_id": 362,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 331
+  },
+  {
+    "boss_game_id": 362,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 331
+  },
+  {
+    "boss_game_id": 362,
+    "hero_id": null,
+    "unit_id": 1066,
+    "boss_level_id": 331
+  },
+  {
+    "boss_game_id": 363,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 332
+  },
+  {
+    "boss_game_id": 363,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 332
+  },
+  {
+    "boss_game_id": 363,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 332
+  },
+  {
+    "boss_game_id": 363,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 332
+  },
+  {
+    "boss_game_id": 363,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 332
+  },
+  {
+    "boss_game_id": 364,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 333
+  },
+  {
+    "boss_game_id": 364,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 333
+  },
+  {
+    "boss_game_id": 364,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 333
+  },
+  {
+    "boss_game_id": 364,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 333
+  },
+  {
+    "boss_game_id": 364,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 333
+  },
+  {
+    "boss_game_id": 365,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 334
+  },
+  {
+    "boss_game_id": 365,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 334
+  },
+  {
+    "boss_game_id": 365,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 334
+  },
+  {
+    "boss_game_id": 365,
+    "hero_id": null,
+    "unit_id": 45,
+    "boss_level_id": 334
+  },
+  {
+    "boss_game_id": 365,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 334
+  },
+  {
+    "boss_game_id": 366,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 335
+  },
+  {
+    "boss_game_id": 366,
+    "hero_id": null,
+    "unit_id": 26,
+    "boss_level_id": 335
+  },
+  {
+    "boss_game_id": 366,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 335
+  },
+  {
+    "boss_game_id": 366,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 335
+  },
+  {
+    "boss_game_id": 366,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 335
+  },
+  {
+    "boss_game_id": 367,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 336
+  },
+  {
+    "boss_game_id": 367,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 336
+  },
+  {
+    "boss_game_id": 367,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 336
+  },
+  {
+    "boss_game_id": 367,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 336
+  },
+  {
+    "boss_game_id": 367,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 336
+  },
+  {
+    "boss_game_id": 368,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 337
+  },
+  {
+    "boss_game_id": 368,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 337
+  },
+  {
+    "boss_game_id": 368,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 337
+  },
+  {
+    "boss_game_id": 368,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 337
+  },
+  {
+    "boss_game_id": 368,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 337
+  },
+  {
+    "boss_game_id": 369,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 338
+  },
+  {
+    "boss_game_id": 369,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 338
+  },
+  {
+    "boss_game_id": 369,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 338
+  },
+  {
+    "boss_game_id": 369,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 338
+  },
+  {
+    "boss_game_id": 369,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 338
+  },
+  {
+    "boss_game_id": 370,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 341
+  },
+  {
+    "boss_game_id": 370,
+    "hero_id": null,
+    "unit_id": 1040,
+    "boss_level_id": 341
+  },
+  {
+    "boss_game_id": 370,
+    "hero_id": null,
+    "unit_id": 1040,
+    "boss_level_id": 341
+  },
+  {
+    "boss_game_id": 370,
+    "hero_id": null,
+    "unit_id": 1040,
+    "boss_level_id": 341
+  },
+  {
+    "boss_game_id": 371,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 342
+  },
+  {
+    "boss_game_id": 371,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 342
+  },
+  {
+    "boss_game_id": 371,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 342
+  },
+  {
+    "boss_game_id": 371,
+    "hero_id": null,
+    "unit_id": 45,
+    "boss_level_id": 342
+  },
+  {
+    "boss_game_id": 372,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 343
+  },
+  {
+    "boss_game_id": 372,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 343
+  },
+  {
+    "boss_game_id": 372,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 343
+  },
+  {
+    "boss_game_id": 372,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 343
+  },
+  {
+    "boss_game_id": 372,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 343
+  },
+  {
+    "boss_game_id": 373,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 344
+  },
+  {
+    "boss_game_id": 373,
+    "hero_id": null,
+    "unit_id": 22,
+    "boss_level_id": 344
+  },
+  {
+    "boss_game_id": 373,
+    "hero_id": null,
+    "unit_id": 37,
+    "boss_level_id": 344
+  },
+  {
+    "boss_game_id": 373,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 344
+  },
+  {
+    "boss_game_id": 373,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 344
+  },
+  {
+    "boss_game_id": 374,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 345
+  },
+  {
+    "boss_game_id": 374,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 345
+  },
+  {
+    "boss_game_id": 374,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 345
+  },
+  {
+    "boss_game_id": 374,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 345
+  },
+  {
+    "boss_game_id": 374,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 345
+  },
+  {
+    "boss_game_id": 375,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 346
+  },
+  {
+    "boss_game_id": 375,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 346
+  },
+  {
+    "boss_game_id": 375,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 346
+  },
+  {
+    "boss_game_id": 375,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 346
+  },
+  {
+    "boss_game_id": 375,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 346
+  },
+  {
+    "boss_game_id": 376,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 347
+  },
+  {
+    "boss_game_id": 376,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 347
+  },
+  {
+    "boss_game_id": 376,
+    "hero_id": null,
+    "unit_id": 66,
+    "boss_level_id": 347
+  },
+  {
+    "boss_game_id": 376,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 347
+  },
+  {
+    "boss_game_id": 376,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 347
+  },
+  {
+    "boss_game_id": 377,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 348
+  },
+  {
+    "boss_game_id": 377,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 348
+  },
+  {
+    "boss_game_id": 377,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 348
+  },
+  {
+    "boss_game_id": 377,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 348
+  },
+  {
+    "boss_game_id": 377,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 348
+  },
+  {
+    "boss_game_id": 378,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 351
+  },
+  {
+    "boss_game_id": 378,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 351
+  },
+  {
+    "boss_game_id": 378,
+    "hero_id": null,
+    "unit_id": 1052,
+    "boss_level_id": 351
+  },
+  {
+    "boss_game_id": 378,
+    "hero_id": null,
+    "unit_id": 1052,
+    "boss_level_id": 351
+  },
+  {
+    "boss_game_id": 379,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 352
+  },
+  {
+    "boss_game_id": 379,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 352
+  },
+  {
+    "boss_game_id": 379,
+    "hero_id": null,
+    "unit_id": 1034,
+    "boss_level_id": 352
+  },
+  {
+    "boss_game_id": 379,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 352
+  },
+  {
+    "boss_game_id": 379,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 352
+  },
+  {
+    "boss_game_id": 380,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 353
+  },
+  {
+    "boss_game_id": 380,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 353
+  },
+  {
+    "boss_game_id": 380,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 353
+  },
+  {
+    "boss_game_id": 380,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 353
+  },
+  {
+    "boss_game_id": 380,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 353
+  },
+  {
+    "boss_game_id": 381,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 354
+  },
+  {
+    "boss_game_id": 381,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 354
+  },
+  {
+    "boss_game_id": 381,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 354
+  },
+  {
+    "boss_game_id": 381,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 354
+  },
+  {
+    "boss_game_id": 381,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 354
+  },
+  {
+    "boss_game_id": 382,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 355
+  },
+  {
+    "boss_game_id": 382,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 355
+  },
+  {
+    "boss_game_id": 382,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 355
+  },
+  {
+    "boss_game_id": 382,
+    "hero_id": null,
+    "unit_id": 69,
+    "boss_level_id": 355
+  },
+  {
+    "boss_game_id": 382,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 355
+  },
+  {
+    "boss_game_id": 383,
+    "hero_id": null,
+    "unit_id": 1046,
+    "boss_level_id": 356
+  },
+  {
+    "boss_game_id": 384,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 357
+  },
+  {
+    "boss_game_id": 384,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 357
+  },
+  {
+    "boss_game_id": 384,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 357
+  },
+  {
+    "boss_game_id": 384,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 357
+  },
+  {
+    "boss_game_id": 384,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 357
+  },
+  {
+    "boss_game_id": 385,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 358
+  },
+  {
+    "boss_game_id": 385,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 358
+  },
+  {
+    "boss_game_id": 385,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 358
+  },
+  {
+    "boss_game_id": 385,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 358
+  },
+  {
+    "boss_game_id": 385,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 358
+  },
+  {
+    "boss_game_id": 386,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 361
+  },
+  {
+    "boss_game_id": 386,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 361
+  },
+  {
+    "boss_game_id": 386,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 361
+  },
+  {
+    "boss_game_id": 386,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 361
+  },
+  {
+    "boss_game_id": 386,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 361
+  },
+  {
+    "boss_game_id": 387,
+    "hero_id": null,
+    "unit_id": 1036,
+    "boss_level_id": 362
+  },
+  {
+    "boss_game_id": 388,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 363
+  },
+  {
+    "boss_game_id": 388,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 363
+  },
+  {
+    "boss_game_id": 388,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 363
+  },
+  {
+    "boss_game_id": 388,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 363
+  },
+  {
+    "boss_game_id": 388,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 363
+  },
+  {
+    "boss_game_id": 389,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 364
+  },
+  {
+    "boss_game_id": 389,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 364
+  },
+  {
+    "boss_game_id": 389,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 364
+  },
+  {
+    "boss_game_id": 389,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 364
+  },
+  {
+    "boss_game_id": 389,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 364
+  },
+  {
+    "boss_game_id": 390,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 365
+  },
+  {
+    "boss_game_id": 390,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 365
+  },
+  {
+    "boss_game_id": 390,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 365
+  },
+  {
+    "boss_game_id": 390,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 365
+  },
+  {
+    "boss_game_id": 390,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 365
+  },
+  {
+    "boss_game_id": 391,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 366
+  },
+  {
+    "boss_game_id": 391,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 366
+  },
+  {
+    "boss_game_id": 391,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 366
+  },
+  {
+    "boss_game_id": 391,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 366
+  },
+  {
+    "boss_game_id": 391,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 366
+  },
+  {
+    "boss_game_id": 392,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 367
+  },
+  {
+    "boss_game_id": 392,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 367
+  },
+  {
+    "boss_game_id": 392,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 367
+  },
+  {
+    "boss_game_id": 392,
+    "hero_id": null,
+    "unit_id": 66,
+    "boss_level_id": 367
+  },
+  {
+    "boss_game_id": 392,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 367
+  },
+  {
+    "boss_game_id": 393,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 368
+  },
+  {
+    "boss_game_id": 393,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 368
+  },
+  {
+    "boss_game_id": 393,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 368
+  },
+  {
+    "boss_game_id": 393,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 368
+  },
+  {
+    "boss_game_id": 393,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 368
+  },
+  {
+    "boss_game_id": 394,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 401
+  },
+  {
+    "boss_game_id": 395,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 402
+  },
+  {
+    "boss_game_id": 395,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 402
+  },
+  {
+    "boss_game_id": 396,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 403
+  },
+  {
+    "boss_game_id": 396,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 403
+  },
+  {
+    "boss_game_id": 396,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 403
+  },
+  {
+    "boss_game_id": 396,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 403
+  },
+  {
+    "boss_game_id": 397,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 404
+  },
+  {
+    "boss_game_id": 397,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 404
+  },
+  {
+    "boss_game_id": 397,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 404
+  },
+  {
+    "boss_game_id": 397,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 404
+  },
+  {
+    "boss_game_id": 398,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 405
+  },
+  {
+    "boss_game_id": 398,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 405
+  },
+  {
+    "boss_game_id": 398,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 405
+  },
+  {
+    "boss_game_id": 399,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 406
+  },
+  {
+    "boss_game_id": 399,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 406
+  },
+  {
+    "boss_game_id": 399,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 406
+  },
+  {
+    "boss_game_id": 399,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 406
+  },
+  {
+    "boss_game_id": 399,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 406
+  },
+  {
+    "boss_game_id": 400,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 407
+  },
+  {
+    "boss_game_id": 400,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 407
+  },
+  {
+    "boss_game_id": 400,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 407
+  },
+  {
+    "boss_game_id": 400,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 407
+  },
+  {
+    "boss_game_id": 400,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 407
+  },
+  {
+    "boss_game_id": 401,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 408
+  },
+  {
+    "boss_game_id": 401,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 408
+  },
+  {
+    "boss_game_id": 401,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 408
+  },
+  {
+    "boss_game_id": 401,
+    "hero_id": null,
+    "unit_id": 4032,
+    "boss_level_id": 408
+  },
+  {
+    "boss_game_id": 401,
+    "hero_id": null,
+    "unit_id": 4003,
+    "boss_level_id": 408
+  },
+  {
+    "boss_game_id": 402,
+    "hero_id": null,
+    "unit_id": 1043,
+    "boss_level_id": 411
+  },
+  {
+    "boss_game_id": 402,
+    "hero_id": null,
+    "unit_id": 1042,
+    "boss_level_id": 411
+  },
+  {
+    "boss_game_id": 402,
+    "hero_id": null,
+    "unit_id": 1042,
+    "boss_level_id": 411
+  },
+  {
+    "boss_game_id": 403,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 412
+  },
+  {
+    "boss_game_id": 403,
+    "hero_id": null,
+    "unit_id": 1044,
+    "boss_level_id": 412
+  },
+  {
+    "boss_game_id": 403,
+    "hero_id": null,
+    "unit_id": 1041,
+    "boss_level_id": 412
+  },
+  {
+    "boss_game_id": 403,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 412
+  },
+  {
+    "boss_game_id": 403,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 412
+  },
+  {
+    "boss_game_id": 404,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 413
+  },
+  {
+    "boss_game_id": 404,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 413
+  },
+  {
+    "boss_game_id": 404,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 413
+  },
+  {
+    "boss_game_id": 404,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 413
+  },
+  {
+    "boss_game_id": 404,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 413
+  },
+  {
+    "boss_game_id": 405,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 414
+  },
+  {
+    "boss_game_id": 405,
+    "hero_id": null,
+    "unit_id": 1063,
+    "boss_level_id": 414
+  },
+  {
+    "boss_game_id": 405,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 414
+  },
+  {
+    "boss_game_id": 405,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 414
+  },
+  {
+    "boss_game_id": 405,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 414
+  },
+  {
+    "boss_game_id": 406,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 415
+  },
+  {
+    "boss_game_id": 406,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 415
+  },
+  {
+    "boss_game_id": 406,
+    "hero_id": null,
+    "unit_id": 37,
+    "boss_level_id": 415
+  },
+  {
+    "boss_game_id": 406,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 415
+  },
+  {
+    "boss_game_id": 406,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 415
+  },
+  {
+    "boss_game_id": 407,
+    "hero_id": null,
+    "unit_id": 1057,
+    "boss_level_id": 416
+  },
+  {
+    "boss_game_id": 408,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 417
+  },
+  {
+    "boss_game_id": 408,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 417
+  },
+  {
+    "boss_game_id": 408,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 417
+  },
+  {
+    "boss_game_id": 408,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 417
+  },
+  {
+    "boss_game_id": 408,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 417
+  },
+  {
+    "boss_game_id": 409,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 418
+  },
+  {
+    "boss_game_id": 409,
+    "hero_id": null,
+    "unit_id": 22,
+    "boss_level_id": 418
+  },
+  {
+    "boss_game_id": 409,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 418
+  },
+  {
+    "boss_game_id": 409,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 418
+  },
+  {
+    "boss_game_id": 409,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 418
+  },
+  {
+    "boss_game_id": 410,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 421
+  },
+  {
+    "boss_game_id": 411,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 422
+  },
+  {
+    "boss_game_id": 411,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 422
+  },
+  {
+    "boss_game_id": 412,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 423
+  },
+  {
+    "boss_game_id": 412,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 423
+  },
+  {
+    "boss_game_id": 412,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 423
+  },
+  {
+    "boss_game_id": 412,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 423
+  },
+  {
+    "boss_game_id": 413,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 424
+  },
+  {
+    "boss_game_id": 413,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 424
+  },
+  {
+    "boss_game_id": 413,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 424
+  },
+  {
+    "boss_game_id": 414,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 425
+  },
+  {
+    "boss_game_id": 414,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 425
+  },
+  {
+    "boss_game_id": 414,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 425
+  },
+  {
+    "boss_game_id": 414,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 425
+  },
+  {
+    "boss_game_id": 414,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 425
+  },
+  {
+    "boss_game_id": 415,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 426
+  },
+  {
+    "boss_game_id": 415,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 426
+  },
+  {
+    "boss_game_id": 415,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 426
+  },
+  {
+    "boss_game_id": 415,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 426
+  },
+  {
+    "boss_game_id": 415,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 426
+  },
+  {
+    "boss_game_id": 416,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 427
+  },
+  {
+    "boss_game_id": 416,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 427
+  },
+  {
+    "boss_game_id": 416,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 427
+  },
+  {
+    "boss_game_id": 416,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 427
+  },
+  {
+    "boss_game_id": 416,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 427
+  },
+  {
+    "boss_game_id": 417,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 428
+  },
+  {
+    "boss_game_id": 417,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 428
+  },
+  {
+    "boss_game_id": 417,
+    "hero_id": null,
+    "unit_id": 4032,
+    "boss_level_id": 428
+  },
+  {
+    "boss_game_id": 417,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 428
+  },
+  {
+    "boss_game_id": 417,
+    "hero_id": null,
+    "unit_id": 4013,
+    "boss_level_id": 428
+  },
+  {
+    "boss_game_id": 418,
+    "hero_id": null,
+    "unit_id": 1000,
+    "boss_level_id": 431
+  },
+  {
+    "boss_game_id": 418,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 431
+  },
+  {
+    "boss_game_id": 418,
+    "hero_id": null,
+    "unit_id": 1001,
+    "boss_level_id": 431
+  },
+  {
+    "boss_game_id": 418,
+    "hero_id": null,
+    "unit_id": 1001,
+    "boss_level_id": 431
+  },
+  {
+    "boss_game_id": 419,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 432
+  },
+  {
+    "boss_game_id": 419,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 432
+  },
+  {
+    "boss_game_id": 419,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 432
+  },
+  {
+    "boss_game_id": 419,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 432
+  },
+  {
+    "boss_game_id": 419,
+    "hero_id": null,
+    "unit_id": 1003,
+    "boss_level_id": 432
+  },
+  {
+    "boss_game_id": 420,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 433
+  },
+  {
+    "boss_game_id": 420,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 433
+  },
+  {
+    "boss_game_id": 420,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 433
+  },
+  {
+    "boss_game_id": 420,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 433
+  },
+  {
+    "boss_game_id": 420,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 433
+  },
+  {
+    "boss_game_id": 421,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 434
+  },
+  {
+    "boss_game_id": 421,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 434
+  },
+  {
+    "boss_game_id": 421,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 434
+  },
+  {
+    "boss_game_id": 421,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 434
+  },
+  {
+    "boss_game_id": 421,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 434
+  },
+  {
+    "boss_game_id": 422,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 435
+  },
+  {
+    "boss_game_id": 422,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 435
+  },
+  {
+    "boss_game_id": 422,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 435
+  },
+  {
+    "boss_game_id": 422,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 435
+  },
+  {
+    "boss_game_id": 422,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 435
+  },
+  {
+    "boss_game_id": 423,
+    "hero_id": null,
+    "unit_id": 1069,
+    "boss_level_id": 436
+  },
+  {
+    "boss_game_id": 423,
+    "hero_id": null,
+    "unit_id": 1069,
+    "boss_level_id": 436
+  },
+  {
+    "boss_game_id": 424,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 437
+  },
+  {
+    "boss_game_id": 424,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 437
+  },
+  {
+    "boss_game_id": 424,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 437
+  },
+  {
+    "boss_game_id": 424,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 437
+  },
+  {
+    "boss_game_id": 424,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 437
+  },
+  {
+    "boss_game_id": 425,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 438
+  },
+  {
+    "boss_game_id": 425,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 438
+  },
+  {
+    "boss_game_id": 425,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 438
+  },
+  {
+    "boss_game_id": 425,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 438
+  },
+  {
+    "boss_game_id": 425,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 438
+  },
+  {
+    "boss_game_id": 426,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 441
+  },
+  {
+    "boss_game_id": 427,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 442
+  },
+  {
+    "boss_game_id": 427,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 442
+  },
+  {
+    "boss_game_id": 428,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 443
+  },
+  {
+    "boss_game_id": 428,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 443
+  },
+  {
+    "boss_game_id": 428,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 443
+  },
+  {
+    "boss_game_id": 428,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 443
+  },
+  {
+    "boss_game_id": 429,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 444
+  },
+  {
+    "boss_game_id": 429,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 444
+  },
+  {
+    "boss_game_id": 429,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 444
+  },
+  {
+    "boss_game_id": 430,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 445
+  },
+  {
+    "boss_game_id": 430,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 445
+  },
+  {
+    "boss_game_id": 430,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 445
+  },
+  {
+    "boss_game_id": 430,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 445
+  },
+  {
+    "boss_game_id": 430,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 445
+  },
+  {
+    "boss_game_id": 431,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 446
+  },
+  {
+    "boss_game_id": 431,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 446
+  },
+  {
+    "boss_game_id": 431,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 446
+  },
+  {
+    "boss_game_id": 431,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 446
+  },
+  {
+    "boss_game_id": 431,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 446
+  },
+  {
+    "boss_game_id": 432,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 447
+  },
+  {
+    "boss_game_id": 432,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 447
+  },
+  {
+    "boss_game_id": 432,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 447
+  },
+  {
+    "boss_game_id": 432,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 447
+  },
+  {
+    "boss_game_id": 432,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 447
+  },
+  {
+    "boss_game_id": 433,
+    "hero_id": null,
+    "unit_id": 4023,
+    "boss_level_id": 448
+  },
+  {
+    "boss_game_id": 433,
+    "hero_id": null,
+    "unit_id": 4032,
+    "boss_level_id": 448
+  },
+  {
+    "boss_game_id": 433,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 448
+  },
+  {
+    "boss_game_id": 433,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 448
+  },
+  {
+    "boss_game_id": 433,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 448
+  },
+  {
+    "boss_game_id": 434,
+    "hero_id": null,
+    "unit_id": 1011,
+    "boss_level_id": 451
+  },
+  {
+    "boss_game_id": 434,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 451
+  },
+  {
+    "boss_game_id": 434,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 451
+  },
+  {
+    "boss_game_id": 434,
+    "hero_id": null,
+    "unit_id": 1011,
+    "boss_level_id": 451
+  },
+  {
+    "boss_game_id": 435,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 452
+  },
+  {
+    "boss_game_id": 435,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 452
+  },
+  {
+    "boss_game_id": 435,
+    "hero_id": null,
+    "unit_id": 1023,
+    "boss_level_id": 452
+  },
+  {
+    "boss_game_id": 435,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 452
+  },
+  {
+    "boss_game_id": 435,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 452
+  },
+  {
+    "boss_game_id": 436,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 453
+  },
+  {
+    "boss_game_id": 436,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 453
+  },
+  {
+    "boss_game_id": 436,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 453
+  },
+  {
+    "boss_game_id": 436,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 453
+  },
+  {
+    "boss_game_id": 436,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 453
+  },
+  {
+    "boss_game_id": 437,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 454
+  },
+  {
+    "boss_game_id": 437,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 454
+  },
+  {
+    "boss_game_id": 437,
+    "hero_id": null,
+    "unit_id": 69,
+    "boss_level_id": 454
+  },
+  {
+    "boss_game_id": 437,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 454
+  },
+  {
+    "boss_game_id": 437,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 454
+  },
+  {
+    "boss_game_id": 438,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 455
+  },
+  {
+    "boss_game_id": 438,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 455
+  },
+  {
+    "boss_game_id": 438,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 455
+  },
+  {
+    "boss_game_id": 438,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 455
+  },
+  {
+    "boss_game_id": 438,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 455
+  },
+  {
+    "boss_game_id": 439,
+    "hero_id": null,
+    "unit_id": 1025,
+    "boss_level_id": 456
+  },
+  {
+    "boss_game_id": 439,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 456
+  },
+  {
+    "boss_game_id": 439,
+    "hero_id": null,
+    "unit_id": 1025,
+    "boss_level_id": 456
+  },
+  {
+    "boss_game_id": 440,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 457
+  },
+  {
+    "boss_game_id": 440,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 457
+  },
+  {
+    "boss_game_id": 440,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 457
+  },
+  {
+    "boss_game_id": 440,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 457
+  },
+  {
+    "boss_game_id": 440,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 457
+  },
+  {
+    "boss_game_id": 441,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 458
+  },
+  {
+    "boss_game_id": 441,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 458
+  },
+  {
+    "boss_game_id": 441,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 458
+  },
+  {
+    "boss_game_id": 441,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 458
+  },
+  {
+    "boss_game_id": 441,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 458
+  },
+  {
+    "boss_game_id": 442,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 461
+  },
+  {
+    "boss_game_id": 443,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 462
+  },
+  {
+    "boss_game_id": 443,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 462
+  },
+  {
+    "boss_game_id": 444,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 463
+  },
+  {
+    "boss_game_id": 444,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 463
+  },
+  {
+    "boss_game_id": 444,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 463
+  },
+  {
+    "boss_game_id": 445,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 464
+  },
+  {
+    "boss_game_id": 445,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 464
+  },
+  {
+    "boss_game_id": 445,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 464
+  },
+  {
+    "boss_game_id": 445,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 464
+  },
+  {
+    "boss_game_id": 446,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 465
+  },
+  {
+    "boss_game_id": 446,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 465
+  },
+  {
+    "boss_game_id": 446,
+    "hero_id": null,
+    "unit_id": 4032,
+    "boss_level_id": 465
+  },
+  {
+    "boss_game_id": 446,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 465
+  },
+  {
+    "boss_game_id": 446,
+    "hero_id": null,
+    "unit_id": 4033,
+    "boss_level_id": 465
+  },
+  {
+    "boss_game_id": 447,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 466
+  },
+  {
+    "boss_game_id": 447,
+    "hero_id": null,
+    "unit_id": 4032,
+    "boss_level_id": 466
+  },
+  {
+    "boss_game_id": 447,
+    "hero_id": null,
+    "unit_id": 4032,
+    "boss_level_id": 466
+  },
+  {
+    "boss_game_id": 447,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 466
+  },
+  {
+    "boss_game_id": 447,
+    "hero_id": null,
+    "unit_id": 4033,
+    "boss_level_id": 466
+  },
+  {
+    "boss_game_id": 448,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 467
+  },
+  {
+    "boss_game_id": 448,
+    "hero_id": null,
+    "unit_id": 4013,
+    "boss_level_id": 467
+  },
+  {
+    "boss_game_id": 448,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 467
+  },
+  {
+    "boss_game_id": 448,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 467
+  },
+  {
+    "boss_game_id": 448,
+    "hero_id": null,
+    "unit_id": 4033,
+    "boss_level_id": 467
+  },
+  {
+    "boss_game_id": 449,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 468
+  },
+  {
+    "boss_game_id": 449,
+    "hero_id": null,
+    "unit_id": 4013,
+    "boss_level_id": 468
+  },
+  {
+    "boss_game_id": 449,
+    "hero_id": null,
+    "unit_id": 4023,
+    "boss_level_id": 468
+  },
+  {
+    "boss_game_id": 449,
+    "hero_id": null,
+    "unit_id": 4003,
+    "boss_level_id": 468
+  },
+  {
+    "boss_game_id": 449,
+    "hero_id": null,
+    "unit_id": 4033,
+    "boss_level_id": 468
+  },
+  {
+    "boss_game_id": 450,
+    "hero_id": null,
+    "unit_id": 1035,
+    "boss_level_id": 501
+  },
+  {
+    "boss_game_id": 450,
+    "hero_id": null,
+    "unit_id": 1030,
+    "boss_level_id": 501
+  },
+  {
+    "boss_game_id": 450,
+    "hero_id": null,
+    "unit_id": 1031,
+    "boss_level_id": 501
+  },
+  {
+    "boss_game_id": 450,
+    "hero_id": null,
+    "unit_id": 1031,
+    "boss_level_id": 501
+  },
+  {
+    "boss_game_id": 451,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 502
+  },
+  {
+    "boss_game_id": 451,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 502
+  },
+  {
+    "boss_game_id": 451,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 502
+  },
+  {
+    "boss_game_id": 451,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 502
+  },
+  {
+    "boss_game_id": 452,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 503
+  },
+  {
+    "boss_game_id": 452,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 503
+  },
+  {
+    "boss_game_id": 452,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 503
+  },
+  {
+    "boss_game_id": 453,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 504
+  },
+  {
+    "boss_game_id": 453,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 504
+  },
+  {
+    "boss_game_id": 453,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 504
+  },
+  {
+    "boss_game_id": 453,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 504
+  },
+  {
+    "boss_game_id": 453,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 504
+  },
+  {
+    "boss_game_id": 454,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 505
+  },
+  {
+    "boss_game_id": 454,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 505
+  },
+  {
+    "boss_game_id": 454,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 505
+  },
+  {
+    "boss_game_id": 454,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 505
+  },
+  {
+    "boss_game_id": 455,
+    "hero_id": null,
+    "unit_id": 1036,
+    "boss_level_id": 506
+  },
+  {
+    "boss_game_id": 455,
+    "hero_id": null,
+    "unit_id": 1033,
+    "boss_level_id": 506
+  },
+  {
+    "boss_game_id": 455,
+    "hero_id": null,
+    "unit_id": 1033,
+    "boss_level_id": 506
+  },
+  {
+    "boss_game_id": 456,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 507
+  },
+  {
+    "boss_game_id": 456,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 507
+  },
+  {
+    "boss_game_id": 456,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 507
+  },
+  {
+    "boss_game_id": 456,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 507
+  },
+  {
+    "boss_game_id": 456,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 507
+  },
+  {
+    "boss_game_id": 457,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 508
+  },
+  {
+    "boss_game_id": 457,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 508
+  },
+  {
+    "boss_game_id": 457,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 508
+  },
+  {
+    "boss_game_id": 457,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 508
+  },
+  {
+    "boss_game_id": 457,
+    "hero_id": null,
+    "unit_id": 66,
+    "boss_level_id": 508
+  },
+  {
+    "boss_game_id": 458,
+    "hero_id": null,
+    "unit_id": 2019,
+    "boss_level_id": 511
+  },
+  {
+    "boss_game_id": 458,
+    "hero_id": null,
+    "unit_id": 2020,
+    "boss_level_id": 511
+  },
+  {
+    "boss_game_id": 458,
+    "hero_id": null,
+    "unit_id": 2021,
+    "boss_level_id": 511
+  },
+  {
+    "boss_game_id": 459,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 512
+  },
+  {
+    "boss_game_id": 459,
+    "hero_id": null,
+    "unit_id": 2023,
+    "boss_level_id": 512
+  },
+  {
+    "boss_game_id": 459,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 512
+  },
+  {
+    "boss_game_id": 459,
+    "hero_id": null,
+    "unit_id": 2022,
+    "boss_level_id": 512
+  },
+  {
+    "boss_game_id": 460,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 513
+  },
+  {
+    "boss_game_id": 460,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 513
+  },
+  {
+    "boss_game_id": 460,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 513
+  },
+  {
+    "boss_game_id": 460,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 513
+  },
+  {
+    "boss_game_id": 460,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 513
+  },
+  {
+    "boss_game_id": 461,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 514
+  },
+  {
+    "boss_game_id": 461,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 514
+  },
+  {
+    "boss_game_id": 461,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 514
+  },
+  {
+    "boss_game_id": 461,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 514
+  },
+  {
+    "boss_game_id": 461,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 514
+  },
+  {
+    "boss_game_id": 462,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 515
+  },
+  {
+    "boss_game_id": 462,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 515
+  },
+  {
+    "boss_game_id": 462,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 515
+  },
+  {
+    "boss_game_id": 462,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 515
+  },
+  {
+    "boss_game_id": 462,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 515
+  },
+  {
+    "boss_game_id": 463,
+    "hero_id": null,
+    "unit_id": 1006,
+    "boss_level_id": 516
+  },
+  {
+    "boss_game_id": 463,
+    "hero_id": null,
+    "unit_id": 1006,
+    "boss_level_id": 516
+  },
+  {
+    "boss_game_id": 464,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 517
+  },
+  {
+    "boss_game_id": 464,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 517
+  },
+  {
+    "boss_game_id": 464,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 517
+  },
+  {
+    "boss_game_id": 464,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 517
+  },
+  {
+    "boss_game_id": 464,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 517
+  },
+  {
+    "boss_game_id": 465,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 518
+  },
+  {
+    "boss_game_id": 465,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 518
+  },
+  {
+    "boss_game_id": 465,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 518
+  },
+  {
+    "boss_game_id": 465,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 518
+  },
+  {
+    "boss_game_id": 465,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 518
+  },
+  {
+    "boss_game_id": 466,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 521
+  },
+  {
+    "boss_game_id": 466,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 521
+  },
+  {
+    "boss_game_id": 466,
+    "hero_id": null,
+    "unit_id": 1052,
+    "boss_level_id": 521
+  },
+  {
+    "boss_game_id": 466,
+    "hero_id": null,
+    "unit_id": 1062,
+    "boss_level_id": 521
+  },
+  {
+    "boss_game_id": 467,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 522
+  },
+  {
+    "boss_game_id": 467,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 522
+  },
+  {
+    "boss_game_id": 467,
+    "hero_id": null,
+    "unit_id": 37,
+    "boss_level_id": 522
+  },
+  {
+    "boss_game_id": 467,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 522
+  },
+  {
+    "boss_game_id": 468,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 523
+  },
+  {
+    "boss_game_id": 468,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 523
+  },
+  {
+    "boss_game_id": 468,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 523
+  },
+  {
+    "boss_game_id": 468,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 523
+  },
+  {
+    "boss_game_id": 468,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 523
+  },
+  {
+    "boss_game_id": 469,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 524
+  },
+  {
+    "boss_game_id": 469,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 524
+  },
+  {
+    "boss_game_id": 469,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 524
+  },
+  {
+    "boss_game_id": 469,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 524
+  },
+  {
+    "boss_game_id": 469,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 524
+  },
+  {
+    "boss_game_id": 470,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 525
+  },
+  {
+    "boss_game_id": 470,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 525
+  },
+  {
+    "boss_game_id": 470,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 525
+  },
+  {
+    "boss_game_id": 470,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 525
+  },
+  {
+    "boss_game_id": 470,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 525
+  },
+  {
+    "boss_game_id": 471,
+    "hero_id": null,
+    "unit_id": 1016,
+    "boss_level_id": 526
+  },
+  {
+    "boss_game_id": 471,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 526
+  },
+  {
+    "boss_game_id": 471,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 526
+  },
+  {
+    "boss_game_id": 472,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 527
+  },
+  {
+    "boss_game_id": 472,
+    "hero_id": null,
+    "unit_id": 2028,
+    "boss_level_id": 527
+  },
+  {
+    "boss_game_id": 472,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 527
+  },
+  {
+    "boss_game_id": 472,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 527
+  },
+  {
+    "boss_game_id": 472,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 527
+  },
+  {
+    "boss_game_id": 473,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 528
+  },
+  {
+    "boss_game_id": 473,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 528
+  },
+  {
+    "boss_game_id": 473,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 528
+  },
+  {
+    "boss_game_id": 473,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 528
+  },
+  {
+    "boss_game_id": 473,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 528
+  },
+  {
+    "boss_game_id": 474,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 531
+  },
+  {
+    "boss_game_id": 474,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 531
+  },
+  {
+    "boss_game_id": 474,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 531
+  },
+  {
+    "boss_game_id": 475,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 532
+  },
+  {
+    "boss_game_id": 475,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 532
+  },
+  {
+    "boss_game_id": 475,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 532
+  },
+  {
+    "boss_game_id": 475,
+    "hero_id": null,
+    "unit_id": 6,
+    "boss_level_id": 532
+  },
+  {
+    "boss_game_id": 475,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 532
+  },
+  {
+    "boss_game_id": 476,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 532
+  },
+  {
+    "boss_game_id": 476,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 533
+  },
+  {
+    "boss_game_id": 476,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 533
+  },
+  {
+    "boss_game_id": 476,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 533
+  },
+  {
+    "boss_game_id": 477,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 534
+  },
+  {
+    "boss_game_id": 477,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 534
+  },
+  {
+    "boss_game_id": 477,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 534
+  },
+  {
+    "boss_game_id": 477,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 534
+  },
+  {
+    "boss_game_id": 477,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 534
+  },
+  {
+    "boss_game_id": 478,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 535
+  },
+  {
+    "boss_game_id": 478,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 535
+  },
+  {
+    "boss_game_id": 478,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 535
+  },
+  {
+    "boss_game_id": 478,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 535
+  },
+  {
+    "boss_game_id": 478,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 535
+  },
+  {
+    "boss_game_id": 479,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 536
+  },
+  {
+    "boss_game_id": 479,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 536
+  },
+  {
+    "boss_game_id": 479,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 536
+  },
+  {
+    "boss_game_id": 479,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 536
+  },
+  {
+    "boss_game_id": 479,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 536
+  },
+  {
+    "boss_game_id": 480,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 537
+  },
+  {
+    "boss_game_id": 480,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 537
+  },
+  {
+    "boss_game_id": 480,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 537
+  },
+  {
+    "boss_game_id": 480,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 537
+  },
+  {
+    "boss_game_id": 480,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 537
+  },
+  {
+    "boss_game_id": 481,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 538
+  },
+  {
+    "boss_game_id": 481,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 538
+  },
+  {
+    "boss_game_id": 481,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 538
+  },
+  {
+    "boss_game_id": 481,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 538
+  },
+  {
+    "boss_game_id": 481,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 538
+  },
+  {
+    "boss_game_id": 482,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 541
+  },
+  {
+    "boss_game_id": 482,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 541
+  },
+  {
+    "boss_game_id": 482,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 541
+  },
+  {
+    "boss_game_id": 483,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 542
+  },
+  {
+    "boss_game_id": 483,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 542
+  },
+  {
+    "boss_game_id": 483,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 542
+  },
+  {
+    "boss_game_id": 483,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 542
+  },
+  {
+    "boss_game_id": 483,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 542
+  },
+  {
+    "boss_game_id": 484,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 543
+  },
+  {
+    "boss_game_id": 484,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 543
+  },
+  {
+    "boss_game_id": 484,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 543
+  },
+  {
+    "boss_game_id": 484,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 543
+  },
+  {
+    "boss_game_id": 484,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 543
+  },
+  {
+    "boss_game_id": 485,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 544
+  },
+  {
+    "boss_game_id": 485,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 544
+  },
+  {
+    "boss_game_id": 485,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 544
+  },
+  {
+    "boss_game_id": 485,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 544
+  },
+  {
+    "boss_game_id": 485,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 544
+  },
+  {
+    "boss_game_id": 486,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 545
+  },
+  {
+    "boss_game_id": 486,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 545
+  },
+  {
+    "boss_game_id": 486,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 545
+  },
+  {
+    "boss_game_id": 486,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 545
+  },
+  {
+    "boss_game_id": 486,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 545
+  },
+  {
+    "boss_game_id": 487,
+    "hero_id": null,
+    "unit_id": 1026,
+    "boss_level_id": 546
+  },
+  {
+    "boss_game_id": 488,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 547
+  },
+  {
+    "boss_game_id": 488,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 547
+  },
+  {
+    "boss_game_id": 488,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 547
+  },
+  {
+    "boss_game_id": 488,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 547
+  },
+  {
+    "boss_game_id": 488,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 547
+  },
+  {
+    "boss_game_id": 489,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 548
+  },
+  {
+    "boss_game_id": 489,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 548
+  },
+  {
+    "boss_game_id": 489,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 548
+  },
+  {
+    "boss_game_id": 489,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 548
+  },
+  {
+    "boss_game_id": 489,
+    "hero_id": null,
+    "unit_id": 8,
+    "boss_level_id": 548
+  },
+  {
+    "boss_game_id": 490,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 551
+  },
+  {
+    "boss_game_id": 490,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 551
+  },
+  {
+    "boss_game_id": 490,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 551
+  },
+  {
+    "boss_game_id": 490,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 551
+  },
+  {
+    "boss_game_id": 491,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 552
+  },
+  {
+    "boss_game_id": 491,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 552
+  },
+  {
+    "boss_game_id": 491,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 552
+  },
+  {
+    "boss_game_id": 491,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 552
+  },
+  {
+    "boss_game_id": 491,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 552
+  },
+  {
+    "boss_game_id": 492,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 553
+  },
+  {
+    "boss_game_id": 492,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 553
+  },
+  {
+    "boss_game_id": 492,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 553
+  },
+  {
+    "boss_game_id": 492,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 553
+  },
+  {
+    "boss_game_id": 492,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 553
+  },
+  {
+    "boss_game_id": 493,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 554
+  },
+  {
+    "boss_game_id": 493,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 554
+  },
+  {
+    "boss_game_id": 493,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 554
+  },
+  {
+    "boss_game_id": 493,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 554
+  },
+  {
+    "boss_game_id": 493,
+    "hero_id": null,
+    "unit_id": 45,
+    "boss_level_id": 554
+  },
+  {
+    "boss_game_id": 494,
+    "hero_id": null,
+    "unit_id": 1046,
+    "boss_level_id": 555
+  },
+  {
+    "boss_game_id": 494,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 555
+  },
+  {
+    "boss_game_id": 494,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 555
+  },
+  {
+    "boss_game_id": 495,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 556
+  },
+  {
+    "boss_game_id": 495,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 556
+  },
+  {
+    "boss_game_id": 495,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 556
+  },
+  {
+    "boss_game_id": 495,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 556
+  },
+  {
+    "boss_game_id": 495,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 556
+  },
+  {
+    "boss_game_id": 496,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 557
+  },
+  {
+    "boss_game_id": 496,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 557
+  },
+  {
+    "boss_game_id": 496,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 557
+  },
+  {
+    "boss_game_id": 496,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 557
+  },
+  {
+    "boss_game_id": 496,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 557
+  },
+  {
+    "boss_game_id": 497,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 558
+  },
+  {
+    "boss_game_id": 497,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 558
+  },
+  {
+    "boss_game_id": 497,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 558
+  },
+  {
+    "boss_game_id": 497,
+    "hero_id": null,
+    "unit_id": 66,
+    "boss_level_id": 558
+  },
+  {
+    "boss_game_id": 497,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 558
+  },
+  {
+    "boss_game_id": 498,
+    "hero_id": null,
+    "unit_id": 1025,
+    "boss_level_id": 561
+  },
+  {
+    "boss_game_id": 498,
+    "hero_id": null,
+    "unit_id": 1025,
+    "boss_level_id": 561
+  },
+  {
+    "boss_game_id": 498,
+    "hero_id": null,
+    "unit_id": 1025,
+    "boss_level_id": 561
+  },
+  {
+    "boss_game_id": 498,
+    "hero_id": null,
+    "unit_id": 1025,
+    "boss_level_id": 561
+  },
+  {
+    "boss_game_id": 498,
+    "hero_id": null,
+    "unit_id": 1025,
+    "boss_level_id": 561
+  },
+  {
+    "boss_game_id": 499,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 562
+  },
+  {
+    "boss_game_id": 499,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 562
+  },
+  {
+    "boss_game_id": 499,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 562
+  },
+  {
+    "boss_game_id": 499,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 562
+  },
+  {
+    "boss_game_id": 499,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 562
+  },
+  {
+    "boss_game_id": 500,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 563
+  },
+  {
+    "boss_game_id": 500,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 563
+  },
+  {
+    "boss_game_id": 500,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 563
+  },
+  {
+    "boss_game_id": 500,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 563
+  },
+  {
+    "boss_game_id": 501,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 564
+  },
+  {
+    "boss_game_id": 501,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 564
+  },
+  {
+    "boss_game_id": 501,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 564
+  },
+  {
+    "boss_game_id": 501,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 564
+  },
+  {
+    "boss_game_id": 501,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 564
+  },
+  {
+    "boss_game_id": 502,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 565
+  },
+  {
+    "boss_game_id": 502,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 565
+  },
+  {
+    "boss_game_id": 502,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 565
+  },
+  {
+    "boss_game_id": 502,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 565
+  },
+  {
+    "boss_game_id": 503,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 566
+  },
+  {
+    "boss_game_id": 503,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 566
+  },
+  {
+    "boss_game_id": 503,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 566
+  },
+  {
+    "boss_game_id": 503,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 566
+  },
+  {
+    "boss_game_id": 503,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 566
+  },
+  {
+    "boss_game_id": 504,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 567
+  },
+  {
+    "boss_game_id": 504,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 567
+  },
+  {
+    "boss_game_id": 504,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 567
+  },
+  {
+    "boss_game_id": 504,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 567
+  },
+  {
+    "boss_game_id": 504,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 567
+  },
+  {
+    "boss_game_id": 505,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 568
+  },
+  {
+    "boss_game_id": 505,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 568
+  },
+  {
+    "boss_game_id": 505,
+    "hero_id": null,
+    "unit_id": 69,
+    "boss_level_id": 568
+  },
+  {
+    "boss_game_id": 505,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 568
+  },
+  {
+    "boss_game_id": 505,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 568
+  },
+  {
+    "boss_game_id": 506,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 601
+  },
+  {
+    "boss_game_id": 507,
+    "hero_id": null,
+    "unit_id": 1016,
+    "boss_level_id": 602
+  },
+  {
+    "boss_game_id": 508,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 603
+  },
+  {
+    "boss_game_id": 508,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 603
+  },
+  {
+    "boss_game_id": 508,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 603
+  },
+  {
+    "boss_game_id": 508,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 603
+  },
+  {
+    "boss_game_id": 509,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 604
+  },
+  {
+    "boss_game_id": 509,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 604
+  },
+  {
+    "boss_game_id": 509,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 604
+  },
+  {
+    "boss_game_id": 510,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 605
+  },
+  {
+    "boss_game_id": 510,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 605
+  },
+  {
+    "boss_game_id": 510,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 605
+  },
+  {
+    "boss_game_id": 510,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 605
+  },
+  {
+    "boss_game_id": 510,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 605
+  },
+  {
+    "boss_game_id": 511,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 606
+  },
+  {
+    "boss_game_id": 511,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 606
+  },
+  {
+    "boss_game_id": 511,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 606
+  },
+  {
+    "boss_game_id": 511,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 606
+  },
+  {
+    "boss_game_id": 511,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 606
+  },
+  {
+    "boss_game_id": 512,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 607
+  },
+  {
+    "boss_game_id": 512,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 607
+  },
+  {
+    "boss_game_id": 512,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 607
+  },
+  {
+    "boss_game_id": 512,
+    "hero_id": null,
+    "unit_id": 4022,
+    "boss_level_id": 607
+  },
+  {
+    "boss_game_id": 512,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 607
+  },
+  {
+    "boss_game_id": 513,
+    "hero_id": null,
+    "unit_id": 4023,
+    "boss_level_id": 608
+  },
+  {
+    "boss_game_id": 513,
+    "hero_id": null,
+    "unit_id": 4042,
+    "boss_level_id": 608
+  },
+  {
+    "boss_game_id": 513,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 608
+  },
+  {
+    "boss_game_id": 513,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 608
+  },
+  {
+    "boss_game_id": 513,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 608
+  },
+  {
+    "boss_game_id": 514,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 611
+  },
+  {
+    "boss_game_id": 514,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 611
+  },
+  {
+    "boss_game_id": 514,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 611
+  },
+  {
+    "boss_game_id": 514,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 611
+  },
+  {
+    "boss_game_id": 514,
+    "hero_id": null,
+    "unit_id": 1003,
+    "boss_level_id": 611
+  },
+  {
+    "boss_game_id": 515,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 612
+  },
+  {
+    "boss_game_id": 515,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 612
+  },
+  {
+    "boss_game_id": 515,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 612
+  },
+  {
+    "boss_game_id": 515,
+    "hero_id": null,
+    "unit_id": 1053,
+    "boss_level_id": 612
+  },
+  {
+    "boss_game_id": 516,
+    "hero_id": null,
+    "unit_id": 1068,
+    "boss_level_id": 613
+  },
+  {
+    "boss_game_id": 516,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 613
+  },
+  {
+    "boss_game_id": 516,
+    "hero_id": null,
+    "unit_id": 1065,
+    "boss_level_id": 613
+  },
+  {
+    "boss_game_id": 516,
+    "hero_id": null,
+    "unit_id": 1066,
+    "boss_level_id": 613
+  },
+  {
+    "boss_game_id": 516,
+    "hero_id": null,
+    "unit_id": 1064,
+    "boss_level_id": 613
+  },
+  {
+    "boss_game_id": 517,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 614
+  },
+  {
+    "boss_game_id": 517,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 614
+  },
+  {
+    "boss_game_id": 517,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 614
+  },
+  {
+    "boss_game_id": 517,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 614
+  },
+  {
+    "boss_game_id": 517,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 614
+  },
+  {
+    "boss_game_id": 518,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 615
+  },
+  {
+    "boss_game_id": 518,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 615
+  },
+  {
+    "boss_game_id": 518,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 615
+  },
+  {
+    "boss_game_id": 518,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 615
+  },
+  {
+    "boss_game_id": 518,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 615
+  },
+  {
+    "boss_game_id": 519,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 616
+  },
+  {
+    "boss_game_id": 519,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 616
+  },
+  {
+    "boss_game_id": 519,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 616
+  },
+  {
+    "boss_game_id": 519,
+    "hero_id": null,
+    "unit_id": 18,
+    "boss_level_id": 616
+  },
+  {
+    "boss_game_id": 519,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 616
+  },
+  {
+    "boss_game_id": 520,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 617
+  },
+  {
+    "boss_game_id": 520,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 617
+  },
+  {
+    "boss_game_id": 520,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 617
+  },
+  {
+    "boss_game_id": 520,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 617
+  },
+  {
+    "boss_game_id": 520,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 617
+  },
+  {
+    "boss_game_id": 521,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 618
+  },
+  {
+    "boss_game_id": 521,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 618
+  },
+  {
+    "boss_game_id": 521,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 618
+  },
+  {
+    "boss_game_id": 521,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 618
+  },
+  {
+    "boss_game_id": 521,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 618
+  },
+  {
+    "boss_game_id": 522,
+    "hero_id": null,
+    "unit_id": 1004,
+    "boss_level_id": 621
+  },
+  {
+    "boss_game_id": 522,
+    "hero_id": null,
+    "unit_id": 1000,
+    "boss_level_id": 621
+  },
+  {
+    "boss_game_id": 522,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 621
+  },
+  {
+    "boss_game_id": 522,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 621
+  },
+  {
+    "boss_game_id": 522,
+    "hero_id": null,
+    "unit_id": 1001,
+    "boss_level_id": 621
+  },
+  {
+    "boss_game_id": 523,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 622
+  },
+  {
+    "boss_game_id": 523,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 622
+  },
+  {
+    "boss_game_id": 523,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 622
+  },
+  {
+    "boss_game_id": 523,
+    "hero_id": null,
+    "unit_id": 1023,
+    "boss_level_id": 622
+  },
+  {
+    "boss_game_id": 524,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 623
+  },
+  {
+    "boss_game_id": 524,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 623
+  },
+  {
+    "boss_game_id": 524,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 623
+  },
+  {
+    "boss_game_id": 524,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 623
+  },
+  {
+    "boss_game_id": 525,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 624
+  },
+  {
+    "boss_game_id": 525,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 624
+  },
+  {
+    "boss_game_id": 525,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 624
+  },
+  {
+    "boss_game_id": 526,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 625
+  },
+  {
+    "boss_game_id": 526,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 625
+  },
+  {
+    "boss_game_id": 526,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 625
+  },
+  {
+    "boss_game_id": 526,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 625
+  },
+  {
+    "boss_game_id": 526,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 625
+  },
+  {
+    "boss_game_id": 527,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 626
+  },
+  {
+    "boss_game_id": 527,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 626
+  },
+  {
+    "boss_game_id": 527,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 626
+  },
+  {
+    "boss_game_id": 527,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 626
+  },
+  {
+    "boss_game_id": 527,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 626
+  },
+  {
+    "boss_game_id": 528,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 627
+  },
+  {
+    "boss_game_id": 528,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 627
+  },
+  {
+    "boss_game_id": 528,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 627
+  },
+  {
+    "boss_game_id": 528,
+    "hero_id": null,
+    "unit_id": 4031,
+    "boss_level_id": 627
+  },
+  {
+    "boss_game_id": 528,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 627
+  },
+  {
+    "boss_game_id": 529,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 628
+  },
+  {
+    "boss_game_id": 529,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 628
+  },
+  {
+    "boss_game_id": 529,
+    "hero_id": null,
+    "unit_id": 4042,
+    "boss_level_id": 628
+  },
+  {
+    "boss_game_id": 529,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 628
+  },
+  {
+    "boss_game_id": 529,
+    "hero_id": null,
+    "unit_id": 4013,
+    "boss_level_id": 628
+  },
+  {
+    "boss_game_id": 530,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 631
+  },
+  {
+    "boss_game_id": 530,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 631
+  },
+  {
+    "boss_game_id": 530,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 631
+  },
+  {
+    "boss_game_id": 530,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 631
+  },
+  {
+    "boss_game_id": 531,
+    "hero_id": null,
+    "unit_id": 1026,
+    "boss_level_id": 632
+  },
+  {
+    "boss_game_id": 532,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 633
+  },
+  {
+    "boss_game_id": 532,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 633
+  },
+  {
+    "boss_game_id": 532,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 633
+  },
+  {
+    "boss_game_id": 532,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 633
+  },
+  {
+    "boss_game_id": 532,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 633
+  },
+  {
+    "boss_game_id": 533,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 634
+  },
+  {
+    "boss_game_id": 533,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 634
+  },
+  {
+    "boss_game_id": 533,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 634
+  },
+  {
+    "boss_game_id": 533,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 634
+  },
+  {
+    "boss_game_id": 533,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 634
+  },
+  {
+    "boss_game_id": 534,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 635
+  },
+  {
+    "boss_game_id": 534,
+    "hero_id": null,
+    "unit_id": 27,
+    "boss_level_id": 635
+  },
+  {
+    "boss_game_id": 534,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 635
+  },
+  {
+    "boss_game_id": 534,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 635
+  },
+  {
+    "boss_game_id": 534,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 635
+  },
+  {
+    "boss_game_id": 535,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 636
+  },
+  {
+    "boss_game_id": 535,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 636
+  },
+  {
+    "boss_game_id": 535,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 636
+  },
+  {
+    "boss_game_id": 535,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 636
+  },
+  {
+    "boss_game_id": 535,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 636
+  },
+  {
+    "boss_game_id": 536,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 637
+  },
+  {
+    "boss_game_id": 536,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 637
+  },
+  {
+    "boss_game_id": 536,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 637
+  },
+  {
+    "boss_game_id": 536,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 637
+  },
+  {
+    "boss_game_id": 536,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 637
+  },
+  {
+    "boss_game_id": 537,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 638
+  },
+  {
+    "boss_game_id": 537,
+    "hero_id": null,
+    "unit_id": 69,
+    "boss_level_id": 638
+  },
+  {
+    "boss_game_id": 537,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 638
+  },
+  {
+    "boss_game_id": 537,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 638
+  },
+  {
+    "boss_game_id": 537,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 638
+  },
+  {
+    "boss_game_id": 538,
+    "hero_id": null,
+    "unit_id": 1045,
+    "boss_level_id": 641
+  },
+  {
+    "boss_game_id": 538,
+    "hero_id": null,
+    "unit_id": 1045,
+    "boss_level_id": 641
+  },
+  {
+    "boss_game_id": 539,
+    "hero_id": null,
+    "unit_id": 1056,
+    "boss_level_id": 642
+  },
+  {
+    "boss_game_id": 539,
+    "hero_id": null,
+    "unit_id": 1056,
+    "boss_level_id": 642
+  },
+  {
+    "boss_game_id": 540,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 643
+  },
+  {
+    "boss_game_id": 540,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 643
+  },
+  {
+    "boss_game_id": 540,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 643
+  },
+  {
+    "boss_game_id": 540,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 643
+  },
+  {
+    "boss_game_id": 541,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 644
+  },
+  {
+    "boss_game_id": 541,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 644
+  },
+  {
+    "boss_game_id": 541,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 644
+  },
+  {
+    "boss_game_id": 541,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 644
+  },
+  {
+    "boss_game_id": 542,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 645
+  },
+  {
+    "boss_game_id": 542,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 645
+  },
+  {
+    "boss_game_id": 542,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 645
+  },
+  {
+    "boss_game_id": 543,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 646
+  },
+  {
+    "boss_game_id": 543,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 646
+  },
+  {
+    "boss_game_id": 543,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 646
+  },
+  {
+    "boss_game_id": 543,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 646
+  },
+  {
+    "boss_game_id": 543,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 646
+  },
+  {
+    "boss_game_id": 544,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 647
+  },
+  {
+    "boss_game_id": 544,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 647
+  },
+  {
+    "boss_game_id": 544,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 647
+  },
+  {
+    "boss_game_id": 544,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 647
+  },
+  {
+    "boss_game_id": 544,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 647
+  },
+  {
+    "boss_game_id": 545,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 648
+  },
+  {
+    "boss_game_id": 545,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 648
+  },
+  {
+    "boss_game_id": 545,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 648
+  },
+  {
+    "boss_game_id": 545,
+    "hero_id": null,
+    "unit_id": 4042,
+    "boss_level_id": 648
+  },
+  {
+    "boss_game_id": 545,
+    "hero_id": null,
+    "unit_id": 4003,
+    "boss_level_id": 648
+  },
+  {
+    "boss_game_id": 546,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 651
+  },
+  {
+    "boss_game_id": 546,
+    "hero_id": null,
+    "unit_id": 1062,
+    "boss_level_id": 651
+  },
+  {
+    "boss_game_id": 546,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 651
+  },
+  {
+    "boss_game_id": 546,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 651
+  },
+  {
+    "boss_game_id": 546,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 651
+  },
+  {
+    "boss_game_id": 547,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 652
+  },
+  {
+    "boss_game_id": 547,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 652
+  },
+  {
+    "boss_game_id": 547,
+    "hero_id": null,
+    "unit_id": 19,
+    "boss_level_id": 652
+  },
+  {
+    "boss_game_id": 547,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 652
+  },
+  {
+    "boss_game_id": 547,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 652
+  },
+  {
+    "boss_game_id": 548,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 653
+  },
+  {
+    "boss_game_id": 548,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 653
+  },
+  {
+    "boss_game_id": 548,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 653
+  },
+  {
+    "boss_game_id": 548,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 653
+  },
+  {
+    "boss_game_id": 548,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 653
+  },
+  {
+    "boss_game_id": 549,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 654
+  },
+  {
+    "boss_game_id": 549,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 654
+  },
+  {
+    "boss_game_id": 549,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 654
+  },
+  {
+    "boss_game_id": 549,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 654
+  },
+  {
+    "boss_game_id": 549,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 654
+  },
+  {
+    "boss_game_id": 550,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 655
+  },
+  {
+    "boss_game_id": 550,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 655
+  },
+  {
+    "boss_game_id": 550,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 655
+  },
+  {
+    "boss_game_id": 550,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 655
+  },
+  {
+    "boss_game_id": 550,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 655
+  },
+  {
+    "boss_game_id": 551,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 656
+  },
+  {
+    "boss_game_id": 551,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 656
+  },
+  {
+    "boss_game_id": 551,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 656
+  },
+  {
+    "boss_game_id": 551,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 656
+  },
+  {
+    "boss_game_id": 551,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 656
+  },
+  {
+    "boss_game_id": 552,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 657
+  },
+  {
+    "boss_game_id": 552,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 657
+  },
+  {
+    "boss_game_id": 552,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 657
+  },
+  {
+    "boss_game_id": 552,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 657
+  },
+  {
+    "boss_game_id": 552,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 657
+  },
+  {
+    "boss_game_id": 553,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 658
+  },
+  {
+    "boss_game_id": 553,
+    "hero_id": null,
+    "unit_id": 56,
+    "boss_level_id": 658
+  },
+  {
+    "boss_game_id": 553,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 658
+  },
+  {
+    "boss_game_id": 553,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 658
+  },
+  {
+    "boss_game_id": 553,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 658
+  },
+  {
+    "boss_game_id": 554,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 661
+  },
+  {
+    "boss_game_id": 555,
+    "hero_id": null,
+    "unit_id": 4020,
+    "boss_level_id": 662
+  },
+  {
+    "boss_game_id": 555,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 662
+  },
+  {
+    "boss_game_id": 556,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 663
+  },
+  {
+    "boss_game_id": 556,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 663
+  },
+  {
+    "boss_game_id": 556,
+    "hero_id": null,
+    "unit_id": 4021,
+    "boss_level_id": 663
+  },
+  {
+    "boss_game_id": 557,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 664
+  },
+  {
+    "boss_game_id": 557,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 664
+  },
+  {
+    "boss_game_id": 557,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 664
+  },
+  {
+    "boss_game_id": 557,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 664
+  },
+  {
+    "boss_game_id": 558,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 665
+  },
+  {
+    "boss_game_id": 558,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 665
+  },
+  {
+    "boss_game_id": 558,
+    "hero_id": null,
+    "unit_id": 4042,
+    "boss_level_id": 665
+  },
+  {
+    "boss_game_id": 558,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 665
+  },
+  {
+    "boss_game_id": 558,
+    "hero_id": null,
+    "unit_id": 4043,
+    "boss_level_id": 665
+  },
+  {
+    "boss_game_id": 559,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 666
+  },
+  {
+    "boss_game_id": 559,
+    "hero_id": null,
+    "unit_id": 4042,
+    "boss_level_id": 666
+  },
+  {
+    "boss_game_id": 559,
+    "hero_id": null,
+    "unit_id": 4042,
+    "boss_level_id": 666
+  },
+  {
+    "boss_game_id": 559,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 666
+  },
+  {
+    "boss_game_id": 559,
+    "hero_id": null,
+    "unit_id": 4043,
+    "boss_level_id": 666
+  },
+  {
+    "boss_game_id": 560,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 667
+  },
+  {
+    "boss_game_id": 560,
+    "hero_id": null,
+    "unit_id": 4024,
+    "boss_level_id": 667
+  },
+  {
+    "boss_game_id": 560,
+    "hero_id": null,
+    "unit_id": 4023,
+    "boss_level_id": 667
+  },
+  {
+    "boss_game_id": 560,
+    "hero_id": null,
+    "unit_id": 4041,
+    "boss_level_id": 667
+  },
+  {
+    "boss_game_id": 560,
+    "hero_id": null,
+    "unit_id": 4043,
+    "boss_level_id": 667
+  },
+  {
+    "boss_game_id": 561,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 668
+  },
+  {
+    "boss_game_id": 561,
+    "hero_id": null,
+    "unit_id": 4003,
+    "boss_level_id": 668
+  },
+  {
+    "boss_game_id": 561,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 668
+  },
+  {
+    "boss_game_id": 561,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 668
+  },
+  {
+    "boss_game_id": 561,
+    "hero_id": null,
+    "unit_id": 4043,
+    "boss_level_id": 668
+  },
+  {
+    "boss_game_id": 562,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 701
+  },
+  {
+    "boss_game_id": 562,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 701
+  },
+  {
+    "boss_game_id": 562,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 701
+  },
+  {
+    "boss_game_id": 562,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 701
+  },
+  {
+    "boss_game_id": 562,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 701
+  },
+  {
+    "boss_game_id": 563,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 702
+  },
+  {
+    "boss_game_id": 563,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 702
+  },
+  {
+    "boss_game_id": 563,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 702
+  },
+  {
+    "boss_game_id": 563,
+    "hero_id": null,
+    "unit_id": 38,
+    "boss_level_id": 702
+  },
+  {
+    "boss_game_id": 563,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 702
+  },
+  {
+    "boss_game_id": 564,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 703
+  },
+  {
+    "boss_game_id": 564,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 703
+  },
+  {
+    "boss_game_id": 564,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 703
+  },
+  {
+    "boss_game_id": 564,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 703
+  },
+  {
+    "boss_game_id": 565,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 704
+  },
+  {
+    "boss_game_id": 565,
+    "hero_id": null,
+    "unit_id": 1003,
+    "boss_level_id": 704
+  },
+  {
+    "boss_game_id": 565,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 704
+  },
+  {
+    "boss_game_id": 565,
+    "hero_id": null,
+    "unit_id": 1000,
+    "boss_level_id": 704
+  },
+  {
+    "boss_game_id": 566,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 705
+  },
+  {
+    "boss_game_id": 566,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 705
+  },
+  {
+    "boss_game_id": 566,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 705
+  },
+  {
+    "boss_game_id": 566,
+    "hero_id": null,
+    "unit_id": 61,
+    "boss_level_id": 705
+  },
+  {
+    "boss_game_id": 567,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 706
+  },
+  {
+    "boss_game_id": 567,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 706
+  },
+  {
+    "boss_game_id": 567,
+    "hero_id": null,
+    "unit_id": 1003,
+    "boss_level_id": 706
+  },
+  {
+    "boss_game_id": 567,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 706
+  },
+  {
+    "boss_game_id": 567,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 706
+  },
+  {
+    "boss_game_id": 568,
+    "hero_id": null,
+    "unit_id": 1004,
+    "boss_level_id": 707
+  },
+  {
+    "boss_game_id": 568,
+    "hero_id": null,
+    "unit_id": 1001,
+    "boss_level_id": 707
+  },
+  {
+    "boss_game_id": 568,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 707
+  },
+  {
+    "boss_game_id": 568,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 707
+  },
+  {
+    "boss_game_id": 568,
+    "hero_id": null,
+    "unit_id": 1000,
+    "boss_level_id": 707
+  },
+  {
+    "boss_game_id": 569,
+    "hero_id": null,
+    "unit_id": 1006,
+    "boss_level_id": 708
+  },
+  {
+    "boss_game_id": 569,
+    "hero_id": null,
+    "unit_id": 26,
+    "boss_level_id": 708
+  },
+  {
+    "boss_game_id": 570,
+    "hero_id": null,
+    "unit_id": 1033,
+    "boss_level_id": 711
+  },
+  {
+    "boss_game_id": 570,
+    "hero_id": null,
+    "unit_id": 1031,
+    "boss_level_id": 711
+  },
+  {
+    "boss_game_id": 570,
+    "hero_id": null,
+    "unit_id": 1031,
+    "boss_level_id": 711
+  },
+  {
+    "boss_game_id": 570,
+    "hero_id": null,
+    "unit_id": 1034,
+    "boss_level_id": 711
+  },
+  {
+    "boss_game_id": 571,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 712
+  },
+  {
+    "boss_game_id": 571,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 712
+  },
+  {
+    "boss_game_id": 571,
+    "hero_id": null,
+    "unit_id": 1041,
+    "boss_level_id": 712
+  },
+  {
+    "boss_game_id": 571,
+    "hero_id": null,
+    "unit_id": 1041,
+    "boss_level_id": 712
+  },
+  {
+    "boss_game_id": 571,
+    "hero_id": null,
+    "unit_id": 1043,
+    "boss_level_id": 712
+  },
+  {
+    "boss_game_id": 572,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 713
+  },
+  {
+    "boss_game_id": 572,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 713
+  },
+  {
+    "boss_game_id": 572,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 713
+  },
+  {
+    "boss_game_id": 572,
+    "hero_id": null,
+    "unit_id": 37,
+    "boss_level_id": 713
+  },
+  {
+    "boss_game_id": 572,
+    "hero_id": null,
+    "unit_id": 28,
+    "boss_level_id": 713
+  },
+  {
+    "boss_game_id": 573,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 714
+  },
+  {
+    "boss_game_id": 573,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 714
+  },
+  {
+    "boss_game_id": 573,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 714
+  },
+  {
+    "boss_game_id": 573,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 714
+  },
+  {
+    "boss_game_id": 573,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 714
+  },
+  {
+    "boss_game_id": 574,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 715
+  },
+  {
+    "boss_game_id": 574,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 715
+  },
+  {
+    "boss_game_id": 574,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 715
+  },
+  {
+    "boss_game_id": 574,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 715
+  },
+  {
+    "boss_game_id": 574,
+    "hero_id": null,
+    "unit_id": 59,
+    "boss_level_id": 715
+  },
+  {
+    "boss_game_id": 575,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 716
+  },
+  {
+    "boss_game_id": 575,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 716
+  },
+  {
+    "boss_game_id": 575,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 716
+  },
+  {
+    "boss_game_id": 575,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 716
+  },
+  {
+    "boss_game_id": 575,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 716
+  },
+  {
+    "boss_game_id": 576,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 717
+  },
+  {
+    "boss_game_id": 576,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 717
+  },
+  {
+    "boss_game_id": 576,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 717
+  },
+  {
+    "boss_game_id": 576,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 717
+  },
+  {
+    "boss_game_id": 576,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 717
+  },
+  {
+    "boss_game_id": 577,
+    "hero_id": null,
+    "unit_id": 23,
+    "boss_level_id": 718
+  },
+  {
+    "boss_game_id": 577,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 718
+  },
+  {
+    "boss_game_id": 577,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 718
+  },
+  {
+    "boss_game_id": 577,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 718
+  },
+  {
+    "boss_game_id": 577,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 718
+  },
+  {
+    "boss_game_id": 578,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 721
+  },
+  {
+    "boss_game_id": 578,
+    "hero_id": null,
+    "unit_id": 1013,
+    "boss_level_id": 721
+  },
+  {
+    "boss_game_id": 578,
+    "hero_id": null,
+    "unit_id": 1013,
+    "boss_level_id": 721
+  },
+  {
+    "boss_game_id": 578,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 721
+  },
+  {
+    "boss_game_id": 578,
+    "hero_id": null,
+    "unit_id": 1012,
+    "boss_level_id": 721
+  },
+  {
+    "boss_game_id": 579,
+    "hero_id": null,
+    "unit_id": 1023,
+    "boss_level_id": 722
+  },
+  {
+    "boss_game_id": 579,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 722
+  },
+  {
+    "boss_game_id": 579,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 722
+  },
+  {
+    "boss_game_id": 579,
+    "hero_id": null,
+    "unit_id": 1026,
+    "boss_level_id": 722
+  },
+  {
+    "boss_game_id": 580,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 723
+  },
+  {
+    "boss_game_id": 580,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 723
+  },
+  {
+    "boss_game_id": 580,
+    "hero_id": null,
+    "unit_id": 1003,
+    "boss_level_id": 723
+  },
+  {
+    "boss_game_id": 580,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 723
+  },
+  {
+    "boss_game_id": 580,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 723
+  },
+  {
+    "boss_game_id": 581,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 724
+  },
+  {
+    "boss_game_id": 581,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 724
+  },
+  {
+    "boss_game_id": 581,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 724
+  },
+  {
+    "boss_game_id": 581,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 724
+  },
+  {
+    "boss_game_id": 581,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 724
+  },
+  {
+    "boss_game_id": 582,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 725
+  },
+  {
+    "boss_game_id": 582,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 725
+  },
+  {
+    "boss_game_id": 582,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 725
+  },
+  {
+    "boss_game_id": 582,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 725
+  },
+  {
+    "boss_game_id": 582,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 725
+  },
+  {
+    "boss_game_id": 583,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 726
+  },
+  {
+    "boss_game_id": 583,
+    "hero_id": null,
+    "unit_id": 30,
+    "boss_level_id": 726
+  },
+  {
+    "boss_game_id": 583,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 726
+  },
+  {
+    "boss_game_id": 583,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 726
+  },
+  {
+    "boss_game_id": 583,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 726
+  },
+  {
+    "boss_game_id": 584,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 727
+  },
+  {
+    "boss_game_id": 584,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 727
+  },
+  {
+    "boss_game_id": 584,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 727
+  },
+  {
+    "boss_game_id": 584,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 727
+  },
+  {
+    "boss_game_id": 584,
+    "hero_id": null,
+    "unit_id": 21,
+    "boss_level_id": 727
+  },
+  {
+    "boss_game_id": 585,
+    "hero_id": null,
+    "unit_id": 22,
+    "boss_level_id": 728
+  },
+  {
+    "boss_game_id": 585,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 728
+  },
+  {
+    "boss_game_id": 585,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 728
+  },
+  {
+    "boss_game_id": 585,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 728
+  },
+  {
+    "boss_game_id": 585,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 728
+  },
+  {
+    "boss_game_id": 586,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 731
+  },
+  {
+    "boss_game_id": 586,
+    "hero_id": null,
+    "unit_id": 1054,
+    "boss_level_id": 731
+  },
+  {
+    "boss_game_id": 586,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 731
+  },
+  {
+    "boss_game_id": 586,
+    "hero_id": null,
+    "unit_id": 1050,
+    "boss_level_id": 731
+  },
+  {
+    "boss_game_id": 587,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 732
+  },
+  {
+    "boss_game_id": 587,
+    "hero_id": null,
+    "unit_id": 17,
+    "boss_level_id": 732
+  },
+  {
+    "boss_game_id": 587,
+    "hero_id": null,
+    "unit_id": 44,
+    "boss_level_id": 732
+  },
+  {
+    "boss_game_id": 587,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 732
+  },
+  {
+    "boss_game_id": 587,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 732
+  },
+  {
+    "boss_game_id": 588,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 733
+  },
+  {
+    "boss_game_id": 588,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 733
+  },
+  {
+    "boss_game_id": 588,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 733
+  },
+  {
+    "boss_game_id": 588,
+    "hero_id": null,
+    "unit_id": 68,
+    "boss_level_id": 733
+  },
+  {
+    "boss_game_id": 588,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 733
+  },
+  {
+    "boss_game_id": 589,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 734
+  },
+  {
+    "boss_game_id": 589,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 734
+  },
+  {
+    "boss_game_id": 589,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 734
+  },
+  {
+    "boss_game_id": 589,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 734
+  },
+  {
+    "boss_game_id": 589,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 734
+  },
+  {
+    "boss_game_id": 590,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 735
+  },
+  {
+    "boss_game_id": 590,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 735
+  },
+  {
+    "boss_game_id": 590,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 735
+  },
+  {
+    "boss_game_id": 590,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 735
+  },
+  {
+    "boss_game_id": 591,
+    "hero_id": null,
+    "unit_id": 1016,
+    "boss_level_id": 736
+  },
+  {
+    "boss_game_id": 592,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 737
+  },
+  {
+    "boss_game_id": 592,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 737
+  },
+  {
+    "boss_game_id": 592,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 737
+  },
+  {
+    "boss_game_id": 592,
+    "hero_id": null,
+    "unit_id": 36,
+    "boss_level_id": 737
+  },
+  {
+    "boss_game_id": 592,
+    "hero_id": null,
+    "unit_id": 47,
+    "boss_level_id": 737
+  },
+  {
+    "boss_game_id": 593,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 737
+  },
+  {
+    "boss_game_id": 593,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 737
+  },
+  {
+    "boss_game_id": 593,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 738
+  },
+  {
+    "boss_game_id": 593,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 738
+  },
+  {
+    "boss_game_id": 593,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 738
+  },
+  {
+    "boss_game_id": 594,
+    "hero_id": null,
+    "unit_id": 1023,
+    "boss_level_id": 741
+  },
+  {
+    "boss_game_id": 594,
+    "hero_id": null,
+    "unit_id": 1020,
+    "boss_level_id": 741
+  },
+  {
+    "boss_game_id": 594,
+    "hero_id": null,
+    "unit_id": 1021,
+    "boss_level_id": 741
+  },
+  {
+    "boss_game_id": 594,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 741
+  },
+  {
+    "boss_game_id": 594,
+    "hero_id": null,
+    "unit_id": 1022,
+    "boss_level_id": 741
+  },
+  {
+    "boss_game_id": 595,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 742
+  },
+  {
+    "boss_game_id": 595,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 742
+  },
+  {
+    "boss_game_id": 595,
+    "hero_id": null,
+    "unit_id": 57,
+    "boss_level_id": 742
+  },
+  {
+    "boss_game_id": 595,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 742
+  },
+  {
+    "boss_game_id": 595,
+    "hero_id": null,
+    "unit_id": 1015,
+    "boss_level_id": 742
+  },
+  {
+    "boss_game_id": 596,
+    "hero_id": null,
+    "unit_id": 9,
+    "boss_level_id": 743
+  },
+  {
+    "boss_game_id": 596,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 743
+  },
+  {
+    "boss_game_id": 596,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 743
+  },
+  {
+    "boss_game_id": 596,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 743
+  },
+  {
+    "boss_game_id": 596,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 743
+  },
+  {
+    "boss_game_id": 597,
+    "hero_id": null,
+    "unit_id": 1036,
+    "boss_level_id": 744
+  },
+  {
+    "boss_game_id": 598,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 745
+  },
+  {
+    "boss_game_id": 598,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 745
+  },
+  {
+    "boss_game_id": 598,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 745
+  },
+  {
+    "boss_game_id": 598,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 745
+  },
+  {
+    "boss_game_id": 598,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 745
+  },
+  {
+    "boss_game_id": 599,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 746
+  },
+  {
+    "boss_game_id": 599,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 746
+  },
+  {
+    "boss_game_id": 599,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 746
+  },
+  {
+    "boss_game_id": 599,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 746
+  },
+  {
+    "boss_game_id": 599,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 746
+  },
+  {
+    "boss_game_id": 600,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 747
+  },
+  {
+    "boss_game_id": 600,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 747
+  },
+  {
+    "boss_game_id": 600,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 747
+  },
+  {
+    "boss_game_id": 600,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 747
+  },
+  {
+    "boss_game_id": 600,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 747
+  },
+  {
+    "boss_game_id": 601,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 748
+  },
+  {
+    "boss_game_id": 601,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 748
+  },
+  {
+    "boss_game_id": 601,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 748
+  },
+  {
+    "boss_game_id": 601,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 748
+  },
+  {
+    "boss_game_id": 601,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 748
+  },
+  {
+    "boss_game_id": 602,
+    "hero_id": null,
+    "unit_id": 1066,
+    "boss_level_id": 751
+  },
+  {
+    "boss_game_id": 602,
+    "hero_id": null,
+    "unit_id": 1064,
+    "boss_level_id": 751
+  },
+  {
+    "boss_game_id": 602,
+    "hero_id": null,
+    "unit_id": 1065,
+    "boss_level_id": 751
+  },
+  {
+    "boss_game_id": 602,
+    "hero_id": null,
+    "unit_id": 1067,
+    "boss_level_id": 751
+  },
+  {
+    "boss_game_id": 602,
+    "hero_id": null,
+    "unit_id": 1068,
+    "boss_level_id": 751
+  },
+  {
+    "boss_game_id": 603,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 752
+  },
+  {
+    "boss_game_id": 603,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 752
+  },
+  {
+    "boss_game_id": 603,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 752
+  },
+  {
+    "boss_game_id": 603,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 752
+  },
+  {
+    "boss_game_id": 603,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 752
+  },
+  {
+    "boss_game_id": 604,
+    "hero_id": null,
+    "unit_id": 10,
+    "boss_level_id": 753
+  },
+  {
+    "boss_game_id": 604,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 753
+  },
+  {
+    "boss_game_id": 604,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 753
+  },
+  {
+    "boss_game_id": 604,
+    "hero_id": null,
+    "unit_id": 41,
+    "boss_level_id": 753
+  },
+  {
+    "boss_game_id": 604,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 753
+  },
+  {
+    "boss_game_id": 605,
+    "hero_id": null,
+    "unit_id": 25,
+    "boss_level_id": 754
+  },
+  {
+    "boss_game_id": 605,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 754
+  },
+  {
+    "boss_game_id": 605,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 754
+  },
+  {
+    "boss_game_id": 605,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 754
+  },
+  {
+    "boss_game_id": 605,
+    "hero_id": null,
+    "unit_id": 60,
+    "boss_level_id": 754
+  },
+  {
+    "boss_game_id": 606,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 755
+  },
+  {
+    "boss_game_id": 606,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 755
+  },
+  {
+    "boss_game_id": 606,
+    "hero_id": null,
+    "unit_id": 32,
+    "boss_level_id": 755
+  },
+  {
+    "boss_game_id": 606,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 755
+  },
+  {
+    "boss_game_id": 606,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 755
+  },
+  {
+    "boss_game_id": 607,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 756
+  },
+  {
+    "boss_game_id": 607,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 756
+  },
+  {
+    "boss_game_id": 607,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 756
+  },
+  {
+    "boss_game_id": 607,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 756
+  },
+  {
+    "boss_game_id": 607,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 756
+  },
+  {
+    "boss_game_id": 608,
+    "hero_id": null,
+    "unit_id": 70,
+    "boss_level_id": 757
+  },
+  {
+    "boss_game_id": 608,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 757
+  },
+  {
+    "boss_game_id": 608,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 757
+  },
+  {
+    "boss_game_id": 608,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 757
+  },
+  {
+    "boss_game_id": 608,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 757
+  },
+  {
+    "boss_game_id": 609,
+    "hero_id": null,
+    "unit_id": 4,
+    "boss_level_id": 758
+  },
+  {
+    "boss_game_id": 609,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 758
+  },
+  {
+    "boss_game_id": 609,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 758
+  },
+  {
+    "boss_game_id": 609,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 758
+  },
+  {
+    "boss_game_id": 609,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 758
+  },
+  {
+    "boss_game_id": 610,
+    "hero_id": null,
+    "unit_id": 1005,
+    "boss_level_id": 761
+  },
+  {
+    "boss_game_id": 610,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 761
+  },
+  {
+    "boss_game_id": 610,
+    "hero_id": null,
+    "unit_id": 1002,
+    "boss_level_id": 761
+  },
+  {
+    "boss_game_id": 610,
+    "hero_id": null,
+    "unit_id": 1001,
+    "boss_level_id": 761
+  },
+  {
+    "boss_game_id": 610,
+    "hero_id": null,
+    "unit_id": 1000,
+    "boss_level_id": 761
+  },
+  {
+    "boss_game_id": 611,
+    "hero_id": null,
+    "unit_id": 24,
+    "boss_level_id": 762
+  },
+  {
+    "boss_game_id": 611,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 762
+  },
+  {
+    "boss_game_id": 611,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 762
+  },
+  {
+    "boss_game_id": 611,
+    "hero_id": null,
+    "unit_id": 31,
+    "boss_level_id": 762
+  },
+  {
+    "boss_game_id": 611,
+    "hero_id": null,
+    "unit_id": 1023,
+    "boss_level_id": 762
+  },
+  {
+    "boss_game_id": 612,
+    "hero_id": null,
+    "unit_id": 42,
+    "boss_level_id": 763
+  },
+  {
+    "boss_game_id": 612,
+    "hero_id": null,
+    "unit_id": 53,
+    "boss_level_id": 763
+  },
+  {
+    "boss_game_id": 612,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 763
+  },
+  {
+    "boss_game_id": 612,
+    "hero_id": null,
+    "unit_id": 49,
+    "boss_level_id": 763
+  },
+  {
+    "boss_game_id": 612,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 763
+  },
+  {
+    "boss_game_id": 613,
+    "hero_id": null,
+    "unit_id": 11,
+    "boss_level_id": 764
+  },
+  {
+    "boss_game_id": 613,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 764
+  },
+  {
+    "boss_game_id": 613,
+    "hero_id": null,
+    "unit_id": 35,
+    "boss_level_id": 764
+  },
+  {
+    "boss_game_id": 613,
+    "hero_id": null,
+    "unit_id": 33,
+    "boss_level_id": 764
+  },
+  {
+    "boss_game_id": 613,
+    "hero_id": null,
+    "unit_id": 34,
+    "boss_level_id": 764
+  },
+  {
+    "boss_game_id": 614,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 765
+  },
+  {
+    "boss_game_id": 614,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 765
+  },
+  {
+    "boss_game_id": 614,
+    "hero_id": null,
+    "unit_id": 69,
+    "boss_level_id": 765
+  },
+  {
+    "boss_game_id": 614,
+    "hero_id": null,
+    "unit_id": 12,
+    "boss_level_id": 765
+  },
+  {
+    "boss_game_id": 614,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 765
+  },
+  {
+    "boss_game_id": 615,
+    "hero_id": null,
+    "unit_id": 16,
+    "boss_level_id": 766
+  },
+  {
+    "boss_game_id": 615,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 766
+  },
+  {
+    "boss_game_id": 615,
+    "hero_id": null,
+    "unit_id": 64,
+    "boss_level_id": 766
+  },
+  {
+    "boss_game_id": 615,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 766
+  },
+  {
+    "boss_game_id": 615,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 766
+  },
+  {
+    "boss_game_id": 616,
+    "hero_id": null,
+    "unit_id": 54,
+    "boss_level_id": 767
+  },
+  {
+    "boss_game_id": 616,
+    "hero_id": null,
+    "unit_id": 58,
+    "boss_level_id": 767
+  },
+  {
+    "boss_game_id": 616,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 767
+  },
+  {
+    "boss_game_id": 616,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 767
+  },
+  {
+    "boss_game_id": 616,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 767
+  },
+  {
+    "boss_game_id": 617,
+    "hero_id": null,
+    "unit_id": 5,
+    "boss_level_id": 768
+  },
+  {
+    "boss_game_id": 617,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 768
+  },
+  {
+    "boss_game_id": 617,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 768
+  },
+  {
+    "boss_game_id": 617,
+    "hero_id": null,
+    "unit_id": 51,
+    "boss_level_id": 768
+  },
+  {
+    "boss_game_id": 617,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 768
+  },
+  {
+    "boss_game_id": 618,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 619,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 620,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 621,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 622,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 623,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 624,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 625,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 626,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 627,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 628,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 629,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 630,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 631,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 632,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 633,
+    "hero_id": null,
+    "unit_id": 50,
+    "boss_level_id": 858
+  },
+  {
+    "boss_game_id": 633,
+    "hero_id": null,
+    "unit_id": 67,
+    "boss_level_id": 858
+  },
+  {
+    "boss_game_id": 633,
+    "hero_id": null,
+    "unit_id": 3,
+    "boss_level_id": 858
+  },
+  {
+    "boss_game_id": 633,
+    "hero_id": null,
+    "unit_id": 55,
+    "boss_level_id": 858
+  },
+  {
+    "boss_game_id": 633,
+    "hero_id": null,
+    "unit_id": 29,
+    "boss_level_id": 858
+  },
+  {
+    "boss_game_id": 634,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 635,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 636,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 211
+  },
+  {
+    "boss_game_id": 637,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 859
+  },
+  {
+    "boss_game_id": 637,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 859
+  },
+  {
+    "boss_game_id": 637,
+    "hero_id": null,
+    "unit_id": 4012,
+    "boss_level_id": 859
+  },
+  {
+    "boss_game_id": 637,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 859
+  },
+  {
+    "boss_game_id": 637,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 859
+  },
+  {
+    "boss_game_id": 638,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 860
+  },
+  {
+    "boss_game_id": 638,
+    "hero_id": null,
+    "unit_id": 4010,
+    "boss_level_id": 860
+  },
+  {
+    "boss_game_id": 638,
+    "hero_id": null,
+    "unit_id": 4042,
+    "boss_level_id": 860
+  },
+  {
+    "boss_game_id": 638,
+    "hero_id": null,
+    "unit_id": 4011,
+    "boss_level_id": 860
+  },
+  {
+    "boss_game_id": 638,
+    "hero_id": null,
+    "unit_id": 4013,
+    "boss_level_id": 860
+  },
+  {
+    "boss_game_id": 639,
+    "hero_id": null,
+    "unit_id": 4030,
+    "boss_level_id": 861
+  },
+  {
+    "boss_game_id": 639,
+    "hero_id": null,
+    "unit_id": 4040,
+    "boss_level_id": 861
+  },
+  {
+    "boss_game_id": 639,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 861
+  },
+  {
+    "boss_game_id": 639,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 861
+  },
+  {
+    "boss_game_id": 640,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 862
+  },
+  {
+    "boss_game_id": 640,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 862
+  },
+  {
+    "boss_game_id": 640,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 862
+  },
+  {
+    "boss_game_id": 641,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 863
+  },
+  {
+    "boss_game_id": 641,
+    "hero_id": null,
+    "unit_id": 4000,
+    "boss_level_id": 863
+  },
+  {
+    "boss_game_id": 641,
+    "hero_id": null,
+    "unit_id": 4002,
+    "boss_level_id": 863
+  },
+  {
+    "boss_game_id": 641,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 863
+  },
+  {
+    "boss_game_id": 641,
+    "hero_id": null,
+    "unit_id": 4001,
+    "boss_level_id": 863
+  },
+  {
+    "boss_game_id": 642,
+    "hero_id": null,
+    "unit_id": 39,
+    "boss_level_id": 864
+  },
+  {
+    "boss_game_id": 642,
+    "hero_id": null,
+    "unit_id": 15,
+    "boss_level_id": 864
+  },
+  {
+    "boss_game_id": 642,
+    "hero_id": null,
+    "unit_id": 14,
+    "boss_level_id": 864
+  },
+  {
+    "boss_game_id": 642,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 864
+  },
+  {
+    "boss_game_id": 642,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 864
+  },
+  {
+    "boss_game_id": 644,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 865
+  },
+  {
+    "boss_game_id": 644,
+    "hero_id": null,
+    "unit_id": 20,
+    "boss_level_id": 865
+  },
+  {
+    "boss_game_id": 644,
+    "hero_id": null,
+    "unit_id": 7,
+    "boss_level_id": 865
+  },
+  {
+    "boss_game_id": 644,
+    "hero_id": null,
+    "unit_id": 40,
+    "boss_level_id": 865
+  },
+  {
+    "boss_game_id": 644,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 865
+  },
+  {
+    "boss_game_id": 1360,
+    "hero_id": null,
+    "unit_id": 62,
+    "boss_level_id": 1672
+  },
+  {
+    "boss_game_id": 2712,
+    "hero_id": null,
+    "unit_id": 1,
+    "boss_level_id": 156
+  },
+  {
+    "boss_game_id": 2712,
+    "hero_id": null,
+    "unit_id": 46,
+    "boss_level_id": 156
+  },
+  {
+    "boss_game_id": 2712,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 156
+  },
+  {
+    "boss_game_id": 2712,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 156
+  },
+  {
+    "boss_game_id": 2712,
+    "hero_id": null,
+    "unit_id": 13,
+    "boss_level_id": 156
+  },
+  {
+    "boss_game_id": 2802,
+    "hero_id": null,
+    "unit_id": 2,
+    "boss_level_id": 167
+  },
+  {
+    "boss_game_id": 2802,
+    "hero_id": null,
+    "unit_id": 52,
+    "boss_level_id": 167
+  },
+  {
+    "boss_game_id": 2802,
+    "hero_id": null,
+    "unit_id": 43,
+    "boss_level_id": 167
+  },
+  {
+    "boss_game_id": 2802,
+    "hero_id": null,
+    "unit_id": 48,
+    "boss_level_id": 167
+  },
+  {
+    "boss_game_id": 2802,
+    "hero_id": null,
+    "unit_id": 45,
+    "boss_level_id": 167
+  },
+  {
+    "boss_game_id": 2802,
+    "hero_id": null,
+    "unit_id": 45,
+    "boss_level_id": 167
+  }
+]

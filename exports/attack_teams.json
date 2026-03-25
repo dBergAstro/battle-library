@@ -1,0 +1,8410 @@
+[
+  {
+    "game_id": 98,
+    "invasion_id": 1900000034,
+    "boss_id": 506,
+    "boss_level": 80,
+    "chapter": 1,
+    "level": 1,
+    "enemy_type": "Титаны",
+    "main_buff": null,
+    "comment": "🌙🔥 🟣 Ригель ; 🟣 Мор ; 🟠 Ашерона ; 🟠 Араджи ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4013": 3,
+        "4014": 3,
+        "4032": 2,
+        "4033": 2,
+        "4040": 1
+      }
+    }
+  },
+  {
+    "game_id": 99,
+    "invasion_id": 1900000034,
+    "boss_id": 507,
+    "boss_level": 85,
+    "chapter": 1,
+    "level": 2,
+    "enemy_type": "Титаны",
+    "main_buff": null,
+    "comment": "🌙🔥 🟣 Ригель ; 🟣 Мор ; 🟠 Ашерона ; 🟠 Араджи ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4013": 4,
+        "4014": 4,
+        "4032": 2,
+        "4033": 2,
+        "4040": 1
+      }
+    }
+  },
+  {
+    "game_id": 41,
+    "invasion_id": 1794000034,
+    "boss_id": 564,
+    "boss_level": 90,
+    "chapter": 1,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟣 Электра ; 🟠 Флафи ; 🟠 Орион ; 🟣 Айрис ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 5,
+        "46": 3,
+        "55": 1,
+        "70": 2,
+        "71": 5
+      }
+    }
+  },
+  {
+    "game_id": 100,
+    "invasion_id": 1900000034,
+    "boss_id": 508,
+    "boss_level": 90,
+    "chapter": 1,
+    "level": 3,
+    "enemy_type": "Титаны",
+    "main_buff": null,
+    "comment": "🌙🔥 🟣 Ригель ; 🟣 Мор ; 🟠 Ашерона ; 🔴 Араджи ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 4,
+        "4032": 2,
+        "4033": 2,
+        "4040": 1
+      }
+    }
+  },
+  {
+    "game_id": 42,
+    "invasion_id": 1794000034,
+    "boss_id": 565,
+    "boss_level": 100,
+    "chapter": 1,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Электра ; 🟠 Флафи ; 🟠 Орион ; 🟣 Айрис ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 5,
+        "46": 4,
+        "55": 2,
+        "70": 3,
+        "71": 6
+      }
+    }
+  },
+  {
+    "game_id": 101,
+    "invasion_id": 1900000034,
+    "boss_id": 509,
+    "boss_level": 100,
+    "chapter": 1,
+    "level": 4,
+    "enemy_type": "Титаны",
+    "main_buff": null,
+    "comment": "🌙🔥 🟠 Ригель ; 🟠 Мор ; 🟠 Ашерона ; 🔴 Араджи ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4511
+        },
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 4,
+        "4032": 3,
+        "4033": 2,
+        "4040": 4,
+        "4511": 1
+      }
+    }
+  },
+  {
+    "game_id": 43,
+    "invasion_id": 1794000034,
+    "boss_id": 566,
+    "boss_level": 110,
+    "chapter": 1,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Электра ; 🔴 Флафи ; 🟠 Орион ; 🟠 Айрис ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 5,
+        "46": 4,
+        "55": 3,
+        "70": 3,
+        "71": 7
+      }
+    }
+  },
+  {
+    "game_id": 102,
+    "invasion_id": 1900000034,
+    "boss_id": 510,
+    "boss_level": 110,
+    "chapter": 1,
+    "level": 5,
+    "enemy_type": "Титаны",
+    "main_buff": null,
+    "comment": "🌙🔥 🟠 Ригель ; 🟠 Мор ; 🟠 Ашерона ; 🔴 Араджи ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4511
+        },
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 6,
+        "4032": 3,
+        "4033": 3,
+        "4040": 4,
+        "4511": 1
+      }
+    }
+  },
+  {
+    "game_id": 44,
+    "invasion_id": 1794000034,
+    "boss_id": 567,
+    "boss_level": 120,
+    "chapter": 1,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Электра ; 🔴 Флафи ; 🔴 Орион ; 🟠 Айрис ; 🔴 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "46": 7,
+        "55": 4,
+        "70": 3,
+        "71": 7
+      }
+    }
+  },
+  {
+    "game_id": 103,
+    "invasion_id": 1900000034,
+    "boss_id": 511,
+    "boss_level": 120,
+    "chapter": 1,
+    "level": 6,
+    "enemy_type": "Титаны",
+    "main_buff": null,
+    "comment": "🌙🔥 🟠 Ригель ; 🟠 Мор ; 🟠 Ашерона ; 🔴 Араджи ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4511,
+          "primal": 4506
+        },
+        "fire": {
+          "primal": 4514
+        },
+        "light": []
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 6,
+        "4032": 4,
+        "4033": 6,
+        "4040": 4,
+        "4506": 1,
+        "4511": 1,
+        "4514": 1
+      }
+    }
+  },
+  {
+    "game_id": 45,
+    "invasion_id": 1794000034,
+    "boss_id": 568,
+    "boss_level": 130,
+    "chapter": 1,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Электра ; 🔴 Флафи ; 🔴 Орион ; 🟠 Айрис ; 🔴 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "46": 7,
+        "55": 5,
+        "70": 4,
+        "71": 7
+      }
+    }
+  },
+  {
+    "game_id": 104,
+    "invasion_id": 1900000034,
+    "boss_id": 512,
+    "boss_level": 130,
+    "chapter": 1,
+    "level": 7,
+    "enemy_type": "Титаны",
+    "main_buff": null,
+    "comment": "🌙🔥 🟠 Ригель ; 🔴 Мор ; 🟠 Ашерона ; 🔴 Араджи ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4511,
+          "primal": 4506
+        },
+        "fire": {
+          "elemental": 4500,
+          "primal": 4508
+        },
+        "light": []
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 6,
+        "4032": 7,
+        "4033": 8,
+        "4040": 4,
+        "4500": 1,
+        "4506": 2,
+        "4508": 1,
+        "4511": 1
+      }
+    }
+  },
+  {
+    "game_id": 46,
+    "invasion_id": 1794000034,
+    "boss_id": 569,
+    "boss_level": 130,
+    "chapter": 1,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Электра ; 🔴 Флафи ; 🔴 Орион ; 🟠 Айрис ; 🔴 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        13,
+        71,
+        70
+      ],
+      "petId": 6005,
+      "favor": {
+        "13": 6003,
+        "46": 6001,
+        "55": 6005,
+        "70": 6006,
+        "71": 6002
+      },
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "46": 7,
+        "55": 6,
+        "70": 6,
+        "71": 7,
+        "6001": 1,
+        "6002": 1,
+        "6003": 1,
+        "6005": 1,
+        "6006": 1
+      }
+    }
+  },
+  {
+    "game_id": 47,
+    "invasion_id": 1794000034,
+    "boss_id": 570,
+    "boss_level": 80,
+    "chapter": 2,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟣 Электра ; 🟣 Криста ; 🟠 Флафи ; 🟣 Ларс ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        33,
+        71,
+        34,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "33": 2,
+        "34": 2,
+        "55": 2,
+        "70": 1,
+        "71": 3
+      }
+    }
+  },
+  {
+    "game_id": 48,
+    "invasion_id": 1794000034,
+    "boss_id": 571,
+    "boss_level": 85,
+    "chapter": 2,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟣 Электра ; 🟣 Криста ; 🟠 Флафи ; 🟠 Ларс ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        33,
+        71,
+        34,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "33": 3,
+        "34": 2,
+        "55": 2,
+        "70": 2,
+        "71": 3
+      }
+    }
+  },
+  {
+    "game_id": 105,
+    "invasion_id": 1900000034,
+    "boss_id": 515,
+    "boss_level": 85,
+    "chapter": 2,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Галахад ; 🟣 Гас ; 🟠 Кай ; 🟣 Айзек ; 🟠 Орион",
+    "defenders_fragments": {
+      "units": [
+        13,
+        52,
+        5,
+        68,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 4,
+        "5": 3,
+        "13": 3,
+        "52": 1,
+        "68": 1
+      }
+    }
+  },
+  {
+    "game_id": 49,
+    "invasion_id": 1794000034,
+    "boss_id": 572,
+    "boss_level": 90,
+    "chapter": 2,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟣 Криста ; 🟠 Флафи ; 🟠 Ларс ; 🟠 Айрис ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        33,
+        71,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "33": 3,
+        "34": 2,
+        "46": 1,
+        "55": 3,
+        "71": 3
+      }
+    }
+  },
+  {
+    "game_id": 106,
+    "invasion_id": 1900000034,
+    "boss_id": 516,
+    "boss_level": 90,
+    "chapter": 2,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Галахад ; 🟣 Гас ; 🟠 Кай ; 🟣 Айзек ; 🟠 Орион",
+    "defenders_fragments": {
+      "units": [
+        13,
+        52,
+        5,
+        68,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 4,
+        "5": 4,
+        "13": 3,
+        "52": 1,
+        "68": 1
+      }
+    }
+  },
+  {
+    "game_id": 50,
+    "invasion_id": 1794000034,
+    "boss_id": 573,
+    "boss_level": 100,
+    "chapter": 2,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Криста ; 🟠 Флафи ; 🟠 Ларс ; 🟠 Айрис ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        33,
+        71,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "33": 4,
+        "34": 3,
+        "46": 1,
+        "55": 3,
+        "71": 5
+      }
+    }
+  },
+  {
+    "game_id": 107,
+    "invasion_id": 1900000034,
+    "boss_id": 517,
+    "boss_level": 100,
+    "chapter": 2,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Галахад ; 🟣 Гас ; 🟠 Кай ; 🟠 Орион ; 🟠 Гелиос",
+    "defenders_fragments": {
+      "units": [
+        32,
+        13,
+        5,
+        68,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 4,
+        "5": 5,
+        "13": 4,
+        "32": 4,
+        "68": 1
+      }
+    }
+  },
+  {
+    "game_id": 51,
+    "invasion_id": 1794000034,
+    "boss_id": 574,
+    "boss_level": 110,
+    "chapter": 2,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Криста ; 🔴 Флафи ; 🟠 Ларс ; 🟠 Айрис ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        33,
+        71,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "33": 4,
+        "34": 3,
+        "46": 2,
+        "55": 3,
+        "71": 8
+      }
+    }
+  },
+  {
+    "game_id": 108,
+    "invasion_id": 1900000034,
+    "boss_id": 518,
+    "boss_level": 110,
+    "chapter": 2,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Галахад ; 🟣 Гас ; 🟠 Кай ; 🟠 Айзек ; 🟠 Орион",
+    "defenders_fragments": {
+      "units": [
+        13,
+        52,
+        5,
+        68,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 4,
+        "5": 5,
+        "13": 5,
+        "52": 3,
+        "68": 1
+      }
+    }
+  },
+  {
+    "game_id": 52,
+    "invasion_id": 1794000034,
+    "boss_id": 575,
+    "boss_level": 120,
+    "chapter": 2,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Криста ; 🔴 Флафи ; 🟠 Ларс ; 🟠 Айрис ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        33,
+        71,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "33": 4,
+        "34": 5,
+        "46": 3,
+        "55": 4,
+        "71": 8
+      }
+    }
+  },
+  {
+    "game_id": 109,
+    "invasion_id": 1900000034,
+    "boss_id": 519,
+    "boss_level": 120,
+    "chapter": 2,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🔴 Галахад ; 🟠 Гас ; 🟠 Кай ; 🔴 Айзек ; 🔴 Орион",
+    "defenders_fragments": {
+      "units": [
+        13,
+        52,
+        5,
+        68,
+        2
+      ],
+      "petId": 6001,
+      "favor": {
+        "2": 6005,
+        "52": 6001
+      },
+      "spirits": [],
+      "fragments": {
+        "2": 7,
+        "5": 5,
+        "13": 7,
+        "52": 7,
+        "68": 4,
+        "6001": 1,
+        "6005": 1
+      }
+    }
+  },
+  {
+    "game_id": 53,
+    "invasion_id": 1794000034,
+    "boss_id": 576,
+    "boss_level": 130,
+    "chapter": 2,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🟠 Электра ; 🔴 Криста ; 🔴 Флафи ; 🟠 Ларс ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        33,
+        71,
+        34,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "33": 4,
+        "34": 7,
+        "55": 5,
+        "70": 4,
+        "71": 8
+      }
+    }
+  },
+  {
+    "game_id": 110,
+    "invasion_id": 1900000034,
+    "boss_id": 520,
+    "boss_level": 130,
+    "chapter": 2,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🔴 Галахад ; 🟠 Гас ; 🟠 Кай ; 🔴 Айзек ; 🔴 Орион",
+    "defenders_fragments": {
+      "units": [
+        13,
+        52,
+        5,
+        68,
+        2
+      ],
+      "petId": 6001,
+      "favor": {
+        "2": 6005,
+        "13": 6002,
+        "52": 6001,
+        "68": 6006
+      },
+      "spirits": [],
+      "fragments": {
+        "2": 7,
+        "5": 6,
+        "13": 7,
+        "52": 7,
+        "68": 4,
+        "6001": 1,
+        "6002": 1,
+        "6005": 1,
+        "6006": 1
+      }
+    }
+  },
+  {
+    "game_id": 54,
+    "invasion_id": 1794000034,
+    "boss_id": 577,
+    "boss_level": 130,
+    "chapter": 2,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🔴 Электра ; 🔴 Криста ; 🔴 Флафи ; 🔴 Айрис ; 🔴 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        34,
+        70
+      ],
+      "petId": 6006,
+      "favor": {
+        "34": 6008,
+        "46": 6006,
+        "55": 6005,
+        "70": 6001,
+        "71": 6002
+      },
+      "spirits": [],
+      "fragments": {
+        "34": 7,
+        "46": 7,
+        "55": 7,
+        "70": 7,
+        "71": 8,
+        "6001": 1,
+        "6002": 1,
+        "6005": 1,
+        "6006": 1,
+        "6008": 1
+      }
+    }
+  },
+  {
+    "game_id": 111,
+    "invasion_id": 1900000034,
+    "boss_id": 521,
+    "boss_level": 130,
+    "chapter": 2,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "🔴 Галахад ; 🟠 Гас ; 🔴 Кай ; 🔴 Айзек ; 🔴 Орион",
+    "defenders_fragments": {
+      "units": [
+        13,
+        52,
+        5,
+        68,
+        2
+      ],
+      "petId": 6006,
+      "favor": {
+        "2": 6005,
+        "5": 6008,
+        "13": 6002,
+        "52": 6001,
+        "68": 6006
+      },
+      "spirits": [],
+      "fragments": {
+        "2": 7,
+        "5": 8,
+        "13": 7,
+        "52": 7,
+        "68": 6,
+        "6001": 1,
+        "6002": 1,
+        "6005": 1,
+        "6006": 1,
+        "6008": 1
+      }
+    }
+  },
+  {
+    "game_id": 55,
+    "invasion_id": 1794000034,
+    "boss_id": 578,
+    "boss_level": 80,
+    "chapter": 3,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🟣 Галахад ; 🟣 Лирия ; 🟣 Арахна ; 🟣 Кира ; 🟣 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        12,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 2,
+        "3": 2,
+        "12": 1,
+        "62": 1,
+        "67": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 120,
+    "invasion_id": 1900000034,
+    "boss_id": 522,
+    "boss_level": 80,
+    "chapter": 3,
+    "level": 1,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧⭐ 🟣 Сигурд ; 🟣 Нова ; 🟣 Солярис ; 🟠 Ияри ; 🟣 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4042,
+        4043,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "light": []
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 2,
+        "4003": 1,
+        "4042": 3,
+        "4043": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 127,
+    "invasion_id": 1900000034,
+    "boss_id": 522,
+    "boss_level": 80,
+    "chapter": 3,
+    "level": 1,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🟣 Сигурд ; 🟣 Мор ; 🟠 Нова ; 🟣 Гиперион ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 3,
+        "4003": 1,
+        "4032": 1,
+        "4033": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 135,
+    "invasion_id": 1900000034,
+    "boss_id": 538,
+    "boss_level": 80,
+    "chapter": 3,
+    "level": 1,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧 🟠 Сигурд ; 🟠 Нова ; 🟣 Ашерона ; 🟣 Маири ; 🟣 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4002,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": []
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 4,
+        "4002": 1,
+        "4003": 2,
+        "4014": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 56,
+    "invasion_id": 1794000034,
+    "boss_id": 579,
+    "boss_level": 85,
+    "chapter": 3,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🟣 Галахад ; 🟠 Лирия ; 🟣 Арахна ; 🟠 Кира ; 🟣 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        12,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 2,
+        "3": 3,
+        "12": 1,
+        "62": 1,
+        "67": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 113,
+    "invasion_id": 1900000034,
+    "boss_id": 523,
+    "boss_level": 85,
+    "chapter": 3,
+    "level": 2,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌳💧 🟣 Сигурд ; 🟠 Нова ; 🟣 Вердок ; 🟣 Гиперион ; 🟠 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4024,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 1,
+        "4001": 3,
+        "4003": 2,
+        "4021": 3,
+        "4024": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 121,
+    "invasion_id": 1900000034,
+    "boss_id": 523,
+    "boss_level": 85,
+    "chapter": 3,
+    "level": 2,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧⭐ 🟣 Сигурд ; 🟣 Нова ; 🟣 Солярис ; 🟠 Ияри ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4042,
+        4043,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "light": []
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 2,
+        "4003": 5,
+        "4042": 3,
+        "4043": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 128,
+    "invasion_id": 1900000034,
+    "boss_id": 523,
+    "boss_level": 85,
+    "chapter": 3,
+    "level": 2,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🟣 Сигурд ; 🟣 Мор ; 🟠 Нова ; 🟣 Гиперион ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 3,
+        "4003": 1,
+        "4032": 2,
+        "4033": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 136,
+    "invasion_id": 1900000034,
+    "boss_id": 539,
+    "boss_level": 85,
+    "chapter": 3,
+    "level": 2,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧🔥 🟠 Сигурд ; 🟠 Нова ; 🟣 Ашерона ; 🟣 Араджи ; 🟣 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": []
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 4,
+        "4003": 2,
+        "4013": 2,
+        "4014": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 57,
+    "invasion_id": 1794000034,
+    "boss_id": 580,
+    "boss_level": 90,
+    "chapter": 3,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🟣 Галахад ; 🟠 Лирия ; 🟣 Арахна ; 🟠 Кира ; 🟣 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        12,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 2,
+        "3": 3,
+        "12": 1,
+        "62": 2,
+        "67": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 114,
+    "invasion_id": 1900000034,
+    "boss_id": 524,
+    "boss_level": 90,
+    "chapter": 3,
+    "level": 3,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌳💧 🟣 Сигурд ; 🟠 Нова ; 🟣 Вердок ; 🟠 Гиперион ; 🟠 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4024,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 1,
+        "4001": 3,
+        "4003": 3,
+        "4021": 4,
+        "4024": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 122,
+    "invasion_id": 1900000034,
+    "boss_id": 524,
+    "boss_level": 90,
+    "chapter": 3,
+    "level": 3,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧⭐ 🟣 Сигурд ; 🟣 Нова ; 🟣 Солярис ; 🟠 Ияри ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4042,
+        4043,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "light": []
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 2,
+        "4003": 5,
+        "4042": 5,
+        "4043": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 129,
+    "invasion_id": 1900000034,
+    "boss_id": 524,
+    "boss_level": 90,
+    "chapter": 3,
+    "level": 3,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🟠 Сигурд ; 🟣 Мор ; 🟠 Нова ; 🟠 Гиперион ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 6,
+        "4001": 3,
+        "4003": 3,
+        "4032": 1,
+        "4033": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 137,
+    "invasion_id": 1900000034,
+    "boss_id": 524,
+    "boss_level": 90,
+    "chapter": 3,
+    "level": 3,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧🔥 🟠 Сигурд ; 🟠 Нова ; 🟣 Ашерона ; 🟠 Араджи ; 🟣 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": []
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 6,
+        "4003": 2,
+        "4013": 3,
+        "4014": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 58,
+    "invasion_id": 1794000034,
+    "boss_id": 581,
+    "boss_level": 100,
+    "chapter": 3,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🟣 Галахад ; 🟠 Лирия ; 🟣 Арахна ; 🔴 Кира ; 🟣 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        12,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 2,
+        "3": 7,
+        "12": 1,
+        "62": 2,
+        "67": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 115,
+    "invasion_id": 1900000034,
+    "boss_id": 525,
+    "boss_level": 100,
+    "chapter": 3,
+    "level": 4,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌳💧 🟣 Сигурд ; 🟠 Нова ; 🟠 Вердок ; 🟠 Гиперион ; 🟠 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4024,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 1,
+        "4001": 3,
+        "4003": 4,
+        "4021": 5,
+        "4024": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 123,
+    "invasion_id": 1900000034,
+    "boss_id": 525,
+    "boss_level": 100,
+    "chapter": 3,
+    "level": 4,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧⭐ 🟣 Сигурд ; 🟠 Нова ; 🟠 Солярис ; 🔴 Ияри ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4042,
+        4043,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "light": {
+          "elemental": 4503,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 3,
+        "4003": 5,
+        "4042": 7,
+        "4043": 4,
+        "4503": 1,
+        "4507": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 130,
+    "invasion_id": 1900000034,
+    "boss_id": 525,
+    "boss_level": 100,
+    "chapter": 3,
+    "level": 4,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🟠 Сигурд ; 🟠 Мор ; 🔴 Нова ; 🟠 Гиперион ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4510
+        },
+        "water": {
+          "elemental": 4502
+        }
+      },
+      "fragments": {
+        "4000": 6,
+        "4001": 7,
+        "4003": 4,
+        "4032": 3,
+        "4033": 2,
+        "4502": 1,
+        "4510": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 138,
+    "invasion_id": 1900000034,
+    "boss_id": 525,
+    "boss_level": 100,
+    "chapter": 3,
+    "level": 4,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧🔥 🟠 Сигурд ; 🔴 Нова ; 🟠 Ашерона ; 🟠 Араджи ; 🟣 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": []
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 7,
+        "4003": 2,
+        "4013": 3,
+        "4014": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 59,
+    "invasion_id": 1794000034,
+    "boss_id": 582,
+    "boss_level": 110,
+    "chapter": 3,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🟠 Галахад ; 🟠 Лирия ; 🟠 Тристан ; 🔴 Кира ; 🟠 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        54,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 3,
+        "3": 7,
+        "54": 3,
+        "62": 3,
+        "67": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 116,
+    "invasion_id": 1900000034,
+    "boss_id": 526,
+    "boss_level": 110,
+    "chapter": 3,
+    "level": 5,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌳💧 🟠 Сигурд ; 🟠 Нова ; 🟠 Вердок ; 🟠 Гиперион ; 🔴 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4024,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4503
+        },
+        "water": {
+          "elemental": 4511
+        }
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 3,
+        "4003": 4,
+        "4021": 7,
+        "4024": 3,
+        "4503": 1,
+        "4511": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 124,
+    "invasion_id": 1900000034,
+    "boss_id": 526,
+    "boss_level": 110,
+    "chapter": 3,
+    "level": 5,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧⭐ 🟣 Сигурд ; 🔴 Нова ; 🟠 Солярис ; 🔴 Ияри ; 🔴 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4042,
+        4043,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "elemental": 4500,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4503,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 7,
+        "4003": 7,
+        "4042": 7,
+        "4043": 6,
+        "4500": 2,
+        "4503": 4,
+        "4507": 5,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 131,
+    "invasion_id": 1900000034,
+    "boss_id": 526,
+    "boss_level": 110,
+    "chapter": 3,
+    "level": 5,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🔴 Сигурд ; 🟠 Мор ; 🔴 Нова ; 🟠 Гиперион ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4510
+        },
+        "water": {
+          "elemental": 4502
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 7,
+        "4003": 4,
+        "4032": 6,
+        "4033": 3,
+        "4502": 1,
+        "4510": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 139,
+    "invasion_id": 1900000034,
+    "boss_id": 526,
+    "boss_level": 110,
+    "chapter": 3,
+    "level": 5,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧🔥 🟠 Сигурд ; 🔴 Нова ; 🟠 Ашерона ; 🟠 Араджи ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": {
+          "elemental": 4509,
+          "primal": 4506
+        }
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 7,
+        "4003": 3,
+        "4013": 6,
+        "4014": 4,
+        "4506": 1,
+        "4509": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 60,
+    "invasion_id": 1794000034,
+    "boss_id": 583,
+    "boss_level": 120,
+    "chapter": 3,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🟠 Галахад ; 🟠 Лирия ; 🟠 Тристан ; 🔴 Кира ; 🟠 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        54,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 5,
+        "3": 7,
+        "54": 4,
+        "62": 3,
+        "67": 6
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 117,
+    "invasion_id": 1900000034,
+    "boss_id": 527,
+    "boss_level": 120,
+    "chapter": 3,
+    "level": 6,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌳💧 🔴 Сигурд ; 🟠 Нова ; 🔴 Вердок ; 🔴 Гиперион ; 🔴 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4024,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4503
+        },
+        "water": {
+          "elemental": 4511
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 5,
+        "4003": 7,
+        "4021": 7,
+        "4024": 8,
+        "4503": 1,
+        "4511": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 125,
+    "invasion_id": 1900000034,
+    "boss_id": 527,
+    "boss_level": 120,
+    "chapter": 3,
+    "level": 6,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧⭐ 🟠 Сигурд ; 🔴 Нова ; 🔴 Солярис ; 🔴 Ияри ; 🔴 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4042,
+        4043,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "elemental": 4500,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4503,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 7,
+        "4003": 7,
+        "4042": 7,
+        "4043": 8,
+        "4500": 3,
+        "4503": 7,
+        "4507": 5,
+        "4515": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 132,
+    "invasion_id": 1900000034,
+    "boss_id": 527,
+    "boss_level": 120,
+    "chapter": 3,
+    "level": 6,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🔴 Сигурд ; 🔴 Мор ; 🔴 Нова ; 🟠 Гиперион ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4510
+        },
+        "water": {
+          "elemental": 4502
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 7,
+        "4003": 5,
+        "4032": 8,
+        "4033": 5,
+        "4502": 1,
+        "4510": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 140,
+    "invasion_id": 1900000034,
+    "boss_id": 527,
+    "boss_level": 120,
+    "chapter": 3,
+    "level": 6,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧🔥 🔴 Сигурд ; 🔴 Нова ; 🔴 Ашерона ; 🔴 Араджи ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "primal": 4507
+        },
+        "fire": {
+          "elemental": 4509,
+          "primal": 4506
+        }
+      },
+      "fragments": {
+        "4000": 8,
+        "4001": 7,
+        "4003": 5,
+        "4013": 7,
+        "4014": 7,
+        "4506": 3,
+        "4507": 1,
+        "4509": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 61,
+    "invasion_id": 1794000034,
+    "boss_id": 584,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🟠 Галахад ; 🟠 Лирия ; 🟠 Тристан ; 🔴 Кира ; 🟠 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        54,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 6,
+        "3": 7,
+        "54": 5,
+        "62": 4,
+        "67": 6
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 118,
+    "invasion_id": 1900000034,
+    "boss_id": 528,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 7,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌳💧 🔴 Сигурд ; 🔴 Нова ; 🔴 Вердок ; 🔴 Гиперион ; 🔴 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4024,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4500,
+          "primal": 4506
+        },
+        "water": {
+          "elemental": 4511,
+          "primal": 4515
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 7,
+        "4003": 7,
+        "4021": 7,
+        "4024": 8,
+        "4500": 3,
+        "4506": 1,
+        "4511": 4,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 126,
+    "invasion_id": 1900000034,
+    "boss_id": 528,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 7,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧⭐ 🟠 Сигурд ; 🔴 Нова ; 🔴 Солярис ; 🔴 Ияри ; 🔴 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4042,
+        4043,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "elemental": 4500,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4503,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4000": 5,
+        "4001": 7,
+        "4003": 7,
+        "4042": 7,
+        "4043": 8,
+        "4500": 4,
+        "4503": 7,
+        "4507": 6,
+        "4515": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 133,
+    "invasion_id": 1900000034,
+    "boss_id": 528,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 7,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🔴 Сигурд ; 🔴 Мор ; 🔴 Нова ; 🔴 Гиперион ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4510,
+          "primal": 4506
+        },
+        "water": {
+          "elemental": 4502
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 7,
+        "4003": 7,
+        "4032": 7,
+        "4033": 8,
+        "4502": 2,
+        "4506": 2,
+        "4510": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 141,
+    "invasion_id": 1900000034,
+    "boss_id": 528,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 7,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧🔥 🔴 Сигурд ; 🔴 Нова ; 🔴 Ашерона ; 🔴 Араджи ; 🔴 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "elemental": 4503,
+          "primal": 4507
+        },
+        "fire": {
+          "elemental": 4509,
+          "primal": 4506
+        }
+      },
+      "fragments": {
+        "4000": 8,
+        "4001": 7,
+        "4003": 7,
+        "4013": 7,
+        "4014": 7,
+        "4503": 2,
+        "4506": 4,
+        "4507": 1,
+        "4509": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 62,
+    "invasion_id": 1794000034,
+    "boss_id": 585,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": 50,
+    "comment": "🔴 Галахад ; 🔴 Лирия ; 🔴 Тристан ; 🔴 Кира ; 🔴 Полярис",
+    "defenders_fragments": {
+      "units": [
+        62,
+        3,
+        54,
+        67,
+        2
+      ],
+      "petId": 6009,
+      "favor": {
+        "2": 6005,
+        "3": 6009,
+        "62": 6008,
+        "67": 6001
+      },
+      "spirits": [],
+      "fragments": {
+        "2": 7,
+        "3": 7,
+        "54": 7,
+        "62": 7,
+        "67": 8,
+        "6001": 1,
+        "6005": 1,
+        "6008": 1,
+        "6009": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 119,
+    "invasion_id": 1900000034,
+    "boss_id": 529,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 8,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌳💧 🔴 Сигурд ; 🔴 Нова ; 🔴 Вердок ; 🔴 Гиперион ; 🔴 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4024,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4500,
+          "primal": 4506
+        },
+        "water": {
+          "elemental": 4511,
+          "primal": 4515
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 7,
+        "4003": 7,
+        "4021": 7,
+        "4024": 8,
+        "4500": 7,
+        "4506": 1,
+        "4511": 7,
+        "4515": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 134,
+    "invasion_id": 1900000034,
+    "boss_id": 529,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 8,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "🌙💧 🔴 Сигурд ; 🔴 Мор ; 🔴 Нова ; 🔴 Гиперион ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4001,
+        4032,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4510,
+          "primal": 4506
+        },
+        "water": {
+          "elemental": 4502,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 7,
+        "4003": 7,
+        "4032": 7,
+        "4033": 8,
+        "4502": 2,
+        "4506": 2,
+        "4508": 1,
+        "4510": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 142,
+    "invasion_id": 1900000034,
+    "boss_id": 529,
+    "boss_level": 130,
+    "chapter": 3,
+    "level": 8,
+    "enemy_type": "Титаны",
+    "main_buff": 50,
+    "comment": "💧🔥 🔴 Сигурд ; 🔴 Нова ; 🔴 Ашерона ; 🔴 Араджи ; 🔴 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "elemental": 4509,
+          "primal": 4508
+        },
+        "fire": {
+          "elemental": 4503,
+          "primal": 4506
+        }
+      },
+      "fragments": {
+        "4000": 8,
+        "4001": 7,
+        "4003": 7,
+        "4013": 7,
+        "4014": 7,
+        "4503": 5,
+        "4506": 7,
+        "4508": 5,
+        "4509": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 63,
+    "invasion_id": 1794000034,
+    "boss_id": 586,
+    "boss_level": 80,
+    "chapter": 4,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟣 Криста ; 🟣 Флафи ; 🟣 Орион ; 🟣 Фолио ; 🟣 Август",
+    "defenders_fragments": {
+      "units": [
+        64,
+        66,
+        13,
+        71,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 1,
+        "34": 2,
+        "64": 1,
+        "66": 1,
+        "71": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 143,
+    "invasion_id": 1900000034,
+    "boss_id": 530,
+    "boss_level": 80,
+    "chapter": 4,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟣 Селеста ; 🟣 Орион ; 🟣 Август ; 🟣 Гелиос",
+    "defenders_fragments": {
+      "units": [
+        32,
+        64,
+        13,
+        43
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 2,
+        "32": 2,
+        "43": 2,
+        "64": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 64,
+    "invasion_id": 1794000034,
+    "boss_id": 587,
+    "boss_level": 85,
+    "chapter": 4,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟣 Электра ; 🟠 Флафи ; 🟣 Орион ; 🟣 Август ; 🟣 Гелиос",
+    "defenders_fragments": {
+      "units": [
+        32,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 1,
+        "32": 1,
+        "64": 1,
+        "70": 2,
+        "71": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 144,
+    "invasion_id": 1900000034,
+    "boss_id": 531,
+    "boss_level": 85,
+    "chapter": 4,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟣 Криста ; 🟠 Селеста ; 🟣 Орион ; 🟣 Ларс ; 🟠 Август",
+    "defenders_fragments": {
+      "units": [
+        64,
+        33,
+        13,
+        43,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 2,
+        "33": 1,
+        "34": 1,
+        "43": 3,
+        "64": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 65,
+    "invasion_id": 1794000034,
+    "boss_id": 588,
+    "boss_level": 90,
+    "chapter": 4,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟠 Электра ; 🟠 Флафи ; 🟣 Орион ; 🟣 Август ; 🟣 Гелиос",
+    "defenders_fragments": {
+      "units": [
+        32,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 2,
+        "32": 1,
+        "64": 1,
+        "70": 3,
+        "71": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 145,
+    "invasion_id": 1900000034,
+    "boss_id": 532,
+    "boss_level": 90,
+    "chapter": 4,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟣 Криста ; 🟠 Селеста ; 🟠 Орион ; 🟠 Август ; 🟣 Лилит",
+    "defenders_fragments": {
+      "units": [
+        26,
+        64,
+        13,
+        43,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 3,
+        "26": 1,
+        "34": 1,
+        "43": 3,
+        "64": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 66,
+    "invasion_id": 1794000034,
+    "boss_id": 589,
+    "boss_level": 100,
+    "chapter": 4,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟠 Электра ; 🟠 Флафи ; 🟠 Орион ; 🟣 Август ; 🟣 Гелиос",
+    "defenders_fragments": {
+      "units": [
+        32,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 3,
+        "32": 2,
+        "64": 1,
+        "70": 4,
+        "71": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 146,
+    "invasion_id": 1900000034,
+    "boss_id": 533,
+    "boss_level": 100,
+    "chapter": 4,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟣 Криста ; 🟠 Селеста ; 🟠 Орион ; 🟠 Август ; 🟣 Лилит",
+    "defenders_fragments": {
+      "units": [
+        26,
+        64,
+        13,
+        43,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 6,
+        "26": 1,
+        "34": 1,
+        "43": 4,
+        "64": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 67,
+    "invasion_id": 1794000034,
+    "boss_id": 590,
+    "boss_level": 110,
+    "chapter": 4,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟠 Электра ; 🟠 Флафи ; 🟠 Орион ; 🟣 Август ; 🟣 Гелиос",
+    "defenders_fragments": {
+      "units": [
+        32,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 3,
+        "32": 2,
+        "64": 1,
+        "70": 6,
+        "71": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 147,
+    "invasion_id": 1900000034,
+    "boss_id": 534,
+    "boss_level": 110,
+    "chapter": 4,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟣 Криста ; 🟠 Селеста ; 🔴 Орион ; 🟠 Август ; 🟣 Лилит",
+    "defenders_fragments": {
+      "units": [
+        26,
+        64,
+        13,
+        43,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "26": 1,
+        "34": 1,
+        "43": 4,
+        "64": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 68,
+    "invasion_id": 1794000034,
+    "boss_id": 591,
+    "boss_level": 120,
+    "chapter": 4,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟠 Электра ; 🟠 Флафи ; 🟠 Орион ; 🟣 Фолио ; 🟠 Август",
+    "defenders_fragments": {
+      "units": [
+        64,
+        66,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 4,
+        "64": 3,
+        "66": 1,
+        "70": 6,
+        "71": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 148,
+    "invasion_id": 1900000034,
+    "boss_id": 535,
+    "boss_level": 120,
+    "chapter": 4,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟠 Криста ; 🟠 Селеста ; 🔴 Орион ; 🟠 Август ; 🟣 Лилит",
+    "defenders_fragments": {
+      "units": [
+        26,
+        64,
+        13,
+        43,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "26": 2,
+        "34": 3,
+        "43": 4,
+        "64": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 69,
+    "invasion_id": 1794000034,
+    "boss_id": 592,
+    "boss_level": 130,
+    "chapter": 4,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🔴 Электра ; 🔴 Флафи ; 🟠 Орион ; 🟣 Фолио ; 🟠 Август",
+    "defenders_fragments": {
+      "units": [
+        64,
+        66,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 4,
+        "64": 5,
+        "66": 2,
+        "70": 7,
+        "71": 7
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 149,
+    "invasion_id": 1900000034,
+    "boss_id": 536,
+    "boss_level": 130,
+    "chapter": 4,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🟠 Криста ; 🟠 Селеста ; 🔴 Орион ; 🟠 Август ; 🟠 Лилит",
+    "defenders_fragments": {
+      "units": [
+        26,
+        64,
+        13,
+        43,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "26": 3,
+        "34": 3,
+        "43": 5,
+        "64": 6
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 70,
+    "invasion_id": 1794000034,
+    "boss_id": 593,
+    "boss_level": 130,
+    "chapter": 4,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🔴 Электра ; 🔴 Флафи ; 🔴 Орион ; 🔴 Фолио ; 🔴 Август",
+    "defenders_fragments": {
+      "units": [
+        64,
+        66,
+        13,
+        71,
+        70
+      ],
+      "petId": 6005,
+      "favor": {
+        "13": 6003,
+        "64": 6005,
+        "66": 6006,
+        "70": 6001,
+        "71": 6008
+      },
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "64": 7,
+        "66": 7,
+        "70": 7,
+        "71": 7,
+        "6001": 1,
+        "6003": 1,
+        "6005": 1,
+        "6006": 1,
+        "6008": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 150,
+    "invasion_id": 1900000034,
+    "boss_id": 537,
+    "boss_level": 130,
+    "chapter": 4,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": 100,
+    "comment": "🔴 Криста ; 🔴 Селеста ; 🔴 Орион ; 🔴 Август ; 🟠 Лилит",
+    "defenders_fragments": {
+      "units": [
+        26,
+        64,
+        13,
+        43,
+        34
+      ],
+      "petId": 6005,
+      "favor": {
+        "13": 6003,
+        "26": 6001,
+        "34": 6006,
+        "43": 6002,
+        "64": 6005
+      },
+      "spirits": [],
+      "fragments": {
+        "13": 7,
+        "26": 5,
+        "34": 8,
+        "43": 7,
+        "64": 7,
+        "6001": 1,
+        "6002": 1,
+        "6003": 1,
+        "6005": 1,
+        "6006": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 100
+      }
+    }
+  },
+  {
+    "game_id": 71,
+    "invasion_id": 1794000034,
+    "boss_id": 594,
+    "boss_level": 80,
+    "chapter": 5,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🟣 Электра ; 🟠 Флафи ; 🟣 Айрис ; 🟣 Лилит ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        26,
+        55,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "26": 1,
+        "46": 1,
+        "55": 1,
+        "70": 2,
+        "71": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 72,
+    "invasion_id": 1794000034,
+    "boss_id": 595,
+    "boss_level": 85,
+    "chapter": 5,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🟣 Электра ; 🟣 Хайди ; 🟠 Флафи ; 🟣 Айрис ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        9,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 1,
+        "46": 1,
+        "55": 1,
+        "70": 2,
+        "71": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 73,
+    "invasion_id": 1794000034,
+    "boss_id": 596,
+    "boss_level": 90,
+    "chapter": 5,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🟣 Электра ; 🟣 Хайди ; 🟠 Флафи ; 🟠 Айрис ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        9,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 1,
+        "46": 2,
+        "55": 3,
+        "70": 2,
+        "71": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 74,
+    "invasion_id": 1794000034,
+    "boss_id": 597,
+    "boss_level": 100,
+    "chapter": 5,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🟣 Электра ; 🟣 Хайди ; 🟠 Флафи ; 🟠 Айрис ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        9,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 1,
+        "46": 3,
+        "55": 4,
+        "70": 2,
+        "71": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 75,
+    "invasion_id": 1794000034,
+    "boss_id": 598,
+    "boss_level": 110,
+    "chapter": 5,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🟣 Электра ; 🟠 Хайди ; 🔴 Флафи ; 🟠 Айрис ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        9,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 3,
+        "46": 3,
+        "55": 6,
+        "70": 2,
+        "71": 7
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 76,
+    "invasion_id": 1794000034,
+    "boss_id": 599,
+    "boss_level": 120,
+    "chapter": 5,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🟠 Электра ; 🔴 Хайди ; 🔴 Флафи ; 🔴 Айрис ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        9,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 7,
+        "46": 5,
+        "55": 7,
+        "70": 5,
+        "71": 7
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 77,
+    "invasion_id": 1794000034,
+    "boss_id": 600,
+    "boss_level": 130,
+    "chapter": 5,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🟠 Электра ; 🔴 Хайди ; 🔴 Флафи ; 🔴 Айрис ; 🔴 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        9,
+        70
+      ],
+      "petId": 6005,
+      "favor": {
+        "55": 6005,
+        "70": 6001,
+        "71": 6002
+      },
+      "spirits": [],
+      "fragments": {
+        "9": 7,
+        "46": 7,
+        "55": 7,
+        "70": 5,
+        "71": 7,
+        "6001": 1,
+        "6002": 1,
+        "6005": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 78,
+    "invasion_id": 1794000034,
+    "boss_id": 601,
+    "boss_level": 130,
+    "chapter": 5,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": 150,
+    "comment": "🔴 Электра ; 🔴 Хайди ; 🔴 Флафи ; 🔴 Айрис ; 🔴 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        9,
+        70
+      ],
+      "petId": 6008,
+      "favor": {
+        "9": 6004,
+        "46": 6006,
+        "55": 6005,
+        "70": 6001,
+        "71": 6002
+      },
+      "spirits": [],
+      "fragments": {
+        "9": 7,
+        "46": 7,
+        "55": 7,
+        "70": 8,
+        "71": 7,
+        "6001": 1,
+        "6002": 1,
+        "6004": 1,
+        "6005": 1,
+        "6006": 1,
+        "6008": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 79,
+    "invasion_id": 1794000034,
+    "boss_id": 602,
+    "boss_level": 80,
+    "chapter": 6,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟠 Лирия ; 🟣 Кира ; 🟠 Айрис ; 🟣 Лилит ; 🟠 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        26,
+        55,
+        3,
+        67
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 2,
+        "26": 1,
+        "46": 3,
+        "55": 3,
+        "67": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 82,
+    "invasion_id": 1794000034,
+    "boss_id": 602,
+    "boss_level": 80,
+    "chapter": 6,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟣 Галахад ; 🟣 Кейла ; 🟣 Тристан ; 🟣 Эйден ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        54,
+        59,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 1,
+        "54": 1,
+        "55": 1,
+        "58": 2,
+        "59": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 80,
+    "invasion_id": 1794000034,
+    "boss_id": 603,
+    "boss_level": 85,
+    "chapter": 6,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟠 Лирия ; 🟣 Исмаил ; 🟠 Кира ; 🟣 Эйден ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        3,
+        25,
+        67
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 4,
+        "25": 1,
+        "55": 4,
+        "58": 1,
+        "67": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 83,
+    "invasion_id": 1794000034,
+    "boss_id": 603,
+    "boss_level": 85,
+    "chapter": 6,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟣 Галахад ; 🟠 Кейла ; 🟣 Тристан ; 🟠 Эйден ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        54,
+        59,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 1,
+        "54": 1,
+        "55": 1,
+        "58": 3,
+        "59": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 81,
+    "invasion_id": 1794000034,
+    "boss_id": 604,
+    "boss_level": 90,
+    "chapter": 6,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟠 Лирия ; 🟠 Исмаил ; 🟠 Кира ; 🟠 Эйден ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        3,
+        25,
+        67
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 4,
+        "25": 3,
+        "55": 5,
+        "58": 3,
+        "67": 6
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 84,
+    "invasion_id": 1794000034,
+    "boss_id": 604,
+    "boss_level": 90,
+    "chapter": 6,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟣 Галахад ; 🟠 Кейла ; 🟣 Тристан ; 🟠 Эйден ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        54,
+        59,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 1,
+        "54": 1,
+        "55": 3,
+        "58": 3,
+        "59": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 85,
+    "invasion_id": 1794000034,
+    "boss_id": 605,
+    "boss_level": 100,
+    "chapter": 6,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟠 Галахад ; 🟠 Кейла ; 🟣 Тристан ; 🟠 Эйден ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        54,
+        59,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 3,
+        "54": 1,
+        "55": 4,
+        "58": 3,
+        "59": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 86,
+    "invasion_id": 1794000034,
+    "boss_id": 606,
+    "boss_level": 110,
+    "chapter": 6,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🟠 Галахад ; 🟠 Кейла ; 🟣 Тристан ; 🟠 Эйден ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        54,
+        59,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 5,
+        "54": 1,
+        "55": 4,
+        "58": 3,
+        "59": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 87,
+    "invasion_id": 1794000034,
+    "boss_id": 607,
+    "boss_level": 120,
+    "chapter": 6,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🔴 Галахад ; 🟠 Кейла ; 🟣 Тристан ; 🟠 Эйден ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        54,
+        59,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 7,
+        "54": 2,
+        "55": 5,
+        "58": 3,
+        "59": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 88,
+    "invasion_id": 1794000034,
+    "boss_id": 608,
+    "boss_level": 130,
+    "chapter": 6,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🔴 Галахад ; 🔴 Кейла ; 🟠 Тристан ; 🟠 Эйден ; 🔴 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        54,
+        59,
+        2
+      ],
+      "petId": 6005,
+      "favor": {
+        "2": 6005,
+        "58": 6008
+      },
+      "spirits": [],
+      "fragments": {
+        "2": 7,
+        "54": 3,
+        "55": 7,
+        "58": 3,
+        "59": 7,
+        "6005": 1,
+        "6008": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 89,
+    "invasion_id": 1794000034,
+    "boss_id": 609,
+    "boss_level": 130,
+    "chapter": 6,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": 200,
+    "comment": "🔴 Юлиус ; 🔴 Хайди ; 🔴 Эйден ; 🔴 Айрис ; 🔴 Гелиос",
+    "defenders_fragments": {
+      "units": [
+        32,
+        55,
+        58,
+        9,
+        61
+      ],
+      "petId": 6005,
+      "favor": {
+        "9": 6004,
+        "32": 6008,
+        "55": 6001,
+        "58": 6002,
+        "61": 6006
+      },
+      "spirits": [],
+      "fragments": {
+        "9": 8,
+        "32": 8,
+        "55": 7,
+        "58": 7,
+        "61": 7,
+        "6001": 1,
+        "6002": 1,
+        "6004": 1,
+        "6005": 1,
+        "6006": 1,
+        "6008": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 90,
+    "invasion_id": 1794000034,
+    "boss_id": 610,
+    "boss_level": 80,
+    "chapter": 7,
+    "level": 1,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🟣 Электра ; 🟠 Айзек ; 🟣 Флафи ; 🟣 Айрис ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        71,
+        52,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "46": 1,
+        "52": 3,
+        "55": 1,
+        "70": 1,
+        "71": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 91,
+    "invasion_id": 1794000034,
+    "boss_id": 611,
+    "boss_level": 85,
+    "chapter": 7,
+    "level": 2,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🟠 Аврора ; 🟣 Электра ; 🟠 Айзек ; 🟣 Флафи ; 🟣 Марта",
+    "defenders_fragments": {
+      "units": [
+        46,
+        71,
+        52,
+        70,
+        1
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "1": 3,
+        "46": 1,
+        "52": 4,
+        "70": 2,
+        "71": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 92,
+    "invasion_id": 1794000034,
+    "boss_id": 612,
+    "boss_level": 90,
+    "chapter": 7,
+    "level": 3,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🟠 Электра ; 🟣 Гас ; 🟠 Айзек ; 🟣 Флафи ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        71,
+        52,
+        68,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "52": 4,
+        "55": 2,
+        "68": 1,
+        "70": 3,
+        "71": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 93,
+    "invasion_id": 1794000034,
+    "boss_id": 613,
+    "boss_level": 100,
+    "chapter": 7,
+    "level": 4,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🟠 Электра ; 🟠 Гас ; 🟠 Айзек ; 🟣 Флафи ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        71,
+        52,
+        68,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "52": 6,
+        "55": 2,
+        "68": 3,
+        "70": 3,
+        "71": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 94,
+    "invasion_id": 1794000034,
+    "boss_id": 614,
+    "boss_level": 110,
+    "chapter": 7,
+    "level": 5,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🟠 Электра ; 🟠 Гас ; 🟠 Айзек ; 🟣 Флафи ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        71,
+        52,
+        68,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "52": 6,
+        "55": 3,
+        "68": 3,
+        "70": 4,
+        "71": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 95,
+    "invasion_id": 1794000034,
+    "boss_id": 615,
+    "boss_level": 120,
+    "chapter": 7,
+    "level": 6,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🔴 Электра ; 🟠 Гас ; 🟠 Айзек ; 🟠 Флафи ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        71,
+        52,
+        68,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "52": 6,
+        "55": 4,
+        "68": 6,
+        "70": 8,
+        "71": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 96,
+    "invasion_id": 1794000034,
+    "boss_id": 616,
+    "boss_level": 130,
+    "chapter": 7,
+    "level": 7,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🔴 Электра ; 🟠 Гас ; 🟠 Айзек ; 🟠 Флафи ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        71,
+        52,
+        68,
+        70
+      ],
+      "petId": 6006,
+      "favor": {
+        "70": 6006,
+        "71": 6002
+      },
+      "spirits": [],
+      "fragments": {
+        "52": 6,
+        "55": 5,
+        "68": 6,
+        "70": 8,
+        "71": 6,
+        "6002": 1,
+        "6006": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 97,
+    "invasion_id": 1794000034,
+    "boss_id": 617,
+    "boss_level": 130,
+    "chapter": 7,
+    "level": 8,
+    "enemy_type": "Герои",
+    "main_buff": 250,
+    "comment": "🔴 Электра ; 🔴 Гас ; 🔴 Айзек ; 🔴 Флафи ; 🔴 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        71,
+        52,
+        68,
+        70
+      ],
+      "petId": 6006,
+      "favor": {
+        "52": 6003,
+        "55": 6005,
+        "68": 6001,
+        "70": 6006,
+        "71": 6002
+      },
+      "spirits": [],
+      "fragments": {
+        "52": 8,
+        "55": 7,
+        "68": 8,
+        "70": 8,
+        "71": 7,
+        "6001": 1,
+        "6002": 1,
+        "6003": 1,
+        "6005": 1,
+        "6006": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 36,
+    "invasion_id": 1794000034,
+    "boss_id": 563,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": null,
+    "main_buff": null,
+    "comment": "Электра, Флафи, Орион, Август, Тея / 1 глава / 1 бой / 0 баффа",
+    "defenders_fragments": {
+      "units": [
+        7,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "7": 1,
+        "13": 4,
+        "64": 2,
+        "70": 1,
+        "71": 5
+      }
+    }
+  },
+  {
+    "game_id": 37,
+    "invasion_id": 1794000034,
+    "boss_id": 564,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": null,
+    "main_buff": null,
+    "comment": "Электра, Флафи, Орион, Август, Тея / 1 глава / 2 бой / 0 баффа",
+    "defenders_fragments": {
+      "units": [
+        7,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "7": 2,
+        "13": 4,
+        "64": 2,
+        "70": 1,
+        "71": 5
+      }
+    }
+  },
+  {
+    "game_id": 38,
+    "invasion_id": 1794000034,
+    "boss_id": 566,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": null,
+    "main_buff": null,
+    "comment": "Электра, Флафи, Орион, Август, Тея / 1 глава / 5 бой / 0 баффа",
+    "defenders_fragments": {
+      "units": [
+        7,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "7": 4,
+        "13": 7,
+        "64": 3,
+        "70": 1,
+        "71": 6
+      }
+    }
+  },
+  {
+    "game_id": 39,
+    "invasion_id": 1794000034,
+    "boss_id": 567,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": null,
+    "main_buff": null,
+    "comment": "Электра, Флафи, Орион, Август, Тея / 1 глава / 6 бой / 0 баффа",
+    "defenders_fragments": {
+      "units": [
+        7,
+        64,
+        13,
+        71,
+        70
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "7": 5,
+        "13": 7,
+        "64": 6,
+        "70": 1,
+        "71": 7
+      }
+    }
+  },
+  {
+    "game_id": 40,
+    "invasion_id": 1794000034,
+    "boss_id": 570,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": null,
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        35,
+        52,
+        56
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "35": 1,
+        "46": 1,
+        "52": 1,
+        "55": 3,
+        "56": 1
+      }
+    }
+  },
+  {
+    "game_id": 112,
+    "invasion_id": 1900000034,
+    "boss_id": 522,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Герои",
+    "main_buff": null,
+    "comment": "💧 🟣 Сигурд ; 🟠 Ангус ; 🟣 Нова ; 🟣 Гиперион ; 🟠 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4003,
+        4001,
+        4020,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 1,
+        "4001": 2,
+        "4003": 1,
+        "4020": 3,
+        "4021": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 50
+      }
+    }
+  },
+  {
+    "game_id": 151,
+    "invasion_id": 1900000034,
+    "boss_id": 514,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥 🟣 Сигурд ; 🟣 Нова ; 🟠 Ашерона ; 🟠 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 2,
+        "4001": 2,
+        "4012": 3,
+        "4013": 4,
+        "4014": 3
+      }
+    }
+  },
+  {
+    "game_id": 152,
+    "invasion_id": 1900000034,
+    "boss_id": 522,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥 🟠 Сигурд ; 🟠 Нова ; 🟠 Ашерона ; 🟠 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 3,
+        "4012": 3,
+        "4013": 4,
+        "4014": 3
+      }
+    }
+  },
+  {
+    "game_id": 153,
+    "invasion_id": 1900000034,
+    "boss_id": 508,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥 🟠 Сигурд ; 🟠 Нова ; 🟠 Ашерона ; 🟠 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 3,
+        "4001": 4,
+        "4012": 3,
+        "4013": 4,
+        "4014": 3
+      }
+    }
+  },
+  {
+    "game_id": 154,
+    "invasion_id": 1900000034,
+    "boss_id": 509,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "💧🔥 🟠 Сигурд ; 🟠 Нова ; 🟠 Ашерона ; 🟠 Араджи ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": {
+          "elemental": 4502,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4000": 5,
+        "4001": 4,
+        "4003": 3,
+        "4013": 4,
+        "4014": 3,
+        "4502": 1,
+        "4508": 1
+      }
+    }
+  },
+  {
+    "game_id": 155,
+    "invasion_id": 1900000034,
+    "boss_id": 510,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "💧🔥 🟠 Сигурд ; 🟠 Нова ; 🟠 Ашерона ; 🟠 Араджи ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": {
+          "elemental": 4502,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4000": 5,
+        "4001": 4,
+        "4003": 4,
+        "4013": 6,
+        "4014": 3,
+        "4502": 2,
+        "4508": 1
+      }
+    }
+  },
+  {
+    "game_id": 156,
+    "invasion_id": 1900000034,
+    "boss_id": 511,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "💧🔥 🟠 Сигурд ; 🟠 Нова ; 🟠 Ашерона ; 🔴 Араджи ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": [],
+        "fire": {
+          "elemental": 4502,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4000": 6,
+        "4001": 4,
+        "4003": 4,
+        "4013": 8,
+        "4014": 5,
+        "4502": 2,
+        "4508": 1
+      }
+    }
+  },
+  {
+    "game_id": 157,
+    "invasion_id": 1900000034,
+    "boss_id": 512,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "💧🔥 🟠 Сигурд ; 🟠 Нова ; 🟠 Ашерона ; 🔴 Араджи ; 🟠 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "elemental": 4503,
+          "primal": 4515
+        },
+        "fire": {
+          "elemental": 4502,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4000": 6,
+        "4001": 4,
+        "4003": 5,
+        "4013": 8,
+        "4014": 5,
+        "4502": 3,
+        "4503": 1,
+        "4508": 2,
+        "4515": 1
+      }
+    }
+  },
+  {
+    "game_id": 158,
+    "invasion_id": 1900000034,
+    "boss_id": 513,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "💧🔥 🔴 Сигурд ; 🔴 Нова ; 🔴 Ашерона ; 🔴 Араджи ; 🔴 Гиперион",
+    "defenders_fragments": {
+      "units": [
+        4003,
+        4013,
+        4014,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "water": {
+          "elemental": 4503,
+          "primal": 4508
+        },
+        "fire": {
+          "elemental": 4502,
+          "primal": 4506
+        }
+      },
+      "fragments": {
+        "4000": 8,
+        "4001": 8,
+        "4003": 8,
+        "4013": 8,
+        "4014": 7,
+        "4502": 4,
+        "4503": 4,
+        "4506": 5,
+        "4508": 7
+      }
+    }
+  },
+  {
+    "game_id": 159,
+    "invasion_id": 1900000034,
+    "boss_id": 514,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🟣 Молох ; 🟠 Солярис ; 🟠 Араджи ; 🟠 Ияри ; 🟣 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4042,
+        4013,
+        4043,
+        4010
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4010": 1,
+        "4012": 2,
+        "4013": 3,
+        "4042": 3,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 160,
+    "invasion_id": 1900000034,
+    "boss_id": 522,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🟣 Ригель ; 🟣 Вулкан ; 🟠 Солярис ; 🟠 Араджи ; 🟣 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4043,
+        4011,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4011": 1,
+        "4012": 2,
+        "4013": 3,
+        "4040": 2,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 161,
+    "invasion_id": 1900000034,
+    "boss_id": 508,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🟠 Ригель ; 🟣 Вулкан ; 🟠 Солярис ; 🟠 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4043,
+        4011,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4011": 1,
+        "4012": 3,
+        "4013": 4,
+        "4040": 3,
+        "4043": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 162,
+    "invasion_id": 1900000034,
+    "boss_id": 509,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🟠 Ригель ; 🟠 Вулкан ; 🟠 Солярис ; 🟠 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4043,
+        4011,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "light": []
+      },
+      "fragments": {
+        "4011": 3,
+        "4012": 3,
+        "4013": 4,
+        "4040": 4,
+        "4043": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 163,
+    "invasion_id": 1900000034,
+    "boss_id": 510,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🟠 Ригель ; 🟠 Вулкан ; 🟠 Солярис ; 🟠 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4043,
+        4011,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4502,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4011": 3,
+        "4012": 3,
+        "4013": 5,
+        "4040": 5,
+        "4043": 6,
+        "4502": 1,
+        "4507": 1,
+        "4509": 2,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 164,
+    "invasion_id": 1900000034,
+    "boss_id": 511,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🔴 Ригель ; 🟠 Вулкан ; 🟠 Солярис ; 🔴 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4043,
+        4011,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4502,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4011": 3,
+        "4012": 4,
+        "4013": 7,
+        "4040": 7,
+        "4043": 6,
+        "4502": 1,
+        "4507": 1,
+        "4509": 3,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 165,
+    "invasion_id": 1900000034,
+    "boss_id": 512,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🔴 Ригель ; 🟠 Вулкан ; 🔴 Солярис ; 🔴 Араджи ; 🟠 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4043,
+        4011,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4502,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4011": 6,
+        "4012": 6,
+        "4013": 7,
+        "4040": 7,
+        "4043": 8,
+        "4502": 1,
+        "4507": 1,
+        "4509": 3,
+        "4515": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 166,
+    "invasion_id": 1900000034,
+    "boss_id": 513,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔥⭐ 🔴 Ригель ; 🔴 Вулкан ; 🔴 Солярис ; 🔴 Араджи ; 🔴 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4013,
+        4043,
+        4011,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4502,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4011": 7,
+        "4012": 8,
+        "4013": 7,
+        "4040": 7,
+        "4043": 8,
+        "4502": 3,
+        "4507": 7,
+        "4509": 7,
+        "4515": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 20
+      }
+    }
+  },
+  {
+    "game_id": 167,
+    "invasion_id": 1900000034,
+    "boss_id": 538,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙 🟠 Мор ; 🟣 Араджи ; 🟣 Эдем ; 🟠 Тенебрис ; 🟣 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4033,
+        4023,
+        4013,
+        4032
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "dark": [],
+        "earth": []
+      },
+      "fragments": {
+        "4012": 1,
+        "4013": 1,
+        "4023": 1,
+        "4032": 3,
+        "4033": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 168,
+    "invasion_id": 1900000034,
+    "boss_id": 539,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🟣 Ангус ; 🟠 Мор ; 🟣 Авалон ; 🟠 Эдем ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4022,
+        4032,
+        4020
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "earth": []
+      },
+      "fragments": {
+        "4020": 1,
+        "4022": 1,
+        "4023": 4,
+        "4032": 5,
+        "4033": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 169,
+    "invasion_id": 1900000034,
+    "boss_id": 540,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🟣 Ангус ; 🔴 Мор ; 🟣 Авалон ; 🟠 Эдем ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4022,
+        4032,
+        4020
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "earth": []
+      },
+      "fragments": {
+        "4020": 2,
+        "4022": 1,
+        "4023": 4,
+        "4032": 7,
+        "4033": 6
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 170,
+    "invasion_id": 1900000034,
+    "boss_id": 541,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🟣 Ангус ; 🔴 Мор ; 🟣 Авалон ; 🟠 Эдем ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4022,
+        4032,
+        4020
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4510
+        },
+        "earth": []
+      },
+      "fragments": {
+        "4020": 2,
+        "4022": 1,
+        "4023": 4,
+        "4032": 7,
+        "4033": 6,
+        "4510": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 171,
+    "invasion_id": 1900000034,
+    "boss_id": 542,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳🌙 🟣 Ангус ; 🔴 Мор ; 🟠 Эдем ; 🟠 Тенебрис ; 🟠 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4033,
+        4023,
+        4032,
+        4020
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4509,
+          "primal": 4514
+        },
+        "dark": {
+          "elemental": 4510,
+          "primal": 4515
+        }
+      },
+      "fragments": {
+        "4020": 2,
+        "4021": 6,
+        "4023": 4,
+        "4032": 7,
+        "4033": 6,
+        "4509": 1,
+        "4510": 3,
+        "4514": 1,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 172,
+    "invasion_id": 1900000034,
+    "boss_id": 543,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳🌙 🟣 Ангус ; 🔴 Мор ; 🟠 Эдем ; 🔴 Тенебрис ; 🔴 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4033,
+        4023,
+        4032,
+        4020
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4509,
+          "primal": 4514
+        },
+        "dark": {
+          "elemental": 4510,
+          "primal": 4515
+        }
+      },
+      "fragments": {
+        "4020": 2,
+        "4021": 8,
+        "4023": 5,
+        "4032": 7,
+        "4033": 8,
+        "4509": 1,
+        "4510": 3,
+        "4514": 1,
+        "4515": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 173,
+    "invasion_id": 1900000034,
+    "boss_id": 544,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳🌙 🟠 Ангус ; 🔴 Мор ; 🔴 Эдем ; 🔴 Тенебрис ; 🔴 Сильва",
+    "defenders_fragments": {
+      "units": [
+        4021,
+        4033,
+        4023,
+        4032,
+        4020
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4509,
+          "primal": 4514
+        },
+        "dark": {
+          "elemental": 4510,
+          "primal": 4515
+        }
+      },
+      "fragments": {
+        "4020": 3,
+        "4021": 8,
+        "4023": 7,
+        "4032": 7,
+        "4033": 8,
+        "4509": 3,
+        "4510": 3,
+        "4514": 1,
+        "4515": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 174,
+    "invasion_id": 1900000034,
+    "boss_id": 538,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐🌙 🟣 Брустар ; 🟣 Керос ; 🟣 Солярис ; 🟣 Эдем ; 🟣 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4031,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "earth": [],
+        "dark": []
+      },
+      "fragments": {
+        "4023": 2,
+        "4030": 2,
+        "4031": 1,
+        "4042": 2,
+        "4043": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 175,
+    "invasion_id": 1900000034,
+    "boss_id": 539,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🟠 Брустар ; 🟣 Нова ; 🟠 Вердок ; 🟣 Эдем ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4024,
+        4001,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "earth": [],
+        "water": []
+      },
+      "fragments": {
+        "4001": 2,
+        "4023": 2,
+        "4024": 4,
+        "4030": 4,
+        "4033": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 176,
+    "invasion_id": 1900000034,
+    "boss_id": 540,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🟠 Брустар ; 🟠 Нова ; 🟠 Вердок ; 🟠 Эдем ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4024,
+        4001,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "earth": [],
+        "water": []
+      },
+      "fragments": {
+        "4001": 4,
+        "4023": 3,
+        "4024": 4,
+        "4030": 4,
+        "4033": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 177,
+    "invasion_id": 1900000034,
+    "boss_id": 541,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🟠 Брустар ; 🟠 Нова ; 🟠 Вердок ; 🟠 Эдем ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4024,
+        4001,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4511,
+          "primal": 4514
+        },
+        "earth": [],
+        "water": []
+      },
+      "fragments": {
+        "4001": 4,
+        "4023": 3,
+        "4024": 5,
+        "4030": 6,
+        "4033": 4,
+        "4511": 1,
+        "4514": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 178,
+    "invasion_id": 1900000034,
+    "boss_id": 542,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🔴 Брустар ; 🟠 Нова ; 🟠 Вердок ; 🟠 Эдем ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4024,
+        4001,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4511,
+          "primal": 4514
+        },
+        "earth": {
+          "primal": 4506
+        },
+        "water": []
+      },
+      "fragments": {
+        "4001": 4,
+        "4023": 3,
+        "4024": 5,
+        "4030": 8,
+        "4033": 6,
+        "4506": 1,
+        "4511": 2,
+        "4514": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 179,
+    "invasion_id": 1900000034,
+    "boss_id": 543,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🔴 Брустар ; 🟠 Нова ; 🔴 Вердок ; 🟠 Эдем ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4024,
+        4001,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4511,
+          "primal": 4514
+        },
+        "earth": {
+          "primal": 4506
+        },
+        "water": []
+      },
+      "fragments": {
+        "4001": 4,
+        "4023": 3,
+        "4024": 7,
+        "4030": 8,
+        "4033": 7,
+        "4506": 2,
+        "4511": 2,
+        "4514": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 180,
+    "invasion_id": 1900000034,
+    "boss_id": 544,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🌳 🔴 Брустар ; 🟠 Нова ; 🔴 Вердок ; 🟠 Эдем ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4023,
+        4024,
+        4001,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "earth": {
+          "elemental": 4503,
+          "primal": 4506
+        },
+        "water": []
+      },
+      "fragments": {
+        "4001": 6,
+        "4023": 3,
+        "4024": 7,
+        "4030": 8,
+        "4033": 7,
+        "4503": 1,
+        "4506": 2,
+        "4509": 1,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 181,
+    "invasion_id": 1900000034,
+    "boss_id": 538,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐ 🟣 Ригель ; 🟣 Амон ; 🟠 Солярис ; 🟠 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4041,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "light": []
+      },
+      "fragments": {
+        "4023": 3,
+        "4040": 1,
+        "4041": 1,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 182,
+    "invasion_id": 1900000034,
+    "boss_id": 539,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳⭐ 🟣 Ригель ; 🟣 Амон ; 🟣 Вердок ; 🟠 Солярис ; 🟠 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4024,
+        4041,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "light": []
+      },
+      "fragments": {
+        "4023": 4,
+        "4024": 1,
+        "4040": 1,
+        "4041": 1,
+        "4043": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 183,
+    "invasion_id": 1900000034,
+    "boss_id": 540,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳⭐ 🟣 Ригель ; 🟣 Амон ; 🟣 Вердок ; 🟠 Солярис ; 🟠 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4024,
+        4041,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "light": []
+      },
+      "fragments": {
+        "4023": 5,
+        "4024": 2,
+        "4040": 1,
+        "4041": 1,
+        "4043": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 184,
+    "invasion_id": 1900000034,
+    "boss_id": 541,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳⭐ 🟠 Ригель ; 🟣 Амон ; 🟠 Вердок ; 🟠 Солярис ; 🟠 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4024,
+        4041,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": [],
+        "light": []
+      },
+      "fragments": {
+        "4023": 5,
+        "4024": 3,
+        "4040": 4,
+        "4041": 1,
+        "4043": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 185,
+    "invasion_id": 1900000034,
+    "boss_id": 542,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳⭐ 🟠 Ригель ; 🟣 Амон ; 🟠 Вердок ; 🟠 Солярис ; 🔴 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4024,
+        4041,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "primal": 4515
+        },
+        "light": {
+          "primal": 4514
+        }
+      },
+      "fragments": {
+        "4023": 7,
+        "4024": 5,
+        "4040": 4,
+        "4041": 1,
+        "4043": 6,
+        "4514": 1,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 186,
+    "invasion_id": 1900000034,
+    "boss_id": 543,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳⭐ 🟠 Ригель ; 🟣 Амон ; 🔴 Вердок ; 🟠 Солярис ; 🔴 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4024,
+        4041,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4502,
+          "primal": 4514
+        }
+      },
+      "fragments": {
+        "4023": 7,
+        "4024": 7,
+        "4040": 6,
+        "4041": 2,
+        "4043": 6,
+        "4502": 1,
+        "4514": 1,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 187,
+    "invasion_id": 1900000034,
+    "boss_id": 544,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳⭐ 🟠 Ригель ; 🟠 Амон ; 🔴 Вердок ; 🟠 Солярис ; 🔴 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4024,
+        4041,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4502,
+          "primal": 4515
+        },
+        "light": {
+          "elemental": 4503,
+          "primal": 4507
+        }
+      },
+      "fragments": {
+        "4023": 7,
+        "4024": 7,
+        "4040": 6,
+        "4041": 5,
+        "4043": 6,
+        "4502": 1,
+        "4503": 1,
+        "4507": 1,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 188,
+    "invasion_id": 1900000034,
+    "boss_id": 545,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌳⭐ 🔴 Ригель ; 🔴 Нова ; 🔴 Вердок ; 🔴 Солярис ; 🔴 Эдем",
+    "defenders_fragments": {
+      "units": [
+        4023,
+        4043,
+        4024,
+        4001,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "earth": {
+          "elemental": 4503,
+          "primal": 4508
+        },
+        "light": {
+          "elemental": 4511,
+          "primal": 4514
+        },
+        "water": []
+      },
+      "fragments": {
+        "4001": 7,
+        "4023": 7,
+        "4024": 7,
+        "4040": 7,
+        "4043": 7,
+        "4503": 7,
+        "4508": 7,
+        "4511": 7,
+        "4514": 7
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 189,
+    "invasion_id": 1900000034,
+    "boss_id": 547,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟠 Галахад ; 🟠 Лирия ; 🟣 Ясмин ; 🟣 Кира ; 🟠 Себастьян",
+    "defenders_fragments": {
+      "units": [
+        48,
+        3,
+        49,
+        67,
+        2
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "2": 5,
+        "3": 2,
+        "48": 3,
+        "49": 1,
+        "67": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 190,
+    "invasion_id": 1900000034,
+    "boss_id": 546,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟠 Корвус ; 🟣 Лирия ; 🟣 Исмаил ; 🟠 Кира ; 🟣 Себастьян",
+    "defenders_fragments": {
+      "units": [
+        48,
+        3,
+        25,
+        67,
+        50
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 3,
+        "25": 1,
+        "48": 1,
+        "50": 3,
+        "67": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 191,
+    "invasion_id": 1900000034,
+    "boss_id": 546,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟠 Корвус ; 🟣 Лирия ; 🟣 Исмаил ; 🟠 Кира ; 🟣 Дориан",
+    "defenders_fragments": {
+      "units": [
+        29,
+        3,
+        25,
+        67,
+        50
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 3,
+        "25": 1,
+        "29": 1,
+        "50": 3,
+        "67": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 192,
+    "invasion_id": 1900000034,
+    "boss_id": 546,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟣 Лирия ; 🟣 Исмаил ; 🟣 Цин Мао ; 🟣 Айрис ; 🟣 Дориан",
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        28,
+        25,
+        67
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "25": 1,
+        "28": 1,
+        "29": 1,
+        "55": 1,
+        "67": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 193,
+    "invasion_id": 1900000034,
+    "boss_id": 546,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟣 Чабба ; 🟣 Цин Мао ; 🟣 Гас ; 🟠 Кира ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        3,
+        68,
+        28,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 3,
+        "11": 1,
+        "28": 1,
+        "55": 1,
+        "68": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 194,
+    "invasion_id": 1900000034,
+    "boss_id": 547,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟠 Чабба ; 🟣 Лирия ; 🟠 Гас ; 🟠 Кира ; 🟣 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        3,
+        68,
+        67,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 4,
+        "11": 4,
+        "55": 2,
+        "67": 1,
+        "68": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 195,
+    "invasion_id": 1900000034,
+    "boss_id": 548,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟠 Чабба ; 🟣 Лирия ; 🟠 Гас ; 🟠 Кира ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        3,
+        68,
+        67,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 4,
+        "11": 5,
+        "55": 3,
+        "67": 2,
+        "68": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 196,
+    "invasion_id": 1900000034,
+    "boss_id": 549,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🟠 Чабба ; 🟣 Лирия ; 🟠 Гас ; 🟠 Кира ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        3,
+        68,
+        67,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 4,
+        "11": 6,
+        "55": 5,
+        "67": 2,
+        "68": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 197,
+    "invasion_id": 1900000034,
+    "boss_id": 550,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔴 Чабба ; 🟣 Лирия ; 🟠 Гас ; 🟠 Кира ; 🟠 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        3,
+        68,
+        67,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 4,
+        "11": 7,
+        "55": 6,
+        "67": 2,
+        "68": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 198,
+    "invasion_id": 1900000034,
+    "boss_id": 551,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔴 Чабба ; 🟣 Лирия ; 🟠 Гас ; 🔴 Кира ; 🔴 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        3,
+        68,
+        67,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 7,
+        "11": 7,
+        "55": 8,
+        "67": 2,
+        "68": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 199,
+    "invasion_id": 1900000034,
+    "boss_id": 552,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔴 Чабба ; 🟠 Лирия ; 🟠 Гас ; 🔴 Кира ; 🔴 Айрис",
+    "defenders_fragments": {
+      "units": [
+        55,
+        3,
+        68,
+        67,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 7,
+        "11": 7,
+        "55": 8,
+        "67": 3,
+        "68": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 200,
+    "invasion_id": 1900000034,
+    "boss_id": 553,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🔴 Чабба ; 🔴 Лирия ; 🔴 Кира ; 🔴 Айрис ; 🔴 Дориан",
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        3,
+        67,
+        11
+      ],
+      "petId": 6006,
+      "favor": {
+        "3": 6009,
+        "11": 6005,
+        "29": 6006,
+        "55": 6007,
+        "67": 6001
+      },
+      "spirits": [],
+      "fragments": {
+        "3": 7,
+        "11": 7,
+        "29": 7,
+        "55": 8,
+        "67": 7,
+        "6001": 1,
+        "6005": 1,
+        "6006": 1,
+        "6007": 1,
+        "6009": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 201,
+    "invasion_id": 1900000034,
+    "boss_id": 554,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐ 🟣 Ригель ; 🟣 Солярис ; 🟣 Эдем ; 🟣 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "earth": []
+      },
+      "fragments": {
+        "4023": 1,
+        "4040": 1,
+        "4042": 2,
+        "4043": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 202,
+    "invasion_id": 1900000034,
+    "boss_id": 555,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐🌳 🟣 Ригель ; 🟣 Вердок ; 🟠 Солярис ; 🟣 Эдем ; 🟣 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4024,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "earth": []
+      },
+      "fragments": {
+        "4023": 2,
+        "4024": 1,
+        "4040": 1,
+        "4042": 2,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 203,
+    "invasion_id": 1900000034,
+    "boss_id": 556,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐🌳 🟣 Ригель ; 🟣 Вердок ; 🟠 Солярис ; 🟠 Эдем ; 🟠 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4024,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "earth": []
+      },
+      "fragments": {
+        "4023": 3,
+        "4024": 1,
+        "4040": 1,
+        "4042": 3,
+        "4043": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 204,
+    "invasion_id": 1900000034,
+    "boss_id": 557,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐🌳 🟣 Ригель ; 🟠 Вердок ; 🟠 Солярис ; 🟠 Эдем ; 🟠 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4024,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": {
+          "elemental": 4500
+        },
+        "earth": {
+          "elemental": 4503
+        }
+      },
+      "fragments": {
+        "4023": 3,
+        "4024": 3,
+        "4040": 1,
+        "4042": 3,
+        "4043": 6,
+        "4500": 1,
+        "4503": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 205,
+    "invasion_id": 1900000034,
+    "boss_id": 558,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐🌳 🟣 Ригель ; 🟠 Вердок ; 🔴 Солярис ; 🟠 Эдем ; 🟠 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4024,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": {
+          "elemental": 4500
+        },
+        "earth": {
+          "elemental": 4503
+        }
+      },
+      "fragments": {
+        "4023": 3,
+        "4024": 4,
+        "4040": 1,
+        "4042": 5,
+        "4043": 7,
+        "4500": 1,
+        "4503": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 206,
+    "invasion_id": 1900000034,
+    "boss_id": 559,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐🌳 🟠 Ригель ; 🔴 Вердок ; 🔴 Солярис ; 🟠 Эдем ; 🔴 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4024,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": {
+          "elemental": 4500,
+          "primal": 4515
+        },
+        "earth": {
+          "elemental": 4503,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4023": 5,
+        "4024": 7,
+        "4040": 3,
+        "4042": 7,
+        "4043": 7,
+        "4500": 2,
+        "4503": 1,
+        "4508": 2,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 207,
+    "invasion_id": 1900000034,
+    "boss_id": 560,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "⭐🌳 🟠 Ригель ; 🔴 Вердок ; 🔴 Солярис ; 🔴 Эдем ; 🔴 Ияри",
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4023,
+        4043,
+        4024,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": {
+          "elemental": 4500,
+          "primal": 4515
+        },
+        "earth": {
+          "elemental": 4503,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4023": 7,
+        "4024": 7,
+        "4040": 4,
+        "4042": 7,
+        "4043": 7,
+        "4500": 4,
+        "4503": 1,
+        "4508": 3,
+        "4515": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 208,
+    "invasion_id": 1900000034,
+    "boss_id": 554,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙 🟣 Брустар ; 🟣 Мор ; 🟣 Араджи ; 🟣 Тенебрис ; 🟣 Игнис",
+    "defenders_fragments": {
+      "units": [
+        4012,
+        4033,
+        4013,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "fire": [],
+        "dark": []
+      },
+      "fragments": {
+        "4012": 1,
+        "4013": 1,
+        "4030": 1,
+        "4032": 1,
+        "4033": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 209,
+    "invasion_id": 1900000034,
+    "boss_id": 555,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🔥 🟣 Брустар ; 🟣 Мор ; 🟣 Ашерона ; 🟠 Араджи ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "fire": []
+      },
+      "fragments": {
+        "4013": 3,
+        "4014": 1,
+        "4030": 1,
+        "4032": 1,
+        "4033": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 210,
+    "invasion_id": 1900000034,
+    "boss_id": 556,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🔥 🟠 Брустар ; 🟣 Мор ; 🟣 Ашерона ; 🟠 Араджи ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "fire": []
+      },
+      "fragments": {
+        "4013": 3,
+        "4014": 1,
+        "4030": 3,
+        "4032": 2,
+        "4033": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 211,
+    "invasion_id": 1900000034,
+    "boss_id": 557,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🔥 🟠 Брустар ; 🟠 Мор ; 🟣 Ашерона ; 🟠 Араджи ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509
+        },
+        "fire": []
+      },
+      "fragments": {
+        "4013": 3,
+        "4014": 2,
+        "4030": 3,
+        "4032": 5,
+        "4033": 4,
+        "4509": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 212,
+    "invasion_id": 1900000034,
+    "boss_id": 558,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🔥 🟠 Брустар ; 🟠 Мор ; 🟠 Ашерона ; 🟠 Араджи ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509
+        },
+        "fire": []
+      },
+      "fragments": {
+        "4013": 3,
+        "4014": 4,
+        "4030": 3,
+        "4032": 6,
+        "4033": 5,
+        "4509": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 213,
+    "invasion_id": 1900000034,
+    "boss_id": 559,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🔥 🔴 Брустар ; 🔴 Мор ; 🔴 Ашерона ; 🔴 Араджи ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "fire": {
+          "elemental": 4503
+        }
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 8,
+        "4030": 7,
+        "4032": 7,
+        "4033": 8,
+        "4503": 3,
+        "4509": 4,
+        "4515": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 214,
+    "invasion_id": 1900000034,
+    "boss_id": 560,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🔥 🔴 Брустар ; 🔴 Мор ; 🔴 Ашерона ; 🔴 Араджи ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "fire": {
+          "elemental": 4503
+        }
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 8,
+        "4030": 7,
+        "4032": 7,
+        "4033": 8,
+        "4503": 3,
+        "4509": 4,
+        "4515": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 215,
+    "invasion_id": 1900000034,
+    "boss_id": 561,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙🔥 🔴 Брустар ; 🔴 Мор ; 🔴 Ашерона ; 🔴 Араджи ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4013,
+        4014,
+        4032,
+        4030
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509,
+          "primal": 4515
+        },
+        "fire": {
+          "elemental": 4503,
+          "primal": 4506
+        }
+      },
+      "fragments": {
+        "4013": 7,
+        "4014": 8,
+        "4030": 7,
+        "4032": 7,
+        "4033": 8,
+        "4503": 7,
+        "4506": 3,
+        "4509": 7,
+        "4515": 7
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 216,
+    "invasion_id": 1900000034,
+    "boss_id": 554,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙⭐ 🟣 Ригель ; 🟣 Мор ; 🟣 Солярис ; 🟣 Ияри ; 🟣 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4042,
+        4043,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "light": []
+      },
+      "fragments": {
+        "4032": 2,
+        "4033": 2,
+        "4040": 1,
+        "4042": 1,
+        "4043": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 217,
+    "invasion_id": 1900000034,
+    "boss_id": 555,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙⭐ 🟣 Ригель ; 🟣 Мор ; 🟣 Солярис ; 🟣 Ияри ; 🟠 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4042,
+        4043,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "light": []
+      },
+      "fragments": {
+        "4032": 2,
+        "4033": 4,
+        "4040": 1,
+        "4042": 1,
+        "4043": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 218,
+    "invasion_id": 1900000034,
+    "boss_id": 556,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙⭐ 🟣 Ригель ; 🟠 Мор ; 🟣 Солярис ; 🟣 Ияри ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4042,
+        4043,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "light": {
+          "elemental": 4510
+        }
+      },
+      "fragments": {
+        "4032": 5,
+        "4033": 8,
+        "4040": 2,
+        "4042": 2,
+        "4043": 2,
+        "4510": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 219,
+    "invasion_id": 1900000034,
+    "boss_id": 557,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙⭐ 🟠 Ригель ; 🟠 Мор ; 🟠 Солярис ; 🟠 Ияри ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4042,
+        4043,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4500
+        },
+        "light": {
+          "elemental": 4510
+        }
+      },
+      "fragments": {
+        "4032": 5,
+        "4033": 7,
+        "4040": 4,
+        "4042": 3,
+        "4043": 5,
+        "4500": 1,
+        "4510": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 220,
+    "invasion_id": 1900000034,
+    "boss_id": 558,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙⭐ 🔴 Ригель ; 🟠 Мор ; 🟠 Солярис ; 🟠 Ияри ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4042,
+        4043,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4500
+        },
+        "light": {
+          "elemental": 4510
+        }
+      },
+      "fragments": {
+        "4032": 5,
+        "4033": 7,
+        "4040": 7,
+        "4042": 3,
+        "4043": 5,
+        "4500": 1,
+        "4510": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 221,
+    "invasion_id": 1900000034,
+    "boss_id": 559,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙⭐ 🔴 Ригель ; 🔴 Мор ; 🔴 Солярис ; 🟠 Ияри ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4042,
+        4043,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509,
+          "primal": 4514
+        },
+        "light": {
+          "elemental": 4500,
+          "primal": 4515
+        }
+      },
+      "fragments": {
+        "4032": 7,
+        "4033": 7,
+        "4040": 7,
+        "4042": 4,
+        "4043": 7,
+        "4500": 2,
+        "4509": 1,
+        "4514": 2,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 222,
+    "invasion_id": 1900000034,
+    "boss_id": 560,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": "🌙⭐ 🔴 Ригель ; 🔴 Мор ; 🔴 Солярис ; 🔴 Ияри ; 🔴 Тенебрис",
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4042,
+        4043,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4509,
+          "primal": 4514
+        },
+        "light": {
+          "elemental": 4500,
+          "primal": 4515
+        }
+      },
+      "fragments": {
+        "4032": 7,
+        "4033": 7,
+        "4040": 7,
+        "4042": 7,
+        "4043": 7,
+        "4500": 6,
+        "4509": 4,
+        "4514": 3,
+        "4515": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 223,
+    "invasion_id": 1900000034,
+    "boss_id": 426,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4013,
+        4043,
+        4011,
+        4010
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "fire": []
+      },
+      "fragments": {
+        "4010": 2,
+        "4011": 2,
+        "4013": 1,
+        "4042": 1,
+        "4043": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 224,
+    "invasion_id": 1900000034,
+    "boss_id": 427,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4013,
+        4043,
+        4011,
+        4010
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "fire": []
+      },
+      "fragments": {
+        "4010": 2,
+        "4011": 3,
+        "4013": 2,
+        "4042": 1,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 225,
+    "invasion_id": 1900000034,
+    "boss_id": 428,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4013,
+        4043,
+        4011,
+        4010
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "fire": []
+      },
+      "fragments": {
+        "4010": 2,
+        "4011": 3,
+        "4013": 4,
+        "4042": 1,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 226,
+    "invasion_id": 1900000034,
+    "boss_id": 628,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4013,
+        4043,
+        4011,
+        4010
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "fire": []
+      },
+      "fragments": {
+        "4010": 3,
+        "4011": 3,
+        "4013": 7,
+        "4042": 1,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 227,
+    "invasion_id": 1900000034,
+    "boss_id": 629,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4013,
+        4043,
+        4011,
+        4010
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": [],
+        "fire": []
+      },
+      "fragments": {
+        "4010": 5,
+        "4011": 5,
+        "4013": 7,
+        "4042": 1,
+        "4043": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 228,
+    "invasion_id": 1900000034,
+    "boss_id": 630,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4042,
+        4013,
+        4043,
+        4011,
+        4010
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "light": {
+          "elemental": 4503,
+          "primal": 4515
+        },
+        "fire": {
+          "elemental": 4511
+        }
+      },
+      "fragments": {
+        "4010": 7,
+        "4011": 7,
+        "4013": 7,
+        "4042": 3,
+        "4043": 7,
+        "4503": 2,
+        "4511": 1,
+        "4515": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 150
+      }
+    }
+  },
+  {
+    "game_id": 229,
+    "invasion_id": 1900000034,
+    "boss_id": 444,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4031,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": []
+      },
+      "fragments": {
+        "4000": 5,
+        "4001": 2,
+        "4003": 2,
+        "4031": 1,
+        "4033": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 230,
+    "invasion_id": 1900000034,
+    "boss_id": 445,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4031,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4500
+        },
+        "water": []
+      },
+      "fragments": {
+        "4000": 6,
+        "4001": 3,
+        "4003": 2,
+        "4031": 3,
+        "4033": 1,
+        "4500": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 231,
+    "invasion_id": 1900000034,
+    "boss_id": 446,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4031,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4503,
+          "primal": 4507
+        },
+        "water": {
+          "elemental": 4511,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 4,
+        "4003": 4,
+        "4031": 7,
+        "4033": 6,
+        "4503": 1,
+        "4507": 1,
+        "4508": 2,
+        "4511": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 232,
+    "invasion_id": 1900000034,
+    "boss_id": 447,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4031,
+        4001,
+        4000
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": {
+          "elemental": 4503,
+          "primal": 4507
+        },
+        "water": {
+          "elemental": 4511,
+          "primal": 4508
+        }
+      },
+      "fragments": {
+        "4000": 7,
+        "4001": 4,
+        "4003": 7,
+        "4031": 7,
+        "4033": 8,
+        "4503": 1,
+        "4507": 2,
+        "4508": 3,
+        "4511": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 233,
+    "invasion_id": 1900000034,
+    "boss_id": 323,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        55,
+        9,
+        68,
+        28,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 1,
+        "11": 1,
+        "28": 2,
+        "55": 2,
+        "68": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 234,
+    "invasion_id": 1900000034,
+    "boss_id": 603,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        55,
+        9,
+        68,
+        28,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 1,
+        "11": 3,
+        "28": 2,
+        "55": 3,
+        "68": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 235,
+    "invasion_id": 1900000034,
+    "boss_id": 492,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        55,
+        9,
+        68,
+        28,
+        11
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 1,
+        "11": 3,
+        "28": 4,
+        "55": 3,
+        "68": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 236,
+    "invasion_id": 1900000034,
+    "boss_id": 323,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        46,
+        55,
+        64,
+        13,
+        28
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 2,
+        "28": 3,
+        "46": 1,
+        "55": 3,
+        "64": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 237,
+    "invasion_id": 1900000034,
+    "boss_id": 603,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        64,
+        13,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 2,
+        "34": 1,
+        "55": 3,
+        "58": 1,
+        "64": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 238,
+    "invasion_id": 1900000034,
+    "boss_id": 492,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        55,
+        58,
+        64,
+        13,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 4,
+        "34": 2,
+        "55": 7,
+        "58": 2,
+        "64": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 239,
+    "invasion_id": 1900000034,
+    "boss_id": 270,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        64,
+        13,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 4,
+        "29": 3,
+        "34": 3,
+        "55": 7,
+        "64": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 240,
+    "invasion_id": 1900000034,
+    "boss_id": 271,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        64,
+        13,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 6,
+        "29": 3,
+        "34": 3,
+        "55": 7,
+        "64": 7
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 241,
+    "invasion_id": 1900000034,
+    "boss_id": 632,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        64,
+        13,
+        34
+      ],
+      "petId": 6006,
+      "favor": {
+        "29": 6006,
+        "55": 6001
+      },
+      "spirits": [],
+      "fragments": {
+        "13": 6,
+        "29": 8,
+        "34": 3,
+        "55": 7,
+        "64": 7,
+        "6001": 1,
+        "6006": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 242,
+    "invasion_id": 1900000034,
+    "boss_id": 323,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        3,
+        28,
+        67
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "3": 1,
+        "28": 1,
+        "29": 1,
+        "55": 1,
+        "67": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 243,
+    "invasion_id": 1900000034,
+    "boss_id": 323,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        62,
+        55,
+        69,
+        56,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "34": 3,
+        "55": 1,
+        "56": 1,
+        "62": 1,
+        "69": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 244,
+    "invasion_id": 1900000034,
+    "boss_id": 603,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        62,
+        55,
+        69,
+        56,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "34": 3,
+        "55": 1,
+        "56": 3,
+        "62": 3,
+        "69": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 245,
+    "invasion_id": 1900000034,
+    "boss_id": 492,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        62,
+        55,
+        71,
+        69,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "34": 5,
+        "55": 3,
+        "62": 5,
+        "69": 6,
+        "71": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 246,
+    "invasion_id": 1900000034,
+    "boss_id": 270,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        55,
+        13,
+        71,
+        69,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "13": 3,
+        "34": 5,
+        "55": 3,
+        "69": 6,
+        "71": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 247,
+    "invasion_id": 1900000034,
+    "boss_id": 323,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        66,
+        71,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "29": 1,
+        "34": 1,
+        "55": 1,
+        "66": 1,
+        "71": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 248,
+    "invasion_id": 1900000034,
+    "boss_id": 603,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        71,
+        9,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 1,
+        "29": 1,
+        "34": 1,
+        "55": 3,
+        "71": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 249,
+    "invasion_id": 1900000034,
+    "boss_id": 492,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        71,
+        9,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 2,
+        "29": 2,
+        "34": 2,
+        "55": 3,
+        "71": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 250,
+    "invasion_id": 1900000034,
+    "boss_id": 270,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        71,
+        9,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 4,
+        "29": 4,
+        "34": 8,
+        "55": 4,
+        "71": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 251,
+    "invasion_id": 1900000034,
+    "boss_id": 271,
+    "boss_level": 85,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        71,
+        9,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 6,
+        "29": 5,
+        "34": 8,
+        "55": 5,
+        "71": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 252,
+    "invasion_id": 1900000034,
+    "boss_id": 632,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        71,
+        9,
+        34
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": [],
+      "fragments": {
+        "9": 7,
+        "29": 7,
+        "34": 8,
+        "55": 5,
+        "71": 4
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 253,
+    "invasion_id": 1900000034,
+    "boss_id": 384,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        71,
+        9,
+        34
+      ],
+      "petId": 6006,
+      "favor": {
+        "9": 6006,
+        "34": 6002,
+        "71": 6008
+      },
+      "spirits": [],
+      "fragments": {
+        "9": 7,
+        "29": 7,
+        "34": 8,
+        "55": 5,
+        "71": 4,
+        "6002": 1,
+        "6006": 1,
+        "6008": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 254,
+    "invasion_id": 1900000034,
+    "boss_id": 633,
+    "boss_level": 130,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        29,
+        55,
+        71,
+        9,
+        34
+      ],
+      "petId": 6005,
+      "favor": {
+        "9": 6004,
+        "29": 6006,
+        "34": 6002,
+        "55": 6005,
+        "71": 6008
+      },
+      "spirits": [],
+      "fragments": {
+        "9": 7,
+        "29": 7,
+        "34": 8,
+        "55": 8,
+        "71": 7,
+        "6002": 1,
+        "6004": 1,
+        "6005": 1,
+        "6006": 1,
+        "6008": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 200
+      }
+    }
+  },
+  {
+    "game_id": 255,
+    "invasion_id": 1900000034,
+    "boss_id": 442,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4043,
+        4002,
+        4032
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": [],
+        "light": []
+      },
+      "fragments": {
+        "4002": 1,
+        "4003": 1,
+        "4032": 1,
+        "4033": 1,
+        "4043": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 256,
+    "invasion_id": 1900000034,
+    "boss_id": 634,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4002,
+        4032,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": [],
+        "light": []
+      },
+      "fragments": {
+        "4002": 1,
+        "4003": 1,
+        "4032": 3,
+        "4033": 3,
+        "4040": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 257,
+    "invasion_id": 1900000034,
+    "boss_id": 444,
+    "boss_level": 90,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4043,
+        4014,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": [],
+        "light": [],
+        "fire": []
+      },
+      "fragments": {
+        "4003": 1,
+        "4014": 1,
+        "4033": 3,
+        "4040": 2,
+        "4043": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 258,
+    "invasion_id": 1900000034,
+    "boss_id": 445,
+    "boss_level": 100,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4043,
+        4004,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": {
+          "primal": 4506
+        },
+        "light": {
+          "primal": 4514
+        }
+      },
+      "fragments": {
+        "4003": 2,
+        "4004": 1,
+        "4033": 3,
+        "4040": 3,
+        "4043": 3,
+        "4506": 1,
+        "4514": 1
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 259,
+    "invasion_id": 1900000034,
+    "boss_id": 446,
+    "boss_level": 110,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4043,
+        4004,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": {
+          "elemental": 4502,
+          "primal": 4506
+        },
+        "light": {
+          "elemental": 4500,
+          "primal": 4514
+        }
+      },
+      "fragments": {
+        "4003": 2,
+        "4004": 2,
+        "4033": 8,
+        "4040": 7,
+        "4043": 5,
+        "4500": 1,
+        "4502": 1,
+        "4506": 2,
+        "4514": 2
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 260,
+    "invasion_id": 1900000034,
+    "boss_id": 447,
+    "boss_level": 120,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4043,
+        4004,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": {
+          "elemental": 4502,
+          "primal": 4506
+        },
+        "light": {
+          "elemental": 4500,
+          "primal": 4514
+        }
+      },
+      "fragments": {
+        "4003": 7,
+        "4004": 2,
+        "4033": 8,
+        "4040": 7,
+        "4043": 7,
+        "4500": 1,
+        "4502": 1,
+        "4506": 2,
+        "4514": 3
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 261,
+    "invasion_id": 1900000034,
+    "boss_id": 635,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4043,
+        4004,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": {
+          "elemental": 4502,
+          "primal": 4506
+        },
+        "light": {
+          "elemental": 4500,
+          "primal": 4514
+        }
+      },
+      "fragments": {
+        "4003": 7,
+        "4004": 2,
+        "4033": 8,
+        "4040": 7,
+        "4043": 7,
+        "4500": 2,
+        "4502": 4,
+        "4506": 3,
+        "4514": 5
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  },
+  {
+    "game_id": 262,
+    "invasion_id": 1900000034,
+    "boss_id": 636,
+    "boss_level": 80,
+    "chapter": null,
+    "level": null,
+    "enemy_type": "Hero",
+    "main_buff": null,
+    "comment": null,
+    "defenders_fragments": {
+      "units": [
+        4033,
+        4003,
+        4043,
+        4004,
+        4040
+      ],
+      "petId": null,
+      "favor": [],
+      "spirits": {
+        "dark": [],
+        "water": {
+          "elemental": 4502,
+          "primal": 4506
+        },
+        "light": {
+          "elemental": 4500,
+          "primal": 4514
+        }
+      },
+      "fragments": {
+        "4003": 7,
+        "4004": 7,
+        "4033": 8,
+        "4040": 7,
+        "4043": 7,
+        "4500": 3,
+        "4502": 7,
+        "4506": 4,
+        "4514": 7
+      },
+      "effects": {
+        "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30": 250
+      }
+    }
+  }
+]
