@@ -161,7 +161,7 @@ export default function AdminPanel() {
 
   const { data: stats, isLoading: statsLoading } = useQuery<StatsResponse>({
     queryKey: ["/api/admin/stats"],
-    refetchInterval: 5000,
+    refetchInterval: 60000,
   });
 
   interface HeroData {
@@ -1015,23 +1015,34 @@ export default function AdminPanel() {
                 try {
                   let allData: Record<string, unknown>[] = [];
                   const jsonFiles = Array.from(files).filter(f => f.name.endsWith('.json'));
-                  
-                  for (const file of jsonFiles) {
+                  const total = jsonFiles.length;
+
+                  setLoadingProgress((prev) => ({ ...prev, attackTeams: { current: 0, total } }));
+
+                  for (let i = 0; i < jsonFiles.length; i++) {
+                    const file = jsonFiles[i];
                     const text = await file.text();
                     const parsed = parseJSON(text);
-                    // Filter out schema files
                     const dataRows = parsed.filter((row) => !("columns" in row) && !("table" in row));
                     allData = allData.concat(dataRows);
+                    setLoadingProgress((prev) => ({ ...prev, attackTeams: { current: i + 1, total } }));
                   }
+
+                  setLoadingProgress((prev) => ({ ...prev, attackTeams: null }));
                   
                   if (allData.length === 0) {
                     throw new Error("Нет данных для загрузки (JSON файлы не найдены)");
                   }
                   
+                  setServerUploadStatus((prev) => ({ ...prev, attackTeams: true }));
                   await uploadToServer("/api/admin/attack-teams", allData);
+                  setServerUploadStatus((prev) => ({ ...prev, attackTeams: false }));
                   queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
                   queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+                  toast({ title: "Записи загружены", description: `Записей: ${allData.length}` });
                 } catch (error) {
+                  setLoadingProgress((prev) => ({ ...prev, attackTeams: null }));
+                  setServerUploadStatus((prev) => ({ ...prev, attackTeams: false }));
                   setErrors((prev) => ({ 
                     ...prev, 
                     attackTeams: error instanceof Error ? error.message : "Ошибка загрузки" 
@@ -1074,6 +1085,29 @@ export default function AdminPanel() {
                 </div>
               )}
             </div>
+            {loadingProgress.attackTeams && (
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                    Чтение файлов...
+                  </span>
+                  <span>{loadingProgress.attackTeams.current} / {loadingProgress.attackTeams.total}</span>
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-200"
+                    style={{ width: `${(loadingProgress.attackTeams.current / loadingProgress.attackTeams.total) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {serverUploadStatus.attackTeams && (
+              <div className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin text-primary" />
+                Отправка данных на сервер...
+              </div>
+            )}
             {errors.attackTeams && (
               <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
                 <AlertCircle className="h-3 w-3 flex-shrink-0" />
