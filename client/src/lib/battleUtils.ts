@@ -146,23 +146,31 @@ export function processBattlesFromServer(
   heroSortOrder: ServerHeroSortOrder[],
   titanElements: ServerTitanElement[]
 ): ProcessedBattle[] {
-  const iconMap = new Map(heroIcons.map((h) => [h.heroId, h.iconUrl]));
-  const nameMap = new Map(heroNames.map((h) => [h.heroId, h.name]));
-  const sortOrderMap = new Map(heroSortOrder.map((h) => [h.heroId, h.sortOrder]));
-  const titanElementsMap = new Map(titanElements.map((t) => [t.titanId, { element: t.element, points: t.points }]));
-  const levelMap = new Map(bossLevel.map((l) => [l.gameId, l.powerLevel]));
+  const safeHeroIcons = heroIcons ?? [];
+  const safeHeroNames = heroNames ?? [];
+  const safeSortOrder = heroSortOrder ?? [];
+  const safeTitanElements = titanElements ?? [];
+  const safeBossLevel = bossLevel ?? [];
+  const safeBossTeam = bossTeam ?? [];
+  const safeBossList = bossList ?? [];
+
+  const iconMap = new Map(safeHeroIcons.map((h) => [h.heroId, h.iconUrl]));
+  const nameMap = new Map(safeHeroNames.map((h) => [h.heroId, h.name]));
+  const sortOrderMap = new Map(safeSortOrder.map((h) => [h.heroId, h.sortOrder]));
+  const titanElementsMap = new Map(safeTitanElements.map((t) => [t.titanId, { element: t.element, points: t.points }]));
+  const levelMap = new Map(safeBossLevel.map((l) => [l.gameId, l.powerLevel]));
 
   const getHeroNameFn = (heroId: number): string => {
     return nameMap.get(heroId) || getDefaultHeroName(heroId);
   };
 
   // Фильтруем неактуальные бои (gameId <= 225)
-  const filteredBossList = bossList.filter(boss => boss.gameId > 225);
+  const filteredBossList = safeBossList.filter(boss => boss.gameId > 225);
 
   const battles: ProcessedBattle[] = filteredBossList.map((boss) => {
     const battleType = determineBattleType(boss.heroId);
     
-    let teamMembers = bossTeam
+    let teamMembers = safeBossTeam
       .filter((t) => t.bossGameId === boss.gameId)
       .slice(0, 5)
       .map((t) => {
@@ -189,7 +197,7 @@ export function processBattlesFromServer(
       : [];
 
     // Находим powerLevel для команды и проверяем на смешанность
-    const teamBossLevelIds = bossTeam
+    const teamBossLevelIds = safeBossTeam
       .filter((t) => t.bossGameId === boss.gameId && t.bossLevelId != null)
       .map((t) => t.bossLevelId!);
     

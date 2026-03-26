@@ -222,13 +222,13 @@ export default function BattleLibrary() {
   const battles = useMemo<ProcessedBattle[]>(() => {
     if (!data) return [];
     return processBattlesFromServer(
-      data.bossList, 
-      data.bossTeam, 
-      data.bossLevel,
-      data.heroIcons, 
-      data.heroNames,
-      data.heroSortOrder || [],
-      data.titanElements || []
+      data.bossList ?? [], 
+      data.bossTeam ?? [], 
+      data.bossLevel ?? [],
+      data.heroIcons ?? [], 
+      data.heroNames ?? [],
+      data.heroSortOrder ?? [],
+      data.titanElements ?? []
     );
   }, [data]);
 

@@ -173,20 +173,29 @@ export function processReplaysFromServer(
   talismanList: ServerTalisman[] = [],
   buffConfig: BuffConfig = {}
 ): ProcessedReplay[] {
-  const iconMap = new Map(heroIcons.map((h) => [h.heroId, h.iconUrl]));
-  const nameMap = new Map(heroNames.map((h) => [h.heroId, h.name]));
-  const petIconMap = new Map(petIcons.map((p) => [p.petId, p.iconUrl]));
-  const skillNameMap = new Map(spiritSkills.map((s) => [s.skillId, s.name]));
-  const skillIconMap = new Map(spiritIcons.map((s) => [s.skillId, s.iconUrl]));
+  const safeHeroIcons = heroIcons ?? [];
+  const safeHeroNames = heroNames ?? [];
+  const safePetIcons = petIcons ?? [];
+  const safeSpiritsSkills = spiritSkills ?? [];
+  const safeSpiritIcons = spiritIcons ?? [];
+  const safeBossList = bossList ?? [];
+  const safeTalismanList = talismanList ?? [];
+  const safeAttackTeams = attackTeams ?? [];
+
+  const iconMap = new Map(safeHeroIcons.map((h) => [h.heroId, h.iconUrl]));
+  const nameMap = new Map(safeHeroNames.map((h) => [h.heroId, h.name]));
+  const petIconMap = new Map(safePetIcons.map((p) => [p.petId, p.iconUrl]));
+  const skillNameMap = new Map(safeSpiritsSkills.map((s) => [s.skillId, s.name]));
+  const skillIconMap = new Map(safeSpiritIcons.map((s) => [s.skillId, s.iconUrl]));
   
   // Создаём мап для быстрого поиска боя по gameId (bossId)
-  const bossMap = new Map(bossList.map((b) => [b.gameId, b]));
+  const bossMap = new Map(safeBossList.map((b) => [b.gameId, b]));
   
   // Создаём функцию для определения талисмана по effects
   const findTalisman = (effects?: Record<string, number>): ProcessedTalisman | undefined => {
-    if (!effects || talismanList.length === 0) return undefined;
+    if (!effects || safeTalismanList.length === 0) return undefined;
     for (const [effectKey] of Object.entries(effects)) {
-      const found = talismanList.find(t => effectKey.startsWith(t.effectKey));
+      const found = safeTalismanList.find(t => effectKey.startsWith(t.effectKey));
       if (found) {
         return {
           talismanId: found.talismanId,
@@ -220,7 +229,7 @@ export function processReplaysFromServer(
     return nameMap.get(heroId) || getDefaultHeroName(heroId);
   };
 
-  const replays: ProcessedReplay[] = attackTeams
+  const replays: ProcessedReplay[] = safeAttackTeams
     .filter((team) => team.defendersFragments && team.bossId)
     .map((team) => {
       let defenders: DefendersFragments;
