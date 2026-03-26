@@ -31,5 +31,6 @@ export default defineConfig({
   },
   define: {
     "import.meta.env.MODE": JSON.stringify("production"),
+    "import.meta.env.VITE_GAS_BUILD": JSON.stringify("true"),
   },
 });

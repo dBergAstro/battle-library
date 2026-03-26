@@ -1,241 +1,46 @@
 # Battle Library Tool
 
 ## Overview
-Инструмент для визуального просмотра и анализа библиотеки боёв из игры Invasion (адвенчуры). 
-Использует серверное хранение данных в PostgreSQL - администратор загружает данные один раз, и они становятся доступны всем пользователям.
+This tool provides a visual interface for viewing and analyzing battle libraries from the game Invasion. It uses server-side data storage in PostgreSQL, allowing administrators to upload data once for all users. The project aims to offer a comprehensive, user-friendly platform for accessing and understanding game battle data and replays.
 
-## Текущее состояние
-MVP с серверным хранением, записями (replays) и полной функциональностью.
+## User Preferences
+I prefer simple and concise language. I like an iterative development approach, where changes are introduced incrementally. Before making any major architectural changes or significant modifications to the codebase, please ask for my approval. Ensure the frontend remains responsive and visually appealing across different devices.
 
-## Архитектура
+## System Architecture
 
-### База данных (PostgreSQL + Drizzle ORM)
-Таблицы:
-- `boss_list` - основная таблица боёв (id, gameId, label, desc, heroId)
-- `boss_team` - состав команды противников (id, bossGameId, heroId, unitId, bossLevelId)
-- `boss_level` - уровни сложности боёв (id, gameId, bossId, powerLevel)
-- `hero_icons` - иконки персонажей (id, heroId, iconUrl, category)
-- `hero_names` - имена персонажей (id, heroId, name)
-- `hero_sort_order` - порядок сортировки персонажей (id, heroId, sortOrder) - поддерживает дробные значения
-- `titan_elements` - стихии титанов (id, titanId, element, points)
-- `attack_teams` - записи (replays) с defendersFragments JSON
-- `pet_icons` - иконки питомцев (id, petId, iconUrl)
-- `spirit_skills` - названия скилов тотемов (id, skillId, name)
-- `spirit_icons` - иконки скилов тотемов (id, skillId, iconUrl)
-- `talismans` - талисманы (id, talismanId, name, effectKey, iconUrl)
-- `app_settings` - настройки приложения (key, value): mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB
+### Database
+The system uses PostgreSQL with Drizzle ORM. Key tables store information about battles, enemy teams, difficulty levels, hero details (icons, names, sort order), titan elements, attack replays, pet icons, spirit skills, and application settings.
 
 ### API Endpoints
-- `GET /api/battles` - получить все данные для отображения библиотеки боёв
-- `GET /api/replays` - получить все данные для отображения записей
-- `GET /api/admin/stats` - статистика по загруженным данным
-- `POST /api/admin/boss-list` - загрузить данные боёв
-- `POST /api/admin/boss-team` - загрузить состав команд
-- `POST /api/admin/boss-level` - загрузить уровни с powerLevel
-- `POST /api/admin/hero-icons` - загрузить иконки персонажей
-- `POST /api/admin/hero-names` - загрузить/обновить имена героев
-- `POST /api/admin/hero-sort-order` - загрузить порядок сортировки
-- `POST /api/admin/titan-elements` - загрузить стихии титанов
-- `POST /api/admin/attack-teams` - загрузить записи (replays)
-- `POST /api/admin/pet-icons` - загрузить иконки питомцев
-- `POST /api/admin/spirit-skills` - загрузить названия скилов тотемов
-- `POST /api/admin/spirit-icons` - загрузить иконки скилов тотемов
-- `POST /api/admin/settings/main-buff` - настроить бафф А или Б (параметр slot: "A"|"B", name, effectKey)
-- `POST /api/admin/talismans` - загрузить определения талисманов (текст: ID название effectKey)
-- `POST /api/admin/talisman-icons` - загрузить иконки талисманов
+The API provides endpoints for retrieving battle and replay data for users, and a comprehensive set of administrative endpoints for data upload and configuration. These include uploading battle lists, team compositions, difficulty levels, hero/pet/spirit icons, hero names, sort orders, titan elements, attack replays, talisman definitions, and main buff settings.
 
-### Страницы
-- `/` - Библиотека боёв (просмотр для всех пользователей)
-- `/replays` - Библиотека записей с грейдами и питомцами
-- `/admin` - Панель администратора (загрузка данных)
+### User Interface and Pages
+The application features three main pages:
+- **Battle Library (`/`)**: Displays battle information for all users.
+- **Replays Library (`/replays`)**: Shows battle replays with detailed character grades and pets.
+- **Admin Panel (`/admin`)**: Provides an interface for administrators to upload and manage data.
 
-## Функциональность
+UI/UX decisions include visual battle cards, filtering capabilities, search functionality, and dark/light theme support. Battle cards display game ID, team composition, chapter, battle number, type (heroic/titanic), power level, and elemental totems. Replay cards additionally show character grades and pet details.
 
-### Загрузка данных (Админ)
-- Загрузка таблиц (Boss List, Boss Team, Boss Level) через CSV/JSON файл или папку
-- Загрузка иконок по категориям: Герои, Крипы, Титаны
-- Редактирование имён персонажей (приоритет над встроенными)
-- Настройка порядка сортировки персонажей (текстовое поле, формат: ID порядок)
-- Настройка стихий титанов для тотемов (текстовое поле, формат: ID стихия очки)
-- Прогресс-бар для больших наборов данных
+### Functionality
+- **Admin Data Upload**: Administrators can upload various game data (boss lists, teams, levels, icons, names, sort orders, titan elements, replays, talismans) via CSV/JSON files or folders, with progress indicators for large datasets.
+- **Battle Library Viewing**: Users can view visual battle cards with comprehensive details and filter/search battles by type, chapter, and other criteria.
+- **Replay Viewing**: Replay cards display `defendersFragments` JSON, including units, pets, favor, fragments, and effects. Character grades are color-coded based on fragment count.
+- **Entity Viewer**: A unified component for viewing and managing game entities (heroes, creeps, titans, pets, spirit skills), offering search, filtering by category, and icon uploading.
 
-### Просмотр библиотеки
-- Визуальные карточки боёв с:
-  - ID боя (gameId)
-  - Составом команды (аватары + имена героев, отсортированные по заданному порядку)
-  - Главой (label)
-  - Номером боя (desc)
-  - Типом (героический/титанический)
-  - Power Level (если есть данные)
-  - Тотемами стихий (до 2 эмодзи для титанических боёв)
-- Фильтрация по типу боя, главе, поиск
-- Тёмная/светлая тема
+### Data Structure and Logic
+- **Battle Data**: `boss_list`, `boss_team`, and `boss_level` define battle parameters.
+- **Icons**: Icons for characters, pets, and spirits are uploaded by category, identified by ID in filenames, and stored as base64.
+- **Hero Names**: Default names are provided, but can be overridden via the admin panel.
+- **Sort Order**: Heroes can be sorted using custom fractional values.
+- **Titan Elements**: Defined by ID, element, and points, activating totems based on point thresholds (e.g., 3+ for Water/Fire/Earth, 2+ for Light/Dark).
+- **Battle Type Logic**: `heroId` determines if a battle is titanic (3999-4999) or heroic.
 
-## Структура данных
+## External Dependencies
 
-### Входные данные для загрузки:
-1. **boss_list** (invasion_boss_list-boss_list)
-   - id, label (глава), desc (номер боя), heroId (для определения типа)
-   - Записи с ID <= 226 отфильтрованы как неактуальные
-   
-2. **boss_team** (invasion_boss_list-boss_team)
-   - id, bossId, heroId, unitId, bossLevelId
-
-3. **boss_level** (invasion_boss_list-boss_level)
-   - id, bossId, powerLevel
-
-### Иконки персонажей:
-- Загружаются из папок по категориям (герои, крипы, титаны)
-- Поддерживаемые форматы: PNG, JPG, WebP, SVG
-- ID извлекается из последнего числа в имени файла (titan_big_4003.png → 4003)
-- Сохраняются как base64 в базе данных
-
-### Имена героев:
-- Встроены в код (client/src/lib/heroNames.ts) - 196 персонажей
-- Могут быть переопределены через админку (таблица hero_names)
-- Приоритет: БД > встроенные имена
-
-### Порядок сортировки:
-- Формат ввода: ID[tab/space]порядок на каждой строке
-- Поддерживаются дробные значения (например, 4.5 для вставки между 4 и 5)
-- Персонажи без порядка сортируются по ID
-
-### Тотемы стихий (только для титанических боёв):
-- Формат ввода: ID[space]стихия[space]очки
-- Стихии: вода, огонь, земля, тьма, свет
-- Порог активации тотема:
-  - Вода/Огонь/Земля: 3+ очков
-  - Свет/Тьма: 2+ очков
-- Максимум 2 тотема на бой (приоритет по количеству очков)
-- Эмодзи: 💧 вода, 🔥 огонь, 🌍 земля, 🌑 тьма, ☀️ свет
-
-### Логика типа боя:
-- heroId 3999-4999 = титанический
-- Остальные = героический
-
-## Технологии
-- Frontend: React, TypeScript, Tailwind CSS, Shadcn/ui
-- Backend: Express.js, Drizzle ORM
-- Database: PostgreSQL (Neon)
-- Валидация: Zod
-- Data fetching: TanStack Query
-
-## Запуск
-```bash
-npm run dev
-```
-Приложение доступно на порту 5000.
-
-## GAS-деплой (Google Apps Script)
-
-### Архитектура dual-mode
-Приложение поддерживает два режима:
-- **Replit** — Express + PostgreSQL + REST API (стандартный режим)
-- **GAS** — Google Apps Script как бэкенд, Google Sheets как БД
-
-Переключение автоматическое: если `window.google.script.run` существует — GAS, иначе — REST.
-
-### Файлы
-- `client/src/lib/gasApi.ts` — обёртка API (dual-mode: GAS или REST)
-- `client/src/lib/gasMock.ts` — мок `google.script.run` для dev-режима через реальные REST-вызовы
-- `vite.gas.config.ts` — Vite-конфиг для GAS-сборки (viteSingleFile, всё inline)
-- `projects/battle-library/gas/index.html` — последний собранный файл для деплоя
-- `dist/gas/index.html` — build output (то же самое)
-
-### Сборка GAS-версии
-```bash
-npx vite build --config vite.gas.config.ts
-```
-Результат: `dist/gas/index.html` (~531 KB, всё JS+CSS inline в один файл)  
-После сборки скопировать в `projects/battle-library/gas/index.html`.
-
-### Соответствие API GAS ↔ REST
-| gasApi метод | GAS (Code.js) | REST (Replit) |
-|---|---|---|
-| `getBattles()` | `getBattles()` | GET `/api/battles` |
-| `getReplays()` | `getReplays()` | GET `/api/replays` |
-| `getTags()` | `getTags()` | GET `/api/tags` |
-| `saveTag(id, tag)` | `saveTag(id, tag)` | POST `/api/tags/:id` |
-| `deleteTag(id, tag)` | `deleteTag(id, tag)` | DELETE `/api/tags/:id/:tag` |
-| `getCollection()` | `getCollection()` | GET `/api/collection` |
-| `saveCollectionItem(item)` | `saveCollectionItem(data)` | POST `/api/collection` |
-| `deleteCollectionItem(id)` | `deleteCollectionItem(id)` | DELETE `/api/collection/:id` |
-| `clearCollection()` | `clearCollection()` | DELETE `/api/collection` |
-| `adminUpload(type, data)` | `adminUpload(type, data)` | POST `/api/admin/:type` |
-| `setMainBuffName(name)` | `setMainBuffName(name)` | POST `/api/admin/settings/main-buff` |
-| `setMainBuff(slot,name,key)` | → `setMainBuffName(name)` | POST `/api/admin/settings/main-buff` |
-
-### Важно при изменениях
-После любого изменения фронтенда нужно пересобрать GAS-файл:
-```bash
-npx vite build --config vite.gas.config.ts
-cp dist/gas/index.html projects/battle-library/gas/index.html
-```
-Текущая деплоимая версия: **v45** (useState tab switching — без Router, надёжно в GAS и Replit)
-
-## Записи (Replays)
-
-### Структура defendersFragments:
-```json
-{
-  "units": [26, 64, 13, 43, 34],
-  "petId": 6005,
-  "favor": { "13": 6003, "26": 6001 },
-  "fragments": { "13": 7, "26": 5 },
-  "effects": { "buffName": 100 }
-}
-```
-
-### Интерфейс:
-- Бои и записи отображаются в одном списке, отсортированные по главе и номеру боя
-- У боёв и записей разные форматы карточек (BattleCard и ReplayCard)
-- Каждая карточка записи имеет кнопку копирования defendersFragments (иконка Copy)
-- При нажатии на кнопку весь JSON defendersFragments копируется в буфер обмена
-
-### Грейды персонажей:
-- 🟣 (purple) — 1-2 фрагмента
-- 🟠 (orange) — 3-6 фрагментов
-- 🔴 (red) — 7+ фрагментов
-
-### Питомцы:
-- `petId` — основной питомец команды
-- `favor` — покровительство (героID -> питомецID)
-- Иконки питомцев загружаются отдельно
-
-## Структура проекта
-```
-client/src/
-├── components/
-│   ├── BattleCard.tsx      # Карточка боя (с powerLevel и тотемами)
-│   ├── ReplayCard.tsx      # Карточка записи (с грейдами, питомцами, тотемами)
-│   ├── BattleFilters.tsx   # Фильтры и поиск (тип, глава, источник)
-│   ├── EntityViewer.tsx    # Унифицированный просмотр всех сущностей с загрузкой иконок
-│   └── ThemeToggle.tsx     # Переключатель темы
-├── lib/
-│   ├── battleUtils.ts      # Парсинг, сортировка, расчёт тотемов
-│   ├── replayUtils.ts      # Обработка записей и грейдов
-│   └── heroNames.ts        # Справочник имён героев (встроенные)
-├── pages/
-│   ├── BattleLibrary.tsx   # Главная страница с боями и записями
-│   └── AdminPanel.tsx      # Панель администратора
-server/
-├── db.ts                   # Подключение к PostgreSQL
-├── storage.ts              # CRUD операции с БД
-├── routes.ts               # API endpoints
-shared/
-└── schema.ts               # Drizzle схема + типы
-```
-
-### EntityViewer - Просмотр сущностей
-Унифицированный компонент для просмотра всех игровых сущностей:
-- Герои (ID 1-999)
-- Крипы (ID 1000-3999)
-- Титаны (ID 4000-5999)
-- Питомцы (ID 6000-6999)
-- Скилы тотемов
-
-Функционал:
-- Поиск по ID или имени
-- Фильтрация по категории
-- Загрузка иконки для выбранной сущности
-- Отображение статистики по категориям
+- **Frontend**: React, TypeScript, Tailwind CSS, Shadcn/ui
+- **Backend**: Express.js, Drizzle ORM
+- **Database**: PostgreSQL (Neon)
+- **Validation**: Zod
+- **Data Fetching**: TanStack Query
+- **Deployment**: Google Apps Script (GAS) for a dual-mode architecture, using Google Sheets as a backend for the GAS version. This involves specific build configurations (`vite.gas.config.ts`) and a fetch interceptor for mapping REST calls to `google.script.run`.

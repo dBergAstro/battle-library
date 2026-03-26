@@ -7,8 +7,11 @@
  * IS_GAS_ENV=false → REST API (Replit dev / gasMock)
  */
 
-export const IS_GAS_ENV =
-  typeof window !== "undefined" && !!(window as any).google?.script?.run;
+// Build-time constant: true when bundled via vite.gas.config.ts, false otherwise.
+// import.meta.env.VITE_GAS_BUILD is injected by vite.gas.config.ts define block.
+// This lets esbuild tree-shake the unused (REST or GAS) branch at bundle time.
+export const IS_GAS_ENV: boolean =
+  (import.meta.env.VITE_GAS_BUILD as string | undefined) === "true";
 
 function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
   return new Promise((resolve, reject) => {
