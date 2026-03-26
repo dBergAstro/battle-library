@@ -48,6 +48,7 @@ export interface ServerTalisman {
   talismanId: number;
   name: string;
   effectKey: string;
+  description: string | null;
   iconUrl: string | null;
 }
 
@@ -192,6 +193,7 @@ export function processReplaysFromServer(
           name: found.name,
           icon: found.iconUrl ?? undefined,
           effectKey: found.effectKey,
+          description: found.description ?? undefined,
         };
       }
     }

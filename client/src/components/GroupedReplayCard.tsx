@@ -304,9 +304,11 @@ export function GroupedReplayCard({
                     </Avatar>
                   </div>
                 </TooltipTrigger>
-                <TooltipContent side="top" className="text-xs">
+                <TooltipContent side="top" className="text-xs max-w-[200px]">
                   <p className="font-medium">{replay.talisman.name}</p>
-                  <p className="text-muted-foreground">Талисман</p>
+                  {replay.talisman.description && (
+                    <p className="text-muted-foreground mt-0.5">{replay.talisman.description}</p>
+                  )}
                 </TooltipContent>
               </Tooltip>
             )}

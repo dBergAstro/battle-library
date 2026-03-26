@@ -501,15 +501,19 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid input: expected { text: string }" });
       }
       const lines = text.trim().split("\n").filter(l => l.trim());
-      const parsed: { talismanId: number; name: string; effectKey: string }[] = [];
+      const parsed: { talismanId: number; name: string; effectKey: string; description?: string }[] = [];
       const errors: string[] = [];
 
       for (const line of lines) {
         const trimmed = line.trim();
         if (!trimmed) continue;
-        const parts = trimmed.split(/\s+/);
+        // Разбиваем по разделителю "|": левая часть — ID Название effectKey, правая — описание
+        const pipeIdx = trimmed.indexOf("|");
+        const mainPart = pipeIdx >= 0 ? trimmed.slice(0, pipeIdx).trim() : trimmed;
+        const description = pipeIdx >= 0 ? trimmed.slice(pipeIdx + 1).trim() : undefined;
+        const parts = mainPart.split(/\s+/);
         if (parts.length < 3) {
-          errors.push(`Неверный формат: "${trimmed}". Ожидается: ID Название ключ_эффекта`);
+          errors.push(`Неверный формат: "${trimmed}". Ожидается: ID Название ключ_эффекта [| Описание]`);
           continue;
         }
         const talismanId = parseInt(parts[0], 10);
@@ -519,7 +523,7 @@ export async function registerRoutes(
         }
         const effectKey = parts[parts.length - 1];
         const name = parts.slice(1, -1).join(" ");
-        parsed.push({ talismanId, name, effectKey });
+        parsed.push({ talismanId, name, effectKey, description });
       }
 
       if (parsed.length > 0) {

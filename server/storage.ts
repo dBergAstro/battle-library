@@ -325,7 +325,7 @@ export class DatabaseStorage implements IStorage {
     for (const item of data) {
       await db.insert(talismans).values(item).onConflictDoUpdate({
         target: talismans.talismanId,
-        set: { name: sql`excluded.name`, effectKey: sql`excluded.effect_key` },
+        set: { name: sql`excluded.name`, effectKey: sql`excluded.effect_key`, description: sql`excluded.description` },
       });
     }
   }

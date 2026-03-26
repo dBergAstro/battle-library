@@ -1293,12 +1293,13 @@ export default function AdminPanel() {
             <div>
               <label className="text-sm font-medium mb-2 block">Определения талисманов</label>
               <p className="text-xs text-muted-foreground mb-2">
-                Формат: ID Название ключ_эффекта (каждый на новой строке). Например:<br />
-                <code className="bg-muted px-1 rounded">8002 Талисман вампиризм talismanLifesteal</code><br />
-                <code className="bg-muted px-1 rounded">8003 Талисман ярости talismanFireRage</code>
+                Формат: ID Название ключ_эффекта [| Описание] (каждый на новой строке).<br />
+                Описание добавляется через символ <code className="bg-muted px-1 rounded">|</code> и отображается в тултипе. Например:<br />
+                <code className="bg-muted px-1 rounded">8002 Талисман вампиризм talismanLifesteal | Восстанавливает HP за каждый удар</code><br />
+                <code className="bg-muted px-1 rounded">8003 Талисман ярости talismanFireRage | Увеличивает урон при низком HP</code>
               </p>
               <Textarea
-                placeholder={"8002 Талисман вампиризм talismanLifesteal\n8003 Талисман ярости talismanFireRage"}
+                placeholder={"8002 Талисман вампиризм talismanLifesteal | Восстанавливает HP за каждый удар\n8003 Талисман ярости talismanFireRage | Увеличивает урон при низком HP"}
                 value={talismansText}
                 onChange={(e) => setTalismansText(e.target.value)}
                 className="min-h-[100px] font-mono text-sm mb-2"

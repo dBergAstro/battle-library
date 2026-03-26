@@ -180,6 +180,7 @@ export const talismans = pgTable("talismans", {
   talismanId: integer("talisman_id").notNull().unique(),
   name: text("name").notNull(),
   effectKey: text("effect_key").notNull(), // префикс ключа в effects, например talismanLifesteal
+  description: text("description"), // описание для тултипа
   iconUrl: text("icon_url"),
 });
 
@@ -295,6 +296,7 @@ export interface ProcessedTalisman {
   name: string;
   icon?: string;
   effectKey: string;
+  description?: string;
 }
 
 // Обработанная запись для отображения
