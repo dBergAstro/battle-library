@@ -331,7 +331,7 @@ export function EntityViewer({
           <div className="p-3 bg-muted/50 rounded-md flex items-center gap-3 flex-wrap" data-testid="selected-entity-panel">
             <Avatar className={`h-12 w-12 ring-2 ${selectedEntity.category === "talismans" ? "ring-yellow-500" : "ring-primary"}`}>
               {selectedEntity.icon ? (
-                <AvatarImage src={selectedEntity.icon} alt={selectedEntity.name} />
+                <AvatarImage src={selectedEntity.icon} alt={selectedEntity.name} className="object-contain" />
               ) : null}
               <AvatarFallback className="text-sm bg-muted">
                 {selectedEntity.id}
@@ -399,7 +399,11 @@ export function EntityViewer({
                         : !entity.icon ? "ring-1 ring-dashed ring-muted-foreground/50" : ""
                     }`}>
                       {entity.icon ? (
-                        <AvatarImage src={entity.icon} alt={entity.name} />
+                        <AvatarImage
+                          src={entity.icon}
+                          alt={entity.name}
+                          className="object-contain"
+                        />
                       ) : null}
                       <AvatarFallback className={`text-[10px] ${entity.category === "talismans" ? "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 font-bold" : "bg-muted"}`}>
                         {entity.category === "talismans" ? "Т" : entity.id}
