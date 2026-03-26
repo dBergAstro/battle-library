@@ -7,14 +7,29 @@
  * IS_GAS_ENV=false → REST API (Replit dev / gasMock)
  */
 
+import { logGasCall, logRestCall } from "./gasLogger";
+
 // Build-time constant: true when bundled via vite.gas.config.ts, false otherwise.
 // import.meta.env.VITE_GAS_BUILD is injected by vite.gas.config.ts define block.
 // This lets esbuild tree-shake the unused (REST or GAS) branch at bundle time.
 export const IS_GAS_ENV: boolean =
   (import.meta.env.VITE_GAS_BUILD as string | undefined) === "true";
 
+function summarizeArgs(args: any[]): string {
+  if (args.length === 0) return "()";
+  return args
+    .map((a) => {
+      if (a === null || a === undefined) return String(a);
+      if (typeof a === "string") return a.length > 40 ? `"${a.slice(0, 37)}…"` : `"${a}"`;
+      if (Array.isArray(a)) return `[${a.length} items]`;
+      if (typeof a === "object") return `{…}`;
+      return String(a);
+    })
+    .join(", ");
+}
+
 function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
-  return new Promise((resolve, reject) => {
+  const raw = new Promise<T>((resolve, reject) => {
     const runner = (window as any).google.script.run
       .withSuccessHandler((result: any) => {
         if (result === null || result === undefined) {
@@ -32,18 +47,25 @@ function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
       });
     runner[fnName](...args);
   });
+
+  return logGasCall(fnName, summarizeArgs(args), raw);
 }
 
 async function restFetch<T>(url: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(url, {
-    credentials: "include",
-    ...options,
-  });
-  if (!res.ok) {
-    const text = await res.text().catch(() => res.statusText);
-    throw new Error(`${res.status}: ${text}`);
-  }
-  return res.json() as Promise<T>;
+  const method = options?.method || "GET";
+  const raw = (async () => {
+    const res = await fetch(url, {
+      credentials: "include",
+      ...options,
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => res.statusText);
+      throw new Error(`${res.status}: ${text}`);
+    }
+    return res.json() as Promise<T>;
+  })();
+
+  return logRestCall(method, url, raw);
 }
 
 async function restPost<T>(url: string, data: any): Promise<T> {
@@ -85,10 +107,8 @@ export const gasApi = {
   getBuffConfig: (): Promise<any> =>
     IS_GAS_ENV ? gsRun("getBuffConfig") : restFetch("/api/admin/stats"),
 
-  // GAS: getServerLogs() → string[]
-  // REST: нет эквивалента
-  getLogs: (): Promise<string[]> =>
-    IS_GAS_ENV ? gsRun("getServerLogs") : Promise.resolve([]),
+  getLogs: (): Promise<{ logs: Array<{ timestamp: string; level: string; function: string; message: string; data?: string }> }> =>
+    IS_GAS_ENV ? gsRun("getServerLogs") : Promise.resolve({ logs: [] }),
 
   // ─── Теги ──────────────────────────────────────────────────────────────────
 

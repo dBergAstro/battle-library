@@ -53,6 +53,7 @@ Replit (React UI)          GAS Backend              Google Sheets
 | `spirit_skills` | `SHEET_SPIRIT_SKILLS` | Навыки духов |
 | `tags` | `SHEET_TAGS` | battle_game_id → tag (пользовательские теги) |
 | `app_settings` | `SHEET_APP_SETTINGS` | key → value (mainBuffName, buffNames, lastDataSync, lastIconSync) |
+| `logs` | `SHEET_LOGS` | Серверные логи (timestamp, level, function, message, data) |
 
 ### Как отличить бои от записей (replays)
 - `boss_list` с `defenders_fragments = ''` → **бой**
@@ -147,8 +148,18 @@ interface BuffConfig {
 }
 ```
 
-#### `getLogs()` → `{ logs: LogEntry[] }`
-Последние 50 серверных логов (из листа 'logs').
+#### `getServerLogs()` → `{ logs: LogEntry[] }`
+Последние 50 серверных логов (из листа `logs`).
+
+```typescript
+interface LogEntry {
+  timestamp: string;   // ISO 8601
+  level: string;       // DEBUG | INFO | WARN | ERROR
+  function: string;    // имя GAS-функции
+  message: string;     // описание события
+  data?: string;       // JSON-данные (обрезаны до 500 символов)
+}
+```
 
 ---
 
@@ -391,3 +402,38 @@ URL продакшна:
 ```
 https://script.google.com/a/macros/nexters.com/s/AKfycbzNveXw_EmK4wKWxlYia3JRsdLzhX8S6KAvjxB5gOZv1Tsv_2lbg0nFGCswQ4e1o1WHWg/exec
 ```
+
+---
+
+## Logging — Двухуровневая система логирования
+
+Система логирования состоит из двух слоёв:
+
+### 1. Client Logs (в памяти браузера)
+
+Модуль `client/src/lib/gasLogger.ts` автоматически логирует все вызовы через `gasApi.ts`:
+
+- Каждый `google.script.run` (GAS) и REST вызов записывается с: именем метода, временем начала, длительностью, размером ответа (количество записей) и ошибкой
+- Хранятся последние 200 записей в циклическом буфере
+- Поддерживает подписку через `subscribe()` для live-обновлений в UI
+- Уровни: `DEBUG`, `INFO`, `WARN`, `ERROR`
+- Категории: `GAS_CALL`, `REST_CALL`, `UPLOAD`, `ICONS`, `TAGS`, `COLLECTION`, `SYNC`, `GENERAL`
+
+### 2. Server Logs (лист `logs` в Google Sheets)
+
+GAS-функция `gasLog(level, fn, message, data)` записывает логи в лист `logs`:
+
+- Колонки: `timestamp` | `level` | `function` | `message` | `data`
+- Данные в `data` обрезаются до 500 символов
+- Лист автоматически тримится до последних 500 записей
+- Каждая публичная GAS-функция обёрнута в try/catch с логированием entry/exit/error
+- Спецификация изменений: `gas-architecture/GAS_LOGGING_SPEC.md`
+
+### UI: Вкладка "Логи" в Admin Panel
+
+Админ-панель содержит раздел "Логи" с двумя панелями:
+
+- **Client Logs** — live-обновление из `gasLogger`, кнопка "Очистить"
+- **Server Logs** — загружаются через `gasApi.getLogs()`, кнопка "Обновить"
+
+Записи отображаются от новых к старым, цветовая кодировка по уровню.

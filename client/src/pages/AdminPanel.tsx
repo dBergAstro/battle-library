@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useMemo } from "react";
+import { useState, useCallback, useRef, useMemo, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,10 @@ import {
   Swords,
   Settings,
   Dog,
-  Sparkles
+  Sparkles,
+  ScrollText,
+  RefreshCw,
+  Trash2
 } from "lucide-react";
 import {
   parseCSV,
@@ -41,6 +44,8 @@ import {
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { EntityViewer } from "@/components/EntityViewer";
+import { subscribe as subscribeToLogs, getEntries, clearEntries, type LogEntry as ClientLogEntry } from "@/lib/gasLogger";
+import { gasApi } from "@/lib/gasApi";
 
 interface StatsResponse {
   bossList: number;
@@ -1579,7 +1584,213 @@ export default function AdminPanel() {
             </div>
           </CardContent>
         </Card>
+
+        <LogViewer />
       </div>
     </div>
+  );
+}
+
+function formatRelativeTime(date: Date): string {
+  const now = Date.now();
+  const diffMs = now - date.getTime();
+  if (diffMs < 1000) return "только что";
+  const diffSec = Math.floor(diffMs / 1000);
+  if (diffSec < 60) return `${diffSec}с назад`;
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}м назад`;
+  const diffHr = Math.floor(diffMin / 60);
+  if (diffHr < 24) return `${diffHr}ч назад`;
+  return date.toLocaleString("ru-RU");
+}
+
+function levelColor(level: string): string {
+  switch (level) {
+    case "DEBUG": return "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400";
+    case "INFO": return "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300";
+    case "WARN": return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300";
+    case "ERROR": return "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300";
+    default: return "bg-gray-100 text-gray-600";
+  }
+}
+
+interface ServerLogEntry {
+  timestamp: string;
+  level: string;
+  function: string;
+  message: string;
+  data?: string;
+}
+
+function LogViewer() {
+  const [clientLogs, setClientLogs] = useState<ClientLogEntry[]>(getEntries);
+  const [activeTab, setActiveTab] = useState<"client" | "server">("client");
+
+  useEffect(() => {
+    return subscribeToLogs((entries) => {
+      setClientLogs(entries);
+    });
+  }, []);
+
+  const {
+    data: serverLogsData,
+    isLoading: serverLoading,
+    refetch: refetchServerLogs,
+  } = useQuery<{ logs: ServerLogEntry[] }>({
+    queryKey: ["server-logs"],
+    queryFn: () => gasApi.getLogs(),
+    enabled: activeTab === "server",
+    refetchOnWindowFocus: false,
+  });
+
+  const serverLogs = serverLogsData?.logs ?? [];
+
+  return (
+    <Card className="border-card-border" data-testid="card-logs">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base flex items-center gap-2">
+          <ScrollText className="h-4 w-4 text-primary" />
+          Логи
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex gap-2 mb-4">
+          <Button
+            variant={activeTab === "client" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setActiveTab("client")}
+            data-testid="button-tab-client-logs"
+          >
+            Client Logs ({clientLogs.length})
+          </Button>
+          <Button
+            variant={activeTab === "server" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setActiveTab("server")}
+            data-testid="button-tab-server-logs"
+          >
+            Server Logs ({serverLogs.length})
+          </Button>
+        </div>
+
+        {activeTab === "client" && (
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm text-muted-foreground">
+                Логи вызовов GAS/REST из браузера (в памяти)
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  clearEntries();
+                  setClientLogs([]);
+                }}
+                data-testid="button-clear-client-logs"
+              >
+                <Trash2 className="h-3 w-3 mr-1" />
+                Очистить
+              </Button>
+            </div>
+            <ScrollArea className="h-[400px] border rounded-md">
+              {clientLogs.length === 0 ? (
+                <div className="p-4 text-center text-sm text-muted-foreground">
+                  Нет записей
+                </div>
+              ) : (
+                <div className="divide-y">
+                  {clientLogs.map((entry) => (
+                    <div key={entry.id} className="px-3 py-2 text-xs font-mono" data-testid={`log-client-${entry.id}`}>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-muted-foreground whitespace-nowrap">
+                          {formatRelativeTime(entry.timestamp)}
+                        </span>
+                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${levelColor(entry.level)}`}>
+                          {entry.level}
+                        </span>
+                        <span className="text-muted-foreground/70 text-[10px]">[{entry.category}]</span>
+                        <span className="font-medium text-foreground">{entry.method}</span>
+                        {entry.durationMs !== undefined && (
+                          <span className="text-muted-foreground">{entry.durationMs}ms</span>
+                        )}
+                        {entry.responseSize !== undefined && (
+                          <Badge variant="outline" className="text-[10px] py-0 h-4">
+                            {entry.responseSize} записей
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="mt-0.5 text-muted-foreground">
+                        {entry.message}
+                        {entry.error && (
+                          <span className="text-red-500 ml-1">— {entry.error}</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
+          </div>
+        )}
+
+        {activeTab === "server" && (
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm text-muted-foreground">
+                Серверные логи из листа 'logs' в Google Sheets
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => refetchServerLogs()}
+                disabled={serverLoading}
+                data-testid="button-refresh-server-logs"
+              >
+                {serverLoading ? (
+                  <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                ) : (
+                  <RefreshCw className="h-3 w-3 mr-1" />
+                )}
+                Обновить
+              </Button>
+            </div>
+            <ScrollArea className="h-[400px] border rounded-md">
+              {serverLoading && serverLogs.length === 0 ? (
+                <div className="p-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Загрузка...
+                </div>
+              ) : serverLogs.length === 0 ? (
+                <div className="p-4 text-center text-sm text-muted-foreground">
+                  Нет серверных логов
+                </div>
+              ) : (
+                <div className="divide-y">
+                  {serverLogs.map((entry, idx) => (
+                    <div key={idx} className="px-3 py-2 text-xs font-mono" data-testid={`log-server-${idx}`}>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-muted-foreground whitespace-nowrap">
+                          {entry.timestamp ? formatRelativeTime(new Date(entry.timestamp)) : "—"}
+                        </span>
+                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${levelColor(entry.level)}`}>
+                          {entry.level}
+                        </span>
+                        <span className="font-medium text-foreground">{entry.function}</span>
+                      </div>
+                      <div className="mt-0.5 text-muted-foreground">
+                        {entry.message}
+                        {entry.data && (
+                          <span className="ml-1 text-muted-foreground/70">| {entry.data}</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }
