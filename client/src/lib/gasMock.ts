@@ -1,9 +1,11 @@
 /**
  * gasMock.ts — мок google.script.run для dev-режима
  *
+ * Референс: gas-architecture/GAS_BACKEND.md
+ *
  * В dev (Replit / localhost) window.google не существует.
  * Этот мок имитирует API через реальные REST-вызовы,
- * чтобы gasApi.ts работал корректно в любой среде.
+ * обеспечивая 1:1 паритет с gasApi.ts.
  *
  * installGasMock() вызывается из main.tsx до ReactDOM.createRoot.
  */
@@ -24,24 +26,33 @@ export function installGasMock(): void {
   }
 
   const MOCK_HANDLERS: Record<string, (...args: any[]) => Promise<any>> = {
+    // ─── Чтение данных ───────────────────────────────────────────────────────
     getBattles: () => restFetch("/api/battles"),
     getReplays: () => restFetch("/api/replays"),
     getTags: () => restFetch("/api/tags"),
     getCollection: () => restFetch("/api/collection"),
     getAdminStats: () => restFetch("/api/admin/stats"),
 
-    saveTag: (battleGameId: number, tag: string) =>
+    // GAS: getBuffConfig() — нет REST-эквивалента, возвращаем заглушку
+    getBuffConfig: () => restFetch("/api/admin/stats"),
+
+    // GAS: getServerLogs() — нет REST-эквивалента
+    getServerLogs: () => Promise.resolve([]),
+
+    // ─── Теги ─────────────────────────────────────────────────────────────────
+    saveTag: (battleGameId: string | number, tag: string) =>
       restFetch(`/api/tags/${battleGameId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tag }),
       }),
 
-    deleteTag: (battleGameId: number, tag: string) =>
+    deleteTag: (battleGameId: string | number, tag: string) =>
       restFetch(`/api/tags/${battleGameId}/${encodeURIComponent(tag)}`, {
         method: "DELETE",
       }),
 
+    // ─── Коллекция ────────────────────────────────────────────────────────────
     saveCollectionItem: (item: any) =>
       restFetch("/api/collection", {
         method: "POST",
@@ -54,9 +65,9 @@ export function installGasMock(): void {
         method: "DELETE",
       }),
 
-    clearCollection: () =>
-      restFetch("/api/collection", { method: "DELETE" }),
+    clearCollection: () => restFetch("/api/collection", { method: "DELETE" }),
 
+    // ─── Админ / загрузка данных ──────────────────────────────────────────────
     adminUpload: (type: string, data: any) =>
       restFetch(`/api/admin/${type}`, {
         method: "POST",
@@ -64,12 +75,39 @@ export function installGasMock(): void {
         body: JSON.stringify(data),
       }),
 
-    setMainBuff: (slot: "A" | "B", name: string, effectKey: string) =>
+    // GAS: uploadIconsBatch(cat, icons) — нет прямого REST-эквивалента
+    uploadIconsBatch: (cat: string, icons: any[]) =>
+      restFetch(`/api/admin/${cat}-icons`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(icons),
+      }),
+
+    // ─── Настройки баффов ─────────────────────────────────────────────────────
+    // GAS: saveMainBuffName(name)
+    saveMainBuffName: (name: string) =>
       restFetch("/api/admin/settings/main-buff", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slot, name, effectKey }),
+        body: JSON.stringify({ name }),
       }),
+
+    // GAS: saveBuffNames(jsonStr) — принимает JSON.stringify(arr)
+    saveBuffNames: (jsonStr: string) => {
+      let buffNames: string[];
+      try { buffNames = JSON.parse(jsonStr); } catch { buffNames = []; }
+      return restFetch("/api/admin/settings/main-buff", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ buffNames }),
+      });
+    },
+
+    // ─── Синхронизация (GAS-only) ─────────────────────────────────────────────
+    syncFromGitLab: (branch: string) => {
+      console.warn(`[gasMock] syncFromGitLab("${branch}") — not supported in dev`);
+      return Promise.resolve({ ok: false, message: "not supported in Replit" });
+    },
   };
 
   function makeRunner(

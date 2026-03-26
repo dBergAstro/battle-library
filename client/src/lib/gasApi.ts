@@ -1,13 +1,14 @@
 /**
  * gasApi.ts — обёртка для вызовов через google.script.run (GAS)
  *
- * В prod (GAS) используется window.google.script.run
- * В dev (Replit / localhost) падает на REST API через fetch
+ * Референс: gas-architecture/GAS_BACKEND.md
  *
- * Используется только если явно импортируется — существующий код с useQuery не трогается.
+ * IS_GAS_ENV=true  → google.script.run (GAS prod)
+ * IS_GAS_ENV=false → REST API (Replit dev / gasMock)
  */
 
-export const IS_GAS_ENV = typeof window !== "undefined" && !!(window as any).google?.script?.run;
+export const IS_GAS_ENV =
+  typeof window !== "undefined" && !!(window as any).google?.script?.run;
 
 function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -59,6 +60,8 @@ async function restDelete<T>(url: string, data?: any): Promise<T> {
 }
 
 export const gasApi = {
+  // ─── Чтение данных ─────────────────────────────────────────────────────────
+
   getBattles: (): Promise<any> =>
     IS_GAS_ENV ? gsRun("getBattles") : restFetch("/api/battles"),
 
@@ -74,18 +77,35 @@ export const gasApi = {
   getAdminStats: (): Promise<any> =>
     IS_GAS_ENV ? gsRun("getAdminStats") : restFetch("/api/admin/stats"),
 
-  saveTag: (battleGameId: number, tag: string): Promise<any> =>
+  // GAS: getBuffConfig() → { mainBuffName, buffNames[], ... }
+  // REST: нет эквивалента — возвращает заглушку
+  getBuffConfig: (): Promise<any> =>
+    IS_GAS_ENV ? gsRun("getBuffConfig") : restFetch("/api/admin/stats"),
+
+  // GAS: getServerLogs() → string[]
+  // REST: нет эквивалента
+  getLogs: (): Promise<string[]> =>
+    IS_GAS_ENV ? gsRun("getServerLogs") : Promise.resolve([]),
+
+  // ─── Теги ──────────────────────────────────────────────────────────────────
+
+  // battleGameId: string | number (GAS хранит как string в Sheets)
+  saveTag: (battleGameId: string | number, tag: string): Promise<any> =>
     IS_GAS_ENV
       ? gsRun("saveTag", battleGameId, tag)
       : restPost(`/api/tags/${battleGameId}`, { tag }),
 
-  deleteTag: (battleGameId: number, tag: string): Promise<any> =>
+  deleteTag: (battleGameId: string | number, tag: string): Promise<any> =>
     IS_GAS_ENV
       ? gsRun("deleteTag", battleGameId, tag)
       : restDelete(`/api/tags/${battleGameId}/${encodeURIComponent(tag)}`),
 
+  // ─── Коллекция ─────────────────────────────────────────────────────────────
+
   saveCollectionItem: (item: any): Promise<any> =>
-    IS_GAS_ENV ? gsRun("saveCollectionItem", item) : restPost("/api/collection", item),
+    IS_GAS_ENV
+      ? gsRun("saveCollectionItem", item)
+      : restPost("/api/collection", item),
 
   deleteCollectionItem: (id: string): Promise<any> =>
     IS_GAS_ENV
@@ -95,21 +115,48 @@ export const gasApi = {
   clearCollection: (): Promise<any> =>
     IS_GAS_ENV ? gsRun("clearCollection") : restDelete("/api/collection"),
 
+  // ─── Админ / загрузка данных ───────────────────────────────────────────────
+
   adminUpload: (type: string, data: any): Promise<any> =>
     IS_GAS_ENV
       ? gsRun("adminUpload", type, data)
       : restPost(`/api/admin/${type}`, data),
 
-  // GAS: setMainBuffName(name) — один аргумент
-  // Replit REST: POST /api/admin/settings/main-buff { slot, name, effectKey }
+  // GAS: uploadIconsBatch(cat, icons) — загружает иконки в Google Drive
+  // REST: нет прямого эквивалента (Replit хранит base64 через adminUpload)
+  uploadIconsBatch: (cat: string, icons: any[]): Promise<any> =>
+    IS_GAS_ENV
+      ? gsRun("uploadIconsBatch", cat, icons)
+      : restPost(`/api/admin/${cat}-icons`, icons),
+
+  // ─── Настройки баффов ──────────────────────────────────────────────────────
+
+  // GAS: saveMainBuffName(name) — один аргумент
+  // REST: POST /api/admin/settings/main-buff { name }
   setMainBuffName: (name: string): Promise<any> =>
     IS_GAS_ENV
-      ? gsRun("setMainBuffName", name)
+      ? gsRun("saveMainBuffName", name)
       : restPost("/api/admin/settings/main-buff", { name }),
 
-  // Полный вариант для Replit (slot + effectKey)
+  // Полный вариант: slot + effectKey (только REST; в GAS деградирует до name)
   setMainBuff: (slot: "A" | "B", name: string, effectKey: string): Promise<any> =>
     IS_GAS_ENV
-      ? gsRun("setMainBuffName", name)
+      ? gsRun("saveMainBuffName", name)
       : restPost("/api/admin/settings/main-buff", { slot, name, effectKey }),
+
+  // GAS: saveBuffNames(arr) — принимает JSON.stringify(arr)!
+  // REST: нет эквивалента — сохраняет через settings/main-buff
+  saveBuffNames: (arr: string[]): Promise<any> =>
+    IS_GAS_ENV
+      ? gsRun("saveBuffNames", JSON.stringify(arr))
+      : restPost("/api/admin/settings/main-buff", { buffNames: arr }),
+
+  // ─── Синхронизация (GAS-only) ──────────────────────────────────────────────
+
+  // GAS: syncFromGitLab(branch) — скачивает данные из GitLab
+  // REST: нет эквивалента
+  syncFromGitLab: (branch: string): Promise<any> =>
+    IS_GAS_ENV
+      ? gsRun("syncFromGitLab", branch)
+      : Promise.reject(new Error("syncFromGitLab: not supported in Replit")),
 };
