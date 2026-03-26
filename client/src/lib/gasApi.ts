@@ -107,8 +107,22 @@ export const gasApi = {
   getBuffConfig: (): Promise<any> =>
     IS_GAS_ENV ? gsRun("getBuffConfig") : restFetch("/api/admin/stats"),
 
-  getLogs: (): Promise<{ logs: Array<{ timestamp: string; level: string; function: string; message: string; data?: string }> }> =>
-    IS_GAS_ENV ? gsRun("getServerLogs") : Promise.resolve({ logs: [] }),
+  getLogs: async (): Promise<{ logs: Array<{ timestamp: string; level: string; function: string; message: string; data?: string }> }> => {
+    if (!IS_GAS_ENV) return { logs: [] };
+    const raw = await gsRun("getServerLogs");
+    const logs = (raw?.logs ?? []).map((entry: any) => ({
+      ...entry,
+      // GAS Sheets возвращает timestamp как Date-объект — приводим к ISO строке
+      timestamp: entry.timestamp
+        ? (entry.timestamp instanceof Date
+            ? entry.timestamp.toISOString()
+            : typeof entry.timestamp === "number"
+              ? new Date(entry.timestamp).toISOString()
+              : String(entry.timestamp))
+        : null,
+    }));
+    return { logs };
+  },
 
   // ─── Теги ──────────────────────────────────────────────────────────────────
 

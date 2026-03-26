@@ -8,6 +8,8 @@
  * Референс маппинга: gas-architecture/GAS_BACKEND.md
  */
 
+import { logGasCall } from "./gasLogger";
+
 /**
  * Normalizes icon items from the REST format used by the frontend
  * to the format expected by GAS uploadIconsBatch.
@@ -91,10 +93,14 @@ function normalizeReplaysData(raw: any): any {
   return normalizeEntityArrays(raw);
 }
 
-function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
+function gsRunRaw<T>(fnName: string, ...args: any[]): Promise<T> {
   return new Promise((resolve, reject) => {
     const runner = (window as any).google.script.run
       .withSuccessHandler((result: any) => {
+        if (result === null || result === undefined) {
+          reject(new Error(`${fnName} returned null`));
+          return;
+        }
         if (result?.error) {
           reject(new Error(result.error));
         } else {
@@ -106,6 +112,19 @@ function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
       });
     runner[fnName](...args);
   });
+}
+
+function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
+  const argStr = args.length === 0 ? "()" : args
+    .map((a) => {
+      if (a === null || a === undefined) return String(a);
+      if (typeof a === "string") return a.length > 40 ? `"${a.slice(0, 37)}…"` : `"${a}"`;
+      if (Array.isArray(a)) return `[${a.length} items]`;
+      if (typeof a === "object") return `{…}`;
+      return String(a);
+    })
+    .join(", ");
+  return logGasCall(fnName, argStr, gsRunRaw<T>(fnName, ...args));
 }
 
 function makeJsonResponse(data: any): Response {

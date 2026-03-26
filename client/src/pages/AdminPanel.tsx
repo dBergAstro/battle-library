@@ -1592,6 +1592,7 @@ export default function AdminPanel() {
 }
 
 function formatRelativeTime(date: Date): string {
+  if (isNaN(date.getTime())) return "—";
   const now = Date.now();
   const diffMs = now - date.getTime();
   if (diffMs < 1000) return "только что";
@@ -1602,6 +1603,13 @@ function formatRelativeTime(date: Date): string {
   const diffHr = Math.floor(diffMin / 60);
   if (diffHr < 24) return `${diffHr}ч назад`;
   return date.toLocaleString("ru-RU");
+}
+
+function parseTimestamp(raw: unknown): Date | null {
+  if (!raw) return null;
+  if (raw instanceof Date) return isNaN(raw.getTime()) ? null : raw;
+  const d = new Date(raw as string | number);
+  return isNaN(d.getTime()) ? null : d;
 }
 
 function levelColor(level: string): string {
@@ -1770,7 +1778,7 @@ function LogViewer() {
                     <div key={idx} className="px-3 py-2 text-xs font-mono" data-testid={`log-server-${idx}`}>
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-muted-foreground whitespace-nowrap">
-                          {entry.timestamp ? formatRelativeTime(new Date(entry.timestamp)) : "—"}
+                          {(() => { const d = parseTimestamp(entry.timestamp); return d ? formatRelativeTime(d) : "—"; })()}
                         </span>
                         <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${levelColor(entry.level)}`}>
                           {entry.level}

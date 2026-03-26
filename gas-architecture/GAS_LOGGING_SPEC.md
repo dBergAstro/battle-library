@@ -372,8 +372,12 @@ function getServerLogs() {
     for (var i = data.length - 1; i >= 0; i--) {
       var row = data[i];
       if (!row[0]) continue;
+      // row[0] может быть Date-объектом (Sheets автоматически конвертирует)
+      // — приводим к ISO строке для корректной передачи через google.script.run
+      var ts = row[0];
+      var tsStr = ts instanceof Date ? ts.toISOString() : String(ts);
       logs.push({
-        timestamp: row[0],
+        timestamp: tsStr,
         level: row[1] || 'INFO',
         function: row[2] || '',
         message: row[3] || '',
