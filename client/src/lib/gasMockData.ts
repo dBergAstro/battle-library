@@ -173,11 +173,67 @@ export const staticTagsData = {
 
 // ─── getCollection ────────────────────────────────────────────────────────────
 
-export const staticCollectionData = [
-  { itemId: "ch1-227", bossId: 227, heroId: "1", note: "Мой лучший бой" },
-  { itemId: "ch2-228", bossId: 228, heroId: "3", note: "Нужно проверить" },
-  { itemId: "ch3-229", bossId: 229, heroId: "2", note: "" },
-];
+interface GasCollectionItem {
+  id: number;
+  itemId: string;
+  itemType: string;
+  gameId: number;
+  label: string | null;
+  desc: string | null;
+  battleType: string | null;
+  teamJson: string | null;
+  rawDefendersFragments: string | null;
+  mainBuff: number | null;
+  totemsJson: string | null;
+  createdAt: number;
+}
+
+export const staticCollectionData: { items: GasCollectionItem[] } = {
+  items: [
+    {
+      id: 1,
+      itemId: "ch1-227:battle-abc123",
+      itemType: "battle",
+      gameId: 227,
+      label: "Мой лучший бой",
+      desc: null,
+      battleType: "heroic",
+      teamJson: null,
+      rawDefendersFragments: null,
+      mainBuff: null,
+      totemsJson: null,
+      createdAt: 1700000001,
+    },
+    {
+      id: 2,
+      itemId: "ch2-228:battle-def456",
+      itemType: "battle",
+      gameId: 228,
+      label: "Нужно проверить",
+      desc: null,
+      battleType: "heroic",
+      teamJson: null,
+      rawDefendersFragments: null,
+      mainBuff: null,
+      totemsJson: null,
+      createdAt: 1700000002,
+    },
+    {
+      id: 3,
+      itemId: "ch3-229:replay-ghi789",
+      itemType: "replay",
+      gameId: 229,
+      label: null,
+      desc: null,
+      battleType: "titanic",
+      teamJson: null,
+      rawDefendersFragments: null,
+      mainBuff: null,
+      totemsJson: null,
+      createdAt: 1700000003,
+    },
+  ],
+};
 
 // ─── getAdminStats ────────────────────────────────────────────────────────────
 
