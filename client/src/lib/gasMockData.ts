@@ -192,7 +192,7 @@ export const staticCollectionData: { items: GasCollectionItem[] } = {
   items: [
     {
       id: 1,
-      itemId: "ch1-227:battle-abc123",
+      itemId: "0-0:battle-abc123",
       itemType: "battle",
       gameId: 227,
       label: "Мой лучший бой",
@@ -206,7 +206,7 @@ export const staticCollectionData: { items: GasCollectionItem[] } = {
     },
     {
       id: 2,
-      itemId: "ch2-228:battle-def456",
+      itemId: "1-0:battle-def456",
       itemType: "battle",
       gameId: 228,
       label: "Нужно проверить",
@@ -220,7 +220,7 @@ export const staticCollectionData: { items: GasCollectionItem[] } = {
     },
     {
       id: 3,
-      itemId: "ch3-229:replay-ghi789",
+      itemId: "2-0:replay-ghi789",
       itemType: "replay",
       gameId: 229,
       label: null,
