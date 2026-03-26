@@ -41,6 +41,56 @@ function normalizeIconsForGas(
   });
 }
 
+function normalizeIconItems(
+  icons: any[],
+  idField: string,
+  snakeIdField?: string
+): Array<{ [key: string]: any }> {
+  return (icons ?? []).map((item: any) => ({
+    [idField]: item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id,
+    iconUrl: item.iconUrl ?? item.url,
+  }));
+}
+
+function normalizeSpiritSkills(
+  skills: any[]
+): Array<{ skillId: number; name: string }> {
+  return (skills ?? []).map((item: any) => ({
+    skillId: item.skillId ?? item.skill_id ?? item.id,
+    name: item.name,
+  }));
+}
+
+function normalizeHeroNames(
+  names: any[]
+): Array<{ heroId: number; name: string }> {
+  return (names ?? []).map((item: any) => ({
+    heroId: item.heroId ?? item.hero_id ?? item.id,
+    name: item.name,
+  }));
+}
+
+function normalizeEntityArrays(raw: any): any {
+  return {
+    ...raw,
+    heroIcons: normalizeIconItems(raw.heroIcons, "heroId", "hero_id"),
+    heroNames: normalizeHeroNames(raw.heroNames),
+    petIcons: normalizeIconItems(raw.petIcons, "petId", "pet_id"),
+    spiritIcons: normalizeIconItems(raw.spiritIcons, "skillId", "skill_id"),
+    spiritSkills: normalizeSpiritSkills(raw.spiritSkills),
+  };
+}
+
+function normalizeBattlesData(raw: any): any {
+  if (!raw || typeof raw !== "object") return raw;
+  return normalizeEntityArrays(raw);
+}
+
+function normalizeReplaysData(raw: any): any {
+  if (!raw || typeof raw !== "object") return raw;
+  return normalizeEntityArrays(raw);
+}
+
 function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
   return new Promise((resolve, reject) => {
     const runner = (window as any).google.script.run
@@ -83,13 +133,15 @@ async function routeToGas(
 
   // GET /api/battles
   if (m === "GET" && u === "/api/battles") {
-    const data = await gsRun("getBattles");
+    const raw = await gsRun<any>("getBattles");
+    const data = normalizeBattlesData(raw);
     return makeJsonResponse(data);
   }
 
   // GET /api/replays
   if (m === "GET" && u === "/api/replays") {
-    const data = await gsRun("getReplays");
+    const raw = await gsRun<any>("getReplays");
+    const data = normalizeReplaysData(raw);
     return makeJsonResponse(data);
   }
 
