@@ -126,6 +126,53 @@ npm run dev
 ```
 Приложение доступно на порту 5000.
 
+## GAS-деплой (Google Apps Script)
+
+### Архитектура dual-mode
+Приложение поддерживает два режима:
+- **Replit** — Express + PostgreSQL + REST API (стандартный режим)
+- **GAS** — Google Apps Script как бэкенд, Google Sheets как БД
+
+Переключение автоматическое: если `window.google.script.run` существует — GAS, иначе — REST.
+
+### Файлы
+- `client/src/lib/gasApi.ts` — обёртка API (dual-mode: GAS или REST)
+- `client/src/lib/gasMock.ts` — мок `google.script.run` для dev-режима через реальные REST-вызовы
+- `vite.gas.config.ts` — Vite-конфиг для GAS-сборки (viteSingleFile, всё inline)
+- `projects/battle-library/gas/index.html` — последний собранный файл для деплоя
+- `dist/gas/index.html` — build output (то же самое)
+
+### Сборка GAS-версии
+```bash
+npx vite build --config vite.gas.config.ts
+```
+Результат: `dist/gas/index.html` (~531 KB, всё JS+CSS inline в один файл)  
+После сборки скопировать в `projects/battle-library/gas/index.html`.
+
+### Соответствие API GAS ↔ REST
+| gasApi метод | GAS (Code.js) | REST (Replit) |
+|---|---|---|
+| `getBattles()` | `getBattles()` | GET `/api/battles` |
+| `getReplays()` | `getReplays()` | GET `/api/replays` |
+| `getTags()` | `getTags()` | GET `/api/tags` |
+| `saveTag(id, tag)` | `saveTag(id, tag)` | POST `/api/tags/:id` |
+| `deleteTag(id, tag)` | `deleteTag(id, tag)` | DELETE `/api/tags/:id/:tag` |
+| `getCollection()` | `getCollection()` | GET `/api/collection` |
+| `saveCollectionItem(item)` | `saveCollectionItem(data)` | POST `/api/collection` |
+| `deleteCollectionItem(id)` | `deleteCollectionItem(id)` | DELETE `/api/collection/:id` |
+| `clearCollection()` | `clearCollection()` | DELETE `/api/collection` |
+| `adminUpload(type, data)` | `adminUpload(type, data)` | POST `/api/admin/:type` |
+| `setMainBuffName(name)` | `setMainBuffName(name)` | POST `/api/admin/settings/main-buff` |
+| `setMainBuff(slot,name,key)` | → `setMainBuffName(name)` | POST `/api/admin/settings/main-buff` |
+
+### Важно при изменениях
+После любого изменения фронтенда нужно пересобрать GAS-файл:
+```bash
+npx vite build --config vite.gas.config.ts
+cp dist/gas/index.html projects/battle-library/gas/index.html
+```
+Текущая деплоимая версия: **v42**
+
 ## Записи (Replays)
 
 ### Структура defendersFragments:
