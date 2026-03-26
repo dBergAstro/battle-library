@@ -94,14 +94,22 @@ function normalizeTalismans(
   rawTalismans: any[],
   rawTalismanIcons: any[]
 ): Array<{ talismanId: number; name: string; effectKey: string; description?: string | null; iconUrl?: string | null }> {
-  // Build icon lookup: talismanId → base64 data-URL
+  // Build icon lookup: talismanId → data-URL
+  // Supports both old sheet format (talisman_id / drive_url / filename) and
+  // new format (id / base64 / filename).
   const iconMap = new Map<number, string>();
   (rawTalismanIcons ?? []).forEach((icon: any) => {
     const tid = icon.talismanId ?? icon.talisman_id ?? icon.id;
     if (!tid) return;
-    const raw64: string | undefined = icon.base64 ?? icon.iconUrl ?? icon.url;
-    if (!raw64) return;
-    const dataUrl = raw64.startsWith("data:") ? raw64 : `data:image/jpeg;base64,${raw64}`;
+    // drive_url column may hold raw base64 (old upload) or an http Drive URL
+    const rawVal: string | undefined =
+      icon.base64 ?? icon.iconUrl ?? icon.url ?? icon.drive_url;
+    if (!rawVal) return;
+    const dataUrl = rawVal.startsWith("data:")
+      ? rawVal
+      : rawVal.startsWith("http")
+        ? rawVal                                      // real Drive URL — keep as-is
+        : `data:image/jpeg;base64,${rawVal}`;        // raw base64 in any column
     iconMap.set(Number(tid), dataUrl);
   });
 
