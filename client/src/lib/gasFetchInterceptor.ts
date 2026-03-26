@@ -48,10 +48,19 @@ function normalizeIconItems(
   idField: string,
   snakeIdField?: string
 ): Array<{ [key: string]: any }> {
-  return (icons ?? []).map((item: any) => ({
-    [idField]: item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id,
-    iconUrl: item.iconUrl ?? item.url,
-  }));
+  return (icons ?? []).map((item: any) => {
+    // Resolve base64 → data URL if needed (new sheet format: id, base64, filename)
+    const rawBase64: string | undefined = item.base64;
+    const base64Url = rawBase64
+      ? (rawBase64.startsWith("data:") ? rawBase64 : `data:image/jpeg;base64,${rawBase64}`)
+      : undefined;
+
+    return {
+      [idField]: item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id,
+      // Support: iconUrl (REST format), drive_url (old Drive format), base64 (new Sheets format)
+      iconUrl: item.iconUrl ?? item.url ?? item.drive_url ?? base64Url,
+    };
+  });
 }
 
 function normalizeSpiritSkills(
@@ -91,6 +100,33 @@ function normalizeBattlesData(raw: any): any {
 function normalizeReplaysData(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;
   return normalizeEntityArrays(raw);
+}
+
+/**
+ * Compresses a base64 image using canvas so it fits within
+ * Google Sheets' 50,000-character-per-cell limit.
+ * Resizes to at most maxPx × maxPx and encodes as JPEG at 0.75 quality.
+ * Typical output: ~5–15 KB → ~7,000–20,000 base64 chars — well under 50k.
+ */
+function compressBase64Image(base64: string, maxPx = 96): Promise<string> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxPx / Math.max(img.width, img.height, 1));
+      const w = Math.max(1, Math.round(img.width * scale));
+      const h = Math.max(1, Math.round(img.height * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) { resolve(base64); return; }
+      ctx.drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.75);
+      resolve(dataUrl.split(",")[1]);
+    };
+    img.onerror = () => resolve(base64);
+    img.src = base64.startsWith("data:") ? base64 : `data:image/png;base64,${base64}`;
+  });
 }
 
 function gsRunRaw<T>(fnName: string, ...args: any[]): Promise<T> {
@@ -223,22 +259,42 @@ async function routeToGas(
     return makeJsonResponse(data);
   }
 
-  // POST /api/admin/settings/main-buff  { slot?, name, effectKey? }
+  // POST /api/admin/settings/main-buff  { slot: "A"|"B", name, effectKey }
   if (m === "POST" && u === "/api/admin/settings/main-buff") {
-    const data = await gsRun("saveMainBuffName", body?.name ?? "");
+    const slot = body?.slot ?? "A";
+    const name = body?.name ?? "";
+    const effectKey = body?.effectKey ?? "";
+    const data = await gsRun("saveMainBuffName", slot, name, effectKey);
     return makeJsonResponse(data);
   }
 
   // POST /api/admin/{hero|pet|spirit|titan|creep}-icons → uploadIconsBatch(category, icons)
   // Normalize icon format: frontend sends { heroId, iconUrl: "data:...", category }
   // but GAS expects { id, base64 (no prefix), filename }.
+  // Icons are uploaded in chunks of 10 to avoid GAS 6-minute execution timeout.
   const iconUploadMatch = m === "POST" && u.match(/^\/api\/admin\/(hero|pet|spirit|titan|creep)-icons$/);
   if (iconUploadMatch) {
     const category = iconUploadMatch[1];
     const rawIcons = Array.isArray(body) ? body : (body?.icons ?? []);
-    const icons = normalizeIconsForGas(rawIcons, category);
-    const data = await gsRun("uploadIconsBatch", category, icons);
-    return makeJsonResponse(data);
+    const rawNormalized = normalizeIconsForGas(rawIcons, category);
+    // Compress each icon to JPEG 96×96 so base64 fits Sheets' 50k char/cell limit
+    const icons = await Promise.all(
+      rawNormalized.map(async (icon) => ({
+        ...icon,
+        base64: await compressBase64Image(icon.base64),
+      }))
+    );
+    const CHUNK_SIZE = 10;
+    const totalChunks = Math.ceil(icons.length / CHUNK_SIZE);
+    let totalCount = 0;
+    for (let i = 0; i < icons.length; i += CHUNK_SIZE) {
+      const chunk = icons.slice(i, i + CHUNK_SIZE);
+      const chunkNum = Math.floor(i / CHUNK_SIZE) + 1;
+      console.debug(`[gasFetch] uploadIconsBatch ${category} chunk ${chunkNum}/${totalChunks} (${chunk.length} icons)`);
+      const result = await gsRun<any>("uploadIconsBatch", category, chunk);
+      totalCount += (result as any)?.count ?? chunk.length;
+    }
+    return makeJsonResponse({ success: true, count: totalCount });
   }
 
   // POST /api/admin/hero-sort-order → GAS adminUpload type is "sort-order" (not "hero-sort-order")
