@@ -12,12 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Upload, Eye, Users, Dog, Sparkles, Shield, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Search, Upload, Eye, Users, Dog, Sparkles, Shield, Loader2, CheckCircle2, Gem } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { getHeroName } from "@/lib/heroNames";
 import { useToast } from "@/hooks/use-toast";
 
-export type EntityCategory = "all" | "heroes" | "creeps" | "titans" | "pets" | "spirits";
+export type EntityCategory = "all" | "heroes" | "creeps" | "titans" | "pets" | "spirits" | "talismans";
 
 interface EntityData {
   id: number;
@@ -25,6 +26,7 @@ interface EntityData {
   icon?: string;
   category: EntityCategory;
   categoryLabel: string;
+  description?: string;
 }
 
 interface EntityViewerProps {
@@ -33,6 +35,7 @@ interface EntityViewerProps {
   petIcons: Array<{ petId: number; iconUrl: string }>;
   spiritSkills: Array<{ skillId: number; name: string }>;
   spiritIcons: Array<{ skillId: number; iconUrl: string }>;
+  talismans?: Array<{ talismanId: number; name: string; effectKey: string; description?: string | null; iconUrl?: string | null }>;
 }
 
 function getCategoryFromExplicitOrId(
@@ -58,6 +61,7 @@ function getCategoryLabel(category: EntityCategory): string {
     case "titans": return "Титан";
     case "pets": return "Питомец";
     case "spirits": return "Скил тотема";
+    case "talismans": return "Талисман";
     default: return "Сущность";
   }
 }
@@ -68,6 +72,7 @@ export function EntityViewer({
   petIcons,
   spiritSkills,
   spiritIcons,
+  talismans = [],
 }: EntityViewerProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<EntityCategory>("all");
@@ -145,8 +150,26 @@ export function EntityViewer({
       }
     });
 
-    return entities.sort((a, b) => a.id - b.id);
-  }, [heroIcons, heroNames, petIcons, spiritSkills, spiritIcons]);
+    talismans.forEach((t) => {
+      const key = `talisman-${t.talismanId}`;
+      if (!processedIds.has(key)) {
+        processedIds.add(key);
+        entities.push({
+          id: t.talismanId,
+          name: t.name,
+          icon: t.iconUrl ?? undefined,
+          category: "talismans",
+          categoryLabel: getCategoryLabel("talismans"),
+          description: t.description ?? undefined,
+        });
+      }
+    });
+
+    return entities.sort((a, b) => {
+      if (a.category === b.category) return a.id - b.id;
+      return a.id - b.id;
+    });
+  }, [heroIcons, heroNames, petIcons, spiritSkills, spiritIcons, talismans]);
 
   const filteredEntities = useMemo(() => {
     let result = allEntities;
@@ -173,7 +196,8 @@ export function EntityViewer({
     const titans = allEntities.filter((e) => e.category === "titans").length;
     const pets = allEntities.filter((e) => e.category === "pets").length;
     const spirits = allEntities.filter((e) => e.category === "spirits").length;
-    return { total, withIcon, heroes, creeps, titans, pets, spirits };
+    const talismanCount = allEntities.filter((e) => e.category === "talismans").length;
+    return { total, withIcon, heroes, creeps, titans, pets, spirits, talismans: talismanCount };
   }, [allEntities]);
 
   const handleIconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,9 +222,13 @@ export function EntityViewer({
         await apiRequest("POST", "/api/admin/spirit-icons", [
           { skillId: selectedEntity.id, iconUrl: base64 }
         ]);
+      } else if (selectedEntity.category === "talismans") {
+        await apiRequest("POST", "/api/admin/talisman-icons", {
+          icons: [{ talismanId: selectedEntity.id, iconUrl: base64 }]
+        });
       } else {
-        const category = selectedEntity.category === "heroes" ? "heroes" 
-          : selectedEntity.category === "creeps" ? "creeps" 
+        const category = selectedEntity.category === "heroes" ? "heroes"
+          : selectedEntity.category === "creeps" ? "creeps"
           : "titans";
         await apiRequest("POST", "/api/admin/hero-icons", [
           { heroId: selectedEntity.id, iconUrl: base64, category }
@@ -262,6 +290,12 @@ export function EntityViewer({
             <Sparkles className="h-3 w-3 mr-1" />
             Скилы: {stats.spirits}
           </Badge>
+          {stats.talismans > 0 && (
+            <Badge variant="outline" className="border-yellow-500 text-yellow-600" data-testid="badge-talismans">
+              <Gem className="h-3 w-3 mr-1" />
+              Талисманы: {stats.talismans}
+            </Badge>
+          )}
         </div>
 
         <div className="flex gap-2 flex-wrap">
@@ -286,13 +320,16 @@ export function EntityViewer({
               <SelectItem value="titans" data-testid="select-item-titans">Титаны</SelectItem>
               <SelectItem value="pets" data-testid="select-item-pets">Питомцы</SelectItem>
               <SelectItem value="spirits" data-testid="select-item-spirits">Скилы тотемов</SelectItem>
+              {stats.talismans > 0 && (
+                <SelectItem value="talismans" data-testid="select-item-talismans">Талисманы</SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
 
         {selectedEntity && (
           <div className="p-3 bg-muted/50 rounded-md flex items-center gap-3 flex-wrap" data-testid="selected-entity-panel">
-            <Avatar className="h-12 w-12 ring-2 ring-primary">
+            <Avatar className={`h-12 w-12 ring-2 ${selectedEntity.category === "talismans" ? "ring-yellow-500" : "ring-primary"}`}>
               {selectedEntity.icon ? (
                 <AvatarImage src={selectedEntity.icon} alt={selectedEntity.name} />
               ) : null}
@@ -303,6 +340,9 @@ export function EntityViewer({
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium" data-testid="selected-entity-name">#{selectedEntity.id} — {selectedEntity.name}</p>
               <p className="text-xs text-muted-foreground">{selectedEntity.categoryLabel}</p>
+              {selectedEntity.description && (
+                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{selectedEntity.description}</p>
+              )}
             </div>
             <input
               type="file"
@@ -342,29 +382,42 @@ export function EntityViewer({
         <ScrollArea className="h-[400px]" data-testid="entity-list-scroll">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
             {filteredEntities.map((entity) => (
-              <div
-                key={`${entity.category}-${entity.id}`}
-                className={`flex items-center gap-2 p-2 rounded-md cursor-pointer transition-colors ${
-                  selectedEntity?.id === entity.id && selectedEntity?.category === entity.category
-                    ? "bg-primary/20 ring-1 ring-primary"
-                    : "hover:bg-muted/50"
-                } ${!entity.icon ? "opacity-60" : ""}`}
-                onClick={() => setSelectedEntity(entity)}
-                data-testid={`entity-${entity.category}-${entity.id}`}
-              >
-                <Avatar className={`h-10 w-10 ${!entity.icon ? "ring-1 ring-dashed ring-muted-foreground/50" : ""}`}>
-                  {entity.icon ? (
-                    <AvatarImage src={entity.icon} alt={entity.name} />
-                  ) : null}
-                  <AvatarFallback className="text-[10px] bg-muted">
-                    {entity.id}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[10px] font-mono text-muted-foreground">#{entity.id}</p>
-                  <p className="text-xs font-medium truncate" title={entity.name}>{entity.name}</p>
-                </div>
-              </div>
+              <Tooltip key={`${entity.category}-${entity.id}`}>
+                <TooltipTrigger asChild>
+                  <div
+                    className={`flex items-center gap-2 p-2 rounded-md cursor-pointer transition-colors ${
+                      selectedEntity?.id === entity.id && selectedEntity?.category === entity.category
+                        ? "bg-primary/20 ring-1 ring-primary"
+                        : "hover:bg-muted/50"
+                    } ${!entity.icon ? "opacity-60" : ""}`}
+                    onClick={() => setSelectedEntity(entity)}
+                    data-testid={`entity-${entity.category}-${entity.id}`}
+                  >
+                    <Avatar className={`h-10 w-10 flex-shrink-0 ${
+                      entity.category === "talismans"
+                        ? entity.icon ? "ring-2 ring-yellow-500" : "ring-1 ring-dashed ring-yellow-400/60"
+                        : !entity.icon ? "ring-1 ring-dashed ring-muted-foreground/50" : ""
+                    }`}>
+                      {entity.icon ? (
+                        <AvatarImage src={entity.icon} alt={entity.name} />
+                      ) : null}
+                      <AvatarFallback className={`text-[10px] ${entity.category === "talismans" ? "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 font-bold" : "bg-muted"}`}>
+                        {entity.category === "talismans" ? "Т" : entity.id}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-mono text-muted-foreground">#{entity.id}</p>
+                      <p className="text-xs font-medium truncate" title={entity.name}>{entity.name}</p>
+                    </div>
+                  </div>
+                </TooltipTrigger>
+                {entity.description && (
+                  <TooltipContent side="top" className="text-xs max-w-[200px]">
+                    <p className="font-medium">{entity.name}</p>
+                    <p className="text-muted-foreground mt-0.5">{entity.description}</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
             ))}
             {filteredEntities.length === 0 && (
               <div className="col-span-full text-center text-muted-foreground py-8" data-testid="text-no-entities">

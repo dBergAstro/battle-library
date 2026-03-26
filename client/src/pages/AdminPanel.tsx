@@ -957,6 +957,7 @@ export default function AdminPanel() {
             petIcons={battlesData.petIcons || []}
             spiritSkills={battlesData.spiritSkills || []}
             spiritIcons={battlesData.spiritIcons || []}
+            talismans={battlesData.talismans || []}
           />
         )}
 
