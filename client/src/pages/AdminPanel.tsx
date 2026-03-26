@@ -64,6 +64,21 @@ interface StatsResponse {
   mainBuffEffectKeyA: string | null;
   mainBuffNameB: string | null;
   mainBuffEffectKeyB: string | null;
+  lastUpdated?: {
+    bossList?: string | null;
+    bossTeam?: string | null;
+    bossLevel?: string | null;
+    heroIcons?: string | null;
+    heroNames?: string | null;
+    heroSortOrder?: string | null;
+    titanElements?: string | null;
+    attackTeams?: string | null;
+    petIcons?: string | null;
+    talismans?: string | null;
+    talismanIcons?: string | null;
+    spiritSkills?: string | null;
+    spiritIcons?: string | null;
+  };
 }
 
 interface TableConfig {
@@ -102,10 +117,20 @@ interface IconFolderConfig {
 }
 
 const iconFolders: IconFolderConfig[] = [
-  { key: "heroes", title: "Герои", description: "Иконки героев (id 1-99)", category: "heroes" },
-  { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)", category: "creeps" },
-  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)", category: "titans" },
+  { key: "heroes", title: "Герои", description: "Иконки героев (id 1-99)", category: "hero" },
+  { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)", category: "creep" },
+  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)", category: "titan" },
 ];
+
+function fmtDate(iso?: string | null): string | null {
+  if (!iso) return null;
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  } catch {
+    return null;
+  }
+}
 
 export default function AdminPanel() {
   const queryClient = useQueryClient();
@@ -114,7 +139,7 @@ export default function AdminPanel() {
   const [uploadingStatus, setUploadingStatus] = useState<Record<string, boolean>>({});
   const [loadingProgress, setLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
   const [serverUploadStatus, setServerUploadStatus] = useState<Record<string, boolean>>({});
-  const [iconLoadingProgress, setIconLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
+  const [iconLoadingProgress, setIconLoadingProgress] = useState<Record<string, { phase: "reading" | "uploading"; current: number; total: number } | null>>({});
   const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const iconFolderRefs = useRef<Record<string, HTMLInputElement | null>>({});
   
@@ -161,7 +186,7 @@ export default function AdminPanel() {
 
   const { data: stats, isLoading: statsLoading } = useQuery<StatsResponse>({
     queryKey: ["/api/admin/stats"],
-    refetchInterval: 5000,
+    refetchInterval: 60000,
   });
 
   interface HeroData {
@@ -437,9 +462,16 @@ export default function AdminPanel() {
           return;
         }
 
-        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { current: 0, total: imageFiles.length } }));
+        // Build set of IDs that already have icons — skip them
+        const existingIconIds = new Set<number>(
+          (battlesData?.heroIcons ?? []).map((h) => h.heroId)
+        );
+
+        // Phase 1: reading files from disk
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "reading", current: 0, total: imageFiles.length } }));
 
         const icons: Array<{ heroId: number; iconUrl: string; category: string }> = [];
+        let skipped = 0;
         
         for (let i = 0; i < imageFiles.length; i++) {
           const file = imageFiles[i];
@@ -448,38 +480,51 @@ export default function AdminPanel() {
           
           if (matches && matches.length > 0) {
             const heroId = parseInt(matches[matches.length - 1], 10);
-            
-            const buffer = await file.arrayBuffer();
-            const base64 = btoa(
-              new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-            );
-            const mimeType = file.type || 'image/png';
-            const iconUrl = `data:${mimeType};base64,${base64}`;
-            
-            icons.push({ heroId, iconUrl, category: config.category });
+
+            if (existingIconIds.has(heroId)) {
+              skipped++;
+            } else {
+              const buffer = await file.arrayBuffer();
+              const base64 = btoa(
+                new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+              );
+              const mimeType = file.type || 'image/png';
+              const iconUrl = `data:${mimeType};base64,${base64}`;
+              icons.push({ heroId, iconUrl, category: config.category });
+            }
           }
 
-          if ((i + 1) % 50 === 0 || i === imageFiles.length - 1) {
-            setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { current: i + 1, total: imageFiles.length } }));
-            await new Promise((resolve) => setTimeout(resolve, 0));
-          }
+          setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "reading", current: i + 1, total: imageFiles.length } }));
+          if ((i + 1) % 20 === 0) await new Promise((resolve) => setTimeout(resolve, 0));
         }
 
-        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
-
         if (icons.length === 0) {
-          setErrors((prev) => ({ ...prev, [folderKey]: "Не удалось извлечь ID из имён файлов" }));
+          setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
+          const msg = skipped > 0
+            ? `Все ${skipped} иконок уже загружены — пропущено`
+            : "Не удалось извлечь ID из имён файлов";
+          setErrors((prev) => ({ ...prev, [folderKey]: msg }));
           return;
         }
 
-        const BATCH_SIZE = 50;
-        for (let i = 0; i < icons.length; i += BATCH_SIZE) {
-          const batch = icons.slice(i, i + BATCH_SIZE);
-          await apiRequest("POST", "/api/admin/hero-icons", batch);
+        // Phase 2: uploading to GAS in chunks of 10 (to avoid GAS timeout)
+        const GAS_CHUNK = 10;
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "uploading", current: 0, total: icons.length } }));
+        for (let i = 0; i < icons.length; i += GAS_CHUNK) {
+          const chunk = icons.slice(i, i + GAS_CHUNK);
+          await apiRequest("POST", `/api/admin/${config.category}-icons`, chunk);
+          setIconLoadingProgress((prev) => ({
+            ...prev,
+            [config.key]: { phase: "uploading", current: Math.min(i + GAS_CHUNK, icons.length), total: icons.length },
+          }));
         }
 
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
         queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+        if (skipped > 0) {
+          toast({ title: "Иконки загружены", description: `Загружено: ${icons.length}, пропущено (уже есть): ${skipped}` });
+        }
       } catch (err) {
         setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
         setErrors((prev) => ({ ...prev, [folderKey]: err instanceof Error ? err.message : "Ошибка загрузки иконок" }));
@@ -488,7 +533,7 @@ export default function AdminPanel() {
         e.target.value = "";
       }
     },
-    [queryClient]
+    [queryClient, battlesData]
   );
 
   const handleSaveHeroNames = async () => {
@@ -669,9 +714,15 @@ export default function AdminPanel() {
                       </>
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground mb-3">
+                  <p className="text-xs text-muted-foreground mb-1">
                     {config.description}
                   </p>
+                  {fmtDate(stats?.lastUpdated?.[config.key as keyof NonNullable<StatsResponse['lastUpdated']>]) && (
+                    <p className="text-[11px] text-muted-foreground/50 mb-2">
+                      Обновлено: {fmtDate(stats?.lastUpdated?.[config.key as keyof NonNullable<StatsResponse['lastUpdated']>])}
+                    </p>
+                  )}
+                  {!fmtDate(stats?.lastUpdated?.[config.key as keyof NonNullable<StatsResponse['lastUpdated']>]) && <div className="mb-3" />}
 
                   <div className="flex gap-2 flex-wrap">
                     <label>
@@ -776,9 +827,15 @@ export default function AdminPanel() {
                     <div className="flex items-center gap-2 mb-2">
                       <span className="font-medium text-sm">{config.title}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mb-3">
+                    <p className="text-xs text-muted-foreground mb-1">
                       {config.description}
                     </p>
+                    {fmtDate(stats?.lastUpdated?.heroIcons) && (
+                      <p className="text-[11px] text-muted-foreground/50 mb-2">
+                        Обновлено: {fmtDate(stats?.lastUpdated?.heroIcons)}
+                      </p>
+                    )}
+                    {!fmtDate(stats?.lastUpdated?.heroIcons) && <div className="mb-3" />}
 
                     <input
                       type="file"
@@ -804,20 +861,31 @@ export default function AdminPanel() {
                       Выбрать папку
                     </Button>
 
-                    {iconLoadingProgress[config.key] && (
-                      <div className="mt-3">
-                        <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                          <span>Обработка...</span>
-                          <span>{iconLoadingProgress[config.key]!.current} / {iconLoadingProgress[config.key]!.total}</span>
+                    {iconLoadingProgress[config.key] && (() => {
+                      const prog = iconLoadingProgress[config.key]!;
+                      const pct = prog.total > 0 ? Math.round((prog.current / prog.total) * 100) : 0;
+                      return (
+                        <div className="mt-3">
+                          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                            <span>
+                              {prog.phase === "reading" ? "Чтение файлов..." : "Отправка в GAS..."}
+                            </span>
+                            <span className="font-mono">{prog.current} / {prog.total} ({pct}%)</span>
+                          </div>
+                          <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                            <div
+                              className={`h-full transition-all duration-300 ${prog.phase === "reading" ? "bg-blue-500" : "bg-primary"}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {prog.phase === "reading"
+                              ? "Считываем файлы с диска..."
+                              : `Чанк ${Math.ceil(prog.current / 10)} / ${Math.ceil(prog.total / 10)} — ждём ответа GAS...`}
+                          </p>
                         </div>
-                        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-primary transition-all duration-200"
-                            style={{ width: `${(iconLoadingProgress[config.key]!.current / iconLoadingProgress[config.key]!.total) * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                    )}
+                      );
+                    })()}
 
                     {errors[folderKey] && (
                       <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
@@ -1000,6 +1068,11 @@ export default function AdminPanel() {
             <p className="text-sm text-muted-foreground">
               Загрузите таблицу invasion_testAttackTeams (папка с JSON файлами)
             </p>
+            {fmtDate(stats?.lastUpdated?.attackTeams) && (
+              <p className="text-[11px] text-muted-foreground/50">
+                Обновлено: {fmtDate(stats?.lastUpdated?.attackTeams)}
+              </p>
+            )}
             <input
               type="file"
               ref={attackTeamsInputRef}
@@ -1015,23 +1088,34 @@ export default function AdminPanel() {
                 try {
                   let allData: Record<string, unknown>[] = [];
                   const jsonFiles = Array.from(files).filter(f => f.name.endsWith('.json'));
-                  
-                  for (const file of jsonFiles) {
+                  const total = jsonFiles.length;
+
+                  setLoadingProgress((prev) => ({ ...prev, attackTeams: { current: 0, total } }));
+
+                  for (let i = 0; i < jsonFiles.length; i++) {
+                    const file = jsonFiles[i];
                     const text = await file.text();
                     const parsed = parseJSON(text);
-                    // Filter out schema files
                     const dataRows = parsed.filter((row) => !("columns" in row) && !("table" in row));
                     allData = allData.concat(dataRows);
+                    setLoadingProgress((prev) => ({ ...prev, attackTeams: { current: i + 1, total } }));
                   }
+
+                  setLoadingProgress((prev) => ({ ...prev, attackTeams: null }));
                   
                   if (allData.length === 0) {
                     throw new Error("Нет данных для загрузки (JSON файлы не найдены)");
                   }
                   
+                  setServerUploadStatus((prev) => ({ ...prev, attackTeams: true }));
                   await uploadToServer("/api/admin/attack-teams", allData);
+                  setServerUploadStatus((prev) => ({ ...prev, attackTeams: false }));
                   queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
                   queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+                  toast({ title: "Записи загружены", description: `Записей: ${allData.length}` });
                 } catch (error) {
+                  setLoadingProgress((prev) => ({ ...prev, attackTeams: null }));
+                  setServerUploadStatus((prev) => ({ ...prev, attackTeams: false }));
                   setErrors((prev) => ({ 
                     ...prev, 
                     attackTeams: error instanceof Error ? error.message : "Ошибка загрузки" 
@@ -1074,6 +1158,29 @@ export default function AdminPanel() {
                 </div>
               )}
             </div>
+            {loadingProgress.attackTeams && (
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                    Чтение файлов...
+                  </span>
+                  <span>{loadingProgress.attackTeams.current} / {loadingProgress.attackTeams.total}</span>
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-200"
+                    style={{ width: `${(loadingProgress.attackTeams.current / loadingProgress.attackTeams.total) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {serverUploadStatus.attackTeams && (
+              <div className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin text-primary" />
+                Отправка данных на сервер...
+              </div>
+            )}
             {errors.attackTeams && (
               <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
                 <AlertCircle className="h-3 w-3 flex-shrink-0" />
@@ -1095,6 +1202,11 @@ export default function AdminPanel() {
             <p className="text-sm text-muted-foreground">
               Загрузите папку с иконками питомцев (ID извлекается из имени файла)
             </p>
+            {fmtDate(stats?.lastUpdated?.petIcons) && (
+              <p className="text-[11px] text-muted-foreground/50">
+                Обновлено: {fmtDate(stats?.lastUpdated?.petIcons)}
+              </p>
+            )}
             <input
               type="file"
               ref={petIconsInputRef}
@@ -1183,7 +1295,7 @@ export default function AdminPanel() {
           </CardHeader>
           <CardContent className="space-y-5">
             <p className="text-xs text-muted-foreground">
-              Укажите название и ключ эффекта для каждого баффа. Ключ эффекта — это префикс из поля effects в записи (например: allParamsValueIncrease). В записи может быть только один из двух баффов.
+              Укажите название и ключ эффекта для каждого баффа. Ключ эффекта — это префикс из поля effects в записи (например: allParamsValueIncrease). Каждая запись содержит не более одного баффа из этих двух.
             </p>
 
             {/* Бафф А */}
@@ -1320,6 +1432,11 @@ export default function AdminPanel() {
           <CardContent className="space-y-4">
             <div>
               <label className="text-sm font-medium mb-2 block">Определения талисманов</label>
+              {fmtDate(stats?.lastUpdated?.talismans) && (
+                <p className="text-[11px] text-muted-foreground/50 mb-1">
+                  Обновлено: {fmtDate(stats?.lastUpdated?.talismans)}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mb-2">
                 Формат: <code className="bg-muted px-1 rounded">ID Название talismanXxx_params Описание эффекта</code> (каждый на новой строке).<br />
                 Токен, начинающийся с <code className="bg-muted px-1 rounded">talisman</code>, автоматически определяется как ключ эффекта. Всё до него — название, всё после — описание. Например:<br />
@@ -1431,6 +1548,11 @@ export default function AdminPanel() {
               <label className="text-sm font-medium mb-2 block">
                 Названия скилов
               </label>
+              {fmtDate(stats?.lastUpdated?.spiritSkills) && (
+                <p className="text-[11px] text-muted-foreground/50 mb-1">
+                  Обновлено: {fmtDate(stats?.lastUpdated?.spiritSkills)}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mb-2">
                 Формат: ID название (каждый скил на новой строке). Пример: 4503 Огненный удар
               </p>
@@ -1490,6 +1612,11 @@ export default function AdminPanel() {
               <label className="text-sm font-medium mb-2 block">
                 Иконки скилов
               </label>
+              {fmtDate(stats?.lastUpdated?.spiritIcons) && (
+                <p className="text-[11px] text-muted-foreground/50 mb-1">
+                  Обновлено: {fmtDate(stats?.lastUpdated?.spiritIcons)}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mb-2">
                 Загрузите папку с иконками скилов. ID извлекается из имени файла.
               </p>
@@ -1513,9 +1640,17 @@ export default function AdminPanel() {
                   
                   setErrors((prev) => ({ ...prev, spiritIcons: "" }));
                   setSpiritIconsUploading(true);
-                  setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { current: 0, total: imageFiles.length } }));
+
+                  // Build set of already-uploaded spirit icon IDs — skip them
+                  const existingSpiritIds = new Set<number>(
+                    (battlesData?.spiritIcons ?? []).map((s) => s.skillId)
+                  );
+
+                  // Phase 1: reading files
+                  setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "reading", current: 0, total: imageFiles.length } }));
                   
                   const icons: Array<{ skillId: number; iconUrl: string }> = [];
+                  let spiritSkipped = 0;
                   
                   for (let i = 0; i < imageFiles.length; i++) {
                     const file = imageFiles[i];
@@ -1523,25 +1658,48 @@ export default function AdminPanel() {
                     if (!match) continue;
                     
                     const skillId = parseInt(match[1]);
-                    const base64 = await new Promise<string>((resolve) => {
-                      const reader = new FileReader();
-                      reader.onload = () => resolve(reader.result as string);
-                      reader.readAsDataURL(file);
-                    });
-                    
-                    icons.push({ skillId, iconUrl: base64 });
-                    setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { current: i + 1, total: imageFiles.length } }));
+
+                    if (existingSpiritIds.has(skillId)) {
+                      spiritSkipped++;
+                    } else {
+                      const base64 = await new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result as string);
+                        reader.readAsDataURL(file);
+                      });
+                      icons.push({ skillId, iconUrl: base64 });
+                    }
+
+                    setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "reading", current: i + 1, total: imageFiles.length } }));
                   }
                   
                   if (icons.length > 0) {
                     try {
-                      await apiRequest("POST", "/api/admin/spirit-icons", icons);
+                      // Phase 2: uploading to GAS in chunks of 10
+                      const GAS_CHUNK = 10;
+                      setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "uploading", current: 0, total: icons.length } }));
+                      for (let i = 0; i < icons.length; i += GAS_CHUNK) {
+                        const chunk = icons.slice(i, i + GAS_CHUNK);
+                        await apiRequest("POST", "/api/admin/spirit-icons", chunk);
+                        setIconLoadingProgress((prev) => ({
+                          ...prev,
+                          spiritIcons: { phase: "uploading", current: Math.min(i + GAS_CHUNK, icons.length), total: icons.length },
+                        }));
+                      }
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
                       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+                      if (spiritSkipped > 0) {
+                        toast({ title: "Иконки загружены", description: `Загружено: ${icons.length}, пропущено (уже есть): ${spiritSkipped}` });
+                      }
                     } catch (error) {
                       console.error("Error uploading spirit icons:", error);
                       setErrors((prev) => ({ ...prev, spiritIcons: "Ошибка загрузки" }));
                     }
+                  } else {
+                    const msg = spiritSkipped > 0
+                      ? `Все ${spiritSkipped} иконок уже загружены — пропущено`
+                      : "Не удалось извлечь ID из имён файлов";
+                    setErrors((prev) => ({ ...prev, spiritIcons: msg }));
                   }
                   
                   setSpiritIconsUploading(false);
@@ -1564,11 +1722,29 @@ export default function AdminPanel() {
                   )}
                   {spiritIconsUploading ? "Загрузка..." : "Загрузить папку"}
                 </Button>
-                {iconLoadingProgress.spiritIcons && (
-                  <Badge variant="outline">
-                    {iconLoadingProgress.spiritIcons.current} / {iconLoadingProgress.spiritIcons.total}
-                  </Badge>
-                )}
+                {iconLoadingProgress.spiritIcons && (() => {
+                  const prog = iconLoadingProgress.spiritIcons!;
+                  const pct = prog.total > 0 ? Math.round((prog.current / prog.total) * 100) : 0;
+                  return (
+                    <div className="w-full mt-2">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                        <span>{prog.phase === "reading" ? "Чтение файлов..." : "Отправка в GAS..."}</span>
+                        <span className="font-mono">{prog.current} / {prog.total} ({pct}%)</span>
+                      </div>
+                      <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all duration-300 ${prog.phase === "reading" ? "bg-blue-500" : "bg-primary"}`}
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {prog.phase === "reading"
+                          ? "Считываем файлы с диска..."
+                          : `Чанк ${Math.ceil(prog.current / 10)} / ${Math.ceil(prog.total / 10)} — ждём ответа GAS...`}
+                      </p>
+                    </div>
+                  );
+                })()}
                 {allSpiritSkills.length > 0 && !spiritIconsUploading && (
                   <Badge variant="secondary">
                     Загружено: {allSpiritSkills.filter(s => s.icon).length} иконок
