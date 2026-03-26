@@ -64,8 +64,9 @@ function normalizeIconItems(
           : `data:image/jpeg;base64,${rawDriveUrl}`)            // raw base64 in drive_url column
       : undefined;
 
+    const rawId = item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id;
     return {
-      [idField]: item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id,
+      [idField]: rawId != null ? Number(rawId) : rawId,
       // Priority: iconUrl (REST) → explicit URL → base64 column → drive_url column (may be base64)
       iconUrl: item.iconUrl ?? item.url ?? base64Url ?? driveOrBase64Url,
     };
@@ -76,7 +77,7 @@ function normalizeSpiritSkills(
   skills: any[]
 ): Array<{ skillId: number; name: string }> {
   return (skills ?? []).map((item: any) => ({
-    skillId: item.skillId ?? item.skill_id ?? item.id,
+    skillId: Number(item.skillId ?? item.skill_id ?? item.id),
     name: item.name,
   }));
 }
@@ -85,7 +86,7 @@ function normalizeHeroNames(
   names: any[]
 ): Array<{ heroId: number; name: string }> {
   return (names ?? []).map((item: any) => ({
-    heroId: item.heroId ?? item.hero_id ?? item.id,
+    heroId: Number(item.heroId ?? item.hero_id ?? item.id),
     name: item.name,
   }));
 }
@@ -149,11 +150,18 @@ function normalizeEntityArrays(raw: any): any {
 
 // ─── Array normalizers: snake_case (GAS sheets) → camelCase (frontend) ────────
 
+// Helper: coerce a value to number; null/undefined stay null
+function toNum(v: any): number | null {
+  if (v == null) return null;
+  const n = Number(v);
+  return isNaN(n) ? null : n;
+}
+
 function normalizeBossListItems(items: any[]): any[] {
   return (items ?? []).map((item: any) => ({
     ...item,
-    gameId:             item.gameId             ?? item.game_id,
-    heroId:             item.heroId             ?? item.hero_id             ?? null,
+    gameId:             toNum(item.gameId ?? item.game_id),
+    heroId:             toNum(item.heroId ?? item.hero_id),
     defendersFragments: item.defendersFragments ?? item.defenders_fragments ?? null,
   }));
 }
@@ -161,48 +169,48 @@ function normalizeBossListItems(items: any[]): any[] {
 function normalizeBossTeamItems(items: any[]): any[] {
   return (items ?? []).map((item: any) => ({
     ...item,
-    bossGameId:  item.bossGameId  ?? item.boss_game_id ?? item.bossId,
-    heroId:      item.heroId      ?? item.hero_id      ?? null,
-    unitId:      item.unitId      ?? item.unit_id      ?? null,
-    bossLevelId: item.bossLevelId ?? item.boss_level_id ?? null,
+    bossGameId:  toNum(item.bossGameId  ?? item.boss_game_id ?? item.bossId),
+    heroId:      toNum(item.heroId      ?? item.hero_id),
+    unitId:      toNum(item.unitId      ?? item.unit_id),
+    bossLevelId: toNum(item.bossLevelId ?? item.boss_level_id),
   }));
 }
 
 function normalizeBossLevelItems(items: any[]): any[] {
   return (items ?? []).map((item: any) => ({
     ...item,
-    gameId:     item.gameId     ?? item.game_id,
-    bossId:     item.bossId     ?? item.boss_id     ?? null,
-    powerLevel: item.powerLevel ?? item.power_level ?? null,
+    gameId:     toNum(item.gameId     ?? item.game_id),
+    bossId:     toNum(item.bossId     ?? item.boss_id),
+    powerLevel: toNum(item.powerLevel ?? item.power_level),
   }));
 }
 
 function normalizeHeroSortOrderItems(items: any[]): any[] {
   return (items ?? []).map((item: any) => ({
     ...item,
-    heroId:    item.heroId    ?? item.hero_id,
-    sortOrder: item.sortOrder ?? item.sort_order ?? null,
+    heroId:    toNum(item.heroId    ?? item.hero_id),
+    sortOrder: item.sortOrder != null ? item.sortOrder : (item.sort_order ?? null),
   }));
 }
 
 function normalizeTitanElementItems(items: any[]): any[] {
   return (items ?? []).map((item: any) => ({
     ...item,
-    titanId: item.titanId ?? item.titan_id,
+    titanId: toNum(item.titanId ?? item.titan_id),
     element: item.element ?? null,
-    points:  item.points  ?? null,
+    points:  toNum(item.points),
   }));
 }
 
 function normalizeAttackTeamItems(items: any[]): any[] {
   return (items ?? []).map((item: any) => ({
     ...item,
-    gameId:             item.gameId             ?? item.game_id             ?? null,
-    invasionId:         item.invasionId         ?? item.invasion_id         ?? null,
-    bossId:             item.bossId             ?? item.boss_id             ?? null,
-    bossLevel:          item.bossLevel          ?? item.boss_level          ?? null,
-    chapter:            item.chapter            ?? null,
-    level:              item.level              ?? null,
+    gameId:             toNum(item.gameId     ?? item.game_id),
+    invasionId:         toNum(item.invasionId ?? item.invasion_id),
+    bossId:             toNum(item.bossId     ?? item.boss_id),
+    bossLevel:          toNum(item.bossLevel  ?? item.boss_level),
+    chapter:            toNum(item.chapter),
+    level:              toNum(item.level),
     enemyType:          item.enemyType          ?? item.enemy_type          ?? null,
     mainBuff:           item.mainBuff           ?? item.main_buff           ?? null,
     comment:            item.comment            ?? null,

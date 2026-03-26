@@ -157,6 +157,15 @@ export function processBattlesFromServer(
   const iconMap = new Map(safeHeroIcons.map((h) => [h.heroId, h.iconUrl]));
   const nameMap = new Map(safeHeroNames.map((h) => [h.heroId, h.name]));
   const sortOrderMap = new Map(safeSortOrder.map((h) => [h.heroId, h.sortOrder]));
+
+  // Debug: log icon map sample vs team sample to catch type/id mismatches
+  if (safeHeroIcons.length > 0 && safeBossTeam.length > 0) {
+    const sampleIcon = safeHeroIcons[0];
+    const sampleTeam = safeBossTeam[0];
+    console.debug("[processBattles] iconMap sample:", sampleIcon.heroId, typeof sampleIcon.heroId, "hasUrl:", !!sampleIcon.iconUrl,
+      "| team[0] bossGameId:", sampleTeam.bossGameId, "heroId:", sampleTeam.heroId, typeof sampleTeam.heroId,
+      "| iconMapSize:", iconMap.size, "| lookup test:", iconMap.get(sampleTeam.heroId ?? sampleTeam.unitId));
+  }
   const titanElementsMap = new Map(safeTitanElements.map((t) => [t.titanId, { element: t.element, points: t.points }]));
   const levelMap = new Map(safeBossLevel.map((l) => [l.gameId, l.powerLevel]));
 
