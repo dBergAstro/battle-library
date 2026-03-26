@@ -284,15 +284,13 @@ async function routeToGas(
         base64: await compressBase64Image(icon.base64),
       }))
     );
-    const CHUNK_SIZE = 10;
-    const totalChunks = Math.ceil(icons.length / CHUNK_SIZE);
+    // Send 1 icon per GAS call — more reliable than batching since GAS may timeout
+    // with large payloads. Single-icon upload is confirmed to work.
     let totalCount = 0;
-    for (let i = 0; i < icons.length; i += CHUNK_SIZE) {
-      const chunk = icons.slice(i, i + CHUNK_SIZE);
-      const chunkNum = Math.floor(i / CHUNK_SIZE) + 1;
-      console.debug(`[gasFetch] uploadIconsBatch ${category} chunk ${chunkNum}/${totalChunks} (${chunk.length} icons)`);
-      const result = await gsRun<any>("uploadIconsBatch", category, chunk);
-      totalCount += (result as any)?.count ?? chunk.length;
+    for (let i = 0; i < icons.length; i++) {
+      console.debug(`[gasFetch] uploadIconsBatch ${category} ${i + 1}/${icons.length}`);
+      const result = await gsRun<any>("uploadIconsBatch", category, [icons[i]]);
+      totalCount += (result as any)?.count ?? 1;
     }
     return makeJsonResponse({ success: true, count: totalCount });
   }
