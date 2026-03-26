@@ -462,10 +462,16 @@ export default function AdminPanel() {
           return;
         }
 
+        // Build set of IDs that already have icons — skip them
+        const existingIconIds = new Set<number>(
+          (battlesData?.heroIcons ?? []).map((h) => h.heroId)
+        );
+
         // Phase 1: reading files from disk
         setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "reading", current: 0, total: imageFiles.length } }));
 
         const icons: Array<{ heroId: number; iconUrl: string; category: string }> = [];
+        let skipped = 0;
         
         for (let i = 0; i < imageFiles.length; i++) {
           const file = imageFiles[i];
@@ -474,15 +480,18 @@ export default function AdminPanel() {
           
           if (matches && matches.length > 0) {
             const heroId = parseInt(matches[matches.length - 1], 10);
-            
-            const buffer = await file.arrayBuffer();
-            const base64 = btoa(
-              new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-            );
-            const mimeType = file.type || 'image/png';
-            const iconUrl = `data:${mimeType};base64,${base64}`;
-            
-            icons.push({ heroId, iconUrl, category: config.category });
+
+            if (existingIconIds.has(heroId)) {
+              skipped++;
+            } else {
+              const buffer = await file.arrayBuffer();
+              const base64 = btoa(
+                new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+              );
+              const mimeType = file.type || 'image/png';
+              const iconUrl = `data:${mimeType};base64,${base64}`;
+              icons.push({ heroId, iconUrl, category: config.category });
+            }
           }
 
           setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "reading", current: i + 1, total: imageFiles.length } }));
@@ -491,7 +500,10 @@ export default function AdminPanel() {
 
         if (icons.length === 0) {
           setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
-          setErrors((prev) => ({ ...prev, [folderKey]: "Не удалось извлечь ID из имён файлов" }));
+          const msg = skipped > 0
+            ? `Все ${skipped} иконок уже загружены — пропущено`
+            : "Не удалось извлечь ID из имён файлов";
+          setErrors((prev) => ({ ...prev, [folderKey]: msg }));
           return;
         }
 
@@ -510,6 +522,9 @@ export default function AdminPanel() {
         setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
         queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+        if (skipped > 0) {
+          toast({ title: "Иконки загружены", description: `Загружено: ${icons.length}, пропущено (уже есть): ${skipped}` });
+        }
       } catch (err) {
         setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
         setErrors((prev) => ({ ...prev, [folderKey]: err instanceof Error ? err.message : "Ошибка загрузки иконок" }));
@@ -518,7 +533,7 @@ export default function AdminPanel() {
         e.target.value = "";
       }
     },
-    [queryClient]
+    [queryClient, battlesData]
   );
 
   const handleSaveHeroNames = async () => {
@@ -1626,10 +1641,16 @@ export default function AdminPanel() {
                   setErrors((prev) => ({ ...prev, spiritIcons: "" }));
                   setSpiritIconsUploading(true);
 
+                  // Build set of already-uploaded spirit icon IDs — skip them
+                  const existingSpiritIds = new Set<number>(
+                    (battlesData?.spiritIcons ?? []).map((s) => s.skillId)
+                  );
+
                   // Phase 1: reading files
                   setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "reading", current: 0, total: imageFiles.length } }));
                   
                   const icons: Array<{ skillId: number; iconUrl: string }> = [];
+                  let spiritSkipped = 0;
                   
                   for (let i = 0; i < imageFiles.length; i++) {
                     const file = imageFiles[i];
@@ -1637,13 +1658,18 @@ export default function AdminPanel() {
                     if (!match) continue;
                     
                     const skillId = parseInt(match[1]);
-                    const base64 = await new Promise<string>((resolve) => {
-                      const reader = new FileReader();
-                      reader.onload = () => resolve(reader.result as string);
-                      reader.readAsDataURL(file);
-                    });
-                    
-                    icons.push({ skillId, iconUrl: base64 });
+
+                    if (existingSpiritIds.has(skillId)) {
+                      spiritSkipped++;
+                    } else {
+                      const base64 = await new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result as string);
+                        reader.readAsDataURL(file);
+                      });
+                      icons.push({ skillId, iconUrl: base64 });
+                    }
+
                     setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "reading", current: i + 1, total: imageFiles.length } }));
                   }
                   
@@ -1662,10 +1688,18 @@ export default function AdminPanel() {
                       }
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
                       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+                      if (spiritSkipped > 0) {
+                        toast({ title: "Иконки загружены", description: `Загружено: ${icons.length}, пропущено (уже есть): ${spiritSkipped}` });
+                      }
                     } catch (error) {
                       console.error("Error uploading spirit icons:", error);
                       setErrors((prev) => ({ ...prev, spiritIcons: "Ошибка загрузки" }));
                     }
+                  } else {
+                    const msg = spiritSkipped > 0
+                      ? `Все ${spiritSkipped} иконок уже загружены — пропущено`
+                      : "Не удалось извлечь ID из имён файлов";
+                    setErrors((prev) => ({ ...prev, spiritIcons: msg }));
                   }
                   
                   setSpiritIconsUploading(false);
