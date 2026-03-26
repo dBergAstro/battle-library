@@ -93,6 +93,33 @@ function normalizeReplaysData(raw: any): any {
   return normalizeEntityArrays(raw);
 }
 
+/**
+ * Compresses a base64 image using canvas so it fits within
+ * Google Sheets' 50,000-character-per-cell limit.
+ * Resizes to at most maxPx × maxPx and encodes as JPEG at 0.75 quality.
+ * Typical output: ~5–15 KB → ~7,000–20,000 base64 chars — well under 50k.
+ */
+function compressBase64Image(base64: string, maxPx = 96): Promise<string> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxPx / Math.max(img.width, img.height, 1));
+      const w = Math.max(1, Math.round(img.width * scale));
+      const h = Math.max(1, Math.round(img.height * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) { resolve(base64); return; }
+      ctx.drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.75);
+      resolve(dataUrl.split(",")[1]);
+    };
+    img.onerror = () => resolve(base64);
+    img.src = base64.startsWith("data:") ? base64 : `data:image/png;base64,${base64}`;
+  });
+}
+
 function gsRunRaw<T>(fnName: string, ...args: any[]): Promise<T> {
   return new Promise((resolve, reject) => {
     const runner = (window as any).google.script.run
@@ -237,7 +264,14 @@ async function routeToGas(
   if (iconUploadMatch) {
     const category = iconUploadMatch[1];
     const rawIcons = Array.isArray(body) ? body : (body?.icons ?? []);
-    const icons = normalizeIconsForGas(rawIcons, category);
+    const rawNormalized = normalizeIconsForGas(rawIcons, category);
+    // Compress each icon to JPEG 96×96 so base64 fits Sheets' 50k char/cell limit
+    const icons = await Promise.all(
+      rawNormalized.map(async (icon) => ({
+        ...icon,
+        base64: await compressBase64Image(icon.base64),
+      }))
+    );
     const CHUNK_SIZE = 10;
     const totalChunks = Math.ceil(icons.length / CHUNK_SIZE);
     let totalCount = 0;
