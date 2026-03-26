@@ -2,7 +2,7 @@
 
 > Этот файл автоматически обновляется из `google-app-scripts` монорепо.
 > Источник: `projects/battle-library/gas/Code.js`
-> Актуальная версия деплоя — смотри `.clasp.json` в монорепо.
+> Актуальная версия деплоя: **v72**
 
 ---
 
@@ -18,19 +18,18 @@ Replit (React UI)          GAS Backend              Google Sheets
    │                           ├─ getTags() ────────────►│ tags
    │                           ├─ getCollection() ──────►│ PropertiesService (per-user)
    │                           ├─ adminUpload() ────────►│ (все листы)
-   │                           └─ uploadIconsBatch() ───►│ Google Drive + icon sheets
+   │                           └─ uploadIconsBatch() ───►│ icon sheets (base64)
 ```
 
 ### Стек
 - **Backend:** Google Apps Script (JavaScript ES5)
-- **Storage:** Google Sheets (13 листов) + PropertiesService (коллекция)
-- **Icons:** Google Drive (папка "BattleLibrary Icons")
+- **Storage:** Google Sheets (19 листов) + PropertiesService (коллекция)
+- **Icons:** base64 прямо в Google Sheets (не Drive)
 - **Deploy:** clasp CLI → `npm run sync-ui -- battle-library` деплоит React bundle
 
 ### Важные ограничения GAS
 - ES5 only (нет стрелочных функций, let/const, шаблонных строк на сервере)
 - `google.script.run` — единственный способ вызвать сервер с клиента
-- Один аргумент на вызов — несколько аргументов через `multiArgs(a, b)` → `[a, b]`
 - Нет промисов в GAS-среде выполнения
 - Нет CORS — всё через `google.script.run`, REST не работает в GAS prod
 
@@ -38,21 +37,26 @@ Replit (React UI)          GAS Backend              Google Sheets
 
 ## Google Sheets — Структура листов
 
-| Лист | Константа | Назначение |
-|------|-----------|------------|
-| `boss_list` | `SHEET_BOSS_LIST` | Список боёв (id > 226, без replays) |
-| `boss_team` | `SHEET_BOSS_TEAM` | Команды героев для каждого боя |
-| `boss_level` | `SHEET_BOSS_LEVEL` | Уровни мощи (Power Level) |
-| `attack_teams` | `SHEET_ATTACK_TEAMS` | Записи (replays) — содержат `defenders_fragments` |
-| `hero_icons` | `SHEET_HERO_ICONS` | id → Drive thumbnail URL для героев |
-| `pet_icons` | `SHEET_PET_ICONS` | id → Drive thumbnail URL для питомцев |
-| `spirit_icons` | `SHEET_SPIRIT_ICONS` | id → Drive thumbnail URL для духов |
-| `hero_names` | `SHEET_HERO_NAMES` | id → name (русское имя героя) |
-| `sort_order` | `SHEET_SORT_ORDER` | heroId → sortOrder (порядок сортировки) |
-| `titan_elements` | `SHEET_TITAN_ELEMENTS` | heroId → element (стихия титана) |
-| `spirit_skills` | `SHEET_SPIRIT_SKILLS` | Навыки духов |
-| `tags` | `SHEET_TAGS` | battle_game_id → tag (пользовательские теги) |
-| `app_settings` | `SHEET_APP_SETTINGS` | key → value (mainBuffName, buffNames, lastDataSync, lastIconSync) |
+| Лист | Константа | Заголовки | Назначение |
+|------|-----------|-----------|------------|
+| `boss_list` | `SHEET_BOSS_LIST` | `game_id, label, desc, hero_id, defenders_fragments` | Список боёв (id > 226) |
+| `boss_team` | `SHEET_BOSS_TEAM` | `boss_game_id, hero_id, unit_id, boss_level_id` | Команды героев |
+| `boss_level` | `SHEET_BOSS_LEVEL` | `game_id, boss_id, power_level` | Уровни мощи |
+| `attack_teams` | `SHEET_ATTACK_TEAMS` | `game_id, invasion_id, boss_id, boss_level, chapter, level, enemy_type, main_buff, comment, defenders_fragments` | Записи (replays) |
+| `hero_icons` | `SHEET_HERO_ICONS` | `id, base64, filename` | Иконки героев (base64) |
+| `pet_icons` | `SHEET_PET_ICONS` | `id, base64, filename` | Иконки питомцев (base64) |
+| `spirit_icons` | `SHEET_SPIRIT_ICONS` | `id, base64, filename` | Иконки духов (base64) |
+| `titan_icons` | `SHEET_TITAN_ICONS` | `id, base64, filename` | Иконки титанов (base64) |
+| `creep_icons` | `SHEET_CREEP_ICONS` | `id, base64, filename` | Иконки крипов (base64) |
+| `hero_names` | `SHEET_HERO_NAMES` | `hero_id, name` | Русские имена героев |
+| `sort_order` | `SHEET_SORT_ORDER` | `hero_id, sort_order` | Порядок сортировки |
+| `titan_elements` | `SHEET_TITAN_ELEMENTS` | `titan_id, element, points` | Стихии титанов |
+| `spirit_skills` | `SHEET_SPIRIT_SKILLS` | `skill_id, name` | Навыки духов |
+| `talismans` | `SHEET_TALISMANS` | `talisman_id, name, effect_key, description` | Талисманы |
+| `talisman_icons` | `SHEET_TALISMAN_ICONS` | `talisman_id, base64, filename` | Иконки талисманов (base64) |
+| `tags` | `SHEET_TAGS` | `battle_game_id, tag` | Пользовательские теги |
+| `app_settings` | `SHEET_APP_SETTINGS` | `key, value` | Настройки приложения |
+| `logs` | `SHEET_LOGS` | `time, level, function, message, data` | Серверные логи |
 
 ### Как отличить бои от записей (replays)
 - `boss_list` с `defenders_fragments = ''` → **бой**
@@ -72,14 +76,16 @@ interface BattlesData {
   bossList:      BossListItem[];      // boss_list (только id > 226, без replays)
   bossTeam:      BossTeamItem[];      // boss_team
   bossLevel:     BossLevelItem[];     // boss_level
-  heroIcons:     IconItem[];          // hero_icons { id, url }
-  heroNames:     HeroNameItem[];      // hero_names { id, name }
-  heroSortOrder: SortOrderItem[];     // sort_order { heroId, sortOrder }
-  titanElements: TitanElementItem[];  // titan_elements { heroId, element }
+  heroIcons:     IconItem[];          // hero_icons { id, base64, filename }
+  heroNames:     HeroNameItem[];      // hero_names { hero_id, name }
+  heroSortOrder: SortOrderItem[];     // sort_order { hero_id, sort_order }
+  titanElements: TitanElementItem[];  // titan_elements { titan_id, element, points }
   attackTeams:   AttackTeamItem[];    // attack_teams
-  petIcons:      IconItem[];          // pet_icons
-  spiritSkills:  SpiritSkillItem[];   // spirit_skills
-  spiritIcons:   IconItem[];          // spirit_icons
+  petIcons:      IconItem[];          // pet_icons { id, base64, filename }
+  spiritSkills:  SpiritSkillItem[];   // spirit_skills { skill_id, name }
+  spiritIcons:   IconItem[];          // spirit_icons { id, base64, filename }
+  talismans:     TalismanItem[];      // talismans { talisman_id, name, effect_key, description }
+  talismanIcons: IconItem[];          // talisman_icons { talisman_id, base64, filename }
   maxBossId:     number;
 }
 ```
@@ -89,13 +95,13 @@ interface BattlesData {
 
 ```typescript
 interface ReplaysData {
-  attackTeams:  AttackTeamItem[];   // attack_teams (с defenders_fragments)
+  attackTeams:  AttackTeamItem[];
   heroIcons:    IconItem[];
   heroNames:    HeroNameItem[];
   petIcons:     IconItem[];
   spiritSkills: SpiritSkillItem[];
   spiritIcons:  IconItem[];
-  mainBuffName: string;             // активный бафф
+  mainBuffName: string;   // активный бафф (из app_settings, ключ 'mainBuffName')
 }
 ```
 
@@ -111,30 +117,35 @@ interface TagItem {
 Личная коллекция текущего пользователя (хранится в `PropertiesService.getUserProperties()`).
 ```typescript
 interface CollectionItem {
-  itemId: string;  // формат: "ch{N}-{bossId}" — используется для routing по PropertiesService
-  // ... любые поля которые сохранял фронтенд
+  itemId: string;  // формат: "ch{N}-{bossId}"
 }
 ```
 
 #### `getAdminStats()` → `AdminStats`
 ```typescript
 interface AdminStats {
-  bossList:       number;   // кол-во боёв
-  bossTeam:       number;
-  bossLevel:      number;
-  heroIcons:      number;
-  heroNames:      number;
-  heroSortOrder:  number;
-  titanElements:  number;
-  attackTeams:    number;   // кол-во записей
-  heroicReplays:  number;   // записи с enemy_type = "герои"
-  titanicReplays: number;   // записи с enemy_type = "титаны"
-  petIcons:       number;
-  spiritSkills:   number;
-  spiritIcons:    number;
-  mainBuffName:   string;
-  lastDataSync:   string | null;
-  lastIconSync:   string | null;
+  bossList:           number;
+  bossTeam:           number;
+  bossLevel:          number;
+  heroIcons:          number;
+  heroNames:          number;
+  heroSortOrder:      number;
+  titanElements:      number;
+  attackTeams:        number;        // кол-во записей (replays)
+  heroicReplays:      number;        // enemy_type = "герои"
+  titanicReplays:     number;        // enemy_type = "титаны"
+  petIcons:           number;
+  spiritSkills:       number;
+  spiritIcons:        number;
+  talismans:          number;
+  talismanIcons:      number;
+  mainBuffName:       string;        // активный бафф (legacy, слот A)
+  mainBuffNameA:      string;        // бафф слота A
+  mainBuffEffectKeyA: string;        // ключ эффекта слота A
+  mainBuffNameB:      string;        // бафф слота B
+  mainBuffEffectKeyB: string;        // ключ эффекта слота B
+  lastDataSync:       string | null;
+  lastIconSync:       string | null;
 }
 ```
 
@@ -147,8 +158,17 @@ interface BuffConfig {
 }
 ```
 
-#### `getLogs()` → `{ logs: LogEntry[] }`
-Последние 50 серверных логов (из листа 'logs').
+#### `getServerLogs()` → `{ logs: LogEntry[] }`
+Последние 50 серверных логов (из листа `logs`).
+```typescript
+interface LogEntry {
+  timestamp: string;
+  level:     'INFO' | 'WARN' | 'ERROR';
+  function:  string;
+  message:   string;
+  data:      string;
+}
+```
 
 ---
 
@@ -160,112 +180,96 @@ interface BuffConfig {
 #### `deleteTag(battleGameId: string, tag: string)` → `{ success: true } | ErrorResult`
 
 #### `saveCollectionItem(data: CollectionItem)` → `{ success: true } | ErrorResult`
-Сохраняет/обновляет элемент личной коллекции. `itemId` должен содержать `ch{N}` для routing.
 
 #### `deleteCollectionItem(itemId: string)` → `{ success: true } | ErrorResult`
 
 #### `clearCollection()` → `{ success: true } | ErrorResult`
-Полностью очищает коллекцию текущего пользователя.
 
 #### `setMainBuffName(name: string)` → `{ success: true } | ErrorResult`
-Устанавливает активный бафф.
+Устанавливает активный бафф (записывает в `app_settings`, ключ `mainBuffName`).
+
+#### `saveMainBuffName(slot: string, name: string, effectKey: string)` → `{ success: true } | ErrorResult`
+Сохраняет настройки баффа по слоту. Записывает в `app_settings`:
+- `mainBuffName{slot}` → `name`
+- `mainBuffEffectKey{slot}` → `effectKey`
+- Если `slot === 'A'` — дополнительно обновляет `mainBuffName` (legacy)
+
+```typescript
+// Вызов:
+gsRun('saveMainBuffName', 'A', 'Бафф Атаки', 'allParamsValueIncrease')
+gsRun('saveMainBuffName', 'B', 'Бафф Защиты', 'defenceIncrease')
+```
 
 #### `saveBuffNames(namesJson: string)` → `{ success: true, count: number } | ErrorResult`
-Сохраняет список всех баффов. **Аргумент — JSON-строка массива:** `JSON.stringify(["Бафф A", "Бафф B"])`.
+Сохраняет список всех баффов. **Аргумент — JSON-строка:** `JSON.stringify(["Бафф A", "Бафф B"])`.
 
 ---
 
 ### Admin API
 
 #### `adminUpload(type: string, data: object[])` → `{ success: true, count: number } | ErrorResult`
-Загружает данные в листы. Логика **аддитивная** (новые записи добавляются, существующие не перезаписываются) для `boss-*` и `attack-teams`. Для `hero-names`, `sort-order`, `titan-elements`, `spirit-skills` — **полная замена**.
+Загружает данные в листы. Все типы используют **полную замену** (`_clearAndWrite`).
 
 | type | Лист | Логика |
 |------|------|--------|
-| `boss-list` | boss_list | Аддитивная (дедупликация по id) |
-| `boss-team` | boss_team | Аддитивная (дедупликация по bossId+heroId+unitId) |
-| `boss-level` | boss_level | Аддитивная (дедупликация по id) |
-| `attack-teams` | attack_teams | Аддитивная (дедупликация по id) |
+| `boss-list` | boss_list | Полная замена (фильтр id > 226) |
+| `boss-team` | boss_team | Полная замена (фильтр bossGameId > 226) |
+| `boss-level` | boss_level | Полная замена |
+| `attack-teams` | attack_teams | Полная замена |
 | `hero-names` | hero_names | Полная замена |
 | `sort-order` | sort_order | Полная замена |
 | `titan-elements` | titan_elements | Полная замена |
 | `spirit-skills` | spirit_skills | Полная замена |
-| `hero-icons` | hero_icons | Полная замена (только URLs, не Drive upload) |
-| `pet-icons` | pet_icons | Полная замена |
-| `spirit-icons` | spirit_icons | Полная замена |
+| `talismans` | talismans | Полная замена |
+| `talisman-icons` | talisman_icons | Upsert по talisman_id |
+| `hero-icons` | hero_icons | Upsert по id |
+| `pet-icons` | pet_icons | Upsert по id |
+| `spirit-icons` | spirit_icons | Upsert по id |
 
 ⚠️ **Важно:** поля принимаются в обоих форматах — camelCase (`heroId`) и snake_case (`hero_id`).
 
-#### `uploadIconsBatch(category: string, icons: IconUploadItem[])` → `{ success: true, uploaded: number, errors: number } | ErrorResult`
-Загружает иконки на Google Drive и сохраняет thumbnail URLs в листы.
+#### `uploadIconsBatch(category: string, icons: IconUploadItem[])` → `{ success: true, count: number } | ErrorResult`
+Сохраняет иконки как base64 прямо в Google Sheets. **Не использует Google Drive.**
 
 ```typescript
 type IconCategory = 'hero' | 'pet' | 'spirit' | 'titan' | 'creep';
 
 interface IconUploadItem {
   id:       string | number;   // entity ID
-  base64:   string;            // base64-encoded PNG (без data:image/png;base64, префикса)
+  base64:   string;            // base64 PNG (без data:image/...;base64, префикса)
   filename: string;            // {category}_{id}.png
 }
+// Лист: {category}_icons, заголовки: id, base64, filename
+// Логика: upsert (обновить если id есть, добавить если нет)
 ```
 
 ---
 
-### GitLab Sync (внутренний)
+### GitLab Sync
 
 #### `saveGitLabToken(token: string)` → `{ success: true } | ErrorResult`
-Сохраняет GitLab API токен в `PropertiesService.getUserProperties()`.
-
 #### `getGitLabTokenStatus()` → `{ configured: boolean, email?: string }`
-
 #### `syncFromGitLab(branch: string)` → `{ success: true, added: object } | ErrorResult`
-Синхронизирует данные из ветки `gitlab.nexters.io/heroes/lib-storage`.
 
 ---
 
-### Утилиты (не вызываются с фронтенда)
+### Утилиты (запускаются только из редактора Apps Script)
 
-| Функция | Запуск | Описание |
-|---------|--------|----------|
-| `setupSpreadsheetId(id)` | Из редактора (один раз) | Сохраняет Spreadsheet ID в ScriptProperties |
-| `setupSheet()` | Из редактора (один раз) | Создаёт все листы с заголовками |
-| `setupIcons()` | Из редактора (при необходимости) | Загружает иконки с GitHub на Drive |
-| `migrateIconUrls()` | Из редактора (один раз) | Конвертирует старые Drive URLs в thumbnail формат |
-
----
-
-## Frontend Data Layer (data.html)
-
-В GAS prod фронтенд использует эти функции из `data.html` (Vanilla JS).
-В Replit dev — аналогичные REST вызовы.
-
-| Функция в data.html | GAS функция | Описание |
-|---------------------|-------------|----------|
-| `loadBattles(cb)` | `getBattles()` | Кэшируется в `BL.data.battles` |
-| `loadReplays(cb)` | `getReplays()` | Кэшируется в `BL.data.replays` |
-| `loadTags(cb)` | `getTags()` | Кэшируется в `BL.data.tags` |
-| `loadCollection(cb)` | `getCollection()` | Кэшируется в `BL.data.collection` |
-| `loadAdminStats(cb)` | `getAdminStats()` | Без кэша |
-| `addTag(id, tag, cb)` | `saveTag(id, tag)` | multiArgs |
-| `removeTag(id, tag, cb)` | `deleteTag(id, tag)` | multiArgs |
-| `addToCollection(data, cb)` | `saveCollectionItem(data)` | |
-| `removeFromCollection(id, cb)` | `deleteCollectionItem(id)` | |
-| `clearAllCollection(cb)` | `clearCollection()` | |
-| `uploadAdminData(type, data, cb)` | `adminUpload(type, data)` | multiArgs |
-| `uploadIconsBatch(cat, icons, cb)` | `uploadIconsBatch(cat, icons)` | multiArgs |
-| `saveMainBuffName(name, cb)` | `setMainBuffName(name)` | |
-| `saveBuffNames(arr, cb)` | `saveBuffNames(JSON.stringify(arr))` | JSON string! |
-| `getBuffConfig(cb)` | `getBuffConfig()` | |
-| `getServerLogs(cb)` | `getLogs()` | |
-| `syncFromGitLab(branch, cb)` | `syncFromGitLab(branch)` | |
+| Функция | Описание |
+|---------|----------|
+| `setupSpreadsheetId(id)` | Сохраняет Spreadsheet ID в ScriptProperties (один раз) |
+| `setupSheet()` | Создаёт все листы с правильными заголовками |
+| `clearAllSheetData()` | Очищает игровые данные (сохраняет tags, app_settings, logs) |
+| `setupIcons()` | Загружает иконки с GitHub на Drive (устарело) |
+| `migrateIconUrls()` | Конвертирует старые Drive URLs |
 
 ---
 
-## gasApi.ts — Паттерн интеграции
+## gasApi.ts — Паттерн вызова GAS функций
 
 ```typescript
-// Определение среды
-const IS_GAS_ENV = typeof google !== 'undefined' && !!google?.script?.run;
+// Определение среды (URL-based — надёжнее чем проверка google.script.run)
+const IS_GAS_ENV = window.location.hostname.endsWith('googleusercontent.com');
 
 // Вызов GAS функции
 function gsRun<T>(fnName: string, ...args: unknown[]): Promise<T> {
@@ -282,15 +286,28 @@ function gsRun<T>(fnName: string, ...args: unknown[]): Promise<T> {
 }
 ```
 
-### Правило multiArgs
-Когда нужно передать **несколько аргументов** в GAS, они приходят как **один массив**.
-GAS-сервер получает их через `arguments[0]` (массив), а не отдельными параметрами.
+### Таблица соответствия gasApi.ts ↔ GAS функций
 
-**В GAS `adminUpload(type, data)` вызывается корректно — сервер принимает два аргумента.**
-На стороне `google.script.run` передача нескольких аргументов работает напрямую:
-```typescript
-(runner as any).adminUpload(type, data);  // два аргумента — OK
-```
+| gasApi метод | GAS функция | Примечание |
+|-------------|-------------|------------|
+| `getBattles()` | `getBattles()` | |
+| `getReplays()` | `getReplays()` | |
+| `getTags()` | `getTags()` | |
+| `getCollection()` | `getCollection()` | |
+| `getAdminStats()` | `getAdminStats()` | |
+| `getBuffConfig()` | `getBuffConfig()` | |
+| `getServerLogs()` | `getServerLogs()` | |
+| `saveTag(id, tag)` | `saveTag(id, tag)` | 2 аргумента |
+| `deleteTag(id, tag)` | `deleteTag(id, tag)` | 2 аргумента |
+| `saveCollectionItem(data)` | `saveCollectionItem(data)` | |
+| `deleteCollectionItem(id)` | `deleteCollectionItem(id)` | |
+| `clearCollection()` | `clearCollection()` | |
+| `setMainBuffName(name)` | `setMainBuffName(name)` | legacy |
+| `saveMainBuffName(slot, name, key)` | `saveMainBuffName(slot, name, key)` | 3 аргумента |
+| `saveBuffNames(arr)` | `saveBuffNames(JSON.stringify(arr))` | JSON string! |
+| `adminUpload(type, data)` | `adminUpload(type, data)` | 2 аргумента |
+| `uploadIconsBatch(cat, icons)` | `uploadIconsBatch(cat, icons)` | 2 аргумента |
+| `syncFromGitLab(branch)` | `syncFromGitLab(branch)` | |
 
 ---
 
@@ -299,11 +316,8 @@ GAS-сервер получает их через `arguments[0]` (массив),
 Все GAS функции возвращают `{ error: string }` при ошибке — **никогда не бросают исключения**.
 
 ```typescript
-interface ErrorResult {
-  error: string;
-}
+interface ErrorResult { error: string; }
 type GasResult<T> = T | ErrorResult;
-
 function isError(r: unknown): r is ErrorResult {
   return typeof r === 'object' && r !== null && 'error' in r;
 }
