@@ -105,7 +105,19 @@ export function logGasCall<T>(
           }
         }
       }
-      log("INFO", "GAS_CALL", fnName, `GAS call OK`, { durationMs, responseSize });
+      // For write operations (adminUpload, save*, etc) — show full response summary
+      let responseSummary: string | undefined;
+      if (result && typeof result === "object" && !Array.isArray(result)) {
+        const r = result as Record<string, unknown>;
+        const parts: string[] = [];
+        if ("success" in r) parts.push(`success=${r.success}`);
+        if ("count" in r) parts.push(`count=${r.count}`);
+        if ("uploaded" in r) parts.push(`uploaded=${r.uploaded}`);
+        if ("errors" in r) parts.push(`errors=${r.errors}`);
+        if ("error" in r) parts.push(`error=${r.error}`);
+        if (parts.length > 0) responseSummary = `{ ${parts.join(", ")} }`;
+      }
+      log("INFO", "GAS_CALL", fnName, `GAS call OK${responseSummary ? ` → ${responseSummary}` : ""}`, { durationMs, responseSize });
       return result;
     },
     (err: unknown) => {
