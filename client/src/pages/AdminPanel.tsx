@@ -620,16 +620,24 @@ export default function AdminPanel() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6">
-        <header className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
-            <Shield className="h-5 w-5 text-primary" />
+        <header className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
+              <Shield className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-xl font-semibold">Панель администратора</h1>
+              <p className="text-sm text-muted-foreground">
+                Загрузка данных для библиотеки боёв
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-semibold">Панель администратора</h1>
-            <p className="text-sm text-muted-foreground">
-              Загрузка данных для библиотеки боёв
-            </p>
-          </div>
+          {typeof __GAS_BUILD_TIME__ !== "undefined" && (
+            <div className="text-[10px] font-mono text-muted-foreground/50 bg-muted/40 border border-border/40 rounded px-2 py-1 leading-tight text-right" title="Время сборки GAS-версии">
+              <span className="text-muted-foreground/70">GAS build</span><br/>
+              {new Date(__GAS_BUILD_TIME__).toLocaleString("ru-RU", { day:"2-digit", month:"2-digit", year:"2-digit", hour:"2-digit", minute:"2-digit" })}
+            </div>
+          )}
         </header>
 
         {/* Stats Card */}
