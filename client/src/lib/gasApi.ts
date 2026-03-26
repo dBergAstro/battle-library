@@ -100,8 +100,16 @@ export const gasApi = {
       ? gsRun("adminUpload", type, data)
       : restPost(`/api/admin/${type}`, data),
 
+  // GAS: setMainBuffName(name) — один аргумент
+  // Replit REST: POST /api/admin/settings/main-buff { slot, name, effectKey }
+  setMainBuffName: (name: string): Promise<any> =>
+    IS_GAS_ENV
+      ? gsRun("setMainBuffName", name)
+      : restPost("/api/admin/settings/main-buff", { name }),
+
+  // Полный вариант для Replit (slot + effectKey)
   setMainBuff: (slot: "A" | "B", name: string, effectKey: string): Promise<any> =>
     IS_GAS_ENV
-      ? gsRun("setMainBuff", slot, name, effectKey)
+      ? gsRun("setMainBuffName", name)
       : restPost("/api/admin/settings/main-buff", { slot, name, effectKey }),
 };
