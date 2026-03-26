@@ -200,6 +200,8 @@ export default function BattleLibrary() {
     queryKey: ["/api/battles"],
   });
 
+  console.log('[Library data]', data, typeof data, Array.isArray(data?.bossList));
+
   const { data: tagsData } = useQuery<TagsResponse>({
     queryKey: ["/api/tags"],
   });
