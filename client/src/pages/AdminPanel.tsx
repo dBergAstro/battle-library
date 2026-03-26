@@ -1293,13 +1293,13 @@ export default function AdminPanel() {
             <div>
               <label className="text-sm font-medium mb-2 block">Определения талисманов</label>
               <p className="text-xs text-muted-foreground mb-2">
-                Формат: ID Название ключ_эффекта [| Описание] (каждый на новой строке).<br />
-                Описание добавляется через символ <code className="bg-muted px-1 rounded">|</code> и отображается в тултипе. Например:<br />
-                <code className="bg-muted px-1 rounded">8002 Талисман вампиризм talismanLifesteal | Восстанавливает HP за каждый удар</code><br />
-                <code className="bg-muted px-1 rounded">8003 Талисман ярости talismanFireRage | Увеличивает урон при низком HP</code>
+                Формат: <code className="bg-muted px-1 rounded">ID Название talismanXxx_params Описание эффекта</code> (каждый на новой строке).<br />
+                Токен, начинающийся с <code className="bg-muted px-1 rounded">talisman</code>, автоматически определяется как ключ эффекта. Всё до него — название, всё после — описание. Например:<br />
+                <code className="bg-muted px-1 rounded text-xs">8002 Талисман вампира talismanLifesteal_100 Герои получают N% вампиризм</code><br />
+                <code className="bg-muted px-1 rounded text-xs">8003 Талисман ярости talismanFireRage_1_20 Герои постоянно получают N% урон</code>
               </p>
               <Textarea
-                placeholder={"8002 Талисман вампиризм talismanLifesteal | Восстанавливает HP за каждый удар\n8003 Талисман ярости talismanFireRage | Увеличивает урон при низком HP"}
+                placeholder={"8002 Талисман вампира talismanLifesteal_100 Герои получают N% вампиризм\n8003 Талисман ярости talismanFireRage_1_20 Герои постоянно получают N% урон"}
                 value={talismansText}
                 onChange={(e) => setTalismansText(e.target.value)}
                 className="min-h-[100px] font-mono text-sm mb-2"

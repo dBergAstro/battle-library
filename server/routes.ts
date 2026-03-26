@@ -493,7 +493,7 @@ export async function registerRoutes(
     }
   });
 
-  // Upload Talisman definitions (text format: "8002 Название talismanEffectKey")
+  // Upload Talisman definitions (text format: "8002 Название talismanXxx_params Описание эффекта")
   app.post("/api/admin/talismans", async (req, res) => {
     try {
       const { text } = req.body;
@@ -507,13 +507,9 @@ export async function registerRoutes(
       for (const line of lines) {
         const trimmed = line.trim();
         if (!trimmed) continue;
-        // Разбиваем по разделителю "|": левая часть — ID Название effectKey, правая — описание
-        const pipeIdx = trimmed.indexOf("|");
-        const mainPart = pipeIdx >= 0 ? trimmed.slice(0, pipeIdx).trim() : trimmed;
-        const description = pipeIdx >= 0 ? trimmed.slice(pipeIdx + 1).trim() : undefined;
-        const parts = mainPart.split(/\s+/);
+        const parts = trimmed.split(/\s+/);
         if (parts.length < 3) {
-          errors.push(`Неверный формат: "${trimmed}". Ожидается: ID Название ключ_эффекта [| Описание]`);
+          errors.push(`Неверный формат: "${trimmed}". Ожидается: ID Название talismanXxx_params Описание`);
           continue;
         }
         const talismanId = parseInt(parts[0], 10);
@@ -521,8 +517,18 @@ export async function registerRoutes(
           errors.push(`Неверный ID: "${parts[0]}"`);
           continue;
         }
-        const effectKey = parts[parts.length - 1];
-        const name = parts.slice(1, -1).join(" ");
+        // Ищем токен, начинающийся с "talisman" — это ключ эффекта
+        const talIdx = parts.findIndex((p, i) => i > 0 && p.toLowerCase().startsWith("talisman"));
+        if (talIdx < 0) {
+          errors.push(`Не найден ключ эффекта (talisman...) в строке: "${trimmed}"`);
+          continue;
+        }
+        // Название — всё между ID и токеном talismanXxx
+        const name = parts.slice(1, talIdx).join(" ") || parts[talIdx];
+        // Ключ эффекта — только базовая часть до первого "_" (prefixMatch)
+        const effectKey = parts[talIdx].split("_")[0];
+        // Описание — всё после токена talismanXxx
+        const description = parts.slice(talIdx + 1).join(" ") || undefined;
         parsed.push({ talismanId, name, effectKey, description });
       }
 
