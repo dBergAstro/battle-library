@@ -102,9 +102,9 @@ interface IconFolderConfig {
 }
 
 const iconFolders: IconFolderConfig[] = [
-  { key: "heroes", title: "Герои", description: "Иконки героев (id 1-99)", category: "heroes" },
-  { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)", category: "creeps" },
-  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)", category: "titans" },
+  { key: "heroes", title: "Герои", description: "Иконки героев (id 1-99)", category: "hero" },
+  { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)", category: "creep" },
+  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)", category: "titan" },
 ];
 
 export default function AdminPanel() {
@@ -114,7 +114,7 @@ export default function AdminPanel() {
   const [uploadingStatus, setUploadingStatus] = useState<Record<string, boolean>>({});
   const [loadingProgress, setLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
   const [serverUploadStatus, setServerUploadStatus] = useState<Record<string, boolean>>({});
-  const [iconLoadingProgress, setIconLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
+  const [iconLoadingProgress, setIconLoadingProgress] = useState<Record<string, { phase: "reading" | "uploading"; current: number; total: number } | null>>({});
   const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const iconFolderRefs = useRef<Record<string, HTMLInputElement | null>>({});
   
@@ -437,7 +437,8 @@ export default function AdminPanel() {
           return;
         }
 
-        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { current: 0, total: imageFiles.length } }));
+        // Phase 1: reading files from disk
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "reading", current: 0, total: imageFiles.length } }));
 
         const icons: Array<{ heroId: number; iconUrl: string; category: string }> = [];
         
@@ -459,25 +460,29 @@ export default function AdminPanel() {
             icons.push({ heroId, iconUrl, category: config.category });
           }
 
-          if ((i + 1) % 50 === 0 || i === imageFiles.length - 1) {
-            setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { current: i + 1, total: imageFiles.length } }));
-            await new Promise((resolve) => setTimeout(resolve, 0));
-          }
+          setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "reading", current: i + 1, total: imageFiles.length } }));
+          if ((i + 1) % 20 === 0) await new Promise((resolve) => setTimeout(resolve, 0));
         }
 
-        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
-
         if (icons.length === 0) {
+          setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
           setErrors((prev) => ({ ...prev, [folderKey]: "Не удалось извлечь ID из имён файлов" }));
           return;
         }
 
-        const BATCH_SIZE = 50;
-        for (let i = 0; i < icons.length; i += BATCH_SIZE) {
-          const batch = icons.slice(i, i + BATCH_SIZE);
-          await apiRequest("POST", "/api/admin/hero-icons", batch);
+        // Phase 2: uploading to GAS in chunks of 10 (to avoid GAS timeout)
+        const GAS_CHUNK = 10;
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "uploading", current: 0, total: icons.length } }));
+        for (let i = 0; i < icons.length; i += GAS_CHUNK) {
+          const chunk = icons.slice(i, i + GAS_CHUNK);
+          await apiRequest("POST", `/api/admin/${config.category}-icons`, chunk);
+          setIconLoadingProgress((prev) => ({
+            ...prev,
+            [config.key]: { phase: "uploading", current: Math.min(i + GAS_CHUNK, icons.length), total: icons.length },
+          }));
         }
 
+        setIconLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
         queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
       } catch (err) {
@@ -804,20 +809,31 @@ export default function AdminPanel() {
                       Выбрать папку
                     </Button>
 
-                    {iconLoadingProgress[config.key] && (
-                      <div className="mt-3">
-                        <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                          <span>Обработка...</span>
-                          <span>{iconLoadingProgress[config.key]!.current} / {iconLoadingProgress[config.key]!.total}</span>
+                    {iconLoadingProgress[config.key] && (() => {
+                      const prog = iconLoadingProgress[config.key]!;
+                      const pct = prog.total > 0 ? Math.round((prog.current / prog.total) * 100) : 0;
+                      return (
+                        <div className="mt-3">
+                          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                            <span>
+                              {prog.phase === "reading" ? "Чтение файлов..." : "Отправка в GAS..."}
+                            </span>
+                            <span className="font-mono">{prog.current} / {prog.total} ({pct}%)</span>
+                          </div>
+                          <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                            <div
+                              className={`h-full transition-all duration-300 ${prog.phase === "reading" ? "bg-blue-500" : "bg-primary"}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {prog.phase === "reading"
+                              ? "Считываем файлы с диска..."
+                              : `Чанк ${Math.ceil(prog.current / 10)} / ${Math.ceil(prog.total / 10)} — ждём ответа GAS...`}
+                          </p>
                         </div>
-                        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-primary transition-all duration-200"
-                            style={{ width: `${(iconLoadingProgress[config.key]!.current / iconLoadingProgress[config.key]!.total) * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                    )}
+                      );
+                    })()}
 
                     {errors[folderKey] && (
                       <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
@@ -1547,7 +1563,9 @@ export default function AdminPanel() {
                   
                   setErrors((prev) => ({ ...prev, spiritIcons: "" }));
                   setSpiritIconsUploading(true);
-                  setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { current: 0, total: imageFiles.length } }));
+
+                  // Phase 1: reading files
+                  setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "reading", current: 0, total: imageFiles.length } }));
                   
                   const icons: Array<{ skillId: number; iconUrl: string }> = [];
                   
@@ -1564,12 +1582,22 @@ export default function AdminPanel() {
                     });
                     
                     icons.push({ skillId, iconUrl: base64 });
-                    setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { current: i + 1, total: imageFiles.length } }));
+                    setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "reading", current: i + 1, total: imageFiles.length } }));
                   }
                   
                   if (icons.length > 0) {
                     try {
-                      await apiRequest("POST", "/api/admin/spirit-icons", icons);
+                      // Phase 2: uploading to GAS in chunks of 10
+                      const GAS_CHUNK = 10;
+                      setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "uploading", current: 0, total: icons.length } }));
+                      for (let i = 0; i < icons.length; i += GAS_CHUNK) {
+                        const chunk = icons.slice(i, i + GAS_CHUNK);
+                        await apiRequest("POST", "/api/admin/spirit-icons", chunk);
+                        setIconLoadingProgress((prev) => ({
+                          ...prev,
+                          spiritIcons: { phase: "uploading", current: Math.min(i + GAS_CHUNK, icons.length), total: icons.length },
+                        }));
+                      }
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
                       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
                     } catch (error) {
@@ -1598,11 +1626,29 @@ export default function AdminPanel() {
                   )}
                   {spiritIconsUploading ? "Загрузка..." : "Загрузить папку"}
                 </Button>
-                {iconLoadingProgress.spiritIcons && (
-                  <Badge variant="outline">
-                    {iconLoadingProgress.spiritIcons.current} / {iconLoadingProgress.spiritIcons.total}
-                  </Badge>
-                )}
+                {iconLoadingProgress.spiritIcons && (() => {
+                  const prog = iconLoadingProgress.spiritIcons!;
+                  const pct = prog.total > 0 ? Math.round((prog.current / prog.total) * 100) : 0;
+                  return (
+                    <div className="w-full mt-2">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                        <span>{prog.phase === "reading" ? "Чтение файлов..." : "Отправка в GAS..."}</span>
+                        <span className="font-mono">{prog.current} / {prog.total} ({pct}%)</span>
+                      </div>
+                      <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all duration-300 ${prog.phase === "reading" ? "bg-blue-500" : "bg-primary"}`}
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {prog.phase === "reading"
+                          ? "Считываем файлы с диска..."
+                          : `Чанк ${Math.ceil(prog.current / 10)} / ${Math.ceil(prog.total / 10)} — ждём ответа GAS...`}
+                      </p>
+                    </div>
+                  );
+                })()}
                 {allSpiritSkills.length > 0 && !spiritIconsUploading && (
                   <Badge variant="secondary">
                     Загружено: {allSpiritSkills.filter(s => s.icon).length} иконок
