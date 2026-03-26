@@ -8,6 +8,39 @@
  * Референс маппинга: gas-architecture/GAS_BACKEND.md
  */
 
+/**
+ * Normalizes icon items from the REST format used by the frontend
+ * to the format expected by GAS uploadIconsBatch.
+ *
+ * Frontend sends: { heroId/petId/skillId, iconUrl: "data:image/png;base64,XXX", category? }
+ * GAS expects:    { id, base64: "XXX" (no data-URL prefix), filename: "{cat}_{id}.png" }
+ */
+function normalizeIconsForGas(
+  rawIcons: any[],
+  category: string
+): Array<{ id: string | number; base64: string; filename: string }> {
+  return rawIcons.map((icon: any) => {
+    // Resolve entity ID — field name varies by category
+    const id =
+      icon.id ??
+      icon.heroId ??
+      icon.petId ??
+      icon.skillId ??
+      icon.talismanId ??
+      icon.creepId ??
+      icon.titanId ??
+      "";
+
+    // Strip the "data:image/...;base64," prefix if present
+    const rawUrl: string = icon.base64 ?? icon.iconUrl ?? "";
+    const base64 = rawUrl.includes(",") ? rawUrl.split(",")[1] : rawUrl;
+
+    const filename = `${category}_${id}.png`;
+
+    return { id, base64, filename };
+  });
+}
+
 function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
   return new Promise((resolve, reject) => {
     const runner = (window as any).google.script.run
@@ -126,12 +159,20 @@ async function routeToGas(
   }
 
   // POST /api/admin/{hero|pet|spirit|titan|creep}-icons → uploadIconsBatch(category, icons)
-  // These go to Google Drive upload, NOT adminUpload which only saves URLs.
+  // Normalize icon format: frontend sends { heroId, iconUrl: "data:...", category }
+  // but GAS expects { id, base64 (no prefix), filename }.
   const iconUploadMatch = m === "POST" && u.match(/^\/api\/admin\/(hero|pet|spirit|titan|creep)-icons$/);
   if (iconUploadMatch) {
     const category = iconUploadMatch[1];
-    const icons = Array.isArray(body) ? body : (body?.icons ?? []);
+    const rawIcons = Array.isArray(body) ? body : (body?.icons ?? []);
+    const icons = normalizeIconsForGas(rawIcons, category);
     const data = await gsRun("uploadIconsBatch", category, icons);
+    return makeJsonResponse(data);
+  }
+
+  // POST /api/admin/hero-sort-order → GAS adminUpload type is "sort-order" (not "hero-sort-order")
+  if (m === "POST" && u === "/api/admin/hero-sort-order") {
+    const data = await gsRun("adminUpload", "sort-order", body);
     return makeJsonResponse(data);
   }
 
