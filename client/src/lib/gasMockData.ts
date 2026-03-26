@@ -8,27 +8,27 @@
 // ─── Общие вспомогательные данные ────────────────────────────────────────────
 
 const heroIcons = [
-  { id: "1", url: "https://placehold.co/48x48/4a90d9/ffffff?text=H1" },
-  { id: "2", url: "https://placehold.co/48x48/e94040/ffffff?text=H2" },
-  { id: "3", url: "https://placehold.co/48x48/50c878/ffffff?text=H3" },
+  { id: 1, heroId: 1, iconUrl: "https://placehold.co/48x48/4a90d9/ffffff?text=H1", category: null },
+  { id: 2, heroId: 2, iconUrl: "https://placehold.co/48x48/e94040/ffffff?text=H2", category: null },
+  { id: 3, heroId: 3, iconUrl: "https://placehold.co/48x48/50c878/ffffff?text=H3", category: null },
 ];
 
 const heroNames = [
-  { id: "1", name: "Галахад" },
-  { id: "2", name: "Корвус" },
-  { id: "3", name: "Аурора" },
+  { id: 1, heroId: 1, name: "Галахад" },
+  { id: 2, heroId: 2, name: "Корвус" },
+  { id: 3, heroId: 3, name: "Аурора" },
 ];
 
 const heroSortOrder = [
-  { heroId: "1", sortOrder: 1 },
-  { heroId: "2", sortOrder: 2 },
-  { heroId: "3", sortOrder: 3 },
+  { id: 1, heroId: 1, sortOrder: 1 },
+  { id: 2, heroId: 2, sortOrder: 2 },
+  { id: 3, heroId: 3, sortOrder: 3 },
 ];
 
 const titanElements = [
-  { heroId: "1", element: "земля" },
-  { heroId: "2", element: "тьма" },
-  { heroId: "3", element: "вода" },
+  { id: 1, titanId: 1, element: "земля", points: 3 },
+  { id: 2, titanId: 2, element: "тьма", points: 2 },
+  { id: 3, titanId: 3, element: "вода", points: 3 },
 ];
 
 const petIcons = [
@@ -53,22 +53,22 @@ const spiritIcons = [
 
 export const staticBattlesData = {
   bossList: [
-    { id: 227, name: "Тёмный Владыка", element: "тьма", level: 150, defenders_fragments: "" },
-    { id: 228, name: "Огненный Дракон", element: "огонь", level: 160, defenders_fragments: "" },
-    { id: 229, name: "Ледяная Ведьма",  element: "вода", level: 170, defenders_fragments: "" },
+    { id: 1, gameId: 227, label: "Тёмный Владыка", desc: "тьма lv150", heroId: null },
+    { id: 2, gameId: 228, label: "Огненный Дракон", desc: "огонь lv160", heroId: null },
+    { id: 3, gameId: 229, label: "Ледяная Ведьма",  desc: "вода lv170",  heroId: null },
   ],
   bossTeam: [
-    { bossId: 227, heroId: "1", unitId: 1, position: 1 },
-    { bossId: 227, heroId: "2", unitId: 2, position: 2 },
-    { bossId: 228, heroId: "3", unitId: 1, position: 1 },
-    { bossId: 228, heroId: "1", unitId: 2, position: 2 },
-    { bossId: 229, heroId: "2", unitId: 1, position: 1 },
-    { bossId: 229, heroId: "3", unitId: 2, position: 2 },
+    { id: 1, bossGameId: 227, heroId: 1, unitId: 1, bossLevelId: 1 },
+    { id: 2, bossGameId: 227, heroId: 2, unitId: 2, bossLevelId: 1 },
+    { id: 3, bossGameId: 228, heroId: 3, unitId: 1, bossLevelId: 2 },
+    { id: 4, bossGameId: 228, heroId: 1, unitId: 2, bossLevelId: 2 },
+    { id: 5, bossGameId: 229, heroId: 2, unitId: 1, bossLevelId: 3 },
+    { id: 6, bossGameId: 229, heroId: 3, unitId: 2, bossLevelId: 3 },
   ],
   bossLevel: [
-    { id: 227, powerLevel: 120000 },
-    { id: 228, powerLevel: 145000 },
-    { id: 229, powerLevel: 168000 },
+    { id: 1, gameId: 227, bossId: 1, powerLevel: 120000 },
+    { id: 2, gameId: 228, bossId: 2, powerLevel: 145000 },
+    { id: 3, gameId: 229, bossId: 3, powerLevel: 168000 },
   ],
   heroIcons,
   heroNames,
@@ -238,20 +238,20 @@ export const staticCollectionData: { items: GasCollectionItem[] } = {
 // ─── getAdminStats ────────────────────────────────────────────────────────────
 
 export const staticAdminStatsData = {
-  bossList:       3,
-  bossTeam:       6,
-  bossLevel:      3,
-  heroIcons:      3,
-  heroNames:      3,
-  heroSortOrder:  3,
-  titanElements:  3,
-  attackTeams:    3,
-  heroicReplays:  2,
-  titanicReplays: 1,
-  petIcons:       3,
-  spiritSkills:   3,
-  spiritIcons:    3,
-  mainBuffName:   "Бафф A",
-  lastDataSync:   "2024-12-01T10:00:00Z",
-  lastIconSync:   "2024-12-01T11:00:00Z",
+  bossList:          3,
+  bossTeam:          6,
+  bossLevel:         3,
+  heroIcons:         3,
+  heroNames:         3,
+  heroSortOrder:     3,
+  titanElements:     3,
+  attackTeams:       3,
+  heroicReplays:     2,
+  titanicReplays:    1,
+  petIcons:          3,
+  talismans:         0,
+  mainBuffNameA:     null,
+  mainBuffEffectKeyA: null,
+  mainBuffNameB:     null,
+  mainBuffEffectKeyB: null,
 };
