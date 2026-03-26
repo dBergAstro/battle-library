@@ -325,12 +325,23 @@ async function routeToGas(
     return makeJsonResponse({ ...(data as object), count: parsed.length });
   }
 
-  // POST /api/admin/talisman-icons — body is { icons: [{talismanId, iconUrl}] }
-  // Pass icons array directly so GAS doesn't need to unwrap the wrapper object.
+  // POST /api/admin/talisman-icons — compress each icon before sending to GAS
+  // (Sheets limit is 50k chars/cell; raw PNG base64 easily exceeds that).
+  // Send 1 at a time like hero-icons to avoid GAS timeouts.
   if (m === "POST" && u === "/api/admin/talisman-icons") {
-    const icons = Array.isArray(body) ? body : (body?.icons ?? []);
-    const data = await gsRun("adminUpload", "talisman-icons", icons);
-    return makeJsonResponse(data);
+    const rawIcons = Array.isArray(body) ? body : (body?.icons ?? []);
+    let totalCount = 0;
+    for (const rawIcon of rawIcons) {
+      const id = rawIcon.talismanId ?? rawIcon.id;
+      const rawUrl: string = rawIcon.iconUrl ?? rawIcon.base64 ?? "";
+      const rawBase64 = rawUrl.includes(",") ? rawUrl.split(",")[1] : rawUrl;
+      const compressed = await compressBase64Image(rawBase64);
+      const icon = { talismanId: id, iconUrl: `data:image/jpeg;base64,${compressed}` };
+      console.debug(`[gasFetch] adminUpload talisman-icons id=${id}`);
+      await gsRun("adminUpload", "talisman-icons", [icon]);
+      totalCount++;
+    }
+    return makeJsonResponse({ success: true, count: totalCount });
   }
 
   // POST /api/admin/:type  — generic admin upload (data tables, etc.)
