@@ -48,8 +48,8 @@ function getCategoryFromExplicitOrId(
     if (explicitCategory === "titans") return "titans";
   }
   if (heroId >= 1 && heroId <= 999) return "heroes";
-  if (heroId >= 1000 && heroId <= 3999) return "creeps";
-  if (heroId >= 4000 && heroId <= 5999) return "titans";
+  if ((heroId >= 1000 && heroId <= 3999) || (heroId >= 5000 && heroId <= 5999)) return "creeps";
+  if (heroId >= 4000 && heroId <= 4999) return "titans";
   if (heroId >= 6000 && heroId <= 6999) return "pets";
   return "heroes";
 }
