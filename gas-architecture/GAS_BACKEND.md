@@ -193,6 +193,8 @@ interface BuffConfig {
 | `hero-icons` | hero_icons | Полная замена (только URLs, не Drive upload) |
 | `pet-icons` | pet_icons | Полная замена |
 | `spirit-icons` | spirit_icons | Полная замена |
+| `talismans` | talismans | ⚠️ **Не реализовано в GAS** — см. ниже |
+| `talisman-icons` | talisman_icons | ⚠️ **Не реализовано в GAS** — см. ниже |
 
 ⚠️ **Важно:** поля принимаются в обоих форматах — camelCase (`heroId`) и snake_case (`hero_id`).
 
@@ -208,6 +210,66 @@ interface IconUploadItem {
   filename: string;            // {category}_{id}.png
 }
 ```
+
+---
+
+### ⚠️ Не реализовано в GAS — требует доработки Code.js
+
+#### Талисманы (`talismans` / `talisman-icons`)
+
+Фронтенд (AdminPanel) поддерживает загрузку талисманов, но в GAS `adminUpload` эти типы не обработаны.
+
+**Маршруты фронтенда и что ожидается от GAS:**
+
+**Важно:** Оригинальный фронтенд шлёт талисманы как `{ text: "..." }` (сырой текст) на REST API, а Express их парсит. В GAS-режиме `gasFetchInterceptor.ts` парсит текст **до вызова GAS**, поэтому GAS всегда получает уже готовый массив.
+
+**1. `adminUpload("talismans", data)` — загрузка определений талисманов**
+
+GAS получает уже распарсенный массив (парсинг текста выполнен в interceptor'е):
+```typescript
+// data = TalismanItem[]
+interface TalismanItem {
+  talismanId:   number;   // числовой ID
+  name:         string;   // название (например "Молния")
+  effectKey:    string;   // базовая часть ключа эффекта (например "talismanLightning")
+  description?: string;   // описание (опционально)
+}
+```
+
+Нужно создать лист `talismans` в Sheets с колонками: `talismanId | name | effectKey | description`.  
+Логика записи: **полная замена** (аналогично `hero-names`).
+
+**2. `adminUpload("talisman-icons", data)` — загрузка иконок талисманов**
+
+GAS получает уже нормализованный массив иконок (interceptor извлекает `body.icons` за фронтенда):
+```typescript
+// data = TalismanIconItem[]
+interface TalismanIconItem {
+  talismanId: number;
+  iconUrl:    string;  // base64 data URL: "data:image/png;base64,..."
+}
+```
+
+Нужно создать лист `talisman_icons` с колонками: `talismanId | iconUrl`.  
+Логика: **полная замена** по `talismanId`.
+
+**Что нужно добавить в Code.js:**
+```javascript
+// В функции adminUpload — добавить два новых case:
+case 'talismans':
+  // data = [{ talismanId, name, effectKey, description }, ...]
+  // Полная замена листа talismans
+  // Колонки: talismanId, name, effectKey, description
+  break;
+
+case 'talisman-icons':
+  // data = [{ talismanId, iconUrl }, ...]
+  // Полная замена листа talisman_icons
+  // Колонки: talismanId, iconUrl
+  break;
+```
+
+**Примечание:** `uploadIconsBatch` для талисманов **не нужен** — иконки хранятся как base64 data URL в листе `talisman_icons`, Drive-загрузка не требуется (в отличие от героев/питомцев/духов).
 
 ---
 

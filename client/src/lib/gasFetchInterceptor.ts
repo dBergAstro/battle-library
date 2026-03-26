@@ -176,7 +176,39 @@ async function routeToGas(
     return makeJsonResponse(data);
   }
 
-  // POST /api/admin/:type  — generic admin upload (data tables, talisman-icons, etc.)
+  // POST /api/admin/talismans — body is { text: string }, parse text here so GAS
+  // receives an already-parsed array instead of raw text (GAS has no talisman parser).
+  // Format per line: "ID Название talismanXxx Описание"
+  if (m === "POST" && u === "/api/admin/talismans") {
+    const text: string = body?.text ?? "";
+    const parsed: { talismanId: number; name: string; effectKey: string; description?: string }[] = [];
+    for (const rawLine of text.split("\n")) {
+      const line = rawLine.trim();
+      if (!line) continue;
+      const parts = line.split(/\s+/);
+      if (parts.length < 3) continue;
+      const talismanId = parseInt(parts[0], 10);
+      if (isNaN(talismanId)) continue;
+      const talIdx = parts.findIndex((p, i) => i > 0 && p.toLowerCase().startsWith("talisman"));
+      if (talIdx < 0) continue;
+      const name = parts.slice(1, talIdx).join(" ") || parts[talIdx];
+      const effectKey = parts[talIdx].split("_")[0];
+      const description = parts.slice(talIdx + 1).join(" ") || undefined;
+      parsed.push({ talismanId, name, effectKey, description });
+    }
+    const data = await gsRun("adminUpload", "talismans", parsed);
+    return makeJsonResponse({ ...(data as object), count: parsed.length });
+  }
+
+  // POST /api/admin/talisman-icons — body is { icons: [{talismanId, iconUrl}] }
+  // Pass icons array directly so GAS doesn't need to unwrap the wrapper object.
+  if (m === "POST" && u === "/api/admin/talisman-icons") {
+    const icons = Array.isArray(body) ? body : (body?.icons ?? []);
+    const data = await gsRun("adminUpload", "talisman-icons", icons);
+    return makeJsonResponse(data);
+  }
+
+  // POST /api/admin/:type  — generic admin upload (data tables, etc.)
   const adminMatch = m === "POST" && u.match(/^\/api\/admin\/(.+)$/);
   if (adminMatch) {
     const type = adminMatch[1];
