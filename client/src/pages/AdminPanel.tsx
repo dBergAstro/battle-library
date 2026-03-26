@@ -507,15 +507,13 @@ export default function AdminPanel() {
           return;
         }
 
-        // Phase 2: uploading to GAS in chunks of 10 (to avoid GAS timeout)
-        const GAS_CHUNK = 10;
+        // Phase 2: upload 1 icon at a time so progress bar updates every step
         setIconLoadingProgress((prev) => ({ ...prev, [config.key]: { phase: "uploading", current: 0, total: icons.length } }));
-        for (let i = 0; i < icons.length; i += GAS_CHUNK) {
-          const chunk = icons.slice(i, i + GAS_CHUNK);
-          await apiRequest("POST", `/api/admin/${config.category}-icons`, chunk);
+        for (let i = 0; i < icons.length; i++) {
+          await apiRequest("POST", `/api/admin/${config.category}-icons`, [icons[i]]);
           setIconLoadingProgress((prev) => ({
             ...prev,
-            [config.key]: { phase: "uploading", current: Math.min(i + GAS_CHUNK, icons.length), total: icons.length },
+            [config.key]: { phase: "uploading", current: i + 1, total: icons.length },
           }));
         }
 
@@ -889,7 +887,7 @@ export default function AdminPanel() {
                           <p className="text-xs text-muted-foreground mt-1">
                             {prog.phase === "reading"
                               ? "Считываем файлы с диска..."
-                              : `Чанк ${Math.ceil(prog.current / 10)} / ${Math.ceil(prog.total / 10)} — ждём ответа GAS...`}
+                              : `Иконка ${prog.current} из ${prog.total} — ждём ответа GAS...`}
                           </p>
                         </div>
                       );
@@ -1685,15 +1683,13 @@ export default function AdminPanel() {
                   
                   if (icons.length > 0) {
                     try {
-                      // Phase 2: uploading to GAS in chunks of 10
-                      const GAS_CHUNK = 10;
+                      // Phase 2: upload 1 icon at a time so progress bar updates every step
                       setIconLoadingProgress((prev) => ({ ...prev, spiritIcons: { phase: "uploading", current: 0, total: icons.length } }));
-                      for (let i = 0; i < icons.length; i += GAS_CHUNK) {
-                        const chunk = icons.slice(i, i + GAS_CHUNK);
-                        await apiRequest("POST", "/api/admin/spirit-icons", chunk);
+                      for (let i = 0; i < icons.length; i++) {
+                        await apiRequest("POST", "/api/admin/spirit-icons", [icons[i]]);
                         setIconLoadingProgress((prev) => ({
                           ...prev,
-                          spiritIcons: { phase: "uploading", current: Math.min(i + GAS_CHUNK, icons.length), total: icons.length },
+                          spiritIcons: { phase: "uploading", current: i + 1, total: icons.length },
                         }));
                       }
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
@@ -1751,7 +1747,7 @@ export default function AdminPanel() {
                       <p className="text-xs text-muted-foreground mt-1">
                         {prog.phase === "reading"
                           ? "Считываем файлы с диска..."
-                          : `Чанк ${Math.ceil(prog.current / 10)} / ${Math.ceil(prog.total / 10)} — ждём ответа GAS...`}
+                          : `Иконка ${prog.current} из ${prog.total} — ждём ответа GAS...`}
                       </p>
                     </div>
                   );
