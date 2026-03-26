@@ -1,4 +1,5 @@
-import { Switch, Route, Link, useLocation } from "wouter";
+import { Switch, Route, Link, useLocation, Router as WouterRouter } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -6,11 +7,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Library, Shield } from "lucide-react";
+import { IS_GAS_ENV } from "@/lib/gasApi";
 import BattleLibrary from "@/pages/BattleLibrary";
 import AdminPanel from "@/pages/AdminPanel";
 import NotFound from "@/pages/not-found";
 
-function Router() {
+function AppRoutes() {
   return (
     <Switch>
       <Route path="/" component={BattleLibrary} />
@@ -54,11 +56,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-screen bg-background">
-          <Navigation />
-          <Router />
-        </div>
-        <Toaster />
+        <WouterRouter hook={IS_GAS_ENV ? useHashLocation : undefined}>
+          <div className="min-h-screen bg-background">
+            <Navigation />
+            <AppRoutes />
+          </div>
+          <Toaster />
+        </WouterRouter>
       </TooltipProvider>
     </QueryClientProvider>
   );
