@@ -1,0 +1,100 @@
+Привет! Нам нужно адаптировать это React приложение для работы внутри Google Apps Script (GAS). Объясняю контекст и задачу.
+
+Контекст
+Сейчас приложение работает как полноценный Replit сервис: Express бэкенд → PostgreSQL (Neon) → React фронтенд. Мы хотим перенести его так, чтобы:
+
+Бэкенд = Google Apps Script (Code.js) с Google Sheets как базой данных — уже написан
+Фронтенд = этот React проект, но собранный в один HTML файл и деплоимый через GAS
+В GAS нет REST API — вместо него используется google.script.run (специальный RPC механизм)
+В dev режиме google.script.run надо мокировать чтобы можно было разрабатывать локально
+Задача
+1. Добавить vite-plugin-singlefile
+
+Установи пакет и настрой Vite чтобы весь JS/CSS инлайнился в один index.html файл:
+
+npm install vite-plugin-singlefile
+В vite.config.ts добавь:
+
+import { viteSingleFile } from 'vite-plugin-singlefile';
+// в plugins: [..., viteSingleFile()]
+// в build: { assetsInlineLimit: 100_000_000, cssCodeSplit: false }
+2. Создать файл client/src/lib/gasApi.ts
+
+Этот файл заменяет все вызовы к REST API (/api/battles, /api/replays и т.д.) на вызовы через google.script.run. В prod он вызывает реальный GAS, в dev — мок.
+
+function gsRun<T>(fnName: string, ...args: any[]): Promise<T> {
+  return new Promise((resolve, reject) => {
+    let runner = (window as any).google.script.run
+      .withSuccessHandler((result: any) => {
+        if (!result) { reject(new Error(`${fnName} returned null`)); return; }
+        if (result.error) { reject(new Error(result.error)); return; }
+        resolve(result as T);
+      })
+      .withFailureHandler((err: any) => reject(new Error(err.message || String(err))));
+    runner[fnName](...args);
+  });
+}
+export const gasApi = {
+  getBattles:    () => gsRun('getBattles'),
+  getReplays:    () => gsRun('getReplays'),      // если нужен отдельный
+  getTags:       () => gsRun('getTags'),
+  getCollection: () => gsRun('getCollection'),
+  getAdminStats: () => gsRun('getAdminStats'),
+  saveTag:       (battleGameId: number, tag: string) => gsRun('saveTag', battleGameId, tag),
+  deleteTag:     (battleGameId: number, tag: string) => gsRun('deleteTag', battleGameId, tag),
+  saveCollectionItem: (item: any)  => gsRun('saveCollectionItem', item),
+  deleteCollectionItem: (id: string) => gsRun('deleteCollectionItem', id),
+  clearCollection: () => gsRun('clearCollection'),
+  adminUpload: (type: string, data: any[]) => gsRun('adminUpload', type, data),
+  setMainBuffName: (name: string) => gsRun('setMainBuffName', name),
+};
+3. Создать мок client/src/lib/gasMock.ts
+
+В dev режиме window.google не существует — нужен мок. Используй текущие данные из БД как статические примеры:
+
+export function installGasMock() {
+  if ((window as any).google?.script?.run) return; // prod — не мокируем
+  
+  const MOCK = {
+    getBattles: () => ({ /* данные из текущей БД */ }),
+    // ... остальные функции
+  };
+  
+  // установить window.google.script.run с async задержкой
+}
+4. Заменить useQuery вызовы
+
+В BattleLibrary.tsx, ReplayLibrary.tsx, AdminPanel.tsx заменить:
+
+// БЫЛО:
+const { data, isLoading } = useQuery({ queryKey: ["/api/battles"] });
+// СТАЛО:
+const [data, setData] = useState(null);
+const [isLoading, setIsLoading] = useState(true);
+useEffect(() => {
+  gasApi.getBattles()
+    .then(d => { setData(d); setIsLoading(false); })
+    .catch(e => { setError(e.message); setIsLoading(false); });
+}, []);
+5. Вызвать мок в main.tsx
+
+import { installGasMock } from './lib/gasMock';
+installGasMock(); // до ReactDOM.createRoot
+Вопросы к Replit агенту
+Прежде чем начать — ответь на эти вопросы:
+
+Какая структура данных возвращается из /api/battles? Покажи TypeScript тип ответа — мне нужно знать точные поля чтобы правильно настроить мок и типы
+
+Есть ли мутации (POST запросы) кроме тегов и коллекции? Хочу убедиться что перенесу все API вызовы
+
+Как сейчас настроен vite.config.ts? Покажи его полное содержимое — нужно понять что уже есть
+
+Где в main.tsx точка входа React? Хочу знать куда добавить installGasMock()
+
+Используется ли @tanstack/react-query только для фетчинга или ещё для cache invalidation? Если есть мутации с queryClient.invalidateQueries — их тоже нужно адаптировать
+
+Какие env variables используются? Есть .env файлы? После адаптации они скорее всего не нужны но хочу убедиться
+
+Есть ли аутентификация на уровне фронтенда? В GAS auth обрабатывается автоматически на уровне Google — нужно понимать что можно убрать
+
+После того как агент ответит на вопросы и сделает изменения — запусти npm run build и скинь мне файл dist/index.html. Я его задеплою в GAS одной командой.
