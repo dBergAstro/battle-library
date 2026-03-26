@@ -49,16 +49,25 @@ function normalizeIconItems(
   snakeIdField?: string
 ): Array<{ [key: string]: any }> {
   return (icons ?? []).map((item: any) => {
-    // Resolve base64 → data URL if needed (new sheet format: id, base64, filename)
+    // New sheet format: { id, base64, filename }
     const rawBase64: string | undefined = item.base64;
     const base64Url = rawBase64
       ? (rawBase64.startsWith("data:") ? rawBase64 : `data:image/jpeg;base64,${rawBase64}`)
       : undefined;
 
+    // Old sheet format had drive_url column. uploadIconsBatch writes base64 into that same column
+    // when the sheet already existed with old headers — so drive_url may contain raw base64 (not a URL).
+    const rawDriveUrl: string | undefined = item.drive_url;
+    const driveOrBase64Url = rawDriveUrl
+      ? (rawDriveUrl.startsWith("http")
+          ? rawDriveUrl                                          // real Google Drive URL
+          : `data:image/jpeg;base64,${rawDriveUrl}`)            // raw base64 in drive_url column
+      : undefined;
+
     return {
       [idField]: item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id,
-      // Support: iconUrl (REST format), drive_url (old Drive format), base64 (new Sheets format)
-      iconUrl: item.iconUrl ?? item.url ?? item.drive_url ?? base64Url,
+      // Priority: iconUrl (REST) → explicit URL → base64 column → drive_url column (may be base64)
+      iconUrl: item.iconUrl ?? item.url ?? base64Url ?? driveOrBase64Url,
     };
   });
 }
