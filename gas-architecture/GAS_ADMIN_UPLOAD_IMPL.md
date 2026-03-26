@@ -574,6 +574,50 @@ function getServerLogs() {
 
 ---
 
+## `saveMainBuffName(slot, name, effectKey)` — сохранение настроек баффа
+
+Вызывается из фронтенда при сохранении баффа A или Б.
+
+**Аргументы:**
+- `slot` — строка `"A"` или `"B"`
+- `name` — название баффа (строка)
+- `effectKey` — ключ эффекта (строка, например `allParamsValueIncrease`)
+
+**Что делает:** сохраняет два значения в лист `settings` (ключ → значение):
+- `mainBuffName<slot>` → `name`
+- `mainBuffEffectKey<slot>` → `effectKey`
+
+**Лист settings:** строки `[ключ, значение]`. Обновлять upsert-ом (найти строку с нужным ключом — заменить значение; если нет — добавить).
+
+```javascript
+function saveMainBuffName(slot, name, effectKey) {
+  try {
+    var ss = getSpreadsheet();
+    var sheet = ss.getSheetByName('settings') || ss.insertSheet('settings');
+
+    function upsert(key, value) {
+      var data = sheet.getDataRange().getValues();
+      for (var i = 0; i < data.length; i++) {
+        if (data[i][0] === key) {
+          sheet.getRange(i + 1, 2).setValue(value);
+          return;
+        }
+      }
+      sheet.appendRow([key, value]);
+    }
+
+    upsert('mainBuffName' + slot, name);
+    upsert('mainBuffEffectKey' + slot, effectKey);
+
+    return { success: true };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+```
+
+---
+
 ## Важные замечания
 
 1. **ES5 синтаксис**: никаких `let`, `const`, стрелочных функций, шаблонных строк

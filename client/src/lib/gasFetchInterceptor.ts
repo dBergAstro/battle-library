@@ -250,9 +250,12 @@ async function routeToGas(
     return makeJsonResponse(data);
   }
 
-  // POST /api/admin/settings/main-buff  { slot?, name, effectKey? }
+  // POST /api/admin/settings/main-buff  { slot: "A"|"B", name, effectKey }
   if (m === "POST" && u === "/api/admin/settings/main-buff") {
-    const data = await gsRun("saveMainBuffName", body?.name ?? "");
+    const slot = body?.slot ?? "A";
+    const name = body?.name ?? "";
+    const effectKey = body?.effectKey ?? "";
+    const data = await gsRun("saveMainBuffName", slot, name, effectKey);
     return makeJsonResponse(data);
   }
 
