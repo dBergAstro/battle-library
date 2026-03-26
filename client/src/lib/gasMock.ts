@@ -7,12 +7,27 @@
  * Этот мок имитирует API через реальные REST-вызовы,
  * обеспечивая 1:1 паритет с gasApi.ts.
  *
+ * Режимы (VITE_MOCK_MODE):
+ *   rest    — все вызовы проксируются в REST API Express-сервера (по умолчанию)
+ *   static  — все read-вызовы возвращают статические данные из gasMockData.ts
+ *
  * installGasMock() вызывается из main.tsx до ReactDOM.createRoot.
  */
+
+import {
+  staticBattlesData,
+  staticReplaysData,
+  staticTagsData,
+  staticCollectionData,
+  staticAdminStatsData,
+} from "./gasMockData";
 
 export function installGasMock(): void {
   if (typeof window === "undefined") return;
   if ((window as any).google?.script?.run) return;
+
+  const mockMode = (import.meta.env.VITE_MOCK_MODE as string | undefined) ?? "rest";
+  console.info(`[gasMock] mode: ${mockMode}`);
 
   const delay = (ms = 10) => new Promise<void>((r) => setTimeout(r, ms));
 
@@ -25,16 +40,40 @@ export function installGasMock(): void {
     return res.json() as Promise<T>;
   }
 
+  const isStatic = mockMode === "static";
+
   const MOCK_HANDLERS: Record<string, (...args: any[]) => Promise<any>> = {
     // ─── Чтение данных ───────────────────────────────────────────────────────
-    getBattles: () => restFetch("/api/battles"),
-    getReplays: () => restFetch("/api/replays"),
-    getTags: () => restFetch("/api/tags"),
-    getCollection: () => restFetch("/api/collection"),
-    getAdminStats: () => restFetch("/api/admin/stats"),
+    getBattles: () =>
+      isStatic
+        ? Promise.resolve(staticBattlesData)
+        : restFetch("/api/battles"),
+
+    getReplays: () =>
+      isStatic
+        ? Promise.resolve(staticReplaysData)
+        : restFetch("/api/replays"),
+
+    getTags: () =>
+      isStatic
+        ? Promise.resolve(staticTagsData)
+        : restFetch("/api/tags"),
+
+    getCollection: () =>
+      isStatic
+        ? Promise.resolve(staticCollectionData)
+        : restFetch("/api/collection"),
+
+    getAdminStats: () =>
+      isStatic
+        ? Promise.resolve(staticAdminStatsData)
+        : restFetch("/api/admin/stats"),
 
     // GAS: getBuffConfig() — нет REST-эквивалента, возвращаем заглушку
-    getBuffConfig: () => restFetch("/api/admin/stats"),
+    getBuffConfig: () =>
+      isStatic
+        ? Promise.resolve({ success: true, active: "Бафф A", names: ["Бафф A", "Бафф B", "Бафф C"] })
+        : restFetch("/api/admin/stats"),
 
     // GAS: getServerLogs() — нет REST-эквивалента
     getServerLogs: () => Promise.resolve([]),
