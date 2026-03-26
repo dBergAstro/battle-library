@@ -5,6 +5,7 @@ import type {
   DefendersFragments,
   ProcessedTotem,
   ProcessedSpiritSkill,
+  ProcessedTalisman,
   SpiritsData,
   ReplayGroup
 } from "@shared/schema";
@@ -40,6 +41,14 @@ export interface ServerSpiritIcon {
   id: number;
   skillId: number;
   iconUrl: string;
+}
+
+export interface ServerTalisman {
+  id: number;
+  talismanId: number;
+  name: string;
+  effectKey: string;
+  iconUrl: string | null;
 }
 
 export interface ServerBoss {
@@ -145,6 +154,13 @@ function processSpirits(
   return totems;
 }
 
+export interface BuffConfig {
+  nameA?: string | null;
+  effectKeyA?: string | null;
+  nameB?: string | null;
+  effectKeyB?: string | null;
+}
+
 export function processReplaysFromServer(
   attackTeams: ServerAttackTeam[],
   heroIcons: Array<{ heroId: number; iconUrl: string }>,
@@ -152,7 +168,9 @@ export function processReplaysFromServer(
   petIcons: ServerPetIcon[],
   spiritSkills: ServerSpiritSkill[] = [],
   spiritIcons: ServerSpiritIcon[] = [],
-  bossList: ServerBoss[] = []
+  bossList: ServerBoss[] = [],
+  talismanList: ServerTalisman[] = [],
+  buffConfig: BuffConfig = {}
 ): ProcessedReplay[] {
   const iconMap = new Map(heroIcons.map((h) => [h.heroId, h.iconUrl]));
   const nameMap = new Map(heroNames.map((h) => [h.heroId, h.name]));
@@ -162,6 +180,39 @@ export function processReplaysFromServer(
   
   // Создаём мап для быстрого поиска боя по gameId (bossId)
   const bossMap = new Map(bossList.map((b) => [b.gameId, b]));
+  
+  // Создаём функцию для определения талисмана по effects
+  const findTalisman = (effects?: Record<string, number>): ProcessedTalisman | undefined => {
+    if (!effects || talismanList.length === 0) return undefined;
+    for (const [effectKey] of Object.entries(effects)) {
+      const found = talismanList.find(t => effectKey.startsWith(t.effectKey));
+      if (found) {
+        return {
+          talismanId: found.talismanId,
+          name: found.name,
+          icon: found.iconUrl ?? undefined,
+          effectKey: found.effectKey,
+        };
+      }
+    }
+    return undefined;
+  };
+
+  // Функция для определения имени активного баффа
+  const findBuffName = (effects?: Record<string, number>): string | undefined => {
+    if (!effects) return undefined;
+    if (buffConfig.effectKeyA && buffConfig.nameA) {
+      if (Object.keys(effects).some(k => k.startsWith(buffConfig.effectKeyA!))) {
+        return buffConfig.nameA;
+      }
+    }
+    if (buffConfig.effectKeyB && buffConfig.nameB) {
+      if (Object.keys(effects).some(k => k.startsWith(buffConfig.effectKeyB!))) {
+        return buffConfig.nameB;
+      }
+    }
+    return undefined;
+  };
 
   const getHeroNameFn = (heroId: number): string => {
     return nameMap.get(heroId) || getDefaultHeroName(heroId);
@@ -225,6 +276,9 @@ export function processReplaysFromServer(
         return null;
       }
 
+      const talisman = findTalisman(defenders.effects);
+      const mainBuffName = findBuffName(defenders.effects);
+
       return {
         id: team.id,
         gameId: team.gameId,
@@ -232,12 +286,14 @@ export function processReplaysFromServer(
         level,
         enemyType: defenders.units.some(id => id >= 4000 && id <= 4999) ? "Титаны" : "Герои",
         mainBuff: team.mainBuff ?? undefined,
+        mainBuffName,
         comment: team.comment ?? undefined,
         mainPetId,
         mainPetIcon,
         mainPetName,
         team: teamMembers,
         totems: totems.length > 0 ? totems : undefined,
+        talisman,
         rawDefendersFragments: team.defendersFragments!,
       } as ProcessedReplay;
     })

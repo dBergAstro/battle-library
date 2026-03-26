@@ -26,7 +26,8 @@ import {
   type ServerAttackTeam,
   type ServerPetIcon,
   type ServerSpiritSkill,
-  type ServerSpiritIcon
+  type ServerSpiritIcon,
+  type ServerTalisman
 } from "@/lib/replayUtils";
 import type { ProcessedBattle, ProcessedReplay, BattleType, BattleTag, ReplayGroup } from "@shared/schema";
 
@@ -47,6 +48,11 @@ interface BattlesResponse {
   petIcons: ServerPetIcon[];
   spiritSkills: ServerSpiritSkill[];
   spiritIcons: ServerSpiritIcon[];
+  talismans: ServerTalisman[];
+  mainBuffNameA?: string | null;
+  mainBuffEffectKeyA?: string | null;
+  mainBuffNameB?: string | null;
+  mainBuffEffectKeyB?: string | null;
   maxBossId: number;
 }
 
@@ -235,7 +241,14 @@ export default function BattleLibrary() {
       data.petIcons || [],
       data.spiritSkills || [],
       data.spiritIcons || [],
-      data.bossList || []
+      data.bossList || [],
+      data.talismans || [],
+      {
+        nameA: data.mainBuffNameA,
+        effectKeyA: data.mainBuffEffectKeyA,
+        nameB: data.mainBuffNameB,
+        effectKeyB: data.mainBuffEffectKeyB,
+      }
     );
   }, [data]);
 

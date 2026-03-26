@@ -53,7 +53,11 @@ interface StatsResponse {
   heroicReplays: number;
   titanicReplays: number;
   petIcons: number;
-  mainBuffName: string | null;
+  talismans: number;
+  mainBuffNameA: string | null;
+  mainBuffEffectKeyA: string | null;
+  mainBuffNameB: string | null;
+  mainBuffEffectKeyB: string | null;
 }
 
 interface TableConfig {
@@ -125,9 +129,19 @@ export default function AdminPanel() {
   // Pet icons input
   const petIconsInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Main buff name setting
-  const [mainBuffName, setMainBuffName] = useState("");
-  const [mainBuffSaving, setMainBuffSaving] = useState(false);
+  // Main buff settings (A and B)
+  const [mainBuffNameA, setMainBuffNameA] = useState("");
+  const [mainBuffEffectKeyA, setMainBuffEffectKeyA] = useState("");
+  const [mainBuffSavingA, setMainBuffSavingA] = useState(false);
+  const [mainBuffNameB, setMainBuffNameB] = useState("");
+  const [mainBuffEffectKeyB, setMainBuffEffectKeyB] = useState("");
+  const [mainBuffSavingB, setMainBuffSavingB] = useState(false);
+
+  // Talismans settings
+  const [talismansText, setTalismansText] = useState("");
+  const [talismansSaving, setTalismansSaving] = useState(false);
+  const talismanIconsInputRef = useRef<HTMLInputElement | null>(null);
+  const [talismanIconsUploading, setTalismanIconsUploading] = useState(false);
 
   // Spirit skills (totem skills) settings
   const [spiritSkillsText, setSpiritSkillsText] = useState("");
@@ -1131,7 +1145,7 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
 
-        {/* Main Buff Setting */}
+        {/* Main Buff Settings (A and B) */}
         <Card className="border-card-border">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
@@ -1139,20 +1153,156 @@ export default function AdminPanel() {
               Настройки баффов
             </CardTitle>
           </CardHeader>
+          <CardContent className="space-y-5">
+            <p className="text-xs text-muted-foreground">
+              Укажите название и ключ эффекта для каждого баффа. Ключ эффекта — это префикс из поля effects в записи (например: allParamsValueIncrease). В записи может быть только один из двух баффов.
+            </p>
+
+            {/* Бафф А */}
+            <div className="border rounded-lg p-4 space-y-3">
+              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">Бафф А</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Название</label>
+                  <Input
+                    placeholder="Атака"
+                    value={mainBuffNameA}
+                    onChange={(e) => setMainBuffNameA(e.target.value)}
+                    data-testid="input-main-buff-name-a"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Ключ эффекта (префикс)</label>
+                  <Input
+                    placeholder="allParamsValueIncrease"
+                    value={mainBuffEffectKeyA}
+                    onChange={(e) => setMainBuffEffectKeyA(e.target.value)}
+                    data-testid="input-main-buff-key-a"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={async () => {
+                    if (!mainBuffNameA.trim()) return;
+                    setMainBuffSavingA(true);
+                    try {
+                      await apiRequest("POST", "/api/admin/settings/main-buff", {
+                        name: mainBuffNameA.trim(),
+                        effectKey: mainBuffEffectKeyA.trim(),
+                        slot: "A",
+                      });
+                      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+                    } catch (error) {
+                      console.error("Error saving buff A:", error);
+                    } finally {
+                      setMainBuffSavingA(false);
+                    }
+                  }}
+                  disabled={mainBuffSavingA || !mainBuffNameA.trim()}
+                  data-testid="button-save-buff-a"
+                >
+                  {mainBuffSavingA ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
+                  Сохранить бафф А
+                </Button>
+                {stats?.mainBuffNameA && (
+                  <Badge variant="secondary" className="text-xs">
+                    Текущий: {stats.mainBuffNameA}
+                    {stats.mainBuffEffectKeyA ? ` (${stats.mainBuffEffectKeyA.slice(0, 20)}...)` : ""}
+                  </Badge>
+                )}
+              </div>
+            </div>
+
+            {/* Бафф Б */}
+            <div className="border rounded-lg p-4 space-y-3">
+              <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">Бафф Б</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Название</label>
+                  <Input
+                    placeholder="Защита"
+                    value={mainBuffNameB}
+                    onChange={(e) => setMainBuffNameB(e.target.value)}
+                    data-testid="input-main-buff-name-b"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Ключ эффекта (префикс)</label>
+                  <Input
+                    placeholder="allParamsDefenseIncrease"
+                    value={mainBuffEffectKeyB}
+                    onChange={(e) => setMainBuffEffectKeyB(e.target.value)}
+                    data-testid="input-main-buff-key-b"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={async () => {
+                    if (!mainBuffNameB.trim()) return;
+                    setMainBuffSavingB(true);
+                    try {
+                      await apiRequest("POST", "/api/admin/settings/main-buff", {
+                        name: mainBuffNameB.trim(),
+                        effectKey: mainBuffEffectKeyB.trim(),
+                        slot: "B",
+                      });
+                      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+                    } catch (error) {
+                      console.error("Error saving buff B:", error);
+                    } finally {
+                      setMainBuffSavingB(false);
+                    }
+                  }}
+                  disabled={mainBuffSavingB || !mainBuffNameB.trim()}
+                  data-testid="button-save-buff-b"
+                >
+                  {mainBuffSavingB ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
+                  Сохранить бафф Б
+                </Button>
+                {stats?.mainBuffNameB && (
+                  <Badge variant="secondary" className="text-xs">
+                    Текущий: {stats.mainBuffNameB}
+                    {stats.mainBuffEffectKeyB ? ` (${stats.mainBuffEffectKeyB.slice(0, 20)}...)` : ""}
+                  </Badge>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Talismans */}
+        <Card className="border-card-border">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Shield className="h-5 w-5 text-yellow-500" />
+              Талисманы
+              {stats?.talismans !== undefined && (
+                <Badge variant="secondary" className="ml-auto text-xs">{stats.talismans} записей</Badge>
+              )}
+            </CardTitle>
+          </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">
-                Название основного баффа
-              </label>
+              <label className="text-sm font-medium mb-2 block">Определения талисманов</label>
               <p className="text-xs text-muted-foreground mb-2">
-                Укажите ключ основного баффа из effects (например: percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30)
+                Формат: ID Название ключ_эффекта (каждый на новой строке). Например:<br />
+                <code className="bg-muted px-1 rounded">8002 Талисман вампиризм talismanLifesteal</code><br />
+                <code className="bg-muted px-1 rounded">8003 Талисман ярости talismanFireRage</code>
               </p>
-              <Input
-                placeholder="percentInOutDamageMod..."
-                value={mainBuffName}
-                onChange={(e) => setMainBuffName(e.target.value)}
-                className="mb-2"
-                data-testid="input-main-buff-name"
+              <Textarea
+                placeholder={"8002 Талисман вампиризм talismanLifesteal\n8003 Талисман ярости talismanFireRage"}
+                value={talismansText}
+                onChange={(e) => setTalismansText(e.target.value)}
+                className="min-h-[100px] font-mono text-sm mb-2"
+                data-testid="input-talismans"
               />
             </div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -1160,32 +1310,82 @@ export default function AdminPanel() {
                 variant="outline"
                 size="sm"
                 onClick={async () => {
-                  if (!mainBuffName.trim()) return;
-                  setMainBuffSaving(true);
+                  if (!talismansText.trim()) return;
+                  setTalismansSaving(true);
                   try {
-                    await apiRequest("POST", "/api/admin/settings/main-buff", { name: mainBuffName.trim() });
+                    await apiRequest("POST", "/api/admin/talismans", { text: talismansText });
                     queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                    queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
                   } catch (error) {
-                    console.error("Error saving main buff name:", error);
+                    console.error("Error saving talismans:", error);
                   } finally {
-                    setMainBuffSaving(false);
+                    setTalismansSaving(false);
                   }
                 }}
-                disabled={mainBuffSaving || !mainBuffName.trim()}
-                data-testid="button-save-main-buff"
+                disabled={talismansSaving || !talismansText.trim()}
+                data-testid="button-save-talismans"
               >
-                {mainBuffSaving ? (
+                {talismansSaving ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
+                Сохранить талисманы
+              </Button>
+            </div>
+
+            <div className="border-t pt-4">
+              <label className="text-sm font-medium mb-2 block">Иконки талисманов</label>
+              <p className="text-xs text-muted-foreground mb-2">
+                Папка с иконками. Имя файла должно содержать ID талисмана в конце (например: talisman_8002.png → ID 8002).
+              </p>
+              <input
+                type="file"
+                ref={talismanIconsInputRef}
+                className="hidden"
+                multiple
+                accept="image/*"
+                onChange={async (e) => {
+                  const files = Array.from(e.target.files || []);
+                  if (files.length === 0) return;
+                  setTalismanIconsUploading(true);
+                  try {
+                    const icons: Array<{ talismanId: number; iconUrl: string }> = [];
+                    for (const file of files) {
+                      const match = file.name.match(/(\d+)\.[^.]+$/);
+                      if (!match) continue;
+                      const talismanId = parseInt(match[1], 10);
+                      if (isNaN(talismanId)) continue;
+                      const iconUrl = await new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result as string);
+                        reader.readAsDataURL(file);
+                      });
+                      icons.push({ talismanId, iconUrl });
+                    }
+                    if (icons.length > 0) {
+                      await apiRequest("POST", "/api/admin/talisman-icons", { icons });
+                      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+                      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                    }
+                  } catch (error) {
+                    console.error("Error uploading talisman icons:", error);
+                  } finally {
+                    setTalismanIconsUploading(false);
+                    if (talismanIconsInputRef.current) talismanIconsInputRef.current.value = "";
+                  }
+                }}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => talismanIconsInputRef.current?.click()}
+                disabled={talismanIconsUploading}
+                data-testid="button-upload-talisman-icons"
+              >
+                {talismanIconsUploading ? (
                   <Loader2 className="h-4 w-4 mr-1 animate-spin" />
                 ) : (
-                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                  <Upload className="h-4 w-4 mr-1" />
                 )}
-                Сохранить
+                {talismanIconsUploading ? "Загрузка..." : "Выбрать папку с иконками"}
               </Button>
-              {stats?.mainBuffName && (
-                <Badge variant="secondary" className="max-w-[200px] truncate" title={stats.mainBuffName}>
-                  Текущий: {stats.mainBuffName.slice(0, 30)}...
-                </Badge>
-              )}
             </div>
           </CardContent>
         </Card>

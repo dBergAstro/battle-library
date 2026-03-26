@@ -1,12 +1,12 @@
 import { 
   bossList, bossTeam, bossLevel, heroIcons, heroNames, heroSortOrder, titanElements,
-  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons, battleTags, collectionItems,
+  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons, talismans, battleTags, collectionItems,
   type InsertBossList, type InsertBossTeam, type InsertBossLevel, 
   type InsertHeroIcon, type InsertHeroName, type InsertHeroSortOrder, type InsertTitanElement,
   type InsertAttackTeam, type InsertPetIcon, type InsertAppSetting,
-  type InsertSpiritSkill, type InsertSpiritIcon, type InsertBattleTag, type InsertCollectionItem,
+  type InsertSpiritSkill, type InsertSpiritIcon, type InsertTalisman, type InsertBattleTag, type InsertCollectionItem,
   type BossList, type BossTeam, type BossLevel, type HeroIcon, type HeroName, type HeroSortOrder, type TitanElement,
-  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon, type BattleTag, type CollectionItem
+  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon, type Talisman, type BattleTag, type CollectionItem
 } from "@shared/schema";
 import { db } from "./db";
 import { gt, sql, eq, and } from "drizzle-orm";
@@ -56,6 +56,11 @@ export interface IStorage {
   insertSpiritIcons(data: InsertSpiritIcon[]): Promise<void>;
   clearSpiritIcons(): Promise<void>;
   
+  getAllTalismans(): Promise<Talisman[]>;
+  insertTalismans(data: InsertTalisman[]): Promise<void>;
+  updateTalismanIcon(talismanId: number, iconUrl: string): Promise<void>;
+  clearTalismans(): Promise<void>;
+
   getSetting(key: string): Promise<string | null>;
   setSetting(key: string, value: string): Promise<void>;
   
@@ -308,6 +313,29 @@ export class DatabaseStorage implements IStorage {
 
   async clearSpiritIcons(): Promise<void> {
     await db.delete(spiritIcons);
+  }
+
+  // Talismans
+  async getAllTalismans(): Promise<Talisman[]> {
+    return await db.select().from(talismans);
+  }
+
+  async insertTalismans(data: InsertTalisman[]): Promise<void> {
+    if (data.length === 0) return;
+    for (const item of data) {
+      await db.insert(talismans).values(item).onConflictDoUpdate({
+        target: talismans.talismanId,
+        set: { name: sql`excluded.name`, effectKey: sql`excluded.effect_key` },
+      });
+    }
+  }
+
+  async updateTalismanIcon(talismanId: number, iconUrl: string): Promise<void> {
+    await db.update(talismans).set({ iconUrl }).where(eq(talismans.talismanId, talismanId));
+  }
+
+  async clearTalismans(): Promise<void> {
+    await db.delete(talismans);
   }
 
   // App Settings

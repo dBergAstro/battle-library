@@ -97,7 +97,7 @@ export async function registerRoutes(
   // Get all data for library (battles + replays)
   app.get("/api/battles", async (_req, res) => {
     try {
-      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData, attackTeamsData, petIconsData, spiritSkillsData, spiritIconsData] = await Promise.all([
+      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData, attackTeamsData, petIconsData, spiritSkillsData, spiritIconsData, talismansData] = await Promise.all([
         storage.getAllBossList(),
         storage.getAllBossTeam(),
         storage.getAllBossLevel(),
@@ -109,6 +109,7 @@ export async function registerRoutes(
         storage.getAllPetIcons(),
         storage.getAllSpiritSkills(),
         storage.getAllSpiritIcons(),
+        storage.getAllTalismans(),
       ]);
 
       // Filter out boss entries that were created from replays (have defendersFragments)
@@ -116,6 +117,13 @@ export async function registerRoutes(
       
       // Calculate max boss ID for recommended new battle IDs (use full list for ID calculation)
       const maxBossId = bossListData.reduce((max, boss) => Math.max(max, boss.gameId), 0);
+
+      const [mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB] = await Promise.all([
+        storage.getSetting("mainBuffNameA"),
+        storage.getSetting("mainBuffEffectKeyA"),
+        storage.getSetting("mainBuffNameB"),
+        storage.getSetting("mainBuffEffectKeyB"),
+      ]);
 
       res.json({
         bossList: filteredBossList,
@@ -129,6 +137,11 @@ export async function registerRoutes(
         petIcons: petIconsData,
         spiritSkills: spiritSkillsData,
         spiritIcons: spiritIconsData,
+        talismans: talismansData,
+        mainBuffNameA,
+        mainBuffEffectKeyA,
+        mainBuffNameB,
+        mainBuffEffectKeyB,
         maxBossId,
       });
     } catch (error) {
@@ -320,7 +333,7 @@ export async function registerRoutes(
   // Get stats
   app.get("/api/admin/stats", async (_req, res) => {
     try {
-      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData, attackTeamsData, petIconsData] = await Promise.all([
+      const [bossListData, bossTeamData, bossLevelData, heroIconsData, heroNamesData, heroSortOrderData, titanElementsData, attackTeamsData, petIconsData, talismansData] = await Promise.all([
         storage.getAllBossList(),
         storage.getAllBossTeam(),
         storage.getAllBossLevel(),
@@ -330,9 +343,15 @@ export async function registerRoutes(
         storage.getAllTitanElements(),
         storage.getAllAttackTeams(),
         storage.getAllPetIcons(),
+        storage.getAllTalismans(),
       ]);
 
-      const mainBuffName = await storage.getSetting("mainBuffName");
+      const [mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB] = await Promise.all([
+        storage.getSetting("mainBuffNameA"),
+        storage.getSetting("mainBuffEffectKeyA"),
+        storage.getSetting("mainBuffNameB"),
+        storage.getSetting("mainBuffEffectKeyB"),
+      ]);
 
       // Разделяем записи на героические и титанические
       const heroicReplays = attackTeamsData.filter(r => r.enemyType === "Герои").length;
@@ -350,7 +369,11 @@ export async function registerRoutes(
         heroicReplays,
         titanicReplays,
         petIcons: petIconsData.length,
-        mainBuffName: mainBuffName,
+        talismans: talismansData.length,
+        mainBuffNameA,
+        mainBuffEffectKeyA,
+        mainBuffNameB,
+        mainBuffEffectKeyB,
       });
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -411,14 +434,19 @@ export async function registerRoutes(
     }
   });
 
-  // Set Main Buff Name
+  // Set Main Buff Name (A and B)
   app.post("/api/admin/settings/main-buff", async (req, res) => {
     try {
-      const { name } = req.body;
+      const { name, effectKey, slot } = req.body;
       if (typeof name !== "string") {
         return res.status(400).json({ error: "Invalid name" });
       }
-      await storage.setSetting("mainBuffName", name);
+      const nameKey = slot === "B" ? "mainBuffNameB" : "mainBuffNameA";
+      const keyKey = slot === "B" ? "mainBuffEffectKeyB" : "mainBuffEffectKeyA";
+      await storage.setSetting(nameKey, name);
+      if (typeof effectKey === "string" && effectKey.trim()) {
+        await storage.setSetting(keyKey, effectKey.trim());
+      }
       res.json({ success: true });
     } catch (error) {
       console.error("Error setting main buff name:", error);
@@ -429,16 +457,22 @@ export async function registerRoutes(
   // Get Replays data
   app.get("/api/replays", async (_req, res) => {
     try {
-      const [attackTeamsData, heroIconsData, heroNamesData, petIconsData, spiritSkillsData, spiritIconsData] = await Promise.all([
+      const [attackTeamsData, heroIconsData, heroNamesData, petIconsData, spiritSkillsData, spiritIconsData, talismansData] = await Promise.all([
         storage.getAllAttackTeams(),
         storage.getAllHeroIcons(),
         storage.getAllHeroNames(),
         storage.getAllPetIcons(),
         storage.getAllSpiritSkills(),
         storage.getAllSpiritIcons(),
+        storage.getAllTalismans(),
       ]);
 
-      const mainBuffName = await storage.getSetting("mainBuffName");
+      const [mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB] = await Promise.all([
+        storage.getSetting("mainBuffNameA"),
+        storage.getSetting("mainBuffEffectKeyA"),
+        storage.getSetting("mainBuffNameB"),
+        storage.getSetting("mainBuffEffectKeyB"),
+      ]);
 
       res.json({
         attackTeams: attackTeamsData,
@@ -447,11 +481,75 @@ export async function registerRoutes(
         petIcons: petIconsData,
         spiritSkills: spiritSkillsData,
         spiritIcons: spiritIconsData,
-        mainBuffName: mainBuffName,
+        talismans: talismansData,
+        mainBuffNameA: mainBuffNameA,
+        mainBuffEffectKeyA: mainBuffEffectKeyA,
+        mainBuffNameB: mainBuffNameB,
+        mainBuffEffectKeyB: mainBuffEffectKeyB,
       });
     } catch (error) {
       console.error("Error fetching replays:", error);
       res.status(500).json({ error: "Failed to fetch replays" });
+    }
+  });
+
+  // Upload Talisman definitions (text format: "8002 Название talismanEffectKey")
+  app.post("/api/admin/talismans", async (req, res) => {
+    try {
+      const { text } = req.body;
+      if (typeof text !== "string") {
+        return res.status(400).json({ error: "Invalid input: expected { text: string }" });
+      }
+      const lines = text.trim().split("\n").filter(l => l.trim());
+      const parsed: { talismanId: number; name: string; effectKey: string }[] = [];
+      const errors: string[] = [];
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        const parts = trimmed.split(/\s+/);
+        if (parts.length < 3) {
+          errors.push(`Неверный формат: "${trimmed}". Ожидается: ID Название ключ_эффекта`);
+          continue;
+        }
+        const talismanId = parseInt(parts[0], 10);
+        if (isNaN(talismanId)) {
+          errors.push(`Неверный ID: "${parts[0]}"`);
+          continue;
+        }
+        const effectKey = parts[parts.length - 1];
+        const name = parts.slice(1, -1).join(" ");
+        parsed.push({ talismanId, name, effectKey });
+      }
+
+      if (parsed.length > 0) {
+        await storage.insertTalismans(parsed);
+      }
+      res.json({ success: true, count: parsed.length, errors });
+    } catch (error) {
+      console.error("Error uploading talismans:", error);
+      res.status(500).json({ error: "Failed to upload talismans" });
+    }
+  });
+
+  // Upload Talisman Icons (array of { talismanId, iconUrl })
+  app.post("/api/admin/talisman-icons", async (req, res) => {
+    try {
+      const { icons } = req.body;
+      if (!Array.isArray(icons)) {
+        return res.status(400).json({ error: "Expected { icons: Array }" });
+      }
+      let count = 0;
+      for (const icon of icons) {
+        if (typeof icon.talismanId === "number" && typeof icon.iconUrl === "string") {
+          await storage.updateTalismanIcon(icon.talismanId, icon.iconUrl);
+          count++;
+        }
+      }
+      res.json({ success: true, count });
+    } catch (error) {
+      console.error("Error uploading talisman icons:", error);
+      res.status(500).json({ error: "Failed to upload talisman icons" });
     }
   });
 

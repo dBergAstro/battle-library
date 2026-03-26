@@ -174,6 +174,19 @@ export const insertSpiritIconSchema = createInsertSchema(spiritIcons).omit({ id:
 export type InsertSpiritIcon = z.infer<typeof insertSpiritIconSchema>;
 export type SpiritIcon = typeof spiritIcons.$inferSelect;
 
+// Talismans - талисманы (ID, название, ключ эффекта, иконка)
+export const talismans = pgTable("talismans", {
+  id: serial("id").primaryKey(),
+  talismanId: integer("talisman_id").notNull().unique(),
+  name: text("name").notNull(),
+  effectKey: text("effect_key").notNull(), // префикс ключа в effects, например talismanLifesteal
+  iconUrl: text("icon_url"),
+});
+
+export const insertTalismanSchema = createInsertSchema(talismans).omit({ id: true });
+export type InsertTalisman = z.infer<typeof insertTalismanSchema>;
+export type Talisman = typeof talismans.$inferSelect;
+
 // Battle Tags - пользовательские теги для боёв
 export const battleTags = pgTable("battle_tags", {
   id: serial("id").primaryKey(),
@@ -276,6 +289,14 @@ export interface ProcessedTotem {
   skills: ProcessedSpiritSkill[];
 }
 
+// Обработанный талисман
+export interface ProcessedTalisman {
+  talismanId: number;
+  name: string;
+  icon?: string;
+  effectKey: string;
+}
+
 // Обработанная запись для отображения
 export interface ProcessedReplay {
   id: number;
@@ -284,12 +305,14 @@ export interface ProcessedReplay {
   level: number;
   enemyType: "Герои" | "Титаны";
   mainBuff?: number;
+  mainBuffName?: string; // название активного баффа (А или Б)
   comment?: string;
   mainPetId?: number;
   mainPetIcon?: string;
   mainPetName?: string;
   team: ProcessedReplayMember[];
   totems?: ProcessedTotem[]; // тотемы со скилами для титанов
+  talisman?: ProcessedTalisman; // талисман (если есть)
   rawDefendersFragments: string; // оригинальный JSON для копирования
 }
 

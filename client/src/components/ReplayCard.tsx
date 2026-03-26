@@ -89,6 +89,7 @@ export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], 
               {replay.mainBuff != null && replay.mainBuff > 0 && (
                 <Badge variant="secondary" className="flex items-center gap-0.5">
                   <ArrowUp className="h-3 w-3" />
+                  {replay.mainBuffName && <span className="mr-0.5">{replay.mainBuffName}</span>}
                   <span>{replay.mainBuff}%</span>
                 </Badge>
               )}
@@ -192,6 +193,24 @@ export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], 
         )}
 
         <div className="flex items-start gap-1">
+          {replay.talisman && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="mr-1 pt-0.5 flex flex-col items-center gap-0.5">
+                  <Avatar className="h-12 w-12 ring-2 ring-yellow-500 bg-yellow-500/10">
+                    {replay.talisman.icon ? (
+                      <AvatarImage src={replay.talisman.icon} alt={replay.talisman.name} />
+                    ) : null}
+                    <AvatarFallback className="text-xs font-bold text-yellow-600 dark:text-yellow-400 bg-yellow-500/20">Т</AvatarFallback>
+                  </Avatar>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                <p className="font-medium">{replay.talisman.name}</p>
+                <p className="text-muted-foreground">Талисман</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
           {replay.mainPetIcon && (
             <Tooltip>
               <TooltipTrigger asChild>

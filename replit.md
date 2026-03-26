@@ -22,7 +22,8 @@ MVP с серверным хранением, записями (replays) и по
 - `pet_icons` - иконки питомцев (id, petId, iconUrl)
 - `spirit_skills` - названия скилов тотемов (id, skillId, name)
 - `spirit_icons` - иконки скилов тотемов (id, skillId, iconUrl)
-- `app_settings` - настройки приложения (key, value)
+- `talismans` - талисманы (id, talismanId, name, effectKey, iconUrl)
+- `app_settings` - настройки приложения (key, value): mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB
 
 ### API Endpoints
 - `GET /api/battles` - получить все данные для отображения библиотеки боёв
@@ -39,7 +40,9 @@ MVP с серверным хранением, записями (replays) и по
 - `POST /api/admin/pet-icons` - загрузить иконки питомцев
 - `POST /api/admin/spirit-skills` - загрузить названия скилов тотемов
 - `POST /api/admin/spirit-icons` - загрузить иконки скилов тотемов
-- `POST /api/admin/settings/main-buff` - настроить название основного баффа
+- `POST /api/admin/settings/main-buff` - настроить бафф А или Б (параметр slot: "A"|"B", name, effectKey)
+- `POST /api/admin/talismans` - загрузить определения талисманов (текст: ID название effectKey)
+- `POST /api/admin/talisman-icons` - загрузить иконки талисманов
 
 ### Страницы
 - `/` - Библиотека боёв (просмотр для всех пользователей)
