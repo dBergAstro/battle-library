@@ -91,19 +91,47 @@ function normalizeHeroNames(
 }
 
 function normalizeEntityArrays(raw: any): any {
+  const heroIconsNorm  = normalizeIconItems(raw.heroIcons  ?? raw.hero_icons,  "heroId", "hero_id");
+  const creepIconsNorm = normalizeIconItems(raw.creepIcons ?? raw.creep_icons, "heroId", "hero_id");
+  const titanIconsNorm = normalizeIconItems(raw.titanIcons ?? raw.titan_icons, "heroId", "hero_id");
+
+  // In REST mode, all icon types are unified in heroIcons.
+  // In GAS mode, they come in separate arrays — merge them so the frontend sees one map.
+  const allHeroIcons = [...heroIconsNorm, ...creepIconsNorm, ...titanIconsNorm];
+
   return {
     ...raw,
-    heroIcons: normalizeIconItems(raw.heroIcons, "heroId", "hero_id"),
-    heroNames: normalizeHeroNames(raw.heroNames),
-    petIcons: normalizeIconItems(raw.petIcons, "petId", "pet_id"),
-    spiritIcons: normalizeIconItems(raw.spiritIcons, "skillId", "skill_id"),
-    spiritSkills: normalizeSpiritSkills(raw.spiritSkills),
+    heroIcons:   allHeroIcons,
+    heroNames:   normalizeHeroNames(raw.heroNames ?? raw.hero_names),
+    petIcons:    normalizeIconItems(raw.petIcons   ?? raw.pet_icons,   "petId",   "pet_id"),
+    creepIcons:  creepIconsNorm,
+    titanIcons:  titanIconsNorm,
+    spiritIcons: normalizeIconItems(raw.spiritIcons ?? raw.spirit_icons, "skillId", "skill_id"),
+    spiritSkills: normalizeSpiritSkills(raw.spiritSkills ?? raw.spirit_skills),
+    talismans:   raw.talismans ?? [],
   };
+}
+
+function normalizeBossTeamItems(items: any[]): any[] {
+  return (items ?? []).map((item: any) => ({
+    ...item,
+    bossGameId: item.bossGameId ?? item.boss_game_id ?? item.bossId,
+  }));
 }
 
 function normalizeBattlesData(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;
-  return normalizeEntityArrays(raw);
+  const normalized: any = {
+    ...raw,
+    bossList:      raw.bossList      ?? raw.boss_list,
+    bossTeam:      raw.bossTeam      ?? raw.boss_team,
+    bossLevel:     raw.bossLevel     ?? raw.boss_level,
+    attackTeams:   raw.attackTeams   ?? raw.attack_teams,
+    heroSortOrder: raw.heroSortOrder ?? raw.hero_sort_order,
+    titanElements: raw.titanElements ?? raw.titan_elements,
+  };
+  normalized.bossTeam = normalizeBossTeamItems(normalized.bossTeam);
+  return normalizeEntityArrays(normalized);
 }
 
 function normalizeReplaysData(raw: any): any {
@@ -198,6 +226,10 @@ async function routeToGas(
   // GET /api/battles
   if (m === "GET" && u === "/api/battles") {
     const raw = await gsRun<any>("getBattles");
+    console.debug(
+      "[GAS /api/battles] top-level keys:", Object.keys(raw ?? {}),
+      "| first bossList item:", (raw?.bossList ?? raw?.boss_list ?? [])[0]
+    );
     const data = normalizeBattlesData(raw);
     return makeJsonResponse(data);
   }
