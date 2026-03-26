@@ -90,6 +90,33 @@ function normalizeHeroNames(
   }));
 }
 
+function normalizeTalismans(
+  rawTalismans: any[],
+  rawTalismanIcons: any[]
+): Array<{ talismanId: number; name: string; effectKey: string; description?: string | null; iconUrl?: string | null }> {
+  // Build icon lookup: talismanId → base64 data-URL
+  const iconMap = new Map<number, string>();
+  (rawTalismanIcons ?? []).forEach((icon: any) => {
+    const tid = icon.talismanId ?? icon.talisman_id ?? icon.id;
+    if (!tid) return;
+    const raw64: string | undefined = icon.base64 ?? icon.iconUrl ?? icon.url;
+    if (!raw64) return;
+    const dataUrl = raw64.startsWith("data:") ? raw64 : `data:image/jpeg;base64,${raw64}`;
+    iconMap.set(Number(tid), dataUrl);
+  });
+
+  return (rawTalismans ?? []).map((t: any) => {
+    const tid = t.talismanId ?? t.talisman_id ?? t.id;
+    return {
+      talismanId: Number(tid),
+      name: t.name ?? "",
+      effectKey: t.effectKey ?? t.effect_key ?? "",
+      description: t.description ?? null,
+      iconUrl: t.iconUrl ?? iconMap.get(Number(tid)) ?? null,
+    };
+  });
+}
+
 function normalizeEntityArrays(raw: any): any {
   const heroIconsNorm  = normalizeIconItems(raw.heroIcons  ?? raw.hero_icons,  "heroId", "hero_id");
   const creepIconsNorm = normalizeIconItems(raw.creepIcons ?? raw.creep_icons, "heroId", "hero_id");
@@ -101,14 +128,14 @@ function normalizeEntityArrays(raw: any): any {
 
   return {
     ...raw,
-    heroIcons:   allHeroIcons,
-    heroNames:   normalizeHeroNames(raw.heroNames ?? raw.hero_names),
-    petIcons:    normalizeIconItems(raw.petIcons   ?? raw.pet_icons,   "petId",   "pet_id"),
-    creepIcons:  creepIconsNorm,
-    titanIcons:  titanIconsNorm,
-    spiritIcons: normalizeIconItems(raw.spiritIcons ?? raw.spirit_icons, "skillId", "skill_id"),
+    heroIcons:    allHeroIcons,
+    heroNames:    normalizeHeroNames(raw.heroNames ?? raw.hero_names),
+    petIcons:     normalizeIconItems(raw.petIcons   ?? raw.pet_icons,    "petId",   "pet_id"),
+    creepIcons:   creepIconsNorm,
+    titanIcons:   titanIconsNorm,
+    spiritIcons:  normalizeIconItems(raw.spiritIcons ?? raw.spirit_icons, "skillId", "skill_id"),
     spiritSkills: normalizeSpiritSkills(raw.spiritSkills ?? raw.spirit_skills),
-    talismans:   raw.talismans ?? [],
+    talismans:    normalizeTalismans(raw.talismans ?? [], raw.talismanIcons ?? raw.talisman_icons ?? []),
   };
 }
 
