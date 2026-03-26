@@ -173,13 +173,11 @@ export const staticTagsData = {
 
 // ─── getCollection ────────────────────────────────────────────────────────────
 
-export const staticCollectionData = {
-  items: [
-    { itemId: "ch1-227", bossId: 227, heroId: "1", note: "Мой лучший бой" },
-    { itemId: "ch2-228", bossId: 228, heroId: "3", note: "Нужно проверить" },
-    { itemId: "ch3-229", bossId: 229, heroId: "2", note: "" },
-  ],
-};
+export const staticCollectionData = [
+  { itemId: "ch1-227", bossId: 227, heroId: "1", note: "Мой лучший бой" },
+  { itemId: "ch2-228", bossId: 228, heroId: "3", note: "Нужно проверить" },
+  { itemId: "ch3-229", bossId: 229, heroId: "2", note: "" },
+];
 
 // ─── getAdminStats ────────────────────────────────────────────────────────────
 
