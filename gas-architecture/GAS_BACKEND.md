@@ -53,7 +53,6 @@ Replit (React UI)          GAS Backend              Google Sheets
 | `spirit_skills` | `SHEET_SPIRIT_SKILLS` | Навыки духов |
 | `tags` | `SHEET_TAGS` | battle_game_id → tag (пользовательские теги) |
 | `app_settings` | `SHEET_APP_SETTINGS` | key → value (mainBuffName, buffNames, lastDataSync, lastIconSync) |
-| `logs` | `SHEET_LOGS` | Серверные логи (timestamp, level, function, message, data) |
 
 ### Как отличить бои от записей (replays)
 - `boss_list` с `defenders_fragments = ''` → **бой**
@@ -148,18 +147,8 @@ interface BuffConfig {
 }
 ```
 
-#### `getServerLogs()` → `{ logs: LogEntry[] }`
-Последние 50 серверных логов (из листа `logs`).
-
-```typescript
-interface LogEntry {
-  timestamp: string;   // ISO 8601
-  level: string;       // DEBUG | INFO | WARN | ERROR
-  function: string;    // имя GAS-функции
-  message: string;     // описание события
-  data?: string;       // JSON-данные (обрезаны до 500 символов)
-}
-```
+#### `getLogs()` → `{ logs: LogEntry[] }`
+Последние 50 серверных логов (из листа 'logs').
 
 ---
 
@@ -204,8 +193,6 @@ interface LogEntry {
 | `hero-icons` | hero_icons | Полная замена (только URLs, не Drive upload) |
 | `pet-icons` | pet_icons | Полная замена |
 | `spirit-icons` | spirit_icons | Полная замена |
-| `talismans` | talismans | ⚠️ **Не реализовано в GAS** — см. ниже |
-| `talisman-icons` | talisman_icons | ⚠️ **Не реализовано в GAS** — см. ниже |
 
 ⚠️ **Важно:** поля принимаются в обоих форматах — camelCase (`heroId`) и snake_case (`hero_id`).
 
@@ -221,66 +208,6 @@ interface IconUploadItem {
   filename: string;            // {category}_{id}.png
 }
 ```
-
----
-
-### ⚠️ Не реализовано в GAS — требует доработки Code.js
-
-#### Талисманы (`talismans` / `talisman-icons`)
-
-Фронтенд (AdminPanel) поддерживает загрузку талисманов, но в GAS `adminUpload` эти типы не обработаны.
-
-**Маршруты фронтенда и что ожидается от GAS:**
-
-**Важно:** Оригинальный фронтенд шлёт талисманы как `{ text: "..." }` (сырой текст) на REST API, а Express их парсит. В GAS-режиме `gasFetchInterceptor.ts` парсит текст **до вызова GAS**, поэтому GAS всегда получает уже готовый массив.
-
-**1. `adminUpload("talismans", data)` — загрузка определений талисманов**
-
-GAS получает уже распарсенный массив (парсинг текста выполнен в interceptor'е):
-```typescript
-// data = TalismanItem[]
-interface TalismanItem {
-  talismanId:   number;   // числовой ID
-  name:         string;   // название (например "Молния")
-  effectKey:    string;   // базовая часть ключа эффекта (например "talismanLightning")
-  description?: string;   // описание (опционально)
-}
-```
-
-Нужно создать лист `talismans` в Sheets с колонками: `talismanId | name | effectKey | description`.  
-Логика записи: **полная замена** (аналогично `hero-names`).
-
-**2. `adminUpload("talisman-icons", data)` — загрузка иконок талисманов**
-
-GAS получает уже нормализованный массив иконок (interceptor извлекает `body.icons` за фронтенда):
-```typescript
-// data = TalismanIconItem[]
-interface TalismanIconItem {
-  talismanId: number;
-  iconUrl:    string;  // base64 data URL: "data:image/png;base64,..."
-}
-```
-
-Нужно создать лист `talisman_icons` с колонками: `talismanId | iconUrl`.  
-Логика: **полная замена** по `talismanId`.
-
-**Что нужно добавить в Code.js:**
-```javascript
-// В функции adminUpload — добавить два новых case:
-case 'talismans':
-  // data = [{ talismanId, name, effectKey, description }, ...]
-  // Полная замена листа talismans
-  // Колонки: talismanId, name, effectKey, description
-  break;
-
-case 'talisman-icons':
-  // data = [{ talismanId, iconUrl }, ...]
-  // Полная замена листа talisman_icons
-  // Колонки: talismanId, iconUrl
-  break;
-```
-
-**Примечание:** `uploadIconsBatch` для талисманов **не нужен** — иконки хранятся как base64 data URL в листе `talisman_icons`, Drive-загрузка не требуется (в отличие от героев/питомцев/духов).
 
 ---
 
@@ -402,38 +329,3 @@ URL продакшна:
 ```
 https://script.google.com/a/macros/nexters.com/s/AKfycbzNveXw_EmK4wKWxlYia3JRsdLzhX8S6KAvjxB5gOZv1Tsv_2lbg0nFGCswQ4e1o1WHWg/exec
 ```
-
----
-
-## Logging — Двухуровневая система логирования
-
-Система логирования состоит из двух слоёв:
-
-### 1. Client Logs (в памяти браузера)
-
-Модуль `client/src/lib/gasLogger.ts` автоматически логирует все вызовы через `gasApi.ts`:
-
-- Каждый `google.script.run` (GAS) и REST вызов записывается с: именем метода, временем начала, длительностью, размером ответа (количество записей) и ошибкой
-- Хранятся последние 200 записей в циклическом буфере
-- Поддерживает подписку через `subscribe()` для live-обновлений в UI
-- Уровни: `DEBUG`, `INFO`, `WARN`, `ERROR`
-- Категории: `GAS_CALL`, `REST_CALL`, `UPLOAD`, `ICONS`, `TAGS`, `COLLECTION`, `SYNC`, `GENERAL`
-
-### 2. Server Logs (лист `logs` в Google Sheets)
-
-GAS-функция `gasLog(level, fn, message, data)` записывает логи в лист `logs`:
-
-- Колонки: `timestamp` | `level` | `function` | `message` | `data`
-- Данные в `data` обрезаются до 500 символов
-- Лист автоматически тримится до последних 500 записей
-- Каждая публичная GAS-функция обёрнута в try/catch с логированием entry/exit/error
-- Спецификация изменений: `gas-architecture/GAS_LOGGING_SPEC.md`
-
-### UI: Вкладка "Логи" в Admin Panel
-
-Админ-панель содержит раздел "Логи" с двумя панелями:
-
-- **Client Logs** — live-обновление из `gasLogger`, кнопка "Очистить"
-- **Server Logs** — загружаются через `gasApi.getLogs()`, кнопка "Обновить"
-
-Записи отображаются от новых к старым, цветовая кодировка по уровню.
