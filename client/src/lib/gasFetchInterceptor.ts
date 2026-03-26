@@ -226,8 +226,47 @@ async function routeToGas(
 
   // GET /api/admin/stats
   if (m === "GET" && u === "/api/admin/stats") {
-    const data = await gsRun("getAdminStats");
-    return makeJsonResponse(data);
+    const raw: any = await gsRun("getAdminStats");
+    // GAS returns a flat structure with different field names.
+    // Normalize to match the REST StatsResponse interface.
+    const normalized = {
+      bossList:        raw.bossList        ?? 0,
+      bossTeam:        raw.bossTeam        ?? 0,
+      bossLevel:       raw.bossLevel       ?? 0,
+      heroIcons:       raw.heroIcons       ?? 0,
+      heroNames:       raw.heroNames       ?? 0,
+      heroSortOrder:   raw.heroSortOrder   ?? 0,
+      titanElements:   raw.titanElements   ?? 0,
+      attackTeams:     raw.attackTeams     ?? 0,
+      heroicReplays:   raw.heroicReplays   ?? 0,
+      titanicReplays:  raw.titanicReplays  ?? 0,
+      petIcons:        raw.petIcons        ?? 0,
+      spiritSkills:    raw.spiritSkills    ?? 0,
+      spiritIcons:     raw.spiritIcons     ?? 0,
+      talismans:       raw.talismans       ?? 0,
+      // GAS returns mainBuffName (single) — map to A slot; B may come from mainBuffNameB if present
+      mainBuffNameA:      raw.mainBuffNameA      ?? raw.mainBuffName      ?? null,
+      mainBuffEffectKeyA: raw.mainBuffEffectKeyA ?? raw.mainBuffEffectKey ?? null,
+      mainBuffNameB:      raw.mainBuffNameB      ?? null,
+      mainBuffEffectKeyB: raw.mainBuffEffectKeyB ?? null,
+      // GAS returns flat lastIconSync/lastDataSync — map to nested lastUpdated
+      lastUpdated: {
+        bossList:     raw.lastUpdated?.bossList     ?? raw.lastDataSync ?? null,
+        bossTeam:     raw.lastUpdated?.bossTeam     ?? raw.lastDataSync ?? null,
+        bossLevel:    raw.lastUpdated?.bossLevel    ?? raw.lastDataSync ?? null,
+        heroIcons:    raw.lastUpdated?.heroIcons    ?? raw.lastIconSync ?? null,
+        heroNames:    raw.lastUpdated?.heroNames    ?? raw.lastDataSync ?? null,
+        heroSortOrder:raw.lastUpdated?.heroSortOrder ?? raw.lastDataSync ?? null,
+        titanElements:raw.lastUpdated?.titanElements ?? raw.lastDataSync ?? null,
+        attackTeams:  raw.lastUpdated?.attackTeams  ?? raw.lastDataSync ?? null,
+        petIcons:     raw.lastUpdated?.petIcons     ?? raw.lastIconSync ?? null,
+        spiritSkills: raw.lastUpdated?.spiritSkills ?? raw.lastDataSync ?? null,
+        spiritIcons:  raw.lastUpdated?.spiritIcons  ?? raw.lastIconSync ?? null,
+        talismans:    raw.lastUpdated?.talismans     ?? raw.lastDataSync ?? null,
+        talismanIcons:raw.lastUpdated?.talismanIcons ?? raw.lastIconSync ?? null,
+      },
+    };
+    return makeJsonResponse(normalized);
   }
 
   // POST /api/tags/:battleGameId  { tag }
