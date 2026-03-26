@@ -119,7 +119,7 @@ interface IconFolderConfig {
 const iconFolders: IconFolderConfig[] = [
   { key: "heroes", title: "Герои", description: "Иконки героев (id 1-99)", category: "hero" },
   { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)", category: "creep" },
-  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)", category: "titan" },
+  { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000–4999)", category: "titan" },
 ];
 
 function fmtDate(iso?: string | null): string | null {
