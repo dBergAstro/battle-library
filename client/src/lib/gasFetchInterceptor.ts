@@ -67,9 +67,12 @@ async function routeToGas(
   }
 
   // GET /api/collection
+  // GAS returns { items: [...] }, but the REST API returns a flat array.
+  // Unwrap so components always get ServerCollectionItem[].
   if (m === "GET" && u === "/api/collection") {
-    const data = await gsRun("getCollection");
-    return makeJsonResponse(data);
+    const result = await gsRun<{ items: any[] } | any[]>("getCollection");
+    const items = Array.isArray(result) ? result : ((result as any)?.items ?? []);
+    return makeJsonResponse(items);
   }
 
   // GET /api/admin/stats
@@ -122,7 +125,17 @@ async function routeToGas(
     return makeJsonResponse(data);
   }
 
-  // POST /api/admin/:type  — generic admin upload
+  // POST /api/admin/{hero|pet|spirit|titan|creep}-icons → uploadIconsBatch(category, icons)
+  // These go to Google Drive upload, NOT adminUpload which only saves URLs.
+  const iconUploadMatch = m === "POST" && u.match(/^\/api\/admin\/(hero|pet|spirit|titan|creep)-icons$/);
+  if (iconUploadMatch) {
+    const category = iconUploadMatch[1];
+    const icons = Array.isArray(body) ? body : (body?.icons ?? []);
+    const data = await gsRun("uploadIconsBatch", category, icons);
+    return makeJsonResponse(data);
+  }
+
+  // POST /api/admin/:type  — generic admin upload (data tables, talisman-icons, etc.)
   const adminMatch = m === "POST" && u.match(/^\/api\/admin\/(.+)$/);
   if (adminMatch) {
     const type = adminMatch[1];
