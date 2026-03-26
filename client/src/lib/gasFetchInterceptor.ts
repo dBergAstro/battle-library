@@ -147,31 +147,95 @@ function normalizeEntityArrays(raw: any): any {
   };
 }
 
+// ─── Array normalizers: snake_case (GAS sheets) → camelCase (frontend) ────────
+
+function normalizeBossListItems(items: any[]): any[] {
+  return (items ?? []).map((item: any) => ({
+    ...item,
+    gameId:             item.gameId             ?? item.game_id,
+    heroId:             item.heroId             ?? item.hero_id             ?? null,
+    defendersFragments: item.defendersFragments ?? item.defenders_fragments ?? null,
+  }));
+}
+
 function normalizeBossTeamItems(items: any[]): any[] {
   return (items ?? []).map((item: any) => ({
     ...item,
-    bossGameId: item.bossGameId ?? item.boss_game_id ?? item.bossId,
+    bossGameId:  item.bossGameId  ?? item.boss_game_id ?? item.bossId,
+    heroId:      item.heroId      ?? item.hero_id      ?? null,
+    unitId:      item.unitId      ?? item.unit_id      ?? null,
+    bossLevelId: item.bossLevelId ?? item.boss_level_id ?? null,
   }));
 }
+
+function normalizeBossLevelItems(items: any[]): any[] {
+  return (items ?? []).map((item: any) => ({
+    ...item,
+    gameId:     item.gameId     ?? item.game_id,
+    bossId:     item.bossId     ?? item.boss_id     ?? null,
+    powerLevel: item.powerLevel ?? item.power_level ?? null,
+  }));
+}
+
+function normalizeHeroSortOrderItems(items: any[]): any[] {
+  return (items ?? []).map((item: any) => ({
+    ...item,
+    heroId:    item.heroId    ?? item.hero_id,
+    sortOrder: item.sortOrder ?? item.sort_order ?? null,
+  }));
+}
+
+function normalizeTitanElementItems(items: any[]): any[] {
+  return (items ?? []).map((item: any) => ({
+    ...item,
+    titanId: item.titanId ?? item.titan_id,
+    element: item.element ?? null,
+    points:  item.points  ?? null,
+  }));
+}
+
+function normalizeAttackTeamItems(items: any[]): any[] {
+  return (items ?? []).map((item: any) => ({
+    ...item,
+    gameId:             item.gameId             ?? item.game_id             ?? null,
+    invasionId:         item.invasionId         ?? item.invasion_id         ?? null,
+    bossId:             item.bossId             ?? item.boss_id             ?? null,
+    bossLevel:          item.bossLevel          ?? item.boss_level          ?? null,
+    chapter:            item.chapter            ?? null,
+    level:              item.level              ?? null,
+    enemyType:          item.enemyType          ?? item.enemy_type          ?? null,
+    mainBuff:           item.mainBuff           ?? item.main_buff           ?? null,
+    comment:            item.comment            ?? null,
+    defendersFragments: item.defendersFragments ?? item.defenders_fragments ?? null,
+  }));
+}
+
+// ─── Top-level normalizers ─────────────────────────────────────────────────────
 
 function normalizeBattlesData(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;
   const normalized: any = {
     ...raw,
-    bossList:      raw.bossList      ?? raw.boss_list,
-    bossTeam:      raw.bossTeam      ?? raw.boss_team,
-    bossLevel:     raw.bossLevel     ?? raw.boss_level,
-    attackTeams:   raw.attackTeams   ?? raw.attack_teams,
-    heroSortOrder: raw.heroSortOrder ?? raw.hero_sort_order,
-    titanElements: raw.titanElements ?? raw.titan_elements,
+    bossList:      normalizeBossListItems(raw.bossList      ?? raw.boss_list),
+    bossTeam:      normalizeBossTeamItems(raw.bossTeam      ?? raw.boss_team),
+    bossLevel:     normalizeBossLevelItems(raw.bossLevel    ?? raw.boss_level),
+    attackTeams:   normalizeAttackTeamItems(raw.attackTeams ?? raw.attack_teams),
+    heroSortOrder: normalizeHeroSortOrderItems(raw.heroSortOrder ?? raw.hero_sort_order),
+    titanElements: normalizeTitanElementItems(raw.titanElements ?? raw.titan_elements),
   };
-  normalized.bossTeam = normalizeBossTeamItems(normalized.bossTeam);
   return normalizeEntityArrays(normalized);
 }
 
 function normalizeReplaysData(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;
-  return normalizeEntityArrays(raw);
+  const normalized: any = {
+    ...raw,
+    attackTeams:   normalizeAttackTeamItems(raw.attackTeams ?? raw.attack_teams),
+    heroSortOrder: normalizeHeroSortOrderItems(raw.heroSortOrder ?? raw.hero_sort_order),
+    titanElements: normalizeTitanElementItems(raw.titanElements ?? raw.titan_elements),
+    bossList:      normalizeBossListItems(raw.bossList ?? raw.boss_list ?? []),
+  };
+  return normalizeEntityArrays(normalized);
 }
 
 /**
