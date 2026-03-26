@@ -74,6 +74,29 @@
 [{ "skillId": 1, "name": "Атака" }]
 ```
 
+### `talismans` (через `adminUpload`)
+```json
+[
+  { "talismanId": 1001, "name": "Талисман Силы", "effectKey": "talismanPower", "description": "Увеличивает атаку" }
+]
+```
+Поля: `talismanId`, `name`, `effectKey`, `description` (опционально)
+
+### `talisman-icons` (через `adminUpload`)
+```json
+[
+  { "talismanId": 1001, "iconUrl": "data:image/png;base64,XXX" }
+]
+```
+Поля: `talismanId`, `iconUrl` (data URL с префиксом или без)
+
+### `uploadIconsBatch` (отдельная GAS функция, не через adminUpload)
+```json
+category: "hero" | "pet" | "spirit" | "titan" | "creep"
+icons: [{ "id": 10, "base64": "XXX", "filename": "hero_10.png" }]
+```
+Фронтенд нормализует иконки перед вызовом — префикс `data:image/...;base64,` уже снят, поле `filename` уже задано.
+
 ---
 
 ## Структура листов Google Sheets
@@ -88,6 +111,13 @@
 | `sort_order` | `hero_id, sort_order` |
 | `titan_elements` | `titan_id, element, points` |
 | `spirit_skills` | `skill_id, name` |
+| `talismans` | `talisman_id, name, effect_key, description` |
+| `talisman_icons` | `talisman_id, base64, filename` |
+| `hero_icons` | `id, base64, filename` |
+| `pet_icons` | `id, base64, filename` |
+| `spirit_icons` | `id, base64, filename` |
+| `titan_icons` | `id, base64, filename` |
+| `creep_icons` | `id, base64, filename` |
 
 ---
 
@@ -131,6 +161,10 @@ function adminUpload(type, data) {
       count = _uploadTitanElements(ss, data);
     } else if (type === 'spirit-skills') {
       count = _uploadSpiritSkills(ss, data);
+    } else if (type === 'talismans') {
+      count = _uploadTalismans(ss, data);
+    } else if (type === 'talisman-icons') {
+      count = _uploadTalismanIcons(ss, data);
     } else {
       gasLog('WARN', 'adminUpload', 'unknown type: ' + type);
       return { error: 'unknown type: ' + type };
@@ -363,6 +397,136 @@ function _uploadSpiritSkills(ss, data) {
   }
 
   return _clearAndWrite(sheet, rows);
+}
+
+/** talismans: заголовки: talisman_id, name, effect_key, description */
+function _uploadTalismans(ss, data) {
+  var sheet = ss.getSheetByName('talismans');
+  if (!sheet) { sheet = ss.insertSheet('talismans'); sheet.appendRow(['talisman_id', 'name', 'effect_key', 'description']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var talismanId = Number(d.talismanId || d.talisman_id || d.id || 0);
+    if (!talismanId) continue;
+    rows.push([talismanId, d.name || '', d.effectKey || d.effect_key || '', d.description || '']);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/**
+ * talisman-icons: заголовки: talisman_id, base64, filename
+ * Фронтенд передаёт [{talismanId, iconUrl}] — iconUrl может быть data URL или чистым base64.
+ */
+function _uploadTalismanIcons(ss, data) {
+  var sheet = ss.getSheetByName('talisman_icons');
+  if (!sheet) { sheet = ss.insertSheet('talisman_icons'); sheet.appendRow(['talisman_id', 'base64', 'filename']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var talismanId = Number(d.talismanId || d.talisman_id || d.id || 0);
+    if (!talismanId) continue;
+    var rawUrl = d.base64 || d.iconUrl || '';
+    var base64 = rawUrl.indexOf(',') !== -1 ? rawUrl.split(',')[1] : rawUrl;
+    var filename = d.filename || ('talisman_' + talismanId + '.png');
+    rows.push([talismanId, base64, filename]);
+  }
+
+  // Дедупликация по talisman_id — новая иконка заменяет старую
+  var existingSheet = ss.getSheetByName('talisman_icons');
+  var lastRow = existingSheet.getLastRow();
+  var existingMap = {};
+  if (lastRow > 1) {
+    var existing = existingSheet.getRange(2, 1, lastRow - 1, 3).getValues();
+    for (var j = 0; j < existing.length; j++) {
+      existingMap[String(existing[j][0])] = j + 2; // row number (1-based)
+    }
+  }
+
+  var toAppend = [];
+  for (var k = 0; k < rows.length; k++) {
+    var key = String(rows[k][0]);
+    if (existingMap[key]) {
+      // Обновляем существующую строку
+      existingSheet.getRange(existingMap[key], 1, 1, 3).setValues([rows[k]]);
+    } else {
+      toAppend.push(rows[k]);
+    }
+  }
+  if (toAppend.length > 0) {
+    var startRow = existingSheet.getLastRow() + 1;
+    existingSheet.getRange(startRow, 1, toAppend.length, 3).setValues(toAppend);
+  }
+  return rows.length;
+}
+
+/**
+ * uploadIconsBatch — загружает иконки по категории.
+ * Вызывается напрямую (не через adminUpload):
+ *   google.script.run.uploadIconsBatch(category, icons)
+ *
+ * @param {string} category - "hero" | "pet" | "spirit" | "titan" | "creep"
+ * @param {Array} icons - [{id, base64, filename}] (фронтенд нормализует перед отправкой)
+ * @return {{ success: boolean, count: number } | { error: string }}
+ */
+function uploadIconsBatch(category, icons) {
+  try {
+    gasLog('INFO', 'uploadIconsBatch', 'category=' + category + ' count=' + (Array.isArray(icons) ? icons.length : '?'));
+
+    if (!category) return { error: 'category is required' };
+    if (!Array.isArray(icons) || icons.length === 0) return { error: 'icons must be a non-empty array' };
+
+    var sheetName = category + '_icons'; // hero_icons, pet_icons, spirit_icons, titan_icons, creep_icons
+    var ss = getSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      sheet.appendRow(['id', 'base64', 'filename']);
+    }
+
+    // Построить карту существующих ID → номер строки
+    var lastRow = sheet.getLastRow();
+    var existingMap = {};
+    if (lastRow > 1) {
+      var existing = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+      for (var i = 0; i < existing.length; i++) {
+        existingMap[String(existing[i][0])] = i + 2;
+      }
+    }
+
+    var toAppend = [];
+    for (var j = 0; j < icons.length; j++) {
+      var icon = icons[j];
+      var id = String(icon.id || '');
+      if (!id) continue;
+      var base64 = icon.base64 || '';
+      // На случай если data URL всё же пришёл с префиксом
+      if (base64.indexOf(',') !== -1) base64 = base64.split(',')[1];
+      var filename = icon.filename || (category + '_' + id + '.png');
+      var row = [id, base64, filename];
+
+      if (existingMap[id]) {
+        // Обновляем существующую запись
+        sheet.getRange(existingMap[id], 1, 1, 3).setValues([row]);
+      } else {
+        toAppend.push(row);
+      }
+    }
+
+    if (toAppend.length > 0) {
+      var startRow = sheet.getLastRow() + 1;
+      sheet.getRange(startRow, 1, toAppend.length, 3).setValues(toAppend);
+    }
+
+    gasLog('INFO', 'uploadIconsBatch', 'done category=' + category + ' saved=' + icons.length);
+    return { success: true, count: icons.length };
+
+  } catch (e) {
+    gasLog('ERROR', 'uploadIconsBatch', e.message, { category: category, stack: e.stack });
+    return { error: e.message };
+  }
 }
 ```
 
