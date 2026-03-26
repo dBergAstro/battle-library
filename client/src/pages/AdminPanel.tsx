@@ -64,6 +64,21 @@ interface StatsResponse {
   mainBuffEffectKeyA: string | null;
   mainBuffNameB: string | null;
   mainBuffEffectKeyB: string | null;
+  lastUpdated?: {
+    bossList?: string | null;
+    bossTeam?: string | null;
+    bossLevel?: string | null;
+    heroIcons?: string | null;
+    heroNames?: string | null;
+    heroSortOrder?: string | null;
+    titanElements?: string | null;
+    attackTeams?: string | null;
+    petIcons?: string | null;
+    talismans?: string | null;
+    talismanIcons?: string | null;
+    spiritSkills?: string | null;
+    spiritIcons?: string | null;
+  };
 }
 
 interface TableConfig {
@@ -106,6 +121,16 @@ const iconFolders: IconFolderConfig[] = [
   { key: "creeps", title: "Крипы", description: "Иконки крипов (id 1000-3999)", category: "creep" },
   { key: "titans", title: "Титаны", description: "Иконки титанов (id 4000+)", category: "titan" },
 ];
+
+function fmtDate(iso?: string | null): string | null {
+  if (!iso) return null;
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  } catch {
+    return null;
+  }
+}
 
 export default function AdminPanel() {
   const queryClient = useQueryClient();
@@ -674,9 +699,15 @@ export default function AdminPanel() {
                       </>
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground mb-3">
+                  <p className="text-xs text-muted-foreground mb-1">
                     {config.description}
                   </p>
+                  {fmtDate(stats?.lastUpdated?.[config.key as keyof NonNullable<StatsResponse['lastUpdated']>]) && (
+                    <p className="text-[11px] text-muted-foreground/50 mb-2">
+                      Обновлено: {fmtDate(stats?.lastUpdated?.[config.key as keyof NonNullable<StatsResponse['lastUpdated']>])}
+                    </p>
+                  )}
+                  {!fmtDate(stats?.lastUpdated?.[config.key as keyof NonNullable<StatsResponse['lastUpdated']>]) && <div className="mb-3" />}
 
                   <div className="flex gap-2 flex-wrap">
                     <label>
@@ -781,9 +812,15 @@ export default function AdminPanel() {
                     <div className="flex items-center gap-2 mb-2">
                       <span className="font-medium text-sm">{config.title}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mb-3">
+                    <p className="text-xs text-muted-foreground mb-1">
                       {config.description}
                     </p>
+                    {fmtDate(stats?.lastUpdated?.heroIcons) && (
+                      <p className="text-[11px] text-muted-foreground/50 mb-2">
+                        Обновлено: {fmtDate(stats?.lastUpdated?.heroIcons)}
+                      </p>
+                    )}
+                    {!fmtDate(stats?.lastUpdated?.heroIcons) && <div className="mb-3" />}
 
                     <input
                       type="file"
@@ -1016,6 +1053,11 @@ export default function AdminPanel() {
             <p className="text-sm text-muted-foreground">
               Загрузите таблицу invasion_testAttackTeams (папка с JSON файлами)
             </p>
+            {fmtDate(stats?.lastUpdated?.attackTeams) && (
+              <p className="text-[11px] text-muted-foreground/50">
+                Обновлено: {fmtDate(stats?.lastUpdated?.attackTeams)}
+              </p>
+            )}
             <input
               type="file"
               ref={attackTeamsInputRef}
@@ -1145,6 +1187,11 @@ export default function AdminPanel() {
             <p className="text-sm text-muted-foreground">
               Загрузите папку с иконками питомцев (ID извлекается из имени файла)
             </p>
+            {fmtDate(stats?.lastUpdated?.petIcons) && (
+              <p className="text-[11px] text-muted-foreground/50">
+                Обновлено: {fmtDate(stats?.lastUpdated?.petIcons)}
+              </p>
+            )}
             <input
               type="file"
               ref={petIconsInputRef}
@@ -1370,6 +1417,11 @@ export default function AdminPanel() {
           <CardContent className="space-y-4">
             <div>
               <label className="text-sm font-medium mb-2 block">Определения талисманов</label>
+              {fmtDate(stats?.lastUpdated?.talismans) && (
+                <p className="text-[11px] text-muted-foreground/50 mb-1">
+                  Обновлено: {fmtDate(stats?.lastUpdated?.talismans)}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mb-2">
                 Формат: <code className="bg-muted px-1 rounded">ID Название talismanXxx_params Описание эффекта</code> (каждый на новой строке).<br />
                 Токен, начинающийся с <code className="bg-muted px-1 rounded">talisman</code>, автоматически определяется как ключ эффекта. Всё до него — название, всё после — описание. Например:<br />
@@ -1481,6 +1533,11 @@ export default function AdminPanel() {
               <label className="text-sm font-medium mb-2 block">
                 Названия скилов
               </label>
+              {fmtDate(stats?.lastUpdated?.spiritSkills) && (
+                <p className="text-[11px] text-muted-foreground/50 mb-1">
+                  Обновлено: {fmtDate(stats?.lastUpdated?.spiritSkills)}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mb-2">
                 Формат: ID название (каждый скил на новой строке). Пример: 4503 Огненный удар
               </p>
@@ -1540,6 +1597,11 @@ export default function AdminPanel() {
               <label className="text-sm font-medium mb-2 block">
                 Иконки скилов
               </label>
+              {fmtDate(stats?.lastUpdated?.spiritIcons) && (
+                <p className="text-[11px] text-muted-foreground/50 mb-1">
+                  Обновлено: {fmtDate(stats?.lastUpdated?.spiritIcons)}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mb-2">
                 Загрузите папку с иконками скилов. ID извлекается из имени файла.
               </p>

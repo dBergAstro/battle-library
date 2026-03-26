@@ -173,6 +173,7 @@ export async function registerRoutes(
         });
 
       await storage.insertBossList(mapped);
+      await storage.setSetting("lastUpdated_bossList", new Date().toISOString());
       res.json({ success: true, count: mapped.length });
     } catch (error) {
       console.error("Error uploading boss list:", error);
@@ -202,6 +203,7 @@ export async function registerRoutes(
         .filter((item) => item.bossGameId > 226);
 
       await storage.insertBossTeam(mapped);
+      await storage.setSetting("lastUpdated_bossTeam", new Date().toISOString());
       res.json({ success: true, count: mapped.length });
     } catch (error) {
       console.error("Error uploading boss team:", error);
@@ -242,6 +244,7 @@ export async function registerRoutes(
       }));
 
       await storage.insertBossLevel(mapped);
+      await storage.setSetting("lastUpdated_bossLevel", new Date().toISOString());
       res.json({ success: true, count: mapped.length });
     } catch (error) {
       console.error("Error uploading boss level:", error);
@@ -266,6 +269,7 @@ export async function registerRoutes(
       const deduplicated = Array.from(seen.values());
 
       await storage.insertHeroIcons(deduplicated);
+      await storage.setSetting("lastUpdated_heroIcons", new Date().toISOString());
       res.json({ success: true, count: deduplicated.length });
     } catch (error) {
       console.error("Error uploading hero icons:", error);
@@ -282,6 +286,7 @@ export async function registerRoutes(
       }
 
       await storage.insertHeroNames(parsed.data);
+      await storage.setSetting("lastUpdated_heroNames", new Date().toISOString());
       res.json({ success: true, count: parsed.data.length });
     } catch (error) {
       console.error("Error uploading hero names:", error);
@@ -306,6 +311,7 @@ export async function registerRoutes(
 
       await storage.clearHeroSortOrder();
       await storage.insertHeroSortOrder(deduplicated);
+      await storage.setSetting("lastUpdated_heroSortOrder", new Date().toISOString());
       res.json({ success: true, count: deduplicated.length });
     } catch (error) {
       console.error("Error uploading hero sort order:", error);
@@ -323,6 +329,7 @@ export async function registerRoutes(
 
       await storage.clearTitanElements();
       await storage.insertTitanElements(parsed.data);
+      await storage.setSetting("lastUpdated_titanElements", new Date().toISOString());
       res.json({ success: true, count: parsed.data.length });
     } catch (error) {
       console.error("Error uploading titan elements:", error);
@@ -346,11 +353,29 @@ export async function registerRoutes(
         storage.getAllTalismans(),
       ]);
 
-      const [mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB] = await Promise.all([
+      const [
+        mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB,
+        lu_bossList, lu_bossTeam, lu_bossLevel, lu_heroIcons, lu_heroNames,
+        lu_heroSortOrder, lu_titanElements, lu_attackTeams, lu_petIcons,
+        lu_talismans, lu_talismanIcons, lu_spiritSkills, lu_spiritIcons,
+      ] = await Promise.all([
         storage.getSetting("mainBuffNameA"),
         storage.getSetting("mainBuffEffectKeyA"),
         storage.getSetting("mainBuffNameB"),
         storage.getSetting("mainBuffEffectKeyB"),
+        storage.getSetting("lastUpdated_bossList"),
+        storage.getSetting("lastUpdated_bossTeam"),
+        storage.getSetting("lastUpdated_bossLevel"),
+        storage.getSetting("lastUpdated_heroIcons"),
+        storage.getSetting("lastUpdated_heroNames"),
+        storage.getSetting("lastUpdated_heroSortOrder"),
+        storage.getSetting("lastUpdated_titanElements"),
+        storage.getSetting("lastUpdated_attackTeams"),
+        storage.getSetting("lastUpdated_petIcons"),
+        storage.getSetting("lastUpdated_talismans"),
+        storage.getSetting("lastUpdated_talismanIcons"),
+        storage.getSetting("lastUpdated_spiritSkills"),
+        storage.getSetting("lastUpdated_spiritIcons"),
       ]);
 
       // Разделяем записи на героические и титанические
@@ -374,6 +399,21 @@ export async function registerRoutes(
         mainBuffEffectKeyA,
         mainBuffNameB,
         mainBuffEffectKeyB,
+        lastUpdated: {
+          bossList: lu_bossList,
+          bossTeam: lu_bossTeam,
+          bossLevel: lu_bossLevel,
+          heroIcons: lu_heroIcons,
+          heroNames: lu_heroNames,
+          heroSortOrder: lu_heroSortOrder,
+          titanElements: lu_titanElements,
+          attackTeams: lu_attackTeams,
+          petIcons: lu_petIcons,
+          talismans: lu_talismans,
+          talismanIcons: lu_talismanIcons,
+          spiritSkills: lu_spiritSkills,
+          spiritIcons: lu_spiritIcons,
+        },
       });
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -404,6 +444,7 @@ export async function registerRoutes(
       }));
 
       await storage.insertAttackTeams(mapped);
+      await storage.setSetting("lastUpdated_attackTeams", new Date().toISOString());
       res.json({ success: true, count: mapped.length });
     } catch (error) {
       console.error("Error uploading attack teams:", error);
@@ -427,6 +468,7 @@ export async function registerRoutes(
       const deduplicated = Array.from(seen.values());
 
       await storage.insertPetIcons(deduplicated);
+      await storage.setSetting("lastUpdated_petIcons", new Date().toISOString());
       res.json({ success: true, count: deduplicated.length });
     } catch (error) {
       console.error("Error uploading pet icons:", error);
@@ -534,6 +576,7 @@ export async function registerRoutes(
 
       if (parsed.length > 0) {
         await storage.insertTalismans(parsed);
+        await storage.setSetting("lastUpdated_talismans", new Date().toISOString());
       }
       res.json({ success: true, count: parsed.length, errors });
     } catch (error) {
@@ -556,6 +599,7 @@ export async function registerRoutes(
           count++;
         }
       }
+      if (count > 0) await storage.setSetting("lastUpdated_talismanIcons", new Date().toISOString());
       res.json({ success: true, count });
     } catch (error) {
       console.error("Error uploading talisman icons:", error);
@@ -573,6 +617,7 @@ export async function registerRoutes(
 
       await storage.clearSpiritSkills();
       await storage.insertSpiritSkills(parsed.data);
+      await storage.setSetting("lastUpdated_spiritSkills", new Date().toISOString());
       res.json({ success: true, count: parsed.data.length });
     } catch (error) {
       console.error("Error uploading spirit skills:", error);
@@ -596,6 +641,7 @@ export async function registerRoutes(
       const deduplicated = Array.from(seen.values());
 
       await storage.insertSpiritIcons(deduplicated);
+      await storage.setSetting("lastUpdated_spiritIcons", new Date().toISOString());
       res.json({ success: true, count: deduplicated.length });
     } catch (error) {
       console.error("Error uploading spirit icons:", error);
