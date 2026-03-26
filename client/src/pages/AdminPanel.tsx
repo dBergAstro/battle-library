@@ -39,6 +39,7 @@ import {
   parseTitanElementsText,
 } from "@/lib/battleUtils";
 import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 import { EntityViewer } from "@/components/EntityViewer";
 
 interface StatsResponse {
@@ -103,9 +104,11 @@ const iconFolders: IconFolderConfig[] = [
 
 export default function AdminPanel() {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [uploadingStatus, setUploadingStatus] = useState<Record<string, boolean>>({});
   const [loadingProgress, setLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
+  const [serverUploadStatus, setServerUploadStatus] = useState<Record<string, boolean>>({});
   const [iconLoadingProgress, setIconLoadingProgress] = useState<Record<string, { current: number; total: number } | null>>({});
   const folderInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const iconFolderRefs = useRef<Record<string, HTMLInputElement | null>>({});
@@ -298,17 +301,23 @@ export default function AdminPanel() {
           return;
         }
 
-        await uploadToServer(config.endpoint, data);
+        setServerUploadStatus((prev) => ({ ...prev, [config.key]: true }));
+        const result = await uploadToServer(config.endpoint, data);
+        setServerUploadStatus((prev) => ({ ...prev, [config.key]: false }));
         queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+        toast({ title: `${config.title} загружен`, description: `Записей: ${result?.count ?? data.length}` });
       } catch (err) {
-        setErrors((prev) => ({ ...prev, [config.key]: err instanceof Error ? err.message : "Ошибка загрузки" }));
+        setServerUploadStatus((prev) => ({ ...prev, [config.key]: false }));
+        const msg = err instanceof Error ? err.message : "Ошибка загрузки";
+        setErrors((prev) => ({ ...prev, [config.key]: msg }));
+        toast({ title: "Ошибка загрузки", description: msg, variant: "destructive" });
       } finally {
         setUploadingStatus((prev) => ({ ...prev, [config.key]: false }));
         e.target.value = "";
       }
     },
-    [queryClient]
+    [queryClient, toast]
   );
 
   const handleFolderInput = useCallback(
@@ -382,18 +391,24 @@ export default function AdminPanel() {
           return;
         }
 
-        await uploadToServer(config.endpoint, allRecords);
+        setServerUploadStatus((prev) => ({ ...prev, [config.key]: true }));
+        const result = await uploadToServer(config.endpoint, allRecords);
+        setServerUploadStatus((prev) => ({ ...prev, [config.key]: false }));
         queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
         queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
+        toast({ title: `${config.title} загружен`, description: `Записей: ${result?.count ?? allRecords.length}` });
       } catch (err) {
         setLoadingProgress((prev) => ({ ...prev, [config.key]: null }));
-        setErrors((prev) => ({ ...prev, [config.key]: err instanceof Error ? err.message : "Ошибка загрузки" }));
+        setServerUploadStatus((prev) => ({ ...prev, [config.key]: false }));
+        const msg = err instanceof Error ? err.message : "Ошибка загрузки";
+        setErrors((prev) => ({ ...prev, [config.key]: msg }));
+        toast({ title: "Ошибка загрузки", description: msg, variant: "destructive" });
       } finally {
         setUploadingStatus((prev) => ({ ...prev, [config.key]: false }));
         e.target.value = "";
       }
     },
-    [queryClient]
+    [queryClient, toast]
   );
 
   const handleIconFolderInput = useCallback(
@@ -704,7 +719,7 @@ export default function AdminPanel() {
                   {loadingProgress[config.key] && (
                     <div className="mt-3">
                       <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                        <span>Загрузка...</span>
+                        <span>Чтение файлов...</span>
                         <span>{loadingProgress[config.key]!.current} / {loadingProgress[config.key]!.total}</span>
                       </div>
                       <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
@@ -713,6 +728,13 @@ export default function AdminPanel() {
                           style={{ width: `${(loadingProgress[config.key]!.current / loadingProgress[config.key]!.total) * 100}%` }}
                         />
                       </div>
+                    </div>
+                  )}
+
+                  {serverUploadStatus[config.key] && (
+                    <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                      <Loader2 className="h-3 w-3 animate-spin text-primary" />
+                      <span>Отправка данных на сервер...</span>
                     </div>
                   )}
 

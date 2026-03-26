@@ -239,10 +239,17 @@ export function installGasFetchInterceptor(): void {
         }
       }
 
+      const isPost = method.toUpperCase() !== "GET";
+      if (isPost) {
+        const size = Array.isArray(body) ? body.length : (body ? 1 : 0);
+        console.debug(`[gasFetch] ${method} ${url} → google.script.run (${size} records)`);
+      }
+
       try {
         const response = await routeToGas(url, method, body);
         if (response !== null) {
-          console.debug(`[gasFetch] ${method} ${url} → google.script.run`);
+          if (!isPost) console.debug(`[gasFetch] ${method} ${url} → google.script.run`);
+          else console.debug(`[gasFetch] ${method} ${url} ✓ done`);
           return response;
         }
       } catch (err: any) {
