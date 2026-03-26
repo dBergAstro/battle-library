@@ -1654,10 +1654,12 @@ export default function AdminPanel() {
                   
                   for (let i = 0; i < imageFiles.length; i++) {
                     const file = imageFiles[i];
-                    const match = file.name.match(/(\d+)/);
-                    if (!match) continue;
+                    // Use LAST number in filename (same as hero icons — e.g. "spirit_4509.png" → 4509)
+                    const baseName = file.name.replace(/\.[^.]+$/, "");
+                    const matches = baseName.match(/\d+/g);
+                    if (!matches || matches.length === 0) continue;
                     
-                    const skillId = parseInt(match[1]);
+                    const skillId = parseInt(matches[matches.length - 1], 10);
 
                     if (existingSpiritIds.has(skillId)) {
                       spiritSkipped++;
@@ -1688,9 +1690,10 @@ export default function AdminPanel() {
                       }
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
                       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
-                      if (spiritSkipped > 0) {
-                        toast({ title: "Иконки загружены", description: `Загружено: ${icons.length}, пропущено (уже есть): ${spiritSkipped}` });
-                      }
+                      const desc = spiritSkipped > 0
+                        ? `Загружено: ${icons.length}, пропущено (уже есть): ${spiritSkipped}`
+                        : `Загружено: ${icons.length}`;
+                      toast({ title: "Иконки скилов загружены", description: desc });
                     } catch (error) {
                       console.error("Error uploading spirit icons:", error);
                       setErrors((prev) => ({ ...prev, spiritIcons: "Ошибка загрузки" }));
