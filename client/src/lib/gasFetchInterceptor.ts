@@ -91,13 +91,24 @@ function normalizeHeroNames(
 }
 
 function normalizeEntityArrays(raw: any): any {
+  const heroIconsNorm  = normalizeIconItems(raw.heroIcons  ?? raw.hero_icons,  "heroId", "hero_id");
+  const creepIconsNorm = normalizeIconItems(raw.creepIcons ?? raw.creep_icons, "heroId", "hero_id");
+  const titanIconsNorm = normalizeIconItems(raw.titanIcons ?? raw.titan_icons, "heroId", "hero_id");
+
+  // In REST mode, all icon types are unified in heroIcons.
+  // In GAS mode, they come in separate arrays — merge them so the frontend sees one map.
+  const allHeroIcons = [...heroIconsNorm, ...creepIconsNorm, ...titanIconsNorm];
+
   return {
     ...raw,
-    heroIcons: normalizeIconItems(raw.heroIcons, "heroId", "hero_id"),
-    heroNames: normalizeHeroNames(raw.heroNames),
-    petIcons: normalizeIconItems(raw.petIcons, "petId", "pet_id"),
-    spiritIcons: normalizeIconItems(raw.spiritIcons, "skillId", "skill_id"),
-    spiritSkills: normalizeSpiritSkills(raw.spiritSkills),
+    heroIcons:   allHeroIcons,
+    heroNames:   normalizeHeroNames(raw.heroNames ?? raw.hero_names),
+    petIcons:    normalizeIconItems(raw.petIcons   ?? raw.pet_icons,   "petId",   "pet_id"),
+    creepIcons:  creepIconsNorm,
+    titanIcons:  titanIconsNorm,
+    spiritIcons: normalizeIconItems(raw.spiritIcons ?? raw.spirit_icons, "skillId", "skill_id"),
+    spiritSkills: normalizeSpiritSkills(raw.spiritSkills ?? raw.spirit_skills),
+    talismans:   raw.talismans ?? [],
   };
 }
 
