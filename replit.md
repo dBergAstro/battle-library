@@ -171,7 +171,7 @@ npx vite build --config vite.gas.config.ts
 npx vite build --config vite.gas.config.ts
 cp dist/gas/index.html projects/battle-library/gas/index.html
 ```
-Текущая деплоимая версия: **v42**
+Текущая деплоимая версия: **v43**
 
 ## Записи (Replays)
 
