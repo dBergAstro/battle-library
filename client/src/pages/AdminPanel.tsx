@@ -1280,7 +1280,7 @@ export default function AdminPanel() {
           </CardHeader>
           <CardContent className="space-y-5">
             <p className="text-xs text-muted-foreground">
-              Укажите название и ключ эффекта для каждого баффа. Ключ эффекта — это префикс из поля effects в записи (например: allParamsValueIncrease). В записи может быть только один из двух баффов.
+              Укажите название и ключ эффекта для каждого баффа. Ключ эффекта — это префикс из поля effects в записи (например: allParamsValueIncrease). Каждая запись содержит не более одного баффа из этих двух.
             </p>
 
             {/* Бафф А */}
