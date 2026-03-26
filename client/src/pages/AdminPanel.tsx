@@ -201,6 +201,7 @@ export default function AdminPanel() {
     petIcons: Array<{ petId: number; iconUrl: string }>;
     spiritSkills: Array<{ skillId: number; name: string }>;
     spiritIcons: Array<{ skillId: number; iconUrl: string }>;
+    talismans: Array<{ talismanId: number; name: string; effectKey: string; iconUrl?: string | null }>;
   }>({
     queryKey: ["/api/battles"],
   });
@@ -1497,33 +1498,97 @@ export default function AdminPanel() {
                   const files = Array.from(e.target.files || []);
                   if (files.length === 0) return;
                   setTalismanIconsUploading(true);
+                  setErrors((prev) => { const n = { ...prev }; delete n.talismanIcons; return n; });
+
+                  // Build set of talisman IDs that already have icons — skip them
+                  const existingTalismanIds = new Set<number>(
+                    (battlesData?.talismans ?? [])
+                      .filter((t) => t.iconUrl)
+                      .map((t) => t.talismanId)
+                  );
+
                   try {
+                    // Phase 1: read & filter files
                     const icons: Array<{ talismanId: number; iconUrl: string }> = [];
-                    for (const file of files) {
-                      const match = file.name.match(/(\d+)\.[^.]+$/);
-                      if (!match) continue;
-                      const talismanId = parseInt(match[1], 10);
+                    let skipped = 0;
+                    setIconLoadingProgress((prev) => ({ ...prev, talismanIcons: { phase: "reading", current: 0, total: files.length } }));
+                    for (let i = 0; i < files.length; i++) {
+                      const file = files[i];
+                      const baseName = file.name.replace(/\.[^.]+$/, "");
+                      const matches = baseName.match(/\d+/g);
+                      if (!matches || matches.length === 0) continue;
+                      const talismanId = parseInt(matches[matches.length - 1], 10);
                       if (isNaN(talismanId)) continue;
-                      const iconUrl = await new Promise<string>((resolve) => {
-                        const reader = new FileReader();
-                        reader.onloadend = () => resolve(reader.result as string);
-                        reader.readAsDataURL(file);
-                      });
-                      icons.push({ talismanId, iconUrl });
+
+                      if (existingTalismanIds.has(talismanId)) {
+                        skipped++;
+                      } else {
+                        const iconUrl = await new Promise<string>((resolve) => {
+                          const reader = new FileReader();
+                          reader.onloadend = () => resolve(reader.result as string);
+                          reader.readAsDataURL(file);
+                        });
+                        icons.push({ talismanId, iconUrl });
+                      }
+                      setIconLoadingProgress((prev) => ({ ...prev, talismanIcons: { phase: "reading", current: i + 1, total: files.length } }));
                     }
-                    if (icons.length > 0) {
-                      await apiRequest("POST", "/api/admin/talisman-icons", { icons });
+
+                    if (icons.length === 0) {
+                      const msg = skipped > 0
+                        ? `Все ${skipped} иконок уже загружены — пропущено`
+                        : "Не удалось извлечь ID из имён файлов";
+                      setErrors((prev) => ({ ...prev, talismanIcons: msg }));
+                    } else {
+                      // Phase 2: upload 1 at a time with progress
+                      setIconLoadingProgress((prev) => ({ ...prev, talismanIcons: { phase: "uploading", current: 0, total: icons.length } }));
+                      for (let i = 0; i < icons.length; i++) {
+                        await apiRequest("POST", "/api/admin/talisman-icons", { icons: [icons[i]] });
+                        setIconLoadingProgress((prev) => ({ ...prev, talismanIcons: { phase: "uploading", current: i + 1, total: icons.length } }));
+                      }
                       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+                      const desc = skipped > 0
+                        ? `Загружено: ${icons.length}, пропущено (уже есть): ${skipped}`
+                        : `Загружено: ${icons.length}`;
+                      toast({ title: "Иконки талисманов загружены", description: desc });
                     }
                   } catch (error) {
                     console.error("Error uploading talisman icons:", error);
+                    setErrors((prev) => ({ ...prev, talismanIcons: error instanceof Error ? error.message : "Ошибка загрузки" }));
                   } finally {
                     setTalismanIconsUploading(false);
+                    setIconLoadingProgress((prev) => ({ ...prev, talismanIcons: null }));
                     if (talismanIconsInputRef.current) talismanIconsInputRef.current.value = "";
                   }
                 }}
               />
+              {(() => {
+                const prog = iconLoadingProgress["talismanIcons"];
+                const pct = prog ? Math.round((prog.current / prog.total) * 100) : 0;
+                return prog ? (
+                  <div className="mt-2">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                      <span>{prog.phase === "reading" ? "Чтение файлов..." : "Отправка в GAS..."}</span>
+                      <span className="font-mono">{prog.current} / {prog.total} ({pct}%)</span>
+                    </div>
+                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className={`h-full transition-all duration-300 ${prog.phase === "reading" ? "bg-blue-500" : "bg-primary"}`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {prog.phase === "reading" ? "Считываем файлы с диска..." : `Иконка ${prog.current} из ${prog.total} — ждём ответа GAS...`}
+                    </p>
+                  </div>
+                ) : null;
+              })()}
+              {errors.talismanIcons && (
+                <div className="mt-2 flex items-center gap-1 text-xs text-destructive">
+                  <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                  <span>{errors.talismanIcons}</span>
+                </div>
+              )}
               <Button
                 variant="outline"
                 size="sm"
