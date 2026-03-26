@@ -232,13 +232,23 @@ async function routeToGas(
   // POST /api/admin/{hero|pet|spirit|titan|creep}-icons → uploadIconsBatch(category, icons)
   // Normalize icon format: frontend sends { heroId, iconUrl: "data:...", category }
   // but GAS expects { id, base64 (no prefix), filename }.
+  // Icons are uploaded in chunks of 10 to avoid GAS 6-minute execution timeout.
   const iconUploadMatch = m === "POST" && u.match(/^\/api\/admin\/(hero|pet|spirit|titan|creep)-icons$/);
   if (iconUploadMatch) {
     const category = iconUploadMatch[1];
     const rawIcons = Array.isArray(body) ? body : (body?.icons ?? []);
     const icons = normalizeIconsForGas(rawIcons, category);
-    const data = await gsRun("uploadIconsBatch", category, icons);
-    return makeJsonResponse(data);
+    const CHUNK_SIZE = 10;
+    const totalChunks = Math.ceil(icons.length / CHUNK_SIZE);
+    let totalCount = 0;
+    for (let i = 0; i < icons.length; i += CHUNK_SIZE) {
+      const chunk = icons.slice(i, i + CHUNK_SIZE);
+      const chunkNum = Math.floor(i / CHUNK_SIZE) + 1;
+      console.debug(`[gasFetch] uploadIconsBatch ${category} chunk ${chunkNum}/${totalChunks} (${chunk.length} icons)`);
+      const result = await gsRun<any>("uploadIconsBatch", category, chunk);
+      totalCount += (result as any)?.count ?? chunk.length;
+    }
+    return makeJsonResponse({ success: true, count: totalCount });
   }
 
   // POST /api/admin/hero-sort-order → GAS adminUpload type is "sort-order" (not "hero-sort-order")
