@@ -1,0 +1,1495 @@
+// ==========================================
+// Battle Library — Google Apps Script Backend
+// ==========================================
+// Shared-модули: _core.js, _sheets-api.js, _auth.js, _logging.js
+// загружаются автоматически (все .js файлы в GAS — один scope)
+
+// SPREADSHEET_ID хранится в ScriptProperties — выживает при деплоях.
+// Установить один раз: запусти setupSpreadsheetId('1K-0xt-...') в редакторе.
+var SPREADSHEET_ID = (function() {
+  try { return PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID') || ''; }
+  catch(e) { return ''; }
+})();
+
+var ALLOWED_EMAILS = [];  // Пустой = все в домене
+
+// Установить SPREADSHEET_ID один раз (выживает при деплоях)
+function setupSpreadsheetId(id) {
+  if (!id) return { error: 'ID не может быть пустым' };
+  PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', id);
+  SPREADSHEET_ID = id;
+  Logger.log('✅ SPREADSHEET_ID сохранён: ' + id);
+  return { success: true, id: id };
+}
+
+// Надёжно открыть таблицу (читает ScriptProperties + переменную)
+function openSpreadsheet_() {
+  var ssId = SPREADSHEET_ID || PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!ssId) throw new Error('SPREADSHEET_ID не задан. Запусти setupSpreadsheetId("...") один раз.');
+  return SpreadsheetApp.openById(ssId);
+}
+
+var SHEET_BOSS_LIST      = 'boss_list';
+var SHEET_BOSS_TEAM      = 'boss_team';
+var SHEET_BOSS_LEVEL     = 'boss_level';
+var SHEET_ATTACK_TEAMS   = 'attack_teams';
+var SHEET_HERO_ICONS     = 'hero_icons';
+var SHEET_PET_ICONS      = 'pet_icons';
+var SHEET_SPIRIT_ICONS   = 'spirit_icons';
+var SHEET_HERO_NAMES     = 'hero_names';
+var SHEET_SORT_ORDER     = 'sort_order';
+var SHEET_TITAN_ELEMENTS = 'titan_elements';
+var SHEET_SPIRIT_SKILLS  = 'spirit_skills';
+var SHEET_TAGS           = 'tags';
+var SHEET_APP_SETTINGS   = 'app_settings';
+var SHEET_TALISMANS      = 'talismans';
+var SHEET_TALISMAN_ICONS = 'talisman_icons';
+var SHEET_TITAN_ICONS    = 'titan_icons';
+var SHEET_CREEP_ICONS    = 'creep_icons';
+var SHEET_LOGS           = 'logs';
+
+var GITHUB_REPO          = 'dBergAstro/battle-library';
+var ICONS_FOLDER_NAME    = 'BattleLibrary Icons';
+
+var GITLAB_BASE          = 'https://gitlab.nexters.io/api/v4';
+var GITLAB_PROJECT       = 'heroes%2Flib-storage';
+var GL_BOSS_LIST         = 'gdoc/invasion_boss_list-boss_list';
+var GL_BOSS_TEAM         = 'gdoc/invasion_boss_list-boss_team';
+var GL_BOSS_LEVEL        = 'gdoc/invasion_boss_list-boss_level';
+
+// ==========================================
+// WEB APP ENTRY POINT
+// ==========================================
+
+var LOG_READ_TOKEN  = 'bl-logs-2026';
+var DIAGNOSTIC_HOOK = 'https://webhook.site/7fe08a00-b51c-444b-ae5d-de029e576737';
+
+function doGet(e) {
+  // Публичный endpoint для чтения логов (только для меня как разработчика)
+  if (e && e.parameter && e.parameter.action === 'logs' && e.parameter.token === LOG_READ_TOKEN) {
+    var result = getServerLogs();
+    return ContentService
+      .createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  // Диагностика без токена (статус приложения)
+  if (e && e.parameter && e.parameter.action === 'ping') {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        ok: true,
+        spreadsheetId: SPREADSHEET_ID ? 'set' : 'empty',
+        time: new Date().toISOString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  return createWebApp_('Battle Library');
+}
+
+// ==========================================
+// DATA API — READ
+// ==========================================
+
+function getBattles() {
+  gasLog('INFO', 'getBattles', 'entry');
+  try {
+    if (!SPREADSHEET_ID) {
+      sendDiagnostic_('getBattles_error', { error: 'SPREADSHEET_ID empty' });
+      return { error: 'SPREADSHEET_ID не заполнен.' };
+    }
+
+    var bossList      = readSheetAsObjects_(SHEET_BOSS_LIST);
+    var bossTeam      = readSheetAsObjects_(SHEET_BOSS_TEAM);
+    var bossLevel     = readSheetAsObjects_(SHEET_BOSS_LEVEL);
+    var heroIcons     = readSheetAsObjects_(SHEET_HERO_ICONS);
+    var heroNames     = readSheetAsObjects_(SHEET_HERO_NAMES);
+    var sortOrder     = readSheetAsObjects_(SHEET_SORT_ORDER);
+    var titanElements = readSheetAsObjects_(SHEET_TITAN_ELEMENTS);
+    var attackTeams   = readSheetAsObjects_(SHEET_ATTACK_TEAMS);
+    var petIcons      = readSheetAsObjects_(SHEET_PET_ICONS);
+    var spiritSkills  = readSheetAsObjects_(SHEET_SPIRIT_SKILLS);
+    var spiritIcons   = readSheetAsObjects_(SHEET_SPIRIT_ICONS);
+
+    var filteredBossList = bossList.filter(function(b) {
+      return parseInt(b.game_id) > 226 && !b.defenders_fragments;
+    });
+
+    var maxBossId = bossList.reduce(function(max, b) {
+      return Math.max(max, parseInt(b.game_id) || 0);
+    }, 0);
+
+    var result = {
+      bossList:      filteredBossList,
+      bossTeam:      bossTeam,
+      bossLevel:     bossLevel,
+      heroIcons:     heroIcons,
+      heroNames:     heroNames,
+      heroSortOrder: sortOrder,
+      titanElements: titanElements,
+      attackTeams:   attackTeams,
+      petIcons:      petIcons,
+      spiritSkills:  spiritSkills,
+      spiritIcons:   spiritIcons,
+      maxBossId:     maxBossId
+    };
+    gasLog('INFO', 'getBattles', 'exit', { bossList: filteredBossList.length, bossTeam: bossTeam.length, heroIcons: heroIcons.length, attackTeams: attackTeams.length });
+    return result;
+  } catch(e) {
+    gasLog('ERROR', 'getBattles', e.message);
+    return { error: 'getBattles(): ' + e.message };
+  }
+}
+
+function getReplays() {
+  gasLog('INFO', 'getReplays', 'entry');
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+
+    var attackTeams  = readSheetAsObjects_(SHEET_ATTACK_TEAMS);
+    var heroIcons    = readSheetAsObjects_(SHEET_HERO_ICONS);
+    var heroNames    = readSheetAsObjects_(SHEET_HERO_NAMES);
+    var petIcons     = readSheetAsObjects_(SHEET_PET_ICONS);
+    var spiritSkills = readSheetAsObjects_(SHEET_SPIRIT_SKILLS);
+    var spiritIcons  = readSheetAsObjects_(SHEET_SPIRIT_ICONS);
+    var mainBuffName = getSetting_('mainBuffName') || 'Бафф';
+
+    var result = {
+      attackTeams:  attackTeams,
+      heroIcons:    heroIcons,
+      heroNames:    heroNames,
+      petIcons:     petIcons,
+      spiritSkills: spiritSkills,
+      spiritIcons:  spiritIcons,
+      mainBuffName: mainBuffName
+    };
+    gasLog('INFO', 'getReplays', 'exit', { attackTeams: attackTeams.length });
+    return result;
+  } catch(e) {
+    gasLog('ERROR', 'getReplays', e.message);
+    return { error: 'getReplays(): ' + e.message };
+  }
+}
+
+// ==========================================
+// TAGS API
+// ==========================================
+
+function getTags() {
+  gasLog('INFO', 'getTags', 'entry');
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    var tags = readSheetAsObjects_(SHEET_TAGS);
+    gasLog('INFO', 'getTags', 'exit', { count: tags.length });
+    return { tags: tags };
+  } catch(e) {
+    gasLog('ERROR', 'getTags', e.message);
+    return { error: 'getTags(): ' + e.message };
+  }
+}
+
+function saveTag(battleGameId, tag) {
+  gasLog('INFO', 'saveTag', 'entry', { battleGameId: battleGameId, tag: tag });
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    var cleanTag = String(tag).toLowerCase().trim();
+    if (!cleanTag) return { error: 'Тег не может быть пустым.' };
+
+    var existing = readSheetAsObjects_(SHEET_TAGS);
+    var exists = existing.some(function(t) {
+      return String(t.battle_game_id) === String(battleGameId) && t.tag === cleanTag;
+    });
+    if (exists) return { success: true };
+
+    appendRow_(SHEET_TAGS, [String(battleGameId), cleanTag]);
+    gasLog('INFO', 'saveTag', 'exit');
+    return { success: true };
+  } catch(e) {
+    gasLog('ERROR', 'saveTag', e.message, { battleGameId: battleGameId });
+    return { error: 'saveTag(): ' + e.message };
+  }
+}
+
+function deleteTag(battleGameId, tag) {
+  gasLog('INFO', 'deleteTag', 'entry', { battleGameId: battleGameId, tag: tag });
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    var ss = openSpreadsheet_();
+    var sheet = ss.getSheetByName(SHEET_TAGS);
+    if (!sheet) return { error: 'Лист tags не найден.' };
+
+    var data = sheet.getDataRange().getValues();
+    for (var i = data.length - 1; i >= 1; i--) {
+      if (String(data[i][0]) === String(battleGameId) && data[i][1] === tag) {
+        sheet.deleteRow(i + 1);
+        break;
+      }
+    }
+    gasLog('INFO', 'deleteTag', 'exit');
+    return { success: true };
+  } catch(e) {
+    gasLog('ERROR', 'deleteTag', e.message, { battleGameId: battleGameId });
+    return { error: 'deleteTag(): ' + e.message };
+  }
+}
+
+// ==========================================
+// COLLECTION API — Personal (PropertiesService)
+// ==========================================
+
+function getCollection() {
+  gasLog('INFO', 'getCollection', 'entry');
+  try {
+    var props = PropertiesService.getUserProperties();
+    var items = [];
+    for (var ch = 1; ch <= 7; ch++) {
+      var raw = props.getProperty('bl_col_ch' + ch);
+      if (raw) {
+        try { items = items.concat(JSON.parse(raw)); } catch(e) {}
+      }
+    }
+    gasLog('INFO', 'getCollection', 'exit', { count: items.length });
+    return { items: items };
+  } catch(e) {
+    gasLog('ERROR', 'getCollection', e.message);
+    return { error: 'getCollection(): ' + e.message };
+  }
+}
+
+function saveCollectionItem(data) {
+  gasLog('INFO', 'saveCollectionItem', 'entry', { itemId: data ? data.itemId : null });
+  try {
+    var chMatch = data.itemId ? data.itemId.match(/ch(\d+)/) : null;
+    var ch = chMatch ? parseInt(chMatch[1]) : 1;
+
+    var props = PropertiesService.getUserProperties();
+    var key = 'bl_col_ch' + ch;
+    var chItems = [];
+    var raw = props.getProperty(key);
+    if (raw) { try { chItems = JSON.parse(raw); } catch(e) {} }
+
+    var idx = -1;
+    for (var i = 0; i < chItems.length; i++) {
+      if (chItems[i].itemId === data.itemId) { idx = i; break; }
+    }
+    if (idx >= 0) { chItems[idx] = data; } else { chItems.push(data); }
+
+    props.setProperty(key, JSON.stringify(chItems));
+    gasLog('INFO', 'saveCollectionItem', 'exit');
+    return { success: true };
+  } catch(e) {
+    gasLog('ERROR', 'saveCollectionItem', e.message);
+    return { error: 'saveCollectionItem(): ' + e.message };
+  }
+}
+
+function deleteCollectionItem(itemId) {
+  gasLog('INFO', 'deleteCollectionItem', 'entry', { itemId: itemId });
+  try {
+    var chMatch = itemId ? itemId.match(/ch(\d+)/) : null;
+    var ch = chMatch ? parseInt(chMatch[1]) : null;
+    if (!ch) return { success: true };
+
+    var props = PropertiesService.getUserProperties();
+    var key = 'bl_col_ch' + ch;
+    var raw = props.getProperty(key);
+    if (raw) {
+      var chItems = [];
+      try { chItems = JSON.parse(raw); } catch(e) {}
+      chItems = chItems.filter(function(i) { return i.itemId !== itemId; });
+      props.setProperty(key, JSON.stringify(chItems));
+    }
+    gasLog('INFO', 'deleteCollectionItem', 'exit');
+    return { success: true };
+  } catch(e) {
+    gasLog('ERROR', 'deleteCollectionItem', e.message, { itemId: itemId });
+    return { error: 'deleteCollectionItem(): ' + e.message };
+  }
+}
+
+function clearCollection() {
+  gasLog('INFO', 'clearCollection', 'entry');
+  try {
+    var props = PropertiesService.getUserProperties();
+    for (var ch = 1; ch <= 7; ch++) {
+      props.deleteProperty('bl_col_ch' + ch);
+    }
+    gasLog('INFO', 'clearCollection', 'exit');
+    return { success: true };
+  } catch(e) {
+    gasLog('ERROR', 'clearCollection', e.message);
+    return { error: 'clearCollection(): ' + e.message };
+  }
+}
+
+// ==========================================
+// ADMIN API
+// ==========================================
+
+function getAdminStats() {
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+
+    // Используем SpreadsheetApp (не Sheets API v4) для подсчёта — не расходует квоту
+    var ss = openSpreadsheet_();
+
+    function getSheetData_(name) {
+      var sheet = ss.getSheetByName(name);
+      if (!sheet || sheet.getLastRow() < 2) return [];
+      var vals = sheet.getDataRange().getValues();
+      var headers = vals[0];
+      return vals.slice(1).map(function(row) {
+        var obj = {};
+        headers.forEach(function(h, i) { obj[h] = row[i]; });
+        return obj;
+      });
+    }
+
+    var attackTeams = getSheetData_(SHEET_ATTACK_TEAMS);
+    var bossList    = getSheetData_(SHEET_BOSS_LIST);
+
+    // Count replays (attack_teams with defenders_fragments)
+    var replays = attackTeams.filter(function(r) { return !!r.defenders_fragments; });
+    var heroic  = replays.filter(function(r) {
+      var et = (r.enemy_type || '').toLowerCase();
+      return et === 'герои' || et === 'heroes';
+    }).length;
+    var titanic = replays.filter(function(r) {
+      var et = (r.enemy_type || '').toLowerCase();
+      return et === 'титаны' || et === 'titans' || et === 'titanic';
+    }).length;
+
+    return {
+      bossList:       bossList.filter(function(b) { return parseInt(b.game_id) > 226 && !b.defenders_fragments; }).length,
+      bossTeam:       countSheetRows_(SHEET_BOSS_TEAM),
+      bossLevel:      countSheetRows_(SHEET_BOSS_LEVEL),
+      heroIcons:      countSheetRows_(SHEET_HERO_ICONS),
+      heroNames:      countSheetRows_(SHEET_HERO_NAMES),
+      heroSortOrder:  countSheetRows_(SHEET_SORT_ORDER),
+      titanElements:  countSheetRows_(SHEET_TITAN_ELEMENTS),
+      attackTeams:    replays.length,
+      heroicReplays:  heroic,
+      titanicReplays: titanic,
+      petIcons:       countSheetRows_(SHEET_PET_ICONS),
+      spiritSkills:   countSheetRows_(SHEET_SPIRIT_SKILLS),
+      spiritIcons:    countSheetRows_(SHEET_SPIRIT_ICONS),
+      mainBuffName:   getSetting_('mainBuffName') || 'Бафф',
+      lastDataSync:   getSetting_('lastDataSync')  || null,
+      lastIconSync:   getSetting_('lastIconSync')  || null
+    };
+  } catch(e) {
+    return { error: 'getAdminStats(): ' + e.message };
+  }
+}
+
+// ==========================================
+// SERVER-SIDE LOGGING
+// ==========================================
+
+// Отправляет диагностику на webhook.site — читается AI без аутентификации
+function sendDiagnostic_(event, data) {
+  try {
+    UrlFetchApp.fetch(DIAGNOSTIC_HOOK, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify({
+        event: event,
+        data: data,
+        time: new Date().toISOString(),
+        user: Session.getActiveUser().getEmail()
+      }),
+      muteHttpExceptions: true
+    });
+  } catch(e) { /* не критично */ }
+}
+
+// writeLog_ пишет 5 колонок: time, level, function, message, data
+function writeLog_(level, fn, message, detail) {
+  try {
+    var ss = openSpreadsheet_();
+    var sheet = ss.getSheetByName(SHEET_LOGS);
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_LOGS);
+      sheet.getRange(1,1,1,5).setValues([['time','level','function','message','data']]);
+      sheet.getRange(1,1,1,5).setFontWeight('bold');
+      sheet.setFrozenRows(1);
+    }
+    sheet.appendRow([
+      new Date().toISOString(),
+      level,
+      fn || '',
+      message || '',
+      detail ? String(detail).slice(0, 500) : ''
+    ]);
+    var last = sheet.getLastRow();
+    if (last > 501) sheet.deleteRows(2, last - 501);
+  } catch(e) {
+    Logger.log('writeLog_ error: ' + e.message);
+  }
+}
+
+// gasLog(level, fn, message, data) — structured logging
+function gasLog(level, fn, message, data) {
+  try {
+    var detail = '';
+    if (data !== undefined && data !== null) {
+      try { detail = JSON.stringify(data).slice(0, 500); } catch(e) { detail = String(data).slice(0, 500); }
+    }
+    writeLog_(level, fn, message, detail);
+  } catch(e) {
+    Logger.log('gasLog error: ' + e.message);
+  }
+}
+
+function getServerLogs() {
+  try {
+    var ss = openSpreadsheet_();
+    var sheet = ss.getSheetByName(SHEET_LOGS);
+    if (!sheet || sheet.getLastRow() <= 1) {
+      return { logs: [] };
+    }
+
+    var lastRow = sheet.getLastRow();
+    var startRow = Math.max(2, lastRow - 49);
+    var numRows = lastRow - startRow + 1;
+    var data = sheet.getRange(startRow, 1, numRows, 5).getValues();
+
+    var logs = [];
+    for (var i = data.length - 1; i >= 0; i--) {
+      var row = data[i];
+      if (!row[0]) continue;
+      var ts = row[0];
+      var tsStr = ts instanceof Date ? ts.toISOString() : String(ts);
+      logs.push({
+        timestamp: tsStr,
+        level: row[1] || 'INFO',
+        'function': row[2] || '',
+        message: row[3] || '',
+        data: row[4] || ''
+      });
+    }
+
+    return { logs: logs };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+
+function adminUpload(type, data) {
+  gasLog('INFO', 'adminUpload', 'called type=' + type + ' count=' + (Array.isArray(data) ? data.length : '?'));
+  try {
+    if (!Array.isArray(data) || data.length === 0) {
+      return { error: 'data must be a non-empty array' };
+    }
+    sendDiagnostic_('adminUpload_start', { type: type, count: data.length, spreadsheetId: SPREADSHEET_ID ? 'SET' : 'EMPTY' });
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+
+    var ss = openSpreadsheet_();
+    var result;
+
+    if (type === 'boss-list') {
+      result = { success: true, count: _uploadBossList(ss, data) };
+    } else if (type === 'boss-team') {
+      result = { success: true, count: _uploadBossTeam(ss, data) };
+    } else if (type === 'boss-level') {
+      result = { success: true, count: _uploadBossLevel(ss, data) };
+    } else if (type === 'attack-teams') {
+      result = { success: true, count: _uploadAttackTeams(ss, data) };
+    } else if (type === 'hero-names') {
+      result = { success: true, count: _uploadHeroNames(ss, data) };
+    } else if (type === 'sort-order') {
+      result = { success: true, count: _uploadSortOrder(ss, data) };
+    } else if (type === 'titan-elements') {
+      result = { success: true, count: _uploadTitanElements(ss, data) };
+    } else if (type === 'spirit-skills') {
+      result = { success: true, count: _uploadSpiritSkills(ss, data) };
+    } else if (type === 'talismans') {
+      result = { success: true, count: _uploadTalismans(ss, data) };
+    } else if (type === 'talisman-icons') {
+      result = { success: true, count: _uploadTalismanIcons(ss, data) };
+    } else if (type === 'hero-icons') {
+      result = uploadHeroIcons_(data);
+    } else if (type === 'pet-icons') {
+      result = uploadPetIcons_(data);
+    } else if (type === 'spirit-icons') {
+      result = uploadSpiritIcons_(data);
+    } else {
+      gasLog('WARN', 'adminUpload', 'unknown type: ' + type);
+      return { error: 'unknown type: ' + type };
+    }
+
+    sendDiagnostic_('adminUpload_result', { type: type, result: result });
+    if (!result.error) {
+      setSetting_('lastDataSync', new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' }));
+    }
+    gasLog(result.error ? 'ERROR' : 'INFO', 'adminUpload', 'done type=' + type + ' saved=' + (result.count || 0));
+    return result;
+  } catch (e) {
+    sendDiagnostic_('adminUpload_error', { type: type, error: e.message });
+    gasLog('ERROR', 'adminUpload', e.message, { type: type });
+    return { error: 'adminUpload(): ' + e.message };
+  }
+}
+
+function setMainBuffName(name) {
+  gasLog('INFO', 'setMainBuffName', 'entry', { name: name });
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    setSetting_('mainBuffName', String(name));
+    gasLog('INFO', 'setMainBuffName', 'exit');
+    return { success: true };
+  } catch(e) {
+    gasLog('ERROR', 'setMainBuffName', e.message, { name: name });
+    return { error: 'setMainBuffName(): ' + e.message };
+  }
+}
+
+/**
+ * saveMainBuffName — сохраняет настройки баффа A или Б.
+ * @param {string} slot - "A" или "B"
+ * @param {string} name - название баффа
+ * @param {string} effectKey - ключ эффекта
+ */
+function saveMainBuffName(slot, name, effectKey) {
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    // Сохраняем в app_settings через setSetting_ чтобы getBuffConfig мог прочитать
+    setSetting_('mainBuffName' + slot, String(name));
+    setSetting_('mainBuffEffectKey' + slot, String(effectKey || ''));
+    // mainBuffName (без слота) = активный бафф (слот A по умолчанию)
+    if (slot === 'A' || !slot) {
+      setSetting_('mainBuffName', String(name));
+    }
+    gasLog('INFO', 'saveMainBuffName', 'saved slot=' + slot + ' name=' + name);
+    return { success: true };
+  } catch (e) {
+    gasLog('ERROR', 'saveMainBuffName', e.message);
+    return { error: e.message };
+  }
+}
+
+// Сохранить список всех известных баффов (массив имён)
+function saveBuffNames(namesJson) {
+  gasLog('INFO', 'saveBuffNames', 'entry', { raw: namesJson ? String(namesJson).slice(0, 100) : null });
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    var arr = JSON.parse(namesJson);
+    if (!Array.isArray(arr)) return { error: 'Ожидается массив' };
+    setSetting_('buffNames', JSON.stringify(arr));
+    gasLog('INFO', 'saveBuffNames', 'exit', { count: arr.length });
+    return { success: true, count: arr.length };
+  } catch(e) {
+    gasLog('ERROR', 'saveBuffNames', e.message);
+    return { error: 'saveBuffNames(): ' + e.message };
+  }
+}
+
+// Получить конфиг баффов: активный + список
+function getBuffConfig() {
+  try {
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    var active = getSetting_('mainBuffName') || '';
+    var raw    = getSetting_('buffNames') || '[]';
+    var names  = [];
+    try { names = JSON.parse(raw); } catch(e) { names = active ? [active] : []; }
+    return { success: true, active: active, names: names };
+  } catch(e) {
+    return { error: 'getBuffConfig(): ' + e.message };
+  }
+}
+
+// ==========================================
+// ADMIN UPLOAD — private handlers
+// ==========================================
+
+/**
+ * Очищает лист (кроме строки заголовка) и записывает новые данные.
+ * @param {Sheet} sheet
+ * @param {Array<Array>} rows - массив строк (без заголовка)
+ * @return {number} количество записанных строк
+ */
+function _clearAndWrite(sheet, rows) {
+  var lastRow = sheet.getLastRow();
+  if (lastRow > 1) {
+    sheet.deleteRows(2, lastRow - 1);
+  }
+  if (rows.length > 0) {
+    sheet.getRange(2, 1, rows.length, rows[0].length).setValues(rows);
+  }
+  return rows.length;
+}
+
+/**
+ * Добавляет строки к листу с дедупликацией по ключевой колонке.
+ * @param {Sheet} sheet
+ * @param {Array<Array>} newRows
+ * @param {number} keyCol - индекс колонки для дедупликации (0-based)
+ * @return {number} количество добавленных строк
+ */
+function _appendDedup(sheet, newRows, keyCol) {
+  var lastRow = sheet.getLastRow();
+  var existingKeys = {};
+
+  if (lastRow > 1) {
+    var existing = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (var i = 0; i < existing.length; i++) {
+      existingKeys[String(existing[i][0])] = true;
+    }
+  }
+
+  var toAdd = [];
+  for (var j = 0; j < newRows.length; j++) {
+    var key = String(newRows[j][keyCol]);
+    if (!existingKeys[key]) {
+      existingKeys[key] = true;
+      toAdd.push(newRows[j]);
+    }
+  }
+
+  if (toAdd.length > 0) {
+    var startRow = sheet.getLastRow() + 1;
+    sheet.getRange(startRow, 1, toAdd.length, toAdd[0].length).setValues(toAdd);
+  }
+  return toAdd.length;
+}
+
+/** boss_list: заголовки: game_id, label, desc, hero_id, defenders_fragments */
+function _uploadBossList(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_BOSS_LIST);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_BOSS_LIST); sheet.appendRow(['game_id', 'label', 'desc', 'hero_id', 'defenders_fragments']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var gameId = Number(d.id || d.game_id || 0);
+    if (gameId <= 226) continue;
+    var df = d.defendersFragments || d.defenders_fragments || '';
+    if (df && typeof df === 'object') df = JSON.stringify(df);
+    rows.push([
+      gameId,
+      d.label || '',
+      d.desc || '',
+      Number(d.heroId || d.hero_id || 0) || '',
+      df || ''
+    ]);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/** boss_team: заголовки: boss_game_id, hero_id, unit_id, boss_level_id */
+function _uploadBossTeam(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_BOSS_TEAM);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_BOSS_TEAM); sheet.appendRow(['boss_game_id', 'hero_id', 'unit_id', 'boss_level_id']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var bossGameId = Number(d.bossId || d.boss_game_id || d.id || d.boss_id || 0);
+    if (bossGameId <= 226) continue;
+    rows.push([
+      bossGameId,
+      Number(d.heroId || d.hero_id || 0) || '',
+      Number(d.unitId || d.unit_id || 0) || '',
+      Number(d.bossLevelId || d.boss_level_id || 0) || ''
+    ]);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/** boss_level: заголовки: game_id, boss_id, power_level */
+function _uploadBossLevel(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_BOSS_LEVEL);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_BOSS_LEVEL); sheet.appendRow(['game_id', 'boss_id', 'power_level']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var gameId = Number(d.id || d.game_id || 0);
+    if (!gameId) continue;
+    rows.push([
+      gameId,
+      Number(d.bossId || d.bossLevel || d.boss_id || 0) || '',
+      Number(d.powerLevel || d.power_level || 0) || ''
+    ]);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/**
+ * attack_teams: заголовки: game_id, invasion_id, boss_id, boss_level,
+ *   chapter, level, enemy_type, main_buff, comment, defenders_fragments
+ */
+function _uploadAttackTeams(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_ATTACK_TEAMS);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_ATTACK_TEAMS);
+    sheet.appendRow(['game_id', 'invasion_id', 'boss_id', 'boss_level', 'chapter', 'level', 'enemy_type', 'main_buff', 'comment', 'defenders_fragments']);
+  }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var gameId = Number(d.id || d.game_id || 0);
+    if (!gameId) continue;
+    var df = d.defendersFragments || d.defenders_fragments || '';
+    if (df && typeof df === 'object') df = JSON.stringify(df);
+    rows.push([
+      gameId,
+      Number(d.invasionId || d.invasion_id || 0) || '',
+      Number(d.bossId || d.boss_id || 0) || '',
+      Number(d.bossLevel || d.boss_level || 0) || '',
+      Number(d.Chapter || d.chapter || 0) || '',
+      Number(d.Level || d.level || 0) || '',
+      d.enemyType || d.enemy_type || '',
+      Number(d.mainBuff || d.main_buff || 0) || '',
+      d.Comment || d.comment || '',
+      df || ''
+    ]);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/** hero_names: заголовки: hero_id, name */
+function _uploadHeroNames(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_HERO_NAMES);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_HERO_NAMES); sheet.appendRow(['hero_id', 'name']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var heroId = Number(d.heroId || d.hero_id || 0);
+    if (!heroId) continue;
+    rows.push([heroId, d.name || '']);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/** sort_order: заголовки: hero_id, sort_order */
+function _uploadSortOrder(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_SORT_ORDER);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_SORT_ORDER); sheet.appendRow(['hero_id', 'sort_order']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var heroId = Number(d.heroId || d.hero_id || 0);
+    if (!heroId) continue;
+    rows.push([heroId, Number(d.sortOrder != null ? d.sortOrder : (d.sort_order || 0))]);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/** titan_elements: заголовки: titan_id, element, points */
+function _uploadTitanElements(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_TITAN_ELEMENTS);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_TITAN_ELEMENTS); sheet.appendRow(['titan_id', 'element', 'points']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var titanId = Number(d.titanId || d.titan_id || d.heroId || d.hero_id || 0);
+    if (!titanId) continue;
+    rows.push([titanId, d.element || '', Number(d.points || 0)]);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/** spirit_skills: заголовки: skill_id, name */
+function _uploadSpiritSkills(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_SPIRIT_SKILLS);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_SPIRIT_SKILLS); sheet.appendRow(['skill_id', 'name']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var skillId = Number(d.skillId || d.skill_id || d.id || 0);
+    if (!skillId) continue;
+    rows.push([skillId, d.name || '']);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/** talismans: заголовки: talisman_id, name, effect_key, description */
+function _uploadTalismans(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_TALISMANS);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_TALISMANS); sheet.appendRow(['talisman_id', 'name', 'effect_key', 'description']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var talismanId = Number(d.talismanId || d.talisman_id || d.id || 0);
+    if (!talismanId) continue;
+    rows.push([talismanId, d.name || '', d.effectKey || d.effect_key || '', d.description || '']);
+  }
+
+  return _clearAndWrite(sheet, rows);
+}
+
+/**
+ * talisman-icons: заголовки: talisman_id, base64, filename
+ * Фронтенд передаёт [{talismanId, iconUrl}] — data URL или чистый base64.
+ */
+function _uploadTalismanIcons(ss, data) {
+  var sheet = ss.getSheetByName(SHEET_TALISMAN_ICONS);
+  if (!sheet) { sheet = ss.insertSheet(SHEET_TALISMAN_ICONS); sheet.appendRow(['talisman_id', 'base64', 'filename']); }
+
+  var rows = [];
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var talismanId = Number(d.talismanId || d.talisman_id || d.id || 0);
+    if (!talismanId) continue;
+    var rawUrl = d.base64 || d.iconUrl || '';
+    var base64 = rawUrl.indexOf(',') !== -1 ? rawUrl.split(',')[1] : rawUrl;
+    var filename = d.filename || ('talisman_' + talismanId + '.png');
+    rows.push([talismanId, base64, filename]);
+  }
+
+  // Upsert: обновляем существующие, добавляем новые
+  var lastRow = sheet.getLastRow();
+  var existingMap = {};
+  if (lastRow > 1) {
+    var existing = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (var j = 0; j < existing.length; j++) {
+      existingMap[String(existing[j][0])] = j + 2;
+    }
+  }
+  var toAppend = [];
+  for (var k = 0; k < rows.length; k++) {
+    var key = String(rows[k][0]);
+    if (existingMap[key]) {
+      sheet.getRange(existingMap[key], 1, 1, 3).setValues([rows[k]]);
+    } else {
+      toAppend.push(rows[k]);
+    }
+  }
+  if (toAppend.length > 0) {
+    var startRow = sheet.getLastRow() + 1;
+    sheet.getRange(startRow, 1, toAppend.length, 3).setValues(toAppend);
+  }
+  return rows.length;
+}
+
+function uploadHeroIcons_(data) {
+  var ss = openSpreadsheet_();
+  var sheet = ss.getSheetByName(SHEET_HERO_ICONS);
+  if (!sheet) return { error: 'Лист hero_icons не найден.' };
+
+  var existing = readSheetAsObjects_(SHEET_HERO_ICONS);
+  var rowMap = {};
+  existing.forEach(function(r) { rowMap[r.hero_id] = r._rowIndex; });
+
+  var seen = {};
+  data.forEach(function(item) {
+    var k = item.heroId + '_' + (item.category || '');
+    seen[k] = item;
+  });
+
+  Object.keys(seen).forEach(function(k) {
+    var item = seen[k];
+    var iconUrl = item.iconUrl || '';
+    if (iconUrl.indexOf('data:image') === 0) {
+      iconUrl = uploadIconToDrive_(iconUrl, 'hero_' + item.heroId + '.png');
+    }
+    if (rowMap[item.heroId]) {
+      sheet.getRange(rowMap[item.heroId], 2, 1, 2).setValues([[iconUrl, item.category || '']]);
+    } else {
+      sheet.appendRow([item.heroId, iconUrl, item.category || '']);
+    }
+  });
+  return { success: true, count: Object.keys(seen).length };
+}
+
+function uploadPetIcons_(data) {
+  var ss = openSpreadsheet_();
+  var sheet = ss.getSheetByName(SHEET_PET_ICONS);
+  if (!sheet) return { error: 'Лист pet_icons не найден.' };
+
+  var existing = readSheetAsObjects_(SHEET_PET_ICONS);
+  var rowMap = {};
+  existing.forEach(function(r) { rowMap[r.pet_id] = r._rowIndex; });
+
+  var seen = {};
+  data.forEach(function(item) {
+    var id = item.petId || item.pet_id;
+    if (id) seen[id] = item;
+  });
+
+  Object.keys(seen).forEach(function(k) {
+    var item = seen[k];
+    var id = item.petId || item.pet_id;
+    var iconUrl = item.iconUrl || item.drive_url || '';
+    if (iconUrl.indexOf('data:image') === 0) {
+      iconUrl = uploadIconToDrive_(iconUrl, 'pet_' + id + '.png');
+    }
+    if (rowMap[id]) {
+      sheet.getRange(rowMap[id], 2).setValue(iconUrl);
+    } else {
+      sheet.appendRow([id, iconUrl]);
+    }
+  });
+  return { success: true, count: Object.keys(seen).length };
+}
+
+function uploadSpiritIcons_(data) {
+  var ss = openSpreadsheet_();
+  var sheet = ss.getSheetByName(SHEET_SPIRIT_ICONS);
+  if (!sheet) return { error: 'Лист spirit_icons не найден.' };
+
+  var existing = readSheetAsObjects_(SHEET_SPIRIT_ICONS);
+  var rowMap = {};
+  existing.forEach(function(r) { rowMap[r.skill_id] = r._rowIndex; });
+
+  var seen = {};
+  data.forEach(function(item) { seen[item.skillId] = item; });
+
+  Object.keys(seen).forEach(function(k) {
+    var item = seen[k];
+    var iconUrl = item.iconUrl || '';
+    if (iconUrl.indexOf('data:image') === 0) {
+      iconUrl = uploadIconToDrive_(iconUrl, 'spirit_' + item.skillId + '.png');
+    }
+    if (rowMap[item.skillId]) {
+      sheet.getRange(rowMap[item.skillId], 2).setValue(iconUrl);
+    } else {
+      sheet.appendRow([item.skillId, iconUrl]);
+    }
+  });
+  return { success: true, count: Object.keys(seen).length };
+}
+
+
+// ==========================================
+// ICONS SETUP — Upload from GitHub → Google Drive
+// ==========================================
+
+function setupIcons() {
+  try {
+    Logger.log('setupIcons: начало...');
+    var folder = getOrCreateDriveFolder_(ICONS_FOLDER_NAME);
+    Logger.log('setupIcons: папка Drive создана: ' + folder.getId());
+
+    var treeUrl = 'https://api.github.com/repos/' + GITHUB_REPO + '/git/trees/main?recursive=1';
+    Logger.log('setupIcons: запрос GitHub API...');
+    var resp = UrlFetchApp.fetch(treeUrl, { muteHttpExceptions: true });
+    Logger.log('setupIcons: GitHub ответ: ' + resp.getResponseCode());
+    if (resp.getResponseCode() !== 200) {
+      return { error: 'GitHub API error: ' + resp.getResponseCode() };
+    }
+
+    var tree = JSON.parse(resp.getContentText());
+    var iconFiles = (tree.tree || []).filter(function(node) {
+      return node.type === 'blob' &&
+             node.path.indexOf('exports/icons/') === 0 &&
+             node.path.slice(-4) === '.png';
+    });
+    Logger.log('setupIcons: найдено иконок: ' + iconFiles.length);
+
+    var heroRows = [], petRows = [], spiritRows = [];
+    var counts = { hero: 0, titan: 0, krip: 0, pets: 0, spirits: 0, errors: 0 };
+
+    iconFiles.forEach(function(node) {
+      try {
+        var rawUrl = 'https://raw.githubusercontent.com/' + GITHUB_REPO + '/main/' + node.path;
+        var imgResp = UrlFetchApp.fetch(rawUrl, { muteHttpExceptions: true });
+        var code = imgResp.getResponseCode();
+        if (code !== 200) {
+          if (counts.errors < 3) Logger.log('HTTP ' + code + ' на ' + node.path);
+          counts.errors++;
+          return;
+        }
+
+        var parts    = node.path.split('/');
+        var category = parts[parts.length - 2];
+        var filename = parts[parts.length - 1];
+        var id       = parseInt(filename.replace('.png', ''));
+
+        var blob = imgResp.getBlob();
+        blob.setName(filename);
+        blob.setContentType('image/png');
+        var file = folder.createFile(blob);
+        try { file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); }
+        catch(se) { file.setSharing(DriveApp.Access.DOMAIN_WITH_LINK, DriveApp.Permission.VIEW); }
+        var driveUrl = 'https://drive.google.com/thumbnail?id=' + file.getId() + '&sz=w80-h80';
+
+        if (category === 'heroes') {
+          heroRows.push([id, driveUrl, 'hero']); counts.hero++;
+        } else if (category === 'titans') {
+          heroRows.push([id, driveUrl, 'titan']); counts.titan++;
+        } else if (category === 'krips') {
+          heroRows.push([id, driveUrl, 'krip']); counts.krip++;
+        } else if (category === 'pets') {
+          petRows.push([id, driveUrl]); counts.pets++;
+        } else if (category === 'spirits') {
+          spiritRows.push([id, driveUrl]); counts.spirits++;
+        }
+      } catch(e) {
+        if (counts.errors < 3) Logger.log('ERROR на ' + node.path + ': ' + e.message);
+        counts.errors++;
+      }
+    });
+
+    if (heroRows.length   > 0) replaceSheetData_(SHEET_HERO_ICONS,   ['hero_id', 'drive_url', 'category'], heroRows);
+    if (petRows.length    > 0) replaceSheetData_(SHEET_PET_ICONS,    ['pet_id',  'drive_url'],              petRows);
+    if (spiritRows.length > 0) replaceSheetData_(SHEET_SPIRIT_ICONS, ['skill_id','drive_url'],              spiritRows);
+
+    var result = { success: true, counts: counts, folderId: folder.getId() };
+    Logger.log('setupIcons: готово! ' + JSON.stringify(result));
+    return result;
+  } catch(e) {
+    Logger.log('setupIcons: ОШИБКА: ' + e.message);
+    return { error: 'setupIcons(): ' + e.message };
+  }
+}
+
+// ==========================================
+// ICONS — LOCAL UPLOAD
+// ==========================================
+
+/**
+ * Принимает массив {id, base64} от клиента,
+ * загружает PNG в Drive, пишет URL в нужный лист.
+ * category: 'hero' | 'titan' | 'krip' | 'pet' | 'spirit'
+ */
+/**
+ * uploadIconsBatch — загружает иконки по категории, сохраняет base64 в Sheets.
+ * Вызывается напрямую: google.script.run.uploadIconsBatch(category, icons)
+ *
+ * @param {string} category - "hero" | "pet" | "spirit" | "titan" | "creep"
+ * @param {Array} icons - [{id, base64, filename}]
+ * @return {{ success: boolean, count: number } | { error: string }}
+ */
+function uploadIconsBatch(category, icons) {
+  gasLog('INFO', 'uploadIconsBatch', 'category=' + category + ' count=' + (Array.isArray(icons) ? icons.length : '?'));
+  try {
+    if (!category) return { error: 'category is required' };
+    if (!Array.isArray(icons) || icons.length === 0) return { error: 'icons must be a non-empty array' };
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+
+    var sheetName = category + '_icons';
+    var ss = openSpreadsheet_();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      sheet.appendRow(['id', 'base64', 'filename']);
+    }
+
+    // Построить карту существующих id → номер строки
+    var lastRow = sheet.getLastRow();
+    var existingMap = {};
+    if (lastRow > 1) {
+      var existing = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+      for (var i = 0; i < existing.length; i++) {
+        existingMap[String(existing[i][0])] = i + 2;
+      }
+    }
+
+    var toAppend = [];
+    for (var j = 0; j < icons.length; j++) {
+      var icon = icons[j];
+      var id = String(icon.id || '');
+      if (!id) continue;
+      var base64 = icon.base64 || '';
+      if (base64.indexOf(',') !== -1) base64 = base64.split(',')[1];
+      var filename = icon.filename || (category + '_' + id + '.png');
+      var row = [id, base64, filename];
+
+      if (existingMap[id]) {
+        sheet.getRange(existingMap[id], 1, 1, 3).setValues([row]);
+      } else {
+        toAppend.push(row);
+      }
+    }
+
+    if (toAppend.length > 0) {
+      var startRow = sheet.getLastRow() + 1;
+      sheet.getRange(startRow, 1, toAppend.length, 3).setValues(toAppend);
+    }
+
+    setSetting_('lastIconSync', new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' }));
+    gasLog('INFO', 'uploadIconsBatch', 'done category=' + category + ' saved=' + icons.length);
+    return { success: true, count: icons.length };
+
+  } catch (e) {
+    gasLog('ERROR', 'uploadIconsBatch', e.message, { category: category });
+    return { error: 'uploadIconsBatch(): ' + e.message };
+  }
+}
+
+// ==========================================
+// GITLAB SYNC
+// ==========================================
+
+// Мигрирует старые URLs (uc?id=) на thumbnail format в Sheets
+// Запустить один раз из редактора
+function migrateIconUrls() {
+  try {
+    var ss = openSpreadsheet_();
+    var sheets = [SHEET_HERO_ICONS, SHEET_PET_ICONS, SHEET_SPIRIT_ICONS];
+    var total = 0;
+    sheets.forEach(function(name) {
+      var sheet = ss.getSheetByName(name);
+      if (!sheet || sheet.getLastRow() < 2) return;
+      var data = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues();
+      var updates = [];
+      data.forEach(function(row, i) {
+        var url = String(row[1] || '');
+        if (url.indexOf('drive.google.com/uc?id=') !== -1) {
+          var fileId = url.replace(/.*[?&]id=([^&]+).*/, '$1');
+          var newUrl = 'https://drive.google.com/thumbnail?id=' + fileId + '&sz=w80-h80';
+          updates.push({ row: i + 2, url: newUrl });
+        }
+      });
+      updates.forEach(function(u) { sheet.getRange(u.row, 2).setValue(u.url); });
+      Logger.log(name + ': обновлено ' + updates.length + ' URLs');
+      total += updates.length;
+    });
+    return { success: true, updated: total };
+  } catch(e) {
+    return { error: 'migrateIconUrls(): ' + e.message };
+  }
+}
+
+function getGitLabTokenStatus() {
+  try {
+    var t = PropertiesService.getScriptProperties().getProperty('GITLAB_TOKEN');
+    return { configured: !!t, hint: t ? ('glpat-...' + t.slice(-4)) : null };
+  } catch(e) {
+    return { configured: false, hint: null };
+  }
+}
+
+function saveGitLabToken(token) {
+  try {
+    if (!token || typeof token !== 'string' || !token.trim()) {
+      return { error: 'Токен не может быть пустым' };
+    }
+    PropertiesService.getScriptProperties().setProperty('GITLAB_TOKEN', token.trim());
+    return { success: true };
+  } catch(e) {
+    return { error: 'saveGitLabToken(): ' + e.message };
+  }
+}
+
+function syncFromGitLab(branch) {
+  gasLog('INFO', 'syncFromGitLab', 'entry', { branch: branch });
+  try {
+    var hasToken = !!PropertiesService.getScriptProperties().getProperty('GITLAB_TOKEN');
+    sendDiagnostic_('syncFromGitLab_start', { branch: branch, hasToken: hasToken, spreadsheetId: SPREADSHEET_ID ? 'SET' : 'EMPTY' });
+
+    if (!SPREADSHEET_ID) return { error: 'SPREADSHEET_ID не заполнен.' };
+    var token = PropertiesService.getScriptProperties().getProperty('GITLAB_TOKEN');
+    if (!token) return { error: 'GitLab токен не настроен. Введите токен в разделе Admin.' };
+    if (!branch || !branch.trim()) return { error: 'Не указана ветка GitLab' };
+    branch = branch.trim();
+
+    var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    var result = { added: { boss_list: 0, boss_team: 0, boss_level: 0 }, skipped: 0, errors: [] };
+
+    // --- boss_list: добавляем новые бои (id > 226, которых ещё нет) ---
+    var existingBossIds = gitLabGetExistingIds_(ss, SHEET_BOSS_LIST);
+    var bossListFiles   = gitLabListFiles_(GL_BOSS_LIST, branch, token);
+    var bossSheet       = ss.getSheetByName(SHEET_BOSS_LIST);
+
+    bossListFiles.forEach(function(file) {
+      if (file.type !== 'blob' || !/^\d+\.json$/.test(file.name)) return;
+      try {
+        var id = parseInt(file.name, 10);
+        if (id <= 226)            { result.skipped++; return; }
+        if (existingBossIds[id])  { result.skipped++; return; }
+
+        var items = gitLabFetchFile_(GL_BOSS_LIST + '/' + file.name, branch, token);
+        if (!items) return;
+        if (!Array.isArray(items)) items = [items];
+        items.forEach(function(item) {
+          var df = item.defendersFragments;
+          bossSheet.appendRow([
+            item.id,
+            item.label || '',
+            item.desc  || '',
+            item.heroId || '',
+            df ? (typeof df === 'string' ? df : JSON.stringify(df)) : ''
+          ]);
+          result.added.boss_list++;
+        });
+      } catch(e) {
+        result.errors.push('boss_list/' + file.name + ': ' + e.message);
+      }
+    });
+
+    // --- boss_team: добавляем новые записи (bossGameId > 226) ---
+    var existingTeamKeys = gitLabGetBossTeamKeys_(ss);
+    var bossTeamFiles    = gitLabListFiles_(GL_BOSS_TEAM, branch, token);
+    var teamSheet        = ss.getSheetByName(SHEET_BOSS_TEAM);
+
+    bossTeamFiles.forEach(function(file) {
+      if (file.type !== 'blob' || !/^\d+\.json$/.test(file.name)) return;
+      try {
+        var items = gitLabFetchFile_(GL_BOSS_TEAM + '/' + file.name, branch, token);
+        if (!items) return;
+        if (!Array.isArray(items)) items = [items];
+        items.forEach(function(item) {
+          var bossGameId = item.bossId != null ? item.bossId : item.id;
+          if (!bossGameId || bossGameId <= 226) return;
+          var key = bossGameId + '_' + (item.heroId || '') + '_' + (item.unitId || '');
+          if (existingTeamKeys[key]) { result.skipped++; return; }
+          teamSheet.appendRow([bossGameId, item.heroId || '', item.unitId || '', item.bossLevelId || '']);
+          existingTeamKeys[key] = true;
+          result.added.boss_team++;
+        });
+      } catch(e) {
+        result.errors.push('boss_team/' + file.name + ': ' + e.message);
+      }
+    });
+
+    // --- boss_level: добавляем новые уровни (id >= 101) ---
+    var existingLevelIds = gitLabGetExistingIds_(ss, SHEET_BOSS_LEVEL);
+    var bossLevelFiles   = gitLabListFiles_(GL_BOSS_LEVEL, branch, token);
+    var levelSheet       = ss.getSheetByName(SHEET_BOSS_LEVEL);
+
+    bossLevelFiles.forEach(function(file) {
+      if (file.type !== 'blob' || !/^\d+\.json$/.test(file.name)) return;
+      try {
+        var items = gitLabFetchFile_(GL_BOSS_LEVEL + '/' + file.name, branch, token);
+        if (!items) return;
+        if (!Array.isArray(items)) items = [items];
+        items.filter(function(item) { return item.id >= 101; })
+             .forEach(function(item) {
+               if (existingLevelIds[item.id]) { result.skipped++; return; }
+               levelSheet.appendRow([
+                 item.id,
+                 item.bossLevel != null ? item.bossLevel : (item.bossId || ''),
+                 item.powerLevel || ''
+               ]);
+               existingLevelIds[item.id] = true;
+               result.added.boss_level++;
+             });
+      } catch(e) {
+        result.errors.push('boss_level/' + file.name + ': ' + e.message);
+      }
+    });
+
+    var finalResult = { success: true, added: result.added, skipped: result.skipped, errors: result.errors };
+    sendDiagnostic_('syncFromGitLab_result', { branch: branch, result: finalResult });
+    gasLog('INFO', 'syncFromGitLab', 'exit', { branch: branch, added: result.added });
+    return finalResult;
+  } catch(e) {
+    sendDiagnostic_('syncFromGitLab_error', { branch: branch, error: e.message });
+    gasLog('ERROR', 'syncFromGitLab', e.message, { branch: branch });
+    return { error: 'syncFromGitLab(): ' + e.message };
+  }
+}
+
+function gitLabListFiles_(folder, branch, token) {
+  var files = [];
+  var page  = 1;
+  while (true) {
+    var url = GITLAB_BASE + '/projects/' + GITLAB_PROJECT + '/repository/tree' +
+      '?ref='      + encodeURIComponent(branch) +
+      '&path='     + encodeURIComponent(folder) +
+      '&per_page=100&page=' + page;
+    var resp = UrlFetchApp.fetch(url, { headers: { 'PRIVATE-TOKEN': token }, muteHttpExceptions: true });
+    var code = resp.getResponseCode();
+    if (code !== 200) {
+      var body = resp.getContentText().slice(0, 300);
+      sendDiagnostic_('gitLab_http_error', { url: url, code: code, body: body });
+      throw new Error('GitLab HTTP ' + code + ' на ' + folder + ': ' + body);
+    }
+    var batch = JSON.parse(resp.getContentText());
+    if (!batch || !batch.length) break;
+    files = files.concat(batch);
+    if (batch.length < 100) break;
+    page++;
+  }
+  return files;
+}
+
+function gitLabFetchFile_(path, branch, token) {
+  var url = GITLAB_BASE + '/projects/' + GITLAB_PROJECT + '/repository/files/' +
+    encodeURIComponent(path) + '/raw?ref=' + encodeURIComponent(branch);
+  var resp = UrlFetchApp.fetch(url, { headers: { 'PRIVATE-TOKEN': token }, muteHttpExceptions: true });
+  if (resp.getResponseCode() !== 200) return null;
+  try { return JSON.parse(resp.getContentText()); } catch(e) { return null; }
+}
+
+function gitLabGetExistingIds_(ss, sheetName) {
+  var sheet = ss.getSheetByName(sheetName);
+  if (!sheet || sheet.getLastRow() < 2) return {};
+  var data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
+  var map = {};
+  data.forEach(function(row) { if (row[0] !== '') map[Number(row[0])] = true; });
+  return map;
+}
+
+function gitLabGetBossTeamKeys_(ss) {
+  var sheet = ss.getSheetByName(SHEET_BOSS_TEAM);
+  if (!sheet || sheet.getLastRow() < 2) return {};
+  var data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
+  var map = {};
+  data.forEach(function(row) { map[row[0] + '_' + row[1] + '_' + row[2]] = true; });
+  return map;
+}
+
+// ==========================================
+// SETUP
+// ==========================================
+
+/**
+ * Очищает все игровые данные (оставляет заголовки).
+ * НЕ трогает: app_settings, logs, tags (пользовательские теги).
+ * Запускать из редактора Apps Script — один раз для сброса к нулю.
+ */
+function clearAllSheetData() {
+  try {
+    var ss = openSpreadsheet_();
+    var datasheets = [
+      SHEET_BOSS_LIST, SHEET_BOSS_TEAM, SHEET_BOSS_LEVEL,
+      SHEET_ATTACK_TEAMS,
+      SHEET_HERO_ICONS, SHEET_PET_ICONS, SHEET_SPIRIT_ICONS,
+      SHEET_TITAN_ICONS, SHEET_CREEP_ICONS,
+      SHEET_HERO_NAMES, SHEET_SORT_ORDER, SHEET_TITAN_ELEMENTS,
+      SHEET_SPIRIT_SKILLS,
+      SHEET_TALISMANS, SHEET_TALISMAN_ICONS
+    ];
+    var cleared = [];
+    datasheets.forEach(function(name) {
+      var sheet = ss.getSheetByName(name);
+      if (!sheet) { cleared.push(name + ' (не найден)'); return; }
+      var last = sheet.getLastRow();
+      if (last > 1) {
+        var numCols = sheet.getLastColumn() || 1;
+        // Очищаем содержимое (не удаляем строки — GAS не позволяет удалить все незакреплённые)
+        sheet.getRange(2, 1, last - 1, numCols).clearContent();
+        // Удаляем лишние строки кроме одной пустой (иначе лист разрастается)
+        if (last > 2) sheet.deleteRows(3, last - 2);
+        cleared.push(name + ' (' + (last - 1) + ' строк очищено)');
+      } else {
+        cleared.push(name + ' (уже пустой)');
+      }
+    });
+    Logger.log('✅ clearAllSheetData:\n' + cleared.join('\n'));
+    return { success: true, cleared: cleared };
+  } catch(e) {
+    Logger.log('❌ clearAllSheetData: ' + e.message);
+    return { error: e.message };
+  }
+}
+
+// ==========================================
+
+function setupSheet() {
+  try { var ss = openSpreadsheet_(); } catch(e) {
+    Logger.log('❌ ' + e.message + '\n→ Запусти: setupSpreadsheetId("1K-0xt-mbacqDRriLWs2gbqEAoXBfvxhcJdUVLOMqh10")');
+    return { error: e.message };
+  }
+
+  var sheets = [
+    { name: SHEET_BOSS_LIST,      headers: ['game_id','label','desc','hero_id','defenders_fragments'] },
+    { name: SHEET_BOSS_TEAM,      headers: ['boss_game_id','hero_id','unit_id','boss_level_id'] },
+    { name: SHEET_BOSS_LEVEL,     headers: ['game_id','boss_id','power_level'] },
+    { name: SHEET_ATTACK_TEAMS,   headers: ['game_id','invasion_id','boss_id','boss_level','chapter','level','enemy_type','main_buff','comment','defenders_fragments'] },
+    { name: SHEET_HERO_ICONS,     headers: ['id','base64','filename'] },
+    { name: SHEET_PET_ICONS,      headers: ['id','base64','filename'] },
+    { name: SHEET_SPIRIT_ICONS,   headers: ['id','base64','filename'] },
+    { name: SHEET_TITAN_ICONS,    headers: ['id','base64','filename'] },
+    { name: SHEET_CREEP_ICONS,    headers: ['id','base64','filename'] },
+    { name: SHEET_HERO_NAMES,     headers: ['hero_id','name'] },
+    { name: SHEET_SORT_ORDER,     headers: ['hero_id','sort_order'] },
+    { name: SHEET_TITAN_ELEMENTS, headers: ['titan_id','element','points'] },
+    { name: SHEET_SPIRIT_SKILLS,  headers: ['skill_id','name'] },
+    { name: SHEET_TAGS,           headers: ['battle_game_id','tag'] },
+    { name: SHEET_APP_SETTINGS,   headers: ['key','value'] },
+    { name: SHEET_TALISMANS,      headers: ['talisman_id','name','effect_key','description'] },
+    { name: SHEET_TALISMAN_ICONS, headers: ['talisman_id','base64','filename'] },
+    { name: SHEET_LOGS,           headers: ['time','level','function','message','data'] }
+  ];
+
+  sheets.forEach(function(s) {
+    var sheet = ss.getSheetByName(s.name) || ss.insertSheet(s.name);
+    if (sheet.getLastRow() === 0) {
+      sheet.getRange(1, 1, 1, s.headers.length).setValues([s.headers]);
+      sheet.getRange(1, 1, 1, s.headers.length).setFontWeight('bold').setBackground('#F6F8FA');
+      sheet.setFrozenRows(1);
+    }
+  });
+
+  setSetting_('mainBuffName', getSetting_('mainBuffName') || 'Бафф');
+  return { success: true };
+}
+
+// ==========================================
+// PRIVATE HELPERS
+// ==========================================
+
+function readSheetAsObjects_(sheetName) {
+  var values = readRange_(sheetName);
+  if (!values || values.length < 2) return [];
+  return parseSheetData_(values);
+}
+
+function countSheetRows_(sheetName) {
+  var ss = openSpreadsheet_();
+  var sheet = ss.getSheetByName(sheetName);
+  if (!sheet) return 0;
+  var last = sheet.getLastRow();
+  return last > 1 ? last - 1 : 0;
+}
+
+function replaceSheetData_(sheetName, headers, rows) {
+  var ss = openSpreadsheet_();
+  var sheet = ss.getSheetByName(sheetName);
+  if (!sheet) return;
+
+  sheet.clearContents();
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#F6F8FA');
+  sheet.setFrozenRows(1);
+
+  if (rows.length > 0) {
+    sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
+  }
+}
+
+function getSetting_(key) {
+  var settings = readSheetAsObjects_(SHEET_APP_SETTINGS);
+  for (var i = 0; i < settings.length; i++) {
+    if (settings[i].key === key) return settings[i].value;
+  }
+  return null;
+}
+
+function setSetting_(key, value) {
+  var ss = openSpreadsheet_();
+  var sheet = ss.getSheetByName(SHEET_APP_SETTINGS);
+  if (!sheet) return;
+
+  var data = sheet.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] === key) { sheet.getRange(i + 1, 2).setValue(value); return; }
+  }
+  sheet.appendRow([key, value]);
+}
+
+function getOrCreateDriveFolder_(name) {
+  var folders = DriveApp.getFoldersByName(name);
+  return folders.hasNext() ? folders.next() : DriveApp.createFolder(name);
+}
+
+function uploadIconToDrive_(base64DataUrl, filename) {
+  try {
+    var folder = getOrCreateDriveFolder_(ICONS_FOLDER_NAME);
+    var base64 = base64DataUrl.replace(/^data:image\/\w+;base64,/, '');
+    var decoded = Utilities.base64Decode(base64);
+    var blob = Utilities.newBlob(decoded, 'image/png', filename);
+    var file = folder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    return 'https://drive.google.com/thumbnail?id=' + file.getId() + '&sz=w80-h80';
+  } catch(e) {
+    return base64DataUrl;
+  }
+}

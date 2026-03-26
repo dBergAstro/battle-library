@@ -48,10 +48,19 @@ function normalizeIconItems(
   idField: string,
   snakeIdField?: string
 ): Array<{ [key: string]: any }> {
-  return (icons ?? []).map((item: any) => ({
-    [idField]: item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id,
-    iconUrl: item.iconUrl ?? item.url,
-  }));
+  return (icons ?? []).map((item: any) => {
+    // Resolve base64 → data URL if needed (new sheet format: id, base64, filename)
+    const rawBase64: string | undefined = item.base64;
+    const base64Url = rawBase64
+      ? (rawBase64.startsWith("data:") ? rawBase64 : `data:image/jpeg;base64,${rawBase64}`)
+      : undefined;
+
+    return {
+      [idField]: item[idField] ?? (snakeIdField ? item[snakeIdField] : undefined) ?? item.id,
+      // Support: iconUrl (REST format), drive_url (old Drive format), base64 (new Sheets format)
+      iconUrl: item.iconUrl ?? item.url ?? item.drive_url ?? base64Url,
+    };
+  });
 }
 
 function normalizeSpiritSkills(
