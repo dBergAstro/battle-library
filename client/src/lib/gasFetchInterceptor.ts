@@ -101,9 +101,26 @@ function normalizeEntityArrays(raw: any): any {
   };
 }
 
+function normalizeBossTeamItems(items: any[]): any[] {
+  return (items ?? []).map((item: any) => ({
+    ...item,
+    bossGameId: item.bossGameId ?? item.boss_game_id ?? item.bossId,
+  }));
+}
+
 function normalizeBattlesData(raw: any): any {
   if (!raw || typeof raw !== "object") return raw;
-  return normalizeEntityArrays(raw);
+  const normalized: any = {
+    ...raw,
+    bossList:      raw.bossList      ?? raw.boss_list,
+    bossTeam:      raw.bossTeam      ?? raw.boss_team,
+    bossLevel:     raw.bossLevel     ?? raw.boss_level,
+    attackTeams:   raw.attackTeams   ?? raw.attack_teams,
+    heroSortOrder: raw.heroSortOrder ?? raw.hero_sort_order,
+    titanElements: raw.titanElements ?? raw.titan_elements,
+  };
+  normalized.bossTeam = normalizeBossTeamItems(normalized.bossTeam);
+  return normalizeEntityArrays(normalized);
 }
 
 function normalizeReplaysData(raw: any): any {
@@ -198,6 +215,10 @@ async function routeToGas(
   // GET /api/battles
   if (m === "GET" && u === "/api/battles") {
     const raw = await gsRun<any>("getBattles");
+    console.debug(
+      "[GAS /api/battles] top-level keys:", Object.keys(raw ?? {}),
+      "| first bossList item:", (raw?.bossList ?? raw?.boss_list ?? [])[0]
+    );
     const data = normalizeBattlesData(raw);
     return makeJsonResponse(data);
   }
