@@ -199,7 +199,7 @@ export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], 
                 <div className="mr-1 pt-0.5 flex flex-col items-center gap-0.5">
                   <Avatar className="h-12 w-12 ring-2 ring-yellow-500 bg-yellow-500/10">
                     {replay.talisman.icon ? (
-                      <AvatarImage src={replay.talisman.icon} alt={replay.talisman.name} />
+                      <AvatarImage src={replay.talisman.icon} alt={replay.talisman.name} className="object-contain" />
                     ) : null}
                     <AvatarFallback className="text-xs font-bold text-yellow-600 dark:text-yellow-400 bg-yellow-500/20">Т</AvatarFallback>
                   </Avatar>
