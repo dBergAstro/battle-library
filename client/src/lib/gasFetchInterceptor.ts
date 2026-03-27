@@ -152,9 +152,9 @@ function normalizeEntityArrays(raw: any): any {
 
 // Helper: coerce a value to number; null/undefined stay null
 function toNum(v: any): number | null {
-  if (v == null) return null;
+  if (v == null || v === "") return null;
   const n = Number(v);
-  return isNaN(n) ? null : n;
+  return isNaN(n) || n === 0 ? null : n;
 }
 
 function normalizeBossListItems(items: any[]): any[] {
