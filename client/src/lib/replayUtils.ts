@@ -190,7 +190,7 @@ export function processReplaysFromServer(
   const bossMap = new Map(safeBossList.map((b) => [b.gameId, b]));
   
   // Создаём функцию для определения талисмана по effects
-  const findTalisman = (effects?: Record<string, number>): ProcessedTalisman | undefined => {
+  const findTalisman = (effects?: Record<string, number>, gameId?: number): ProcessedTalisman | undefined => {
     if (!effects || safeTalismanList.length === 0) return undefined;
     for (const [effectKey] of Object.entries(effects)) {
       // Пропускаем ключи основных баффов (хардкод, меняется редко)
@@ -200,6 +200,9 @@ export function processReplaysFromServer(
         effectKey === t.effectKey || effectKey.startsWith(t.effectKey + '_')
       );
       if (found) {
+        if (gameId !== undefined) {
+          console.debug("[findTalisman] gameId:", gameId, "→ matched:", found.name, "(", found.effectKey, ") via effect:", effectKey);
+        }
         return {
           talismanId: found.talismanId,
           name: found.name,
@@ -207,6 +210,10 @@ export function processReplaysFromServer(
           effectKey: found.effectKey,
           description: found.description ?? undefined,
         };
+      } else {
+        if (gameId !== undefined) {
+          console.debug("[findTalisman] gameId:", gameId, "non-buff effect:", effectKey, "(no match)");
+        }
       }
     }
     return undefined;
@@ -282,7 +289,7 @@ export function processReplaysFromServer(
         return null;
       }
 
-      const talisman = findTalisman(defenders.effects);
+      const talisman = findTalisman(defenders.effects, team.gameId);
       const mainBuffName = findBuffName(defenders.effects);
 
       return {
