@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { EnvModeToggle } from "@/components/EnvModeToggle";
 import { Button } from "@/components/ui/button";
 import { Library, Shield } from "lucide-react";
 import BattleLibrary from "@/pages/BattleLibrary";
@@ -37,6 +38,7 @@ function App() {
               <Shield className="h-4 w-4 mr-1" />
               Админ
             </Button>
+            <EnvModeToggle />
             <ThemeToggle />
           </div>
 
