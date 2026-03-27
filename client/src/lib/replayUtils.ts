@@ -195,6 +195,8 @@ export function processReplaysFromServer(
   const findTalisman = (effects?: Record<string, number>): ProcessedTalisman | undefined => {
     if (!effects || safeTalismanList.length === 0) return undefined;
     for (const [effectKey] of Object.entries(effects)) {
+      if (buffConfig.effectKeyA && effectKey.startsWith(buffConfig.effectKeyA)) continue;
+      if (buffConfig.effectKeyB && effectKey.startsWith(buffConfig.effectKeyB)) continue;
       const found = safeTalismanList.find(t => effectKey.startsWith(t.effectKey));
       if (found) {
         return {
@@ -270,20 +272,20 @@ export function processReplaysFromServer(
       let chapter = team.chapter;
       let level = team.level;
       
-      if ((chapter === null || chapter === undefined || level === null || level === undefined) && team.bossId) {
+      if ((!chapter || !level) && team.bossId) {
         const boss = bossMap.get(team.bossId);
         if (boss) {
-          if (chapter === null || chapter === undefined) {
+          if (!chapter) {
             chapter = extractChapterFromLabel(boss.label);
           }
-          if (level === null || level === undefined) {
+          if (!level) {
             level = extractLevelFromDesc(boss.desc);
           }
         }
       }
       
       // Пропускаем записи без chapter или level
-      if (chapter === null || chapter === undefined || level === null || level === undefined) {
+      if (!chapter || !level) {
         return null;
       }
 
