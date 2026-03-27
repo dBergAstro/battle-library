@@ -196,7 +196,9 @@ export function processReplaysFromServer(
       // Пропускаем ключи основных баффов (хардкод, меняется редко)
       if (effectKey.startsWith(MAIN_BUFF_KEY_A)) continue;
       if (effectKey.startsWith(MAIN_BUFF_KEY_B)) continue;
-      const found = safeTalismanList.find(t => effectKey.startsWith(t.effectKey));
+      const found = safeTalismanList.find(t =>
+        effectKey === t.effectKey || effectKey.startsWith(t.effectKey + '_')
+      );
       if (found) {
         return {
           talismanId: found.talismanId,
