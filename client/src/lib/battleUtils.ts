@@ -184,13 +184,15 @@ export function processBattlesFromServer(
       .slice(0, 5)
       .map((t) => {
         const heroId = t.heroId ?? t.unitId ?? 0;
+        if (heroId === 0) return null;
         return {
           heroId: heroId,
           name: getHeroNameFn(heroId),
           icon: iconMap.get(heroId),
           sortOrder: sortOrderMap.get(heroId),
         };
-      });
+      })
+      .filter((m): m is NonNullable<typeof m> => m !== null);
 
     // Сортируем команду по sortOrder (если есть), иначе по heroId
     teamMembers.sort((a, b) => {
