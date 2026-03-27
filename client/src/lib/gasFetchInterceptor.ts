@@ -9,6 +9,7 @@
  */
 
 import { logGasCall } from "./gasLogger";
+import { getEnvMode } from "./envMode";
 
 /**
  * Normalizes icon items from the REST format used by the frontend
@@ -564,6 +565,11 @@ export function installGasFetchInterceptor(): void {
   window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : (input as Request).url;
     const method = init?.method ?? (input instanceof Request ? input.method : "GET");
+
+    // In REST mode, bypass GAS routing and use real fetch
+    if (url.startsWith("/api/") && getEnvMode() === "rest") {
+      return originalFetch(input, init);
+    }
 
     if (url.startsWith("/api/")) {
       let body: any = undefined;

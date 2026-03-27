@@ -296,12 +296,13 @@ export function GroupedReplayCard({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="mr-1 pt-0.5 flex flex-col items-center gap-0.5">
-                    <Avatar className="h-12 w-12 ring-2 ring-yellow-500 bg-yellow-500/10">
+                    <div className="h-12 w-12 flex items-center justify-center">
                       {replay.talisman.icon ? (
-                        <AvatarImage src={replay.talisman.icon} alt={replay.talisman.name} className="object-contain" />
-                      ) : null}
-                      <AvatarFallback className="text-xs font-bold text-yellow-600 dark:text-yellow-400 bg-yellow-500/20">Т</AvatarFallback>
-                    </Avatar>
+                        <img src={replay.talisman.icon} alt={replay.talisman.name} className="h-12 w-12 object-contain" />
+                      ) : (
+                        <span className="text-xs font-bold text-yellow-600 dark:text-yellow-400">Т</span>
+                      )}
+                    </div>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="text-xs max-w-[200px]">

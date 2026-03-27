@@ -1,34 +1,30 @@
-/**
- * envMode.ts — runtime GAS/REST mode store
- *
- * Allows switching between GAS (google.script.run) and REST (fetch) routing
- * at runtime without a rebuild. The chosen mode is persisted in localStorage.
- *
- * Default: "gas" (mirrors the historical IS_GAS_ENV=false dev behaviour where
- * gasMock emulates google.script.run).  Set to "rest" to bypass the GAS layer
- * and hit Express directly.
- */
-
 export type EnvMode = "gas" | "rest";
 
 export const STORAGE_KEY = "envMode";
 
-const DEFAULT_MODE: EnvMode = "gas";
+const IS_GAS_BUILD: boolean =
+  (import.meta.env.VITE_GAS_BUILD as string | undefined) === "true";
+
+const MIGRATION_KEY = "envMode_migrated_v1";
 
 function readFromStorage(): EnvMode {
+  if (IS_GAS_BUILD) return "gas";
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
+    // One-time migration: clear stale "gas" default → REST
+    if (stored === "gas" && !localStorage.getItem(MIGRATION_KEY)) {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.setItem(MIGRATION_KEY, "1");
+      return "rest";
+    }
     if (stored === "gas" || stored === "rest") return stored;
   } catch {
-    // localStorage not available (SSR, private mode)
+    // localStorage not available
   }
-  return DEFAULT_MODE;
+  return "rest";
 }
 
 let _currentMode: EnvMode = readFromStorage();
-
-const IS_GAS_BUILD: boolean =
-  (import.meta.env.VITE_GAS_BUILD as string | undefined) === "true";
 
 export function getEnvMode(): EnvMode {
   if (IS_GAS_BUILD) return "gas";
