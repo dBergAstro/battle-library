@@ -330,14 +330,24 @@ export function EntityViewer({
 
         {selectedEntity && (
           <div className="p-3 bg-muted/50 rounded-md flex items-center gap-3 flex-wrap" data-testid="selected-entity-panel">
-            <Avatar className={`h-12 w-12 ring-2 ${selectedEntity.category === "talismans" ? "ring-yellow-500" : "ring-primary"}`}>
-              {selectedEntity.icon ? (
-                <AvatarImage src={selectedEntity.icon} alt={selectedEntity.name} className="object-contain" />
-              ) : null}
-              <AvatarFallback className="text-sm bg-muted">
-                {selectedEntity.id}
-              </AvatarFallback>
-            </Avatar>
+            {selectedEntity.category === "talismans" ? (
+              <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center">
+                {selectedEntity.icon ? (
+                  <img src={selectedEntity.icon} alt={selectedEntity.name} className="h-12 w-12 object-contain" />
+                ) : (
+                  <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">Т</span>
+                )}
+              </div>
+            ) : (
+              <Avatar className="h-12 w-12 ring-2 ring-primary">
+                {selectedEntity.icon ? (
+                  <AvatarImage src={selectedEntity.icon} alt={selectedEntity.name} className="object-contain" />
+                ) : null}
+                <AvatarFallback className="text-sm bg-muted">
+                  {selectedEntity.id}
+                </AvatarFallback>
+              </Avatar>
+            )}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium" data-testid="selected-entity-name">#{selectedEntity.id} — {selectedEntity.name}</p>
               <p className="text-xs text-muted-foreground">{selectedEntity.categoryLabel}</p>
@@ -394,22 +404,22 @@ export function EntityViewer({
                     onClick={() => setSelectedEntity(entity)}
                     data-testid={`entity-${entity.category}-${entity.id}`}
                   >
-                    <Avatar className={`h-10 w-10 flex-shrink-0 ${
-                      entity.category === "talismans"
-                        ? entity.icon ? "ring-2 ring-yellow-500" : "ring-1 ring-dashed ring-yellow-400/60"
-                        : !entity.icon ? "ring-1 ring-dashed ring-muted-foreground/50" : ""
-                    }`}>
-                      {entity.icon ? (
-                        <AvatarImage
-                          src={entity.icon}
-                          alt={entity.name}
-                          className="object-contain"
-                        />
-                      ) : null}
-                      <AvatarFallback className={`text-[10px] ${entity.category === "talismans" ? "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 font-bold" : "bg-muted"}`}>
-                        {entity.category === "talismans" ? "Т" : entity.id}
-                      </AvatarFallback>
-                    </Avatar>
+                    {entity.category === "talismans" ? (
+                      <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center">
+                        {entity.icon ? (
+                          <img src={entity.icon} alt={entity.name} className="h-10 w-10 object-contain" />
+                        ) : (
+                          <span className="text-[10px] font-bold text-yellow-600 dark:text-yellow-400">Т</span>
+                        )}
+                      </div>
+                    ) : (
+                      <Avatar className={`h-10 w-10 flex-shrink-0 ${!entity.icon ? "ring-1 ring-dashed ring-muted-foreground/50" : ""}`}>
+                        {entity.icon ? (
+                          <AvatarImage src={entity.icon} alt={entity.name} className="object-contain" />
+                        ) : null}
+                        <AvatarFallback className="text-[10px] bg-muted">{entity.id}</AvatarFallback>
+                      </Avatar>
+                    )}
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-mono text-muted-foreground">#{entity.id}</p>
                       <p className="text-xs font-medium truncate" title={entity.name}>{entity.name}</p>
