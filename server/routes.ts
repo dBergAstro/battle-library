@@ -244,7 +244,13 @@ export async function registerRoutes(
   // Upload Hero Icons
   app.post("/api/admin/hero-icons", async (req, res) => {
     try {
-      const parsed = heroIconsInputSchema.safeParse(req.body);
+      const rawIcons = Array.isArray(req.body) ? req.body : [];
+      const normalized = rawIcons.map((icon: any) => ({
+        heroId: Number(icon.heroId ?? icon.id ?? 0),
+        iconUrl: icon.iconUrl ?? (icon.base64 ? `data:image/png;base64,${icon.base64}` : ""),
+        category: icon.category ?? null,
+      }));
+      const parsed = heroIconsInputSchema.safeParse(normalized);
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
@@ -263,6 +269,42 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error uploading hero icons:", error);
       res.status(500).json({ error: "Failed to upload hero icons" });
+    }
+  });
+
+  // Upload Creep Icons — delegates to hero-icons storage (category = "creeps")
+  app.post("/api/admin/creep-icons", async (req, res) => {
+    try {
+      const icons = Array.isArray(req.body) ? req.body : [];
+      const mapped = icons.map((icon: any) => ({
+        heroId: Number(icon.heroId ?? icon.id ?? icon.creepId ?? 0),
+        iconUrl: icon.iconUrl ?? (icon.base64 ? `data:image/png;base64,${icon.base64}` : ""),
+        category: "creeps",
+      }));
+      await storage.insertHeroIcons(mapped);
+      await storage.setSetting("lastUpdated_heroIcons", new Date().toISOString());
+      res.json({ success: true, count: mapped.length });
+    } catch (error) {
+      console.error("Error uploading creep icons:", error);
+      res.status(500).json({ error: "Failed to upload creep icons" });
+    }
+  });
+
+  // Upload Titan Icons — delegates to hero-icons storage (category = "titans")
+  app.post("/api/admin/titan-icons", async (req, res) => {
+    try {
+      const icons = Array.isArray(req.body) ? req.body : [];
+      const mapped = icons.map((icon: any) => ({
+        heroId: Number(icon.heroId ?? icon.id ?? icon.titanId ?? 0),
+        iconUrl: icon.iconUrl ?? (icon.base64 ? `data:image/png;base64,${icon.base64}` : ""),
+        category: "titans",
+      }));
+      await storage.insertHeroIcons(mapped);
+      await storage.setSetting("lastUpdated_heroIcons", new Date().toISOString());
+      res.json({ success: true, count: mapped.length });
+    } catch (error) {
+      console.error("Error uploading titan icons:", error);
+      res.status(500).json({ error: "Failed to upload titan icons" });
     }
   });
 
@@ -435,12 +477,16 @@ export async function registerRoutes(
   // Upload Pet Icons
   app.post("/api/admin/pet-icons", async (req, res) => {
     try {
-      const parsed = petIconsInputSchema.safeParse(req.body);
+      const rawIcons = Array.isArray(req.body) ? req.body : [];
+      const normalized = rawIcons.map((icon: any) => ({
+        petId: Number(icon.petId ?? icon.id ?? 0),
+        iconUrl: icon.iconUrl ?? (icon.base64 ? `data:image/png;base64,${icon.base64}` : ""),
+      }));
+      const parsed = petIconsInputSchema.safeParse(normalized);
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
-      // Дедупликация по petId
       const seen = new Map<number, typeof parsed.data[0]>();
       for (const item of parsed.data) {
         seen.set(item.petId, item);
@@ -557,9 +603,9 @@ export async function registerRoutes(
   // Upload Talisman Icons (array of { talismanId, iconUrl })
   app.post("/api/admin/talisman-icons", async (req, res) => {
     try {
-      const { icons } = req.body;
+      const icons = Array.isArray(req.body) ? req.body : req.body?.icons;
       if (!Array.isArray(icons)) {
-        return res.status(400).json({ error: "Expected { icons: Array }" });
+        return res.status(400).json({ error: "Expected { icons: Array } or Array" });
       }
       let count = 0;
       for (const icon of icons) {
@@ -597,12 +643,16 @@ export async function registerRoutes(
   // Upload Spirit Icons
   app.post("/api/admin/spirit-icons", async (req, res) => {
     try {
-      const parsed = spiritIconsInputSchema.safeParse(req.body);
+      const rawIcons = Array.isArray(req.body) ? req.body : [];
+      const normalized = rawIcons.map((icon: any) => ({
+        skillId: Number(icon.skillId ?? icon.id ?? 0),
+        iconUrl: icon.iconUrl ?? (icon.base64 ? `data:image/png;base64,${icon.base64}` : ""),
+      }));
+      const parsed = spiritIconsInputSchema.safeParse(normalized);
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid data format", details: parsed.error.issues });
       }
 
-      // Дедупликация по skillId
       const seen = new Map<number, typeof parsed.data[0]>();
       for (const item of parsed.data) {
         seen.set(item.skillId, item);

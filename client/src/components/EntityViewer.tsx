@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Search, Upload, Eye, Users, Dog, Sparkles, Shield, Loader2, CheckCircle2, Gem } from "lucide-react";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { queryClient } from "@/lib/queryClient";
+import { gasApi } from "@/lib/gasApi";
 import { getHeroName } from "@/lib/heroNames";
 import { useToast } from "@/hooks/use-toast";
 
@@ -208,34 +209,34 @@ export function EntityViewer({
     setUploadSuccess(false);
 
     try {
-      const base64 = await new Promise<string>((resolve) => {
+      const dataUrl = await new Promise<string>((resolve) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result as string);
         reader.readAsDataURL(file);
       });
 
-      if (selectedEntity.category === "pets") {
-        await apiRequest("POST", "/api/admin/pet-icons", [
-          { petId: selectedEntity.id, iconUrl: base64 }
+      const id = selectedEntity.id;
+      const gasCategory =
+        selectedEntity.category === "heroes"  ? "hero"   :
+        selectedEntity.category === "creeps"  ? "creep"  :
+        selectedEntity.category === "titans"  ? "titan"  :
+        selectedEntity.category === "pets"    ? "pet"    :
+        selectedEntity.category === "spirits" ? "spirit" :
+        "talisman";
+      const rawBase64 = dataUrl.includes(",") ? dataUrl.split(",")[1] : dataUrl;
+      const filename = `${gasCategory}_${id}.png`;
+
+      if (selectedEntity.category === "talismans") {
+        await gasApi.adminUpload("talisman-icons", [
+          { talismanId: id, iconUrl: dataUrl }
         ]);
-      } else if (selectedEntity.category === "spirits") {
-        await apiRequest("POST", "/api/admin/spirit-icons", [
-          { skillId: selectedEntity.id, iconUrl: base64 }
-        ]);
-      } else if (selectedEntity.category === "talismans") {
-        await apiRequest("POST", "/api/admin/talisman-icons", {
-          icons: [{ talismanId: selectedEntity.id, iconUrl: base64 }]
-        });
       } else {
-        const category = selectedEntity.category === "heroes" ? "heroes"
-          : selectedEntity.category === "creeps" ? "creeps"
-          : "titans";
-        await apiRequest("POST", "/api/admin/hero-icons", [
-          { heroId: selectedEntity.id, iconUrl: base64, category }
+        await gasApi.uploadIconsBatch(gasCategory, [
+          { id, base64: rawBase64, filename }
         ]);
       }
 
-      setSelectedEntity({ ...selectedEntity, icon: base64 });
+      setSelectedEntity({ ...selectedEntity, icon: dataUrl });
 
       queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
