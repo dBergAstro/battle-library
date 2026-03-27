@@ -455,7 +455,8 @@ export default function BattleLibrary() {
             ? item.data.displayReplay.team 
             : item.data.team;
         // Show only if ALL team members are creeps (ID 1000-3999), no heroes or titans
-        return team.length > 0 && team.every((t) => t.heroId >= 1000 && t.heroId <= 3999);
+        // heroId of 0/null means unknown — treat as non-creep so the item is excluded
+        return team.length > 0 && team.every((t) => t.heroId > 0 && t.heroId >= 1000 && t.heroId <= 3999);
       });
     }
 
