@@ -191,6 +191,7 @@ export function processReplaysFromServer(
   
   // Создаём функцию для определения талисмана по effects
   const findTalisman = (effects?: Record<string, number>, gameId?: number): ProcessedTalisman | undefined => {
+    console.debug("[findTalisman] gid:", gameId, "tList:", safeTalismanList.length, "effects:", effects ? Object.keys(effects) : null);
     if (!effects || safeTalismanList.length === 0) return undefined;
     for (const [effectKey] of Object.entries(effects)) {
       // Пропускаем ключи основных баффов (хардкод, меняется редко)
