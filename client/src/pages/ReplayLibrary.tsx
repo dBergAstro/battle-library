@@ -19,7 +19,6 @@ interface ReplaysResponse {
   petIcons: ServerPetIcon[];
   spiritSkills: ServerSpiritSkill[];
   spiritIcons: ServerSpiritIcon[];
-  mainBuffName: string | null;
 }
 
 export default function ReplayLibrary() {

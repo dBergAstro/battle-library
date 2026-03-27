@@ -401,11 +401,6 @@ async function routeToGas(
       spiritSkills:    raw.spiritSkills    ?? 0,
       spiritIcons:     raw.spiritIcons     ?? 0,
       talismans:       raw.talismans       ?? 0,
-      // GAS returns mainBuffName (single) — map to A slot; B may come from mainBuffNameB if present
-      mainBuffNameA:      raw.mainBuffNameA      ?? raw.mainBuffName      ?? null,
-      mainBuffEffectKeyA: raw.mainBuffEffectKeyA ?? raw.mainBuffEffectKey ?? null,
-      mainBuffNameB:      raw.mainBuffNameB      ?? null,
-      mainBuffEffectKeyB: raw.mainBuffEffectKeyB ?? null,
       // GAS returns flat lastIconSync/lastDataSync — map to nested lastUpdated
       lastUpdated: {
         bossList:     raw.lastUpdated?.bossList     ?? raw.lastDataSync ?? null,

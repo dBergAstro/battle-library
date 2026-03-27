@@ -118,13 +118,6 @@ export async function registerRoutes(
       // Calculate max boss ID for recommended new battle IDs (use full list for ID calculation)
       const maxBossId = bossListData.reduce((max, boss) => Math.max(max, boss.gameId), 0);
 
-      const [mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB] = await Promise.all([
-        storage.getSetting("mainBuffNameA"),
-        storage.getSetting("mainBuffEffectKeyA"),
-        storage.getSetting("mainBuffNameB"),
-        storage.getSetting("mainBuffEffectKeyB"),
-      ]);
-
       res.json({
         bossList: filteredBossList,
         bossTeam: bossTeamData,
@@ -138,10 +131,6 @@ export async function registerRoutes(
         spiritSkills: spiritSkillsData,
         spiritIcons: spiritIconsData,
         talismans: talismansData,
-        mainBuffNameA,
-        mainBuffEffectKeyA,
-        mainBuffNameB,
-        mainBuffEffectKeyB,
         maxBossId,
       });
     } catch (error) {
@@ -354,15 +343,10 @@ export async function registerRoutes(
       ]);
 
       const [
-        mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB,
         lu_bossList, lu_bossTeam, lu_bossLevel, lu_heroIcons, lu_heroNames,
         lu_heroSortOrder, lu_titanElements, lu_attackTeams, lu_petIcons,
         lu_talismans, lu_talismanIcons, lu_spiritSkills, lu_spiritIcons,
       ] = await Promise.all([
-        storage.getSetting("mainBuffNameA"),
-        storage.getSetting("mainBuffEffectKeyA"),
-        storage.getSetting("mainBuffNameB"),
-        storage.getSetting("mainBuffEffectKeyB"),
         storage.getSetting("lastUpdated_bossList"),
         storage.getSetting("lastUpdated_bossTeam"),
         storage.getSetting("lastUpdated_bossLevel"),
@@ -395,10 +379,6 @@ export async function registerRoutes(
         titanicReplays,
         petIcons: petIconsData.length,
         talismans: talismansData.length,
-        mainBuffNameA,
-        mainBuffEffectKeyA,
-        mainBuffNameB,
-        mainBuffEffectKeyB,
         lastUpdated: {
           bossList: lu_bossList,
           bossTeam: lu_bossTeam,
@@ -509,13 +489,6 @@ export async function registerRoutes(
         storage.getAllTalismans(),
       ]);
 
-      const [mainBuffNameA, mainBuffEffectKeyA, mainBuffNameB, mainBuffEffectKeyB] = await Promise.all([
-        storage.getSetting("mainBuffNameA"),
-        storage.getSetting("mainBuffEffectKeyA"),
-        storage.getSetting("mainBuffNameB"),
-        storage.getSetting("mainBuffEffectKeyB"),
-      ]);
-
       res.json({
         attackTeams: attackTeamsData,
         heroIcons: heroIconsData,
@@ -524,10 +497,6 @@ export async function registerRoutes(
         spiritSkills: spiritSkillsData,
         spiritIcons: spiritIconsData,
         talismans: talismansData,
-        mainBuffNameA: mainBuffNameA,
-        mainBuffEffectKeyA: mainBuffEffectKeyA,
-        mainBuffNameB: mainBuffNameB,
-        mainBuffEffectKeyB: mainBuffEffectKeyB,
       });
     } catch (error) {
       console.error("Error fetching replays:", error);

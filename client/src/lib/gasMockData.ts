@@ -263,8 +263,4 @@ export const staticAdminStatsData = {
   titanicReplays:    1,
   petIcons:          3,
   talismans:         0,
-  mainBuffNameA:     null,
-  mainBuffEffectKeyA: null,
-  mainBuffNameB:     null,
-  mainBuffEffectKeyB: null,
 };

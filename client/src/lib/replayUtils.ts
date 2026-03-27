@@ -11,6 +11,12 @@ import type {
 } from "@shared/schema";
 import { getHeroName as getDefaultHeroName } from "./heroNames";
 
+// Ключи основных баффов — хранятся в коде, не в БД
+export const MAIN_BUFF_KEY_A = "percentInOutDamageModAndEnergyIncrease_any_99_100_300_99_1000_30";
+export const MAIN_BUFF_KEY_B = "allParamsValueIncrease_1_4_300";
+export const MAIN_BUFF_DISPLAY_A = "Бафф урона";
+export const MAIN_BUFF_DISPLAY_B = "Бафф параметров";
+
 export interface ServerAttackTeam {
   id: number;
   gameId: number;
@@ -155,13 +161,6 @@ function processSpirits(
   return totems;
 }
 
-export interface BuffConfig {
-  nameA?: string | null;
-  effectKeyA?: string | null;
-  nameB?: string | null;
-  effectKeyB?: string | null;
-}
-
 export function processReplaysFromServer(
   attackTeams: ServerAttackTeam[],
   heroIcons: Array<{ heroId: number; iconUrl: string }>,
@@ -170,8 +169,7 @@ export function processReplaysFromServer(
   spiritSkills: ServerSpiritSkill[] = [],
   spiritIcons: ServerSpiritIcon[] = [],
   bossList: ServerBoss[] = [],
-  talismanList: ServerTalisman[] = [],
-  buffConfig: BuffConfig = {}
+  talismanList: ServerTalisman[] = []
 ): ProcessedReplay[] {
   const safeHeroIcons = heroIcons ?? [];
   const safeHeroNames = heroNames ?? [];
@@ -195,8 +193,9 @@ export function processReplaysFromServer(
   const findTalisman = (effects?: Record<string, number>): ProcessedTalisman | undefined => {
     if (!effects || safeTalismanList.length === 0) return undefined;
     for (const [effectKey] of Object.entries(effects)) {
-      if (buffConfig.effectKeyA && effectKey.startsWith(buffConfig.effectKeyA)) continue;
-      if (buffConfig.effectKeyB && effectKey.startsWith(buffConfig.effectKeyB)) continue;
+      // Пропускаем ключи основных баффов (хардкод, меняется редко)
+      if (effectKey.startsWith(MAIN_BUFF_KEY_A)) continue;
+      if (effectKey.startsWith(MAIN_BUFF_KEY_B)) continue;
       const found = safeTalismanList.find(t => effectKey.startsWith(t.effectKey));
       if (found) {
         return {
@@ -214,16 +213,8 @@ export function processReplaysFromServer(
   // Функция для определения имени активного баффа
   const findBuffName = (effects?: Record<string, number>): string | undefined => {
     if (!effects) return undefined;
-    if (buffConfig.effectKeyA && buffConfig.nameA) {
-      if (Object.keys(effects).some(k => k.startsWith(buffConfig.effectKeyA!))) {
-        return buffConfig.nameA;
-      }
-    }
-    if (buffConfig.effectKeyB && buffConfig.nameB) {
-      if (Object.keys(effects).some(k => k.startsWith(buffConfig.effectKeyB!))) {
-        return buffConfig.nameB;
-      }
-    }
+    if (Object.keys(effects).some(k => k.startsWith(MAIN_BUFF_KEY_A))) return MAIN_BUFF_DISPLAY_A;
+    if (Object.keys(effects).some(k => k.startsWith(MAIN_BUFF_KEY_B))) return MAIN_BUFF_DISPLAY_B;
     return undefined;
   };
 

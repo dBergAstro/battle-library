@@ -60,10 +60,6 @@ interface StatsResponse {
   titanicReplays: number;
   petIcons: number;
   talismans: number;
-  mainBuffNameA: string | null;
-  mainBuffEffectKeyA: string | null;
-  mainBuffNameB: string | null;
-  mainBuffEffectKeyB: string | null;
   lastUpdated?: {
     bossList?: string | null;
     bossTeam?: string | null;
@@ -161,14 +157,6 @@ export default function AdminPanel() {
 
   // Pet icons input
   const petIconsInputRef = useRef<HTMLInputElement | null>(null);
-
-  // Main buff settings (A and B)
-  const [mainBuffNameA, setMainBuffNameA] = useState("");
-  const [mainBuffEffectKeyA, setMainBuffEffectKeyA] = useState("");
-  const [mainBuffSavingA, setMainBuffSavingA] = useState(false);
-  const [mainBuffNameB, setMainBuffNameB] = useState("");
-  const [mainBuffEffectKeyB, setMainBuffEffectKeyB] = useState("");
-  const [mainBuffSavingB, setMainBuffSavingB] = useState(false);
 
   // Talismans settings
   const [talismansText, setTalismansText] = useState("");
@@ -1289,139 +1277,6 @@ export default function AdminPanel() {
                 <span>{errors.petIcons}</span>
               </div>
             )}
-          </CardContent>
-        </Card>
-
-        {/* Main Buff Settings (A and B) */}
-        <Card className="border-card-border">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Settings className="h-5 w-5 text-primary" />
-              Настройки баффов
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            <p className="text-xs text-muted-foreground">
-              Укажите название и ключ эффекта для каждого баффа. Ключ эффекта — это префикс из поля effects в записи (например: allParamsValueIncrease). Каждая запись содержит не более одного баффа из этих двух.
-            </p>
-
-            {/* Бафф А */}
-            <div className="border rounded-lg p-4 space-y-3">
-              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">Бафф А</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Название</label>
-                  <Input
-                    placeholder="Атака"
-                    value={mainBuffNameA}
-                    onChange={(e) => setMainBuffNameA(e.target.value)}
-                    data-testid="input-main-buff-name-a"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Ключ эффекта (префикс)</label>
-                  <Input
-                    placeholder="allParamsValueIncrease"
-                    value={mainBuffEffectKeyA}
-                    onChange={(e) => setMainBuffEffectKeyA(e.target.value)}
-                    data-testid="input-main-buff-key-a"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={async () => {
-                    if (!mainBuffNameA.trim()) return;
-                    setMainBuffSavingA(true);
-                    try {
-                      await apiRequest("POST", "/api/admin/settings/main-buff", {
-                        name: mainBuffNameA.trim(),
-                        effectKey: mainBuffEffectKeyA.trim(),
-                        slot: "A",
-                      });
-                      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
-                      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
-                    } catch (error) {
-                      console.error("Error saving buff A:", error);
-                    } finally {
-                      setMainBuffSavingA(false);
-                    }
-                  }}
-                  disabled={mainBuffSavingA || !mainBuffNameA.trim()}
-                  data-testid="button-save-buff-a"
-                >
-                  {mainBuffSavingA ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
-                  Сохранить бафф А
-                </Button>
-                {stats?.mainBuffNameA && (
-                  <Badge variant="secondary" className="text-xs">
-                    Текущий: {stats.mainBuffNameA}
-                    {stats.mainBuffEffectKeyA ? ` (${stats.mainBuffEffectKeyA.slice(0, 20)}...)` : ""}
-                  </Badge>
-                )}
-              </div>
-            </div>
-
-            {/* Бафф Б */}
-            <div className="border rounded-lg p-4 space-y-3">
-              <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">Бафф Б</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Название</label>
-                  <Input
-                    placeholder="Защита"
-                    value={mainBuffNameB}
-                    onChange={(e) => setMainBuffNameB(e.target.value)}
-                    data-testid="input-main-buff-name-b"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Ключ эффекта (префикс)</label>
-                  <Input
-                    placeholder="allParamsDefenseIncrease"
-                    value={mainBuffEffectKeyB}
-                    onChange={(e) => setMainBuffEffectKeyB(e.target.value)}
-                    data-testid="input-main-buff-key-b"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={async () => {
-                    if (!mainBuffNameB.trim()) return;
-                    setMainBuffSavingB(true);
-                    try {
-                      await apiRequest("POST", "/api/admin/settings/main-buff", {
-                        name: mainBuffNameB.trim(),
-                        effectKey: mainBuffEffectKeyB.trim(),
-                        slot: "B",
-                      });
-                      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
-                      queryClient.invalidateQueries({ queryKey: ["/api/battles"] });
-                    } catch (error) {
-                      console.error("Error saving buff B:", error);
-                    } finally {
-                      setMainBuffSavingB(false);
-                    }
-                  }}
-                  disabled={mainBuffSavingB || !mainBuffNameB.trim()}
-                  data-testid="button-save-buff-b"
-                >
-                  {mainBuffSavingB ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-1" />}
-                  Сохранить бафф Б
-                </Button>
-                {stats?.mainBuffNameB && (
-                  <Badge variant="secondary" className="text-xs">
-                    Текущий: {stats.mainBuffNameB}
-                    {stats.mainBuffEffectKeyB ? ` (${stats.mainBuffEffectKeyB.slice(0, 20)}...)` : ""}
-                  </Badge>
-                )}
-              </div>
-            </div>
           </CardContent>
         </Card>
 

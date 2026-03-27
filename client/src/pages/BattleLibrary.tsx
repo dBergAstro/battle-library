@@ -49,10 +49,6 @@ interface BattlesResponse {
   spiritSkills: ServerSpiritSkill[];
   spiritIcons: ServerSpiritIcon[];
   talismans: ServerTalisman[];
-  mainBuffNameA?: string | null;
-  mainBuffEffectKeyA?: string | null;
-  mainBuffNameB?: string | null;
-  mainBuffEffectKeyB?: string | null;
   maxBossId: number;
 }
 
@@ -242,13 +238,7 @@ export default function BattleLibrary() {
       data.spiritSkills || [],
       data.spiritIcons || [],
       data.bossList || [],
-      data.talismans || [],
-      {
-        nameA: data.mainBuffNameA,
-        effectKeyA: data.mainBuffEffectKeyA,
-        nameB: data.mainBuffNameB,
-        effectKeyB: data.mainBuffEffectKeyB,
-      }
+      data.talismans || []
     );
   }, [data]);
 
