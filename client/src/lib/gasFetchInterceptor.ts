@@ -231,7 +231,15 @@ function normalizeBattlesData(raw: any): any {
     heroSortOrder: normalizeHeroSortOrderItems(raw.heroSortOrder ?? raw.hero_sort_order),
     titanElements: normalizeTitanElementItems(raw.titanElements ?? raw.titan_elements),
   };
-  return normalizeEntityArrays(normalized);
+  const result = normalizeEntityArrays(normalized);
+  // Debug: log sample heroNames and bossTeam entries after normalization to verify ID types match
+  if (result.heroNames?.length > 0 && result.bossTeam?.length > 0) {
+    const sampleName = result.heroNames[0];
+    const sampleTeam = result.bossTeam[0];
+    console.debug("[normalizeBattles] heroNames[0]:", sampleName.heroId, typeof sampleName.heroId, sampleName.name,
+      "| bossTeam[0] bossGameId:", sampleTeam.bossGameId, "heroId:", sampleTeam.heroId, typeof sampleTeam.heroId);
+  }
+  return result;
 }
 
 function normalizeReplaysData(raw: any): any {
@@ -350,8 +358,18 @@ async function routeToGas(
 
   // GET /api/tags
   if (m === "GET" && u === "/api/tags") {
-    const data = await gsRun("getTags");
-    return makeJsonResponse(data);
+    const raw: any = await gsRun("getTags");
+    const rawTags: any[] = raw?.tags ?? (Array.isArray(raw) ? raw : []);
+    // Normalize field names: GAS returns battle_game_id (snake_case), frontend reads battleGameId (camelCase)
+    const tags = rawTags.map((t: any) => ({
+      ...t,
+      battleGameId: toNum(t.battleGameId ?? t.battle_game_id),
+      tag: t.tag ?? "",
+    }));
+    // Compute uniqueTags if not provided by GAS
+    const uniqueTags: string[] = raw?.uniqueTags
+      ?? Array.from(new Set(tags.map((t: any) => t.tag as string))).sort();
+    return makeJsonResponse({ tags, uniqueTags });
   }
 
   // GET /api/collection
