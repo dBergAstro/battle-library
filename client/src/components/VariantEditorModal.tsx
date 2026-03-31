@@ -51,6 +51,10 @@ interface HeroFavorPetRow {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
+const BATTLE_BOSS_LEVEL: Record<number, number> = {
+  1: 80, 2: 85, 3: 90, 4: 100, 5: 110, 6: 120, 7: 130, 8: 130,
+};
+
 const GRADE_LABELS: Record<Grade, string> = {
   purple: "Фиолетовый (1-2)",
   orange: "Оранжевый (3-6)",
@@ -263,6 +267,23 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
   const { data: petsData } = useQuery<PetsData>({ queryKey: ["/api/pets"] });
   const { data: talismansData } = useQuery<TalismansData>({ queryKey: ["/api/talismans"] });
   const { data: favorPetsData } = useQuery<HeroFavorPetRow[]>({ queryKey: ["/api/hero-favor-pets"] });
+  const { data: battlesData } = useQuery<{ attackTeams: Array<{ bossId: number | null; invasionId: number | null }> }>({ queryKey: ["/api/battles"] });
+
+  // ─── Derived battle info ────────────────────────────────────────────────────
+
+  const invasionId = useMemo(() => {
+    if (!battlesData?.attackTeams) return null;
+    const match = battlesData.attackTeams.find(t => t.bossId === battle.gameId);
+    return match?.invasionId ?? null;
+  }, [battlesData, battle.gameId]);
+
+  const battlePosition = useMemo(() => {
+    if (battle.legacyBattleNum != null) return battle.legacyBattleNum;
+    const m = battle.battleNumber.match(/(\d+)/);
+    return m ? parseInt(m[1], 10) : null;
+  }, [battle.legacyBattleNum, battle.battleNumber]);
+
+  const recommendedBossLevel = battlePosition != null ? (BATTLE_BOSS_LEVEL[battlePosition] ?? null) : null;
 
   const allHeroPool = useMemo(() => {
     if (!heroesData) return [];
@@ -509,6 +530,18 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
 
         <div className="max-h-[75vh] overflow-y-auto pr-1">
         <div className="space-y-4">
+
+          {/* ── Battle info ── */}
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground bg-muted/40 rounded-md px-3 py-2">
+            <span><span className="font-medium text-foreground">bossId:</span> {battle.gameId}</span>
+            {invasionId != null && (
+              <span><span className="font-medium text-foreground">invasionId:</span> {invasionId}</span>
+            )}
+            {recommendedBossLevel != null && (
+              <span><span className="font-medium text-foreground">bossLevel:</span> {recommendedBossLevel}</span>
+            )}
+          </div>
+
           {/* ── Heroes ── */}
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Герои</h3>
