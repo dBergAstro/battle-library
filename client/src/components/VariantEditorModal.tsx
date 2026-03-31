@@ -499,7 +499,7 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" data-testid="dialog-variant-editor">
+      <DialogContent className="max-w-2xl" data-testid="dialog-variant-editor">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Wand2 className="h-5 w-5 text-primary" />
@@ -507,6 +507,7 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
           </DialogTitle>
         </DialogHeader>
 
+        <div className="max-h-[75vh] overflow-y-auto pr-1">
         <div className="space-y-4">
           {/* ── Heroes ── */}
           <div className="space-y-3">
@@ -761,6 +762,7 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
               </ScrollArea>
             </div>
           )}
+        </div>
         </div>
       </DialogContent>
     </Dialog>
