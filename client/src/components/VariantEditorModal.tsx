@@ -17,6 +17,7 @@ import { AlertTriangle, Copy, Download, Save, Wand2, X, Search } from "lucide-re
 import { useToast } from "@/hooks/use-toast";
 import type { ProcessedBattle } from "@shared/schema";
 import { MAIN_BUFF_KEY_A, MAIN_BUFF_KEY_B, MAIN_BUFF_DISPLAY_A, MAIN_BUFF_DISPLAY_B } from "@/lib/replayUtils";
+import type { CollectedItem } from "./CollectionSidebar";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -254,9 +255,10 @@ interface VariantEditorModalProps {
   battle: ProcessedBattle;
   open: boolean;
   onClose: () => void;
+  onAddToCollection?: (item: CollectedItem) => void;
 }
 
-export function VariantEditorModal({ battle, open, onClose }: VariantEditorModalProps) {
+export function VariantEditorModal({ battle, open, onClose, onAddToCollection }: VariantEditorModalProps) {
   const { toast } = useToast();
   const chapter = battle.chapterNumber;
   const isHeroic = battle.type === "heroic";
@@ -518,6 +520,27 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
     a.download = "variant_library.json";
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleAddVariantToCollection = () => {
+    if (!generatedJson || !onAddToCollection) return;
+    const variantItem: CollectedItem = {
+      id: `variant-${battle.gameId}-${Date.now()}`,
+      type: "variant",
+      gameId: battle.gameId,
+      label: `Вариант #${battle.gameId}`,
+      desc: "",
+      battleType: battle.type,
+      team: heroes.map(h => ({
+        heroId: h.heroId,
+        name: heroNameMap.get(h.heroId) || h.name || `ID ${h.heroId}`,
+        icon: heroIconMap.get(h.heroId) || h.icon,
+      })),
+      rawDefendersFragments: generatedJson,
+      mainBuff: mainBuffType ? mainBuff : undefined,
+    };
+    onAddToCollection(variantItem);
+    onClose();
   };
 
   // ─── Render ────────────────────────────────────────────────────────────────
@@ -794,6 +817,16 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
                   <Download className="h-4 w-4 mr-1" />
                   Скачать библиотеку
                 </Button>
+                {onAddToCollection && (
+                  <Button
+                    variant="default"
+                    onClick={handleAddVariantToCollection}
+                    data-testid="button-add-variant-to-collection"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    В коллекцию
+                  </Button>
+                )}
               </>
             )}
           </div>

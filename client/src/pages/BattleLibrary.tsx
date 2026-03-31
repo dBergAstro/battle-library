@@ -99,7 +99,7 @@ export default function BattleLibrary() {
         const slotKey = item.itemId.split(":")[0];
         map.set(slotKey, {
           id: item.itemId.split(":").slice(1).join(":"),
-          type: item.itemType as "battle" | "replay",
+          type: item.itemType as "battle" | "replay" | "variant",
           gameId: item.gameId,
           label: item.label || "",
           desc: item.desc || "",

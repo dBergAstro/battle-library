@@ -233,6 +233,7 @@ export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], 
       battle={battle}
       open={variantOpen}
       onClose={() => setVariantOpen(false)}
+      onAddToCollection={onAddToCollection}
     />
     </>
   );

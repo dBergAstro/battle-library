@@ -28,7 +28,7 @@ export interface CollectedTotem {
 
 export interface CollectedItem {
   id: string;
-  type: "battle" | "replay";
+  type: "battle" | "replay" | "variant";
   gameId: number;
   label: string;
   desc: string;
@@ -89,6 +89,19 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
           <span className="text-xs font-mono font-semibold text-foreground ml-3">
             #{item.gameId}
           </span>
+        ) : item.type === "variant" ? (
+          <div className="flex items-center gap-1 ml-3">
+            <span className="text-xs font-mono font-semibold text-primary">
+              #{item.gameId}
+            </span>
+            <span className="text-[9px] px-0.5 rounded bg-primary/15 text-primary font-semibold leading-none py-0.5">В</span>
+            {item.mainBuff != null && item.mainBuff > 0 && (
+              <span className="flex items-center text-[10px] text-muted-foreground gap-0.5">
+                <ArrowUp className="h-2.5 w-2.5" />
+                {item.mainBuff}%
+              </span>
+            )}
+          </div>
         ) : (
           <div className="flex items-center gap-1 ml-3">
             <Tooltip>
@@ -111,7 +124,7 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
           </div>
         )}
         <div className="flex items-center gap-0.5">
-          {item.type === "replay" && item.rawDefendersFragments && (
+          {(item.type === "replay" || item.type === "variant") && item.rawDefendersFragments && (
             <Button
               size="icon"
               variant="ghost"
