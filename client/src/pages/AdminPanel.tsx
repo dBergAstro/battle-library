@@ -1702,14 +1702,14 @@ export default function AdminPanel() {
           <CardContent className="space-y-4">
             <div>
               <p className="text-xs text-muted-foreground mb-2">
-                JSON-массив вида <code className="bg-muted px-1 rounded">[{"{"}heroId: 13, allowedPetIds: [6003, 6006]{"}"}]</code>.
-                Задаёт, каких питомцев-покровителей может использовать каждый герой.
+                Каждая строка: <code className="bg-muted px-1 rounded">petId{"\t"}heroId1, heroId2, ...</code>
+                &nbsp;— айди питомца, затем табуляция, затем список айди героев через запятую.
               </p>
               <Textarea
-                placeholder={'[{"heroId": 13, "allowedPetIds": [6003, 6006]}]'}
+                placeholder={"6000\t2, 3, 8, 11, 14, 15\n6001\t1, 2, 4, 11, 18, 21"}
                 value={favorPetsText}
                 onChange={(e) => setFavorPetsText(e.target.value)}
-                className="min-h-[120px] font-mono text-sm mb-2"
+                className="min-h-[160px] font-mono text-sm mb-2"
                 data-testid="input-favor-pets"
               />
               {errors.favorPets && (
@@ -1725,11 +1725,29 @@ export default function AdminPanel() {
                   if (!favorPetsText.trim()) return;
                   setFavorPetsSaving(true);
                   try {
-                    const parsed = JSON.parse(favorPetsText);
-                    if (!Array.isArray(parsed)) throw new Error("Ожидается массив");
-                    await apiRequest("POST", "/api/admin/hero-favor-pets", parsed);
+                    const heroToPets = new Map<number, Set<number>>();
+                    for (const line of favorPetsText.trim().split("\n")) {
+                      const trimmed = line.trim();
+                      if (!trimmed) continue;
+                      const tabIdx = trimmed.indexOf("\t");
+                      const petIdStr = tabIdx !== -1 ? trimmed.slice(0, tabIdx).trim() : trimmed.split(/\s+/)[0];
+                      const heroIdsStr = tabIdx !== -1 ? trimmed.slice(tabIdx + 1) : trimmed.split(/\s+/).slice(1).join(" ");
+                      const petId = parseInt(petIdStr, 10);
+                      if (isNaN(petId)) throw new Error(`Неверный petId: "${petIdStr}"`);
+                      const heroIds = heroIdsStr.split(",").map((s) => parseInt(s.trim(), 10)).filter((n) => !isNaN(n));
+                      for (const heroId of heroIds) {
+                        if (!heroToPets.has(heroId)) heroToPets.set(heroId, new Set());
+                        heroToPets.get(heroId)!.add(petId);
+                      }
+                    }
+                    const payload = Array.from(heroToPets.entries()).map(([heroId, petIds]) => ({
+                      heroId,
+                      allowedPetIds: Array.from(petIds),
+                    }));
+                    if (payload.length === 0) throw new Error("Нет данных для сохранения");
+                    await apiRequest("POST", "/api/admin/hero-favor-pets", payload);
                     queryClient.invalidateQueries({ queryKey: ["/api/hero-favor-pets"] });
-                    toast({ title: "Покровительство сохранено", description: `Записей: ${parsed.length}` });
+                    toast({ title: "Покровительство сохранено", description: `Героев: ${payload.length}` });
                     setErrors((prev) => { const n = { ...prev }; delete n.favorPets; return n; });
                   } catch (error) {
                     const msg = error instanceof Error ? error.message : "Ошибка сохранения";
