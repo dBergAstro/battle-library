@@ -112,14 +112,11 @@ export async function registerRoutes(
         storage.getAllTalismans(),
       ]);
 
-      // Filter out boss entries that were created from replays (have defendersFragments)
-      const filteredBossList = bossListData.filter(boss => !boss.defendersFragments);
-      
-      // Calculate max boss ID for recommended new battle IDs (use full list for ID calculation)
+      // Calculate max boss ID for recommended new battle IDs
       const maxBossId = bossListData.reduce((max, boss) => Math.max(max, boss.gameId), 0);
 
       res.json({
-        bossList: filteredBossList,
+        bossList: bossListData,
         bossTeam: bossTeamData,
         bossLevel: bossLevelData,
         heroIcons: heroIconsData,

@@ -1,4 +1,4 @@
-import type { ProcessedBattle, BattleType, ElementType, TotemInfo } from "@shared/schema";
+import type { ProcessedBattle, BattleType, ElementType, TotemInfo, DefendersFragments } from "@shared/schema";
 import { getHeroName as getDefaultHeroName } from "./heroNames";
 
 // Типы для данных с сервера
@@ -8,6 +8,7 @@ export interface ServerBossList {
   label: string | null;
   desc: string | null;
   heroId: number | null;
+  defendersFragments: string | null;
 }
 
 export interface ServerBossTeam {
@@ -194,6 +195,23 @@ export function processBattlesFromServer(
       })
       .filter((m): m is NonNullable<typeof m> => m !== null);
 
+    // Fallback: if boss_team has no entries, try to parse team from defenders_fragments
+    if (teamMembers.length === 0 && boss.defendersFragments) {
+      try {
+        const defenders = JSON.parse(boss.defendersFragments) as DefendersFragments;
+        if (defenders.units && defenders.units.length > 0) {
+          teamMembers = defenders.units.slice(0, 5).map((heroId) => ({
+            heroId,
+            name: getHeroNameFn(heroId),
+            icon: iconMap.get(heroId),
+            sortOrder: sortOrderMap.get(heroId),
+          }));
+        }
+      } catch {
+        // Invalid JSON, skip fallback
+      }
+    }
+
     // Сортируем команду по sortOrder (если есть), иначе по heroId
     teamMembers.sort((a, b) => {
       const orderA = a.sortOrder ?? Infinity;
@@ -244,7 +262,57 @@ export function processBattlesFromServer(
     };
   });
 
-  return battles.sort((a, b) => b.gameId - a.gameId);
+  // Deduplicate by defenders_fragments: group entries that share the same non-null
+  // defenders_fragments value, keeping the best one per group.
+  // Priority: (a) entry whose desc does NOT contain "запись", else (b) smallest gameId.
+  // Entries with no defenders_fragments are never deduplicated.
+  const bossDescMap = new Map<number, string>(safeBossList.map(b => [b.gameId, (b.desc ?? "").toLowerCase()]));
+  const bossRawDfMap = new Map<number, string | null>(safeBossList.map(b => [b.gameId, b.defendersFragments]));
+
+  const dfNormMap = new Map<string, ProcessedBattle>();
+  const dfKeyByGameId = new Map<number, string>();
+
+  for (const battle of battles) {
+    const rawDf = bossRawDfMap.get(battle.gameId) ?? null;
+    if (!rawDf) continue;
+    // Normalise the key: parse + re-stringify to remove whitespace differences
+    let normKey: string;
+    try {
+      normKey = JSON.stringify(JSON.parse(rawDf));
+    } catch {
+      normKey = rawDf;
+    }
+    dfKeyByGameId.set(battle.gameId, normKey);
+    const existing = dfNormMap.get(normKey);
+    if (!existing) {
+      dfNormMap.set(normKey, battle);
+    } else {
+      // Determine which entry to keep
+      const existingIsRecord = (bossDescMap.get(existing.gameId) ?? "").includes("запись");
+      const currentIsRecord = (bossDescMap.get(battle.gameId) ?? "").includes("запись");
+      // Prefer the non-record entry; on tie keep the one with smaller gameId
+      if (existingIsRecord && !currentIsRecord) {
+        dfNormMap.set(normKey, battle);
+      } else if (!existingIsRecord && currentIsRecord) {
+        // keep existing
+      } else {
+        // both same kind — keep smaller gameId
+        if (battle.gameId < existing.gameId) {
+          dfNormMap.set(normKey, battle);
+        }
+      }
+    }
+  }
+
+  // Filter out duplicates: remove any battle that shares a df key but is not the winner
+  const deduplicated = battles.filter(battle => {
+    const normKey = dfKeyByGameId.get(battle.gameId);
+    if (!normKey) return true; // no defenders_fragments, keep as-is
+    const winner = dfNormMap.get(normKey);
+    return winner?.gameId === battle.gameId;
+  });
+
+  return deduplicated.sort((a, b) => b.gameId - a.gameId);
 }
 
 // Типы для загрузки файлов
