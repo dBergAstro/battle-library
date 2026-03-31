@@ -778,5 +778,78 @@ export async function registerRoutes(
     }
   });
 
+  // Hero Favor Pets (покровительство)
+  app.get("/api/hero-favor-pets", async (_req, res) => {
+    try {
+      const data = await storage.getHeroFavorPets();
+      res.json(data);
+    } catch (error) {
+      console.error("Error fetching hero favor pets:", error);
+      res.status(500).json({ error: "Failed to fetch hero favor pets" });
+    }
+  });
+
+  const heroFavorPetsInputSchema = z.array(z.object({
+    heroId: z.number().int().positive(),
+    allowedPetIds: z.array(z.number().int().positive()),
+  }));
+
+  app.post("/api/admin/hero-favor-pets", async (req, res) => {
+    try {
+      const parsed = heroFavorPetsInputSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Expected array of { heroId: number, allowedPetIds: number[] }", details: parsed.error.issues });
+      }
+      const items = parsed.data.map(item => ({
+        heroId: item.heroId,
+        allowedPetIds: JSON.stringify(item.allowedPetIds),
+      }));
+      await storage.upsertHeroFavorPets(items);
+      res.json({ success: true, count: items.length });
+    } catch (error) {
+      console.error("Error upserting hero favor pets:", error);
+      res.status(500).json({ error: "Failed to upsert hero favor pets" });
+    }
+  });
+
+  // Dedicated hero lookup endpoint
+  app.get("/api/heroes", async (_req, res) => {
+    try {
+      const [heroIconsData, heroNamesData] = await Promise.all([
+        storage.getAllHeroIcons(),
+        storage.getAllHeroNames(),
+      ]);
+      res.json({ heroIcons: heroIconsData, heroNames: heroNamesData });
+    } catch (error) {
+      console.error("Error fetching heroes:", error);
+      res.status(500).json({ error: "Failed to fetch heroes" });
+    }
+  });
+
+  // Dedicated pet lookup endpoint
+  app.get("/api/pets", async (_req, res) => {
+    try {
+      const [petIconsData, heroNamesData] = await Promise.all([
+        storage.getAllPetIcons(),
+        storage.getAllHeroNames(),
+      ]);
+      res.json({ petIcons: petIconsData, heroNames: heroNamesData });
+    } catch (error) {
+      console.error("Error fetching pets:", error);
+      res.status(500).json({ error: "Failed to fetch pets" });
+    }
+  });
+
+  // Dedicated talisman lookup endpoint
+  app.get("/api/talismans", async (_req, res) => {
+    try {
+      const data = await storage.getAllTalismans();
+      res.json(data);
+    } catch (error) {
+      console.error("Error fetching talismans:", error);
+      res.status(500).json({ error: "Failed to fetch talismans" });
+    }
+  });
+
   return httpServer;
 }

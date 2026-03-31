@@ -188,6 +188,17 @@ export const insertTalismanSchema = createInsertSchema(talismans).omit({ id: tru
 export type InsertTalisman = z.infer<typeof insertTalismanSchema>;
 export type Talisman = typeof talismans.$inferSelect;
 
+// Hero Favor Pets - таблица покровительства (heroId -> allowedPetIds)
+export const heroFavorPets = pgTable("hero_favor_pets", {
+  id: serial("id").primaryKey(),
+  heroId: integer("hero_id").notNull().unique(),
+  allowedPetIds: text("allowed_pet_ids").notNull(), // JSON-массив
+});
+
+export const insertHeroFavorPetSchema = createInsertSchema(heroFavorPets).omit({ id: true });
+export type InsertHeroFavorPet = z.infer<typeof insertHeroFavorPetSchema>;
+export type HeroFavorPet = typeof heroFavorPets.$inferSelect;
+
 // Battle Tags - пользовательские теги для боёв
 export const battleTags = pgTable("battle_tags", {
   id: serial("id").primaryKey(),

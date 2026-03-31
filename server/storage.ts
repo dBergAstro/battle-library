@@ -1,12 +1,14 @@
 import { 
   bossList, bossTeam, bossLevel, heroIcons, heroNames, heroSortOrder, titanElements,
-  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons, talismans, battleTags, collectionItems,
+  attackTeams, petIcons, appSettings, spiritSkills, spiritIcons, talismans, battleTags, collectionItems, heroFavorPets,
   type InsertBossList, type InsertBossTeam, type InsertBossLevel, 
   type InsertHeroIcon, type InsertHeroName, type InsertHeroSortOrder, type InsertTitanElement,
   type InsertAttackTeam, type InsertPetIcon, type InsertAppSetting,
   type InsertSpiritSkill, type InsertSpiritIcon, type InsertTalisman, type InsertBattleTag, type InsertCollectionItem,
+  type InsertHeroFavorPet,
   type BossList, type BossTeam, type BossLevel, type HeroIcon, type HeroName, type HeroSortOrder, type TitanElement,
-  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon, type Talisman, type BattleTag, type CollectionItem
+  type AttackTeam, type PetIcon, type AppSetting, type SpiritSkill, type SpiritIcon, type Talisman, type BattleTag, type CollectionItem,
+  type HeroFavorPet
 } from "@shared/schema";
 import { db } from "./db";
 import { gt, sql, eq, and } from "drizzle-orm";
@@ -74,6 +76,9 @@ export interface IStorage {
   addCollectionItem(data: InsertCollectionItem): Promise<void>;
   removeCollectionItem(itemId: string): Promise<void>;
   clearCollection(): Promise<void>;
+
+  getHeroFavorPets(): Promise<HeroFavorPet[]>;
+  upsertHeroFavorPets(data: InsertHeroFavorPet[]): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -394,6 +399,21 @@ export class DatabaseStorage implements IStorage {
 
   async clearCollection(): Promise<void> {
     await db.delete(collectionItems);
+  }
+
+  // Hero Favor Pets
+  async getHeroFavorPets(): Promise<HeroFavorPet[]> {
+    return await db.select().from(heroFavorPets);
+  }
+
+  async upsertHeroFavorPets(data: InsertHeroFavorPet[]): Promise<void> {
+    if (data.length === 0) return;
+    for (const item of data) {
+      await db.insert(heroFavorPets).values(item).onConflictDoUpdate({
+        target: heroFavorPets.heroId,
+        set: { allowedPetIds: sql`excluded.allowed_pet_ids` },
+      });
+    }
   }
 }
 

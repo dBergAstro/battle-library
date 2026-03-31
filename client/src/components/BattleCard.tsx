@@ -3,12 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Swords, Shield, Zap, Plus, Star } from "lucide-react";
+import { Swords, Shield, Zap, Plus, Star, Wand2 } from "lucide-react";
 import type { ProcessedBattle } from "@shared/schema";
 import { ELEMENT_EMOJIS } from "@/lib/battleUtils";
 import { cn } from "@/lib/utils";
 import type { CollectedItem } from "./CollectionSidebar";
 import { TagsModal } from "./TagsModal";
+import { VariantEditorModal } from "./VariantEditorModal";
+import { useState } from "react";
 
 interface BattleCardProps {
   battle: ProcessedBattle;
@@ -20,6 +22,7 @@ interface BattleCardProps {
 
 export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], allTags = [] }: BattleCardProps) {
   const isHeroic = battle.type === "heroic";
+  const [variantOpen, setVariantOpen] = useState(false);
 
   const handleAddToCollection = () => {
     if (onAddToCollection && !isCollected) {
@@ -51,6 +54,7 @@ export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], 
   };
 
   return (
+    <>
     <Card
       className={cn(
         "hover-elevate border-card-border transition-all",
@@ -134,6 +138,19 @@ export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], 
           </div>
           
           <div className="flex items-center gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setVariantOpen(true)}
+                  data-testid={`button-variant-${battle.id}`}
+                >
+                  <Wand2 className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="text-xs">Редактор варианта</TooltipContent>
+            </Tooltip>
             <TagsModal 
               battleGameId={battle.gameId} 
               tags={tags} 
@@ -211,5 +228,12 @@ export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], 
         </div>
       </CardContent>
     </Card>
+
+    <VariantEditorModal
+      battle={battle}
+      open={variantOpen}
+      onClose={() => setVariantOpen(false)}
+    />
+    </>
   );
 }

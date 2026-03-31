@@ -170,6 +170,10 @@ export default function AdminPanel() {
   const spiritIconsInputRef = useRef<HTMLInputElement | null>(null);
   const [spiritIconsUploading, setSpiritIconsUploading] = useState(false);
 
+  // Hero favor pets settings
+  const [favorPetsText, setFavorPetsText] = useState("");
+  const [favorPetsSaving, setFavorPetsSaving] = useState(false);
+
   const [heroSearchQuery, setHeroSearchQuery] = useState("");
 
   const { data: stats, isLoading: statsLoading } = useQuery<StatsResponse>({
@@ -1684,6 +1688,67 @@ export default function AdminPanel() {
                   <span>{errors.spiritIcons}</span>
                 </div>
               )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Dog className="h-5 w-5 text-primary" />
+              Покровительство
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-xs text-muted-foreground mb-2">
+                JSON-массив вида <code className="bg-muted px-1 rounded">[{"{"}heroId: 13, allowedPetIds: [6003, 6006]{"}"}]</code>.
+                Задаёт, каких питомцев-покровителей может использовать каждый герой.
+              </p>
+              <Textarea
+                placeholder={'[{"heroId": 13, "allowedPetIds": [6003, 6006]}]'}
+                value={favorPetsText}
+                onChange={(e) => setFavorPetsText(e.target.value)}
+                className="min-h-[120px] font-mono text-sm mb-2"
+                data-testid="input-favor-pets"
+              />
+              {errors.favorPets && (
+                <div className="mb-2 flex items-center gap-1 text-xs text-destructive">
+                  <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                  <span>{errors.favorPets}</span>
+                </div>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={async () => {
+                  if (!favorPetsText.trim()) return;
+                  setFavorPetsSaving(true);
+                  try {
+                    const parsed = JSON.parse(favorPetsText);
+                    if (!Array.isArray(parsed)) throw new Error("Ожидается массив");
+                    await apiRequest("POST", "/api/admin/hero-favor-pets", parsed);
+                    queryClient.invalidateQueries({ queryKey: ["/api/hero-favor-pets"] });
+                    toast({ title: "Покровительство сохранено", description: `Записей: ${parsed.length}` });
+                    setErrors((prev) => { const n = { ...prev }; delete n.favorPets; return n; });
+                  } catch (error) {
+                    const msg = error instanceof Error ? error.message : "Ошибка сохранения";
+                    setErrors((prev) => ({ ...prev, favorPets: msg }));
+                    toast({ title: "Ошибка", description: msg, variant: "destructive" });
+                  } finally {
+                    setFavorPetsSaving(false);
+                  }
+                }}
+                disabled={favorPetsSaving || !favorPetsText.trim()}
+                data-testid="button-save-favor-pets"
+              >
+                {favorPetsSaving ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                )}
+                Сохранить
+              </Button>
             </div>
           </CardContent>
         </Card>
