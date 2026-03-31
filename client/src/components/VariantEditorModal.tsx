@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { AlertTriangle, Copy, Download, Save, Wand2, X, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { ProcessedBattle } from "@shared/schema";
-import { MAIN_BUFF_KEY_A } from "@/lib/replayUtils";
+import { MAIN_BUFF_KEY_A, MAIN_BUFF_KEY_B, MAIN_BUFF_DISPLAY_A, MAIN_BUFF_DISPLAY_B } from "@/lib/replayUtils";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -373,6 +373,7 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
   const [heroes, setHeroes] = useState<HeroEntry[]>(initHeroes);
   const [mainPetId, setMainPetId] = useState<number | undefined>(undefined);
   const [mainBuff, setMainBuff] = useState<number>(CHAPTER_DEFAULT_BUFF[chapter] ?? 0);
+  const [mainBuffType, setMainBuffType] = useState<"A" | "B" | null>("A");
   const [talismanId, setTalismanId] = useState<number | undefined>(undefined);
   const [generatedJson, setGeneratedJson] = useState<string | null>(null);
   const [pickerOpenIdx, setPickerOpenIdx] = useState<number | null>(null);
@@ -386,6 +387,7 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
       setHeroes(initHeroes());
       setMainPetId(undefined);
       setMainBuff(CHAPTER_DEFAULT_BUFF[chapter] ?? 0);
+      setMainBuffType("A");
       setTalismanId(undefined);
       setGeneratedJson(null);
       setPickerOpenIdx(null);
@@ -443,8 +445,10 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
     }
 
     const effects: Record<string, number> = {};
-    if (mainBuff > 0) {
+    if (mainBuff > 0 && mainBuffType === "A") {
       effects[`${MAIN_BUFF_KEY_A}_${mainBuff}`] = mainBuff;
+    } else if (mainBuff > 0 && mainBuffType === "B") {
+      effects[`${MAIN_BUFF_KEY_B}_${mainBuff}`] = mainBuff;
     }
     if (selectedTalisman) {
       effects[`${selectedTalisman.effectKey}_1`] = 1;
@@ -547,9 +551,10 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
             <h3 className="text-sm font-semibold">Герои</h3>
             {heroes.map((hero, idx) => {
               const isOverGrade = GRADE_ORDER[hero.grade] > GRADE_ORDER[maxGrade];
-              const allowedPets = favorMap.get(hero.heroId)
-                ? allPets.filter(p => favorMap.get(hero.heroId)!.includes(p.petId))
-                : [];
+              const heroAllowedIds = favorMap.get(hero.heroId);
+              const allowedPets = heroAllowedIds
+                ? allPets.filter(p => heroAllowedIds.includes(p.petId))
+                : allPets;
 
               return (
                 <div key={idx} className="border rounded-lg p-3 space-y-2" data-testid={`hero-row-${idx}`}>
@@ -652,23 +657,19 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
                     ) : (
                       <span className="text-xs text-muted-foreground italic">Нет</span>
                     )}
-                    {allowedPets.length > 0 ? (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-6 text-xs px-2"
-                        onClick={() => setFavorPickerIdx(favorPickerIdx === idx ? null : idx)}
-                        data-testid={`button-favor-pet-${idx}`}
-                      >
-                        {hero.favorPetId ? "Сменить" : "Выбрать"}
-                      </Button>
-                    ) : (
-                      <span className="text-xs text-muted-foreground">(нет разрешённых)</span>
-                    )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-6 text-xs px-2"
+                      onClick={() => setFavorPickerIdx(favorPickerIdx === idx ? null : idx)}
+                      data-testid={`button-favor-pet-${idx}`}
+                    >
+                      {hero.favorPetId ? "Сменить" : "Выбрать"}
+                    </Button>
                   </div>
 
                   {/* Favor pet picker */}
-                  {favorPickerIdx === idx && allowedPets.length > 0 && (
+                  {favorPickerIdx === idx && (
                     <div className="pl-12">
                       <PetPicker
                         pets={allowedPets}
@@ -719,17 +720,32 @@ export function VariantEditorModal({ battle, open, onClose }: VariantEditorModal
           </div>
 
           {/* ── Buff ── */}
-          <div className="flex items-center gap-3 border rounded-lg p-3">
+          <div className="flex items-center gap-3 border rounded-lg p-3 flex-wrap">
             <h3 className="text-sm font-semibold flex-1">Основной бафф</h3>
-            <Input
-              type="number"
-              min={0}
-              step={50}
-              value={mainBuff}
-              onChange={(e) => setMainBuff(Math.max(0, parseInt(e.target.value) || 0))}
-              className="h-8 w-24 text-sm text-center"
-              data-testid="input-main-buff"
-            />
+            <Select
+              value={mainBuffType ?? "__none__"}
+              onValueChange={(v) => setMainBuffType(v === "__none__" ? null : v as "A" | "B")}
+            >
+              <SelectTrigger className="h-8 w-[180px] text-xs" data-testid="select-buff-type">
+                <SelectValue placeholder="Без баффа" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">Без баффа</SelectItem>
+                <SelectItem value="A">{MAIN_BUFF_DISPLAY_A}</SelectItem>
+                <SelectItem value="B">{MAIN_BUFF_DISPLAY_B}</SelectItem>
+              </SelectContent>
+            </Select>
+            {mainBuffType && (
+              <Input
+                type="number"
+                min={0}
+                step={50}
+                value={mainBuff}
+                onChange={(e) => setMainBuff(Math.max(0, parseInt(e.target.value) || 0))}
+                className="h-8 w-24 text-sm text-center"
+                data-testid="input-main-buff"
+              />
+            )}
             <Badge variant="outline" className="text-xs">
               Гл. {chapter} → {CHAPTER_DEFAULT_BUFF[chapter] ?? 0}
             </Badge>
