@@ -236,6 +236,8 @@ export default function BattleLibrary() {
     queryKey: ["/api/tags"],
   });
 
+  useQuery<ServerTitanElement[]>({ queryKey: ["/api/titan-elements"] });
+
   // Карта battleGameId -> tags[]
   const battleTagsMap = useMemo(() => {
     const map = new Map<number, string[]>();
