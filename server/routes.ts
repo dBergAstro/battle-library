@@ -848,5 +848,30 @@ export async function registerRoutes(
     }
   });
 
+  // Dedicated spirit skills + icons lookup endpoint
+  app.get("/api/spirit-skills", async (_req, res) => {
+    try {
+      const [skillsData, iconsData] = await Promise.all([
+        storage.getAllSpiritSkills(),
+        storage.getAllSpiritIcons(),
+      ]);
+      res.json({ spiritSkills: skillsData, spiritIcons: iconsData });
+    } catch (error) {
+      console.error("Error fetching spirit skills:", error);
+      res.status(500).json({ error: "Failed to fetch spirit skills" });
+    }
+  });
+
+  // Dedicated titan elements lookup endpoint
+  app.get("/api/titan-elements", async (_req, res) => {
+    try {
+      const data = await storage.getAllTitanElements();
+      res.json(data);
+    } catch (error) {
+      console.error("Error fetching titan elements:", error);
+      res.status(500).json({ error: "Failed to fetch titan elements" });
+    }
+  });
+
   return httpServer;
 }

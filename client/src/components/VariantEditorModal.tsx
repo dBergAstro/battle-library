@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
-import { AlertTriangle, Copy, Download, Save, Wand2, X, Search } from "lucide-react";
+import { AlertTriangle, Copy, Download, Save, Wand2, X, Search, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { ProcessedBattle } from "@shared/schema";
 import { MAIN_BUFF_KEY_A, MAIN_BUFF_KEY_B, MAIN_BUFF_DISPLAY_A, MAIN_BUFF_DISPLAY_B } from "@/lib/replayUtils";
@@ -52,7 +52,7 @@ interface HeroFavorPetRow {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const BATTLE_BOSS_LEVEL: Record<number, number> = {
+export const BATTLE_BOSS_LEVEL: Record<number, number> = {
   1: 80, 2: 85, 3: 90, 4: 100, 5: 110, 6: 120, 7: 130, 8: 130,
 };
 
@@ -62,14 +62,8 @@ const GRADE_LABELS: Record<Grade, string> = {
   red: "Красный (7-10)",
 };
 
-const GRADE_COLORS: Record<Grade, string> = {
-  purple: "text-purple-500",
-  orange: "text-orange-500",
-  red: "text-red-500",
-};
-
 // Рекомендуемые грейды по главам: [purple, orange, red]
-const CHAPTER_GRADES: Record<number, [number, number, number]> = {
+export const CHAPTER_GRADES: Record<number, [number, number, number]> = {
   1: [5, 0, 0],
   2: [4, 1, 0],
   3: [3, 2, 0],
@@ -80,41 +74,38 @@ const CHAPTER_GRADES: Record<number, [number, number, number]> = {
 };
 
 // Дефолтный бафф по главе
-const CHAPTER_DEFAULT_BUFF: Record<number, number> = {
+export const CHAPTER_DEFAULT_BUFF: Record<number, number> = {
   1: 0, 2: 0, 3: 50, 4: 100, 5: 150, 6: 200, 7: 250,
 };
 
 // Случайное количество фрагментов по грейду
-function randomFragmentCount(grade: Grade): number {
+export function randomFragmentCount(grade: Grade): number {
   if (grade === "purple") return Math.floor(Math.random() * 2) + 1;  // 1-2
   if (grade === "orange") return Math.floor(Math.random() * 4) + 3;  // 3-6
   return Math.floor(Math.random() * 4) + 7;                           // 7-10
 }
 
 // Грейд по количеству фрагментов
-function gradeFromCount(n: number): Grade {
+export function gradeFromCount(n: number): Grade {
   if (n >= 7) return "red";
   if (n >= 3) return "orange";
   return "purple";
 }
 
 // Числовой порядок грейда
-const GRADE_ORDER: Record<Grade, number> = { purple: 1, orange: 2, red: 3 };
-
-// Минимальные фрагменты для грейда
-const GRADE_MIN: Record<Grade, number> = { purple: 1, orange: 3, red: 7 };
+export const GRADE_ORDER: Record<Grade, number> = { purple: 1, orange: 2, red: 3 };
 
 // Рекомендованный максимальный грейд по главе (для предупреждения)
-function recommendedMaxGrade(chapter: number): Grade {
+export function recommendedMaxGrade(chapter: number): Grade {
   const dist = CHAPTER_GRADES[chapter] || CHAPTER_GRADES[7];
   if (dist[2] > 0) return "red";
   if (dist[1] > 0) return "orange";
   return "purple";
 }
 
-// ─── Hero Picker Sub-component ───────────────────────────────────────────────
+// ─── Hero Picker Sub-component (exported for reuse) ───────────────────────────
 
-interface HeroPickerProps {
+export interface HeroPickerProps {
   isHeroic: boolean;
   allHeroes: Array<{ heroId: number; name: string; icon?: string }>;
   allTitans: Array<{ heroId: number; name: string; icon?: string }>;
@@ -123,7 +114,7 @@ interface HeroPickerProps {
   onClose: () => void;
 }
 
-function HeroPicker({ isHeroic, allHeroes, allTitans, currentHeroId, onSelect, onClose }: HeroPickerProps) {
+export function HeroPicker({ isHeroic, allHeroes, allTitans, currentHeroId, onSelect, onClose }: HeroPickerProps) {
   const [search, setSearch] = useState("");
   const pool = isHeroic ? allHeroes : allTitans;
   const filtered = useMemo(() => {
@@ -249,6 +240,31 @@ function PetPicker({ pets, currentPetId, onSelect, onClose, label }: PetPickerPr
   );
 }
 
+// ─── Helper: build initial heroes list from a team + chapter ─────────────────
+
+export function buildInitHeroes(
+  team: { heroId: number; name: string; icon?: string }[],
+  chapter: number
+): HeroEntry[] {
+  const dist = CHAPTER_GRADES[chapter] || CHAPTER_GRADES[7];
+  const grades: Grade[] = [];
+  for (let i = 0; i < dist[0]; i++) grades.push("purple");
+  for (let i = 0; i < dist[1]; i++) grades.push("orange");
+  for (let i = 0; i < dist[2]; i++) grades.push("red");
+  for (let i = grades.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [grades[i], grades[j]] = [grades[j], grades[i]];
+  }
+  return Array.from({ length: 5 }, (_, idx) => {
+    const m = team[idx];
+    const grade = grades[idx] || "purple";
+    if (m) {
+      return { heroId: m.heroId, name: m.name, icon: m.icon, fragmentCount: randomFragmentCount(grade), grade, favorPetId: undefined };
+    }
+    return { heroId: 0, name: "", icon: undefined, fragmentCount: randomFragmentCount(grade), grade, favorPetId: undefined };
+  });
+}
+
 // ─── Main Modal ───────────────────────────────────────────────────────────────
 
 interface VariantEditorModalProps {
@@ -260,8 +276,6 @@ interface VariantEditorModalProps {
 
 export function VariantEditorModal({ battle, open, onClose, onAddToCollection }: VariantEditorModalProps) {
   const { toast } = useToast();
-  const chapter = battle.chapterNumber;
-  const isHeroic = battle.type === "heroic";
 
   // ─── Load data ─────────────────────────────────────────────────────────────
 
@@ -279,13 +293,11 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
     return match?.invasionId ?? null;
   }, [battlesData, battle.gameId]);
 
-  const battlePosition = useMemo(() => {
+  const initialBattleNum = useMemo(() => {
     if (battle.legacyBattleNum != null) return battle.legacyBattleNum;
     const m = battle.battleNumber.match(/(\d+)/);
-    return m ? parseInt(m[1], 10) : null;
+    return m ? parseInt(m[1], 10) : 1;
   }, [battle.legacyBattleNum, battle.battleNumber]);
-
-  const recommendedBossLevel = battlePosition != null ? (BATTLE_BOSS_LEVEL[battlePosition] ?? null) : null;
 
   const allHeroPool = useMemo(() => {
     if (!heroesData) return [];
@@ -343,38 +355,13 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
     return new Map(heroesData.heroNames.map(h => [h.heroId, h.name]));
   }, [heroesData]);
 
-  // ─── Initialize heroes from battle ─────────────────────────────────────────
-
-  const initHeroes = useCallback((): HeroEntry[] => {
-    const dist = CHAPTER_GRADES[chapter] || CHAPTER_GRADES[7];
-    const grades: Grade[] = [];
-    for (let i = 0; i < dist[0]; i++) grades.push("purple");
-    for (let i = 0; i < dist[1]; i++) grades.push("orange");
-    for (let i = 0; i < dist[2]; i++) grades.push("red");
-    // Shuffle grades
-    for (let i = grades.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [grades[i], grades[j]] = [grades[j], grades[i]];
-    }
-
-    return battle.team.slice(0, 5).map((m, idx) => {
-      const grade = grades[idx] || "purple";
-      return {
-        heroId: m.heroId,
-        name: m.name,
-        icon: m.icon,
-        fragmentCount: randomFragmentCount(grade),
-        grade,
-        favorPetId: undefined,
-      };
-    });
-  }, [battle.team, chapter]);
-
   // ─── State ─────────────────────────────────────────────────────────────────
 
-  const [heroes, setHeroes] = useState<HeroEntry[]>(initHeroes);
+  const [selectedChapter, setSelectedChapter] = useState<number>(battle.chapterNumber);
+  const [selectedBattle, setSelectedBattle] = useState<number>(initialBattleNum);
+  const [heroes, setHeroes] = useState<HeroEntry[]>(() => buildInitHeroes(battle.team, battle.chapterNumber));
   const [mainPetId, setMainPetId] = useState<number | undefined>(undefined);
-  const [mainBuff, setMainBuff] = useState<number>(CHAPTER_DEFAULT_BUFF[chapter] ?? 0);
+  const [mainBuff, setMainBuff] = useState<number>(CHAPTER_DEFAULT_BUFF[battle.chapterNumber] ?? 0);
   const [mainBuffType, setMainBuffType] = useState<"A" | "B" | null>("A");
   const [talismanId, setTalismanId] = useState<number | undefined>(undefined);
   const [generatedJson, setGeneratedJson] = useState<string | null>(null);
@@ -386,9 +373,11 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
 
   useEffect(() => {
     if (open) {
-      setHeroes(initHeroes());
+      setSelectedChapter(battle.chapterNumber);
+      setSelectedBattle(initialBattleNum);
+      setHeroes(buildInitHeroes(battle.team, battle.chapterNumber));
       setMainPetId(undefined);
-      setMainBuff(CHAPTER_DEFAULT_BUFF[chapter] ?? 0);
+      setMainBuff(CHAPTER_DEFAULT_BUFF[battle.chapterNumber] ?? 0);
       setMainBuffType("A");
       setTalismanId(undefined);
       setGeneratedJson(null);
@@ -398,10 +387,18 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
     }
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const maxGrade = recommendedMaxGrade(chapter);
+  // ─── When chapter changes, update buff default ──────────────────────────────
 
+  const handleChapterChange = (ch: number) => {
+    setSelectedChapter(ch);
+    setMainBuff(CHAPTER_DEFAULT_BUFF[ch] ?? 0);
+  };
+
+  // ─── Derived from selected chapter/battle ─────────────────────────────────
+
+  const maxGrade = recommendedMaxGrade(selectedChapter);
+  const recommendedBossLevel = BATTLE_BOSS_LEVEL[selectedBattle] ?? null;
   const talismans = talismansData || [];
-
   const selectedTalisman = talismans.find(t => t.talismanId === talismanId);
 
   // ─── Hero editing helpers ──────────────────────────────────────────────────
@@ -429,15 +426,15 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
   // ─── Generate JSON ─────────────────────────────────────────────────────────
 
   const generateJson = () => {
-    const units = heroes.map(h => h.heroId);
+    const filledHeroes = heroes.filter(h => h.heroId !== 0);
+    const units = filledHeroes.map(h => h.heroId);
     const fragments: Record<string, number> = {};
     const favor: Record<string, number> = {};
 
-    for (const h of heroes) {
+    for (const h of filledHeroes) {
       fragments[h.heroId.toString()] = h.fragmentCount;
       if (h.favorPetId) {
         favor[h.heroId.toString()] = h.favorPetId;
-        // питомец-покровитель: 1 фрагмент
         fragments[h.favorPetId.toString()] = 1;
       }
     }
@@ -493,7 +490,7 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
     const entry = {
       id: Date.now(),
       battleGameId: battle.gameId,
-      chapterNumber: chapter,
+      chapterNumber: selectedChapter,
       battleType: battle.type,
       label: battle.originalLabel,
       json: generatedJson,
@@ -524,6 +521,7 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
 
   const handleAddVariantToCollection = () => {
     if (!generatedJson || !onAddToCollection) return;
+    const filledHeroes = heroes.filter(h => h.heroId !== 0);
     const variantItem: CollectedItem = {
       id: `variant-${battle.gameId}-${Date.now()}`,
       type: "variant",
@@ -531,7 +529,7 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
       label: `Вариант #${battle.gameId}`,
       desc: "",
       battleType: battle.type,
-      team: heroes.map(h => ({
+      team: filledHeroes.map(h => ({
         heroId: h.heroId,
         name: heroNameMap.get(h.heroId) || h.name || `ID ${h.heroId}`,
         icon: heroIconMap.get(h.heroId) || h.icon,
@@ -551,12 +549,51 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Wand2 className="h-5 w-5 text-primary" />
-            Редактор варианта — Гл. {chapter} #{battle.gameId}
+            Редактор варианта — #{battle.gameId}
           </DialogTitle>
         </DialogHeader>
 
         <div className="max-h-[75vh] overflow-y-auto pr-1">
         <div className="space-y-4">
+
+          {/* ── Target chapter/battle selector ── */}
+          <div className="flex items-center gap-3 flex-wrap bg-primary/5 border border-primary/20 rounded-md px-3 py-2">
+            <span className="text-xs font-semibold text-foreground">Создать вариант для:</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-muted-foreground">Глава</span>
+              <Select value={selectedChapter.toString()} onValueChange={(v) => handleChapterChange(parseInt(v))}>
+                <SelectTrigger className="h-7 w-16 text-xs" data-testid="select-target-chapter">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[1,2,3,4,5,6,7].map(ch => (
+                    <SelectItem key={ch} value={ch.toString()}>{ch}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-muted-foreground">Бой</span>
+              <Select value={selectedBattle.toString()} onValueChange={(v) => setSelectedBattle(parseInt(v))}>
+                <SelectTrigger className="h-7 w-16 text-xs" data-testid="select-target-battle">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[1,2,3,4,5,6,7,8].map(b => (
+                    <SelectItem key={b} value={b.toString()}>{b}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex gap-2 ml-auto flex-wrap">
+              <Badge variant="outline" className="text-xs">
+                Макс. грейд: <span className={`ml-1 font-semibold ${maxGrade === "red" ? "text-red-500" : maxGrade === "orange" ? "text-orange-500" : "text-purple-500"}`}>{maxGrade === "red" ? "Красный" : maxGrade === "orange" ? "Оранжевый" : "Фиолетовый"}</span>
+              </Badge>
+              {recommendedBossLevel != null && (
+                <Badge variant="outline" className="text-xs">bossLevel: {recommendedBossLevel}</Badge>
+              )}
+            </div>
+          </div>
 
           {/* ── Battle info ── */}
           <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground bg-muted/40 rounded-md px-3 py-2">
@@ -564,26 +601,52 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
             {invasionId != null && (
               <span><span className="font-medium text-foreground">invasionId:</span> {invasionId}</span>
             )}
-            {recommendedBossLevel != null && (
-              <span><span className="font-medium text-foreground">bossLevel:</span> {recommendedBossLevel}</span>
-            )}
           </div>
 
           {/* ── Heroes ── */}
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Герои</h3>
             {heroes.map((hero, idx) => {
-              const isOverGrade = GRADE_ORDER[hero.grade] > GRADE_ORDER[maxGrade];
-              const heroAllowedIds = favorMap.get(hero.heroId);
+              const isEmpty = hero.heroId === 0;
+              const isOverGrade = !isEmpty && GRADE_ORDER[hero.grade] > GRADE_ORDER[maxGrade];
+              const heroAllowedIds = !isEmpty ? favorMap.get(hero.heroId) : undefined;
               const allowedPets = heroAllowedIds
                 ? allPets.filter(p => heroAllowedIds.includes(p.petId))
                 : allPets;
+
+              if (isEmpty && pickerOpenIdx !== idx) {
+                return (
+                  <div key={idx} className="border border-dashed rounded-lg" data-testid={`hero-row-${idx}`}>
+                    <button
+                      className="w-full flex items-center gap-2 p-3 text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors rounded-lg"
+                      onClick={() => setPickerOpenIdx(idx)}
+                      data-testid={`button-pick-hero-${idx}`}
+                    >
+                      <div className="h-10 w-10 border-2 border-dashed border-muted-foreground/40 rounded-full flex items-center justify-center">
+                        <Plus className="h-4 w-4" />
+                      </div>
+                      <span className="text-sm">Слот {idx + 1} — нажмите для выбора героя</span>
+                    </button>
+                    {pickerOpenIdx === idx && (
+                      <div className="p-3 pt-0">
+                        <HeroPicker
+                          isHeroic={true}
+                          allHeroes={allHeroPool}
+                          allTitans={allTitanPool}
+                          currentHeroId={0}
+                          onSelect={(id) => replaceHero(idx, id)}
+                          onClose={() => setPickerOpenIdx(null)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              }
 
               return (
                 <div key={idx} className="border rounded-lg p-3 space-y-2" data-testid={`hero-row-${idx}`}>
                   {/* Hero row */}
                   <div className="flex items-center gap-2">
-                    {/* Avatar + picker */}
                     <div className="relative">
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -607,7 +670,6 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
                       <p className="text-xs text-muted-foreground">ID: {hero.heroId}</p>
                     </div>
 
-                    {/* Grade selector */}
                     <div className="flex items-center gap-1">
                       <Select
                         value={hero.grade}
@@ -646,7 +708,7 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
                           <AlertTriangle className="h-4 w-4 text-orange-500 flex-shrink-0" data-testid={`warn-grade-${idx}`} />
                         </TooltipTrigger>
                         <TooltipContent className="text-xs">
-                          Прокачка выше рекомендованной для главы {chapter} (макс: {GRADE_LABELS[maxGrade]})
+                          Прокачка выше рекомендованной для главы {selectedChapter} (макс: {GRADE_LABELS[maxGrade]})
                         </TooltipContent>
                       </Tooltip>
                     )}
@@ -655,7 +717,7 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
                   {/* Hero picker */}
                   {pickerOpenIdx === idx && (
                     <HeroPicker
-                      isHeroic={isHeroic}
+                      isHeroic={true}
                       allHeroes={allHeroPool}
                       allTitans={allTitanPool}
                       currentHeroId={hero.heroId}
@@ -770,7 +832,7 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
               />
             )}
             <Badge variant="outline" className="text-xs">
-              Гл. {chapter} → {CHAPTER_DEFAULT_BUFF[chapter] ?? 0}
+              Рек. Гл.{selectedChapter}: {CHAPTER_DEFAULT_BUFF[selectedChapter] ?? 0}
             </Badge>
           </div>
 

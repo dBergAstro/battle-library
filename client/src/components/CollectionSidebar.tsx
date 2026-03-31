@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2, ArrowUp, Download } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2, ArrowUp, Download, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -47,6 +47,7 @@ interface CollectionSidebarProps {
   onRemoveItem: (chapterSlotKey: string) => void;
   onClearCollection: () => void;
   maxBossId: number;
+  onEmptySlotClick?: (chapter: number, slot: number, type: "heroic" | "titanic") => void;
 }
 
 const CHAPTERS = 7;
@@ -242,6 +243,7 @@ export function CollectionSidebar({
   onRemoveItem,
   onClearCollection,
   maxBossId,
+  onEmptySlotClick,
 }: CollectionSidebarProps) {
   const getChapterSlotKey = (chapterIndex: number, slotIndex: number) => 
     `${chapterIndex}-${slotIndex}`;
@@ -445,9 +447,12 @@ export function CollectionSidebar({
                             "flex items-center justify-center rounded border border-dashed min-h-[70px] transition-colors",
                             item
                               ? "border-border bg-muted/30 border-solid"
-                              : "border-muted-foreground/30"
+                              : onEmptySlotClick
+                                ? "border-muted-foreground/30 hover:border-primary/50 hover:bg-primary/5 cursor-pointer"
+                                : "border-muted-foreground/30"
                           )}
                           data-testid={`slot-${chapterIndex + 1}-${slotIndex + 1}`}
+                          onClick={!item && onEmptySlotClick ? () => onEmptySlotClick(chapterIndex + 1, slotIndex + 1, isTitanic ? "titanic" : "heroic") : undefined}
                         >
                           {item ? (
                             <SlotContent 
@@ -457,6 +462,11 @@ export function CollectionSidebar({
                               onRemove={() => onRemoveItem(slotKey)}
                               recommendedId={item.type === "replay" ? getReplayRecommendedId(slotKey) : undefined}
                             />
+                          ) : onEmptySlotClick ? (
+                            <div className="flex flex-col items-center gap-0.5 text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors pointer-events-none">
+                              <Plus className="h-4 w-4" />
+                              <span className="text-[9px]">{slotIndex + 1}</span>
+                            </div>
                           ) : (
                             <span className="text-xs text-muted-foreground/50">
                               {slotIndex + 1}

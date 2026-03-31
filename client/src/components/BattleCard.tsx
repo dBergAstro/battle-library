@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import type { CollectedItem } from "./CollectionSidebar";
 import { TagsModal } from "./TagsModal";
 import { VariantEditorModal } from "./VariantEditorModal";
+import { TitanVariantEditorModal } from "./TitanVariantEditorModal";
 import { useState } from "react";
 
 interface BattleCardProps {
@@ -229,12 +230,21 @@ export function BattleCard({ battle, isCollected, onAddToCollection, tags = [], 
       </CardContent>
     </Card>
 
-    <VariantEditorModal
-      battle={battle}
-      open={variantOpen}
-      onClose={() => setVariantOpen(false)}
-      onAddToCollection={onAddToCollection}
-    />
+    {battle.type === "titanic" ? (
+      <TitanVariantEditorModal
+        battle={battle}
+        open={variantOpen}
+        onClose={() => setVariantOpen(false)}
+        onAddToCollection={onAddToCollection}
+      />
+    ) : (
+      <VariantEditorModal
+        battle={battle}
+        open={variantOpen}
+        onClose={() => setVariantOpen(false)}
+        onAddToCollection={onAddToCollection}
+      />
+    )}
     </>
   );
 }
