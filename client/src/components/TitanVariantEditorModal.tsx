@@ -150,7 +150,10 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
   const { data: heroesData } = useQuery<HeroesData>({ queryKey: ["/api/heroes"] });
   const { data: spiritData } = useQuery<SpiritSkillsData>({ queryKey: ["/api/spirit-skills"] });
   const { data: titanElementsRaw } = useQuery<TitanElementsData[]>({ queryKey: ["/api/titan-elements"] });
-  const { data: battlesData } = useQuery<{ attackTeams: Array<{ bossId: number | null; invasionId: number | null }> }>({ queryKey: ["/api/battles"] });
+  const { data: battlesData } = useQuery<{
+    attackTeams: Array<{ bossId: number | null; invasionId: number | null }>;
+    battles: Array<{ gameId: number; chapterNumber: number; battleNumber: string; legacyBattleNum: number | null }>;
+  }>({ queryKey: ["/api/battles"] });
 
   // ─── Derived info ──────────────────────────────────────────────────────────
 
@@ -165,6 +168,21 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
     const m = battle.battleNumber.match(/(\d+)/);
     return m ? parseInt(m[1], 10) : 1;
   }, [battle.legacyBattleNum, battle.battleNumber]);
+
+  // Map (chapter-battleNum) → gameId for recommended recording ID
+  const chapterBattleToGameId = useMemo(() => {
+    if (!battlesData?.battles) return new Map<string, number>();
+    const map = new Map<string, number>();
+    for (const b of battlesData.battles) {
+      let bNum: number | null = b.legacyBattleNum;
+      if (bNum == null) {
+        const m = b.battleNumber.match(/(\d+)/);
+        bNum = m ? parseInt(m[1], 10) : null;
+      }
+      if (bNum != null) map.set(`${b.chapterNumber}-${bNum}`, b.gameId);
+    }
+    return map;
+  }, [battlesData]);
 
   const titanPool = useMemo(() => {
     if (!heroesData) return [];
@@ -407,11 +425,12 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
   const handleAddToCollection = () => {
     if (!generatedJson || !onAddToCollection) return;
     const filledTitans = titans.filter(t => t.titanId !== 0);
+    const recId = chapterBattleToGameId.get(`${selectedChapter}-${selectedBattle}`) ?? battle.gameId;
     const item: CollectedItem = {
       id: `variant-${battle.gameId}-${Date.now()}`,
       type: "variant",
-      gameId: selectedBattle,
-      label: `Вариант #${selectedBattle}`,
+      gameId: recId,
+      label: `Вариант #${recId}`,
       desc: "",
       battleType: battle.type,
       team: filledTitans.map(t => ({
