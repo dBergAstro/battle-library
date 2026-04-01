@@ -339,7 +339,7 @@ export function CollectionSidebar({
     <>
       <div 
         className="fixed left-1/2 -translate-x-1/2 z-[9999] flex gap-1 transition-[top] duration-200 ease-out"
-        style={{ top: isOpen ? "200px" : "0" }}
+        style={{ top: isOpen ? "280px" : "0" }}
       >
         <Button
           size="sm"
@@ -392,7 +392,7 @@ export function CollectionSidebar({
       <div
         className="fixed left-0 right-0 top-0 bg-card border-b border-border z-[9998] shadow-lg transition-transform duration-200 ease-out"
         style={{ 
-          height: "200px",
+          height: "280px",
           transform: isOpen ? "translateY(0)" : "translateY(-100%)"
         }}
       >
@@ -444,7 +444,7 @@ export function CollectionSidebar({
                         <div
                           key={slotIndex}
                           className={cn(
-                            "flex items-center justify-center rounded border border-dashed min-h-[70px] transition-colors",
+                            "flex items-center justify-center rounded border border-dashed min-h-[110px] transition-colors",
                             item
                               ? "border-border bg-muted/30 border-solid"
                               : onEmptySlotClick
