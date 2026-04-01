@@ -525,8 +525,8 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
     const variantItem: CollectedItem = {
       id: `variant-${battle.gameId}-${Date.now()}`,
       type: "variant",
-      gameId: battle.gameId,
-      label: `Вариант #${battle.gameId}`,
+      gameId: selectedBattle,
+      label: `Вариант #${selectedBattle}`,
       desc: "",
       battleType: battle.type,
       team: filledHeroes.map(h => ({

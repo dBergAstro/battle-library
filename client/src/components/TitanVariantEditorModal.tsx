@@ -410,8 +410,8 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
     const item: CollectedItem = {
       id: `variant-${battle.gameId}-${Date.now()}`,
       type: "variant",
-      gameId: battle.gameId,
-      label: `Вариант #${battle.gameId}`,
+      gameId: selectedBattle,
+      label: `Вариант #${selectedBattle}`,
       desc: "",
       battleType: battle.type,
       team: filledTitans.map(t => ({
