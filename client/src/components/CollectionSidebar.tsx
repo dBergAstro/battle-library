@@ -93,7 +93,7 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
         ) : item.type === "variant" ? (
           <div className="flex items-center gap-1 ml-3">
             <span className="text-xs font-mono font-semibold text-primary">
-              #{item.gameId}
+              #{recommendedId ?? item.gameId}
             </span>
             <span className="text-[9px] px-0.5 rounded bg-primary/15 text-primary font-semibold leading-none py-0.5">В</span>
             {item.mainBuff != null && item.mainBuff > 0 && (
@@ -268,18 +268,18 @@ export function CollectionSidebar({
     return false;
   };
 
-  // Calculate recommended IDs for replays in order of their position
-  const getReplayRecommendedId = (slotKey: string): number => {
-    let replayIndex = 0;
+  // Calculate sequential IDs for replays AND variants in order of their position
+  const getSequentialId = (slotKey: string): number => {
+    let seqIndex = 0;
     for (let ch = 0; ch < CHAPTERS; ch++) {
       for (let sl = 0; sl < SLOTS_PER_CHAPTER; sl++) {
         const key = `${ch}-${sl}`;
         const item = collectedItems.get(key);
-        if (item?.type === "replay") {
+        if (item?.type === "replay" || item?.type === "variant") {
           if (key === slotKey) {
-            return maxBossId + 1 + replayIndex;
+            return maxBossId + 1 + seqIndex;
           }
-          replayIndex++;
+          seqIndex++;
         }
       }
     }
@@ -299,9 +299,9 @@ export function CollectionSidebar({
         const key = `${ch}-${sl}`;
         const item = collectedItems.get(key);
         
-        if (item?.type === "replay") {
-          // For replays, use recommended ID
-          result[`boss_${bossIndex}`] = getReplayRecommendedId(key);
+        if (item?.type === "replay" || item?.type === "variant") {
+          // For replays and variants, use sequential ID
+          result[`boss_${bossIndex}`] = getSequentialId(key);
         } else if (item) {
           // For battles, use gameId
           result[`boss_${bossIndex}`] = item.gameId;
@@ -460,7 +460,7 @@ export function CollectionSidebar({
                               slotKey={slotKey}
                               slotNumber={slotIndex + 1}
                               onRemove={() => onRemoveItem(slotKey)}
-                              recommendedId={item.type === "replay" ? getReplayRecommendedId(slotKey) : undefined}
+                              recommendedId={(item.type === "replay" || item.type === "variant") ? getSequentialId(slotKey) : undefined}
                             />
                           ) : onEmptySlotClick ? (
                             <div className="flex flex-col items-center gap-0.5 text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors pointer-events-none">
