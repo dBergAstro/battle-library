@@ -587,7 +587,7 @@ export default function BattleLibrary() {
 
       <div 
         className="container max-w-[1600px] mx-auto px-4 py-4 space-y-4 transition-[margin] duration-200 ease-out"
-        style={{ marginTop: collectionOpen ? "200px" : "0" }}
+        style={{ marginTop: collectionOpen ? "288px" : "0" }}
       >
         <header 
           className="space-y-3 overflow-hidden transition-all duration-200 ease-out"
@@ -667,7 +667,10 @@ export default function BattleLibrary() {
               />
 
               {filteredList.length > 0 ? (
-                <ScrollArea className="h-[calc(100vh-320px)] min-h-[400px]">
+                <ScrollArea
+                  className="min-h-[300px]"
+                  style={{ height: collectionOpen ? "calc(100vh - 600px)" : "calc(100vh - 320px)" }}
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-4">
                     {filteredList.map((item) => {
                       if (item.type === "battle") {
