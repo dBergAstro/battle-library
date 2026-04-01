@@ -224,6 +224,7 @@ export const collectionItems = pgTable("collection_items", {
   mainBuff: integer("main_buff"),
   totemsJson: text("totems_json"),
   bossHeroId: integer("boss_hero_id"),
+  talismanJson: text("talisman_json"),
   createdAt: bigint("created_at", { mode: "number" }).notNull(),
 });
 

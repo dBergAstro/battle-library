@@ -55,6 +55,7 @@ export function ReplayCard({ replay, isCollected, onAddToCollection, tags = [], 
             grade: s.grade
           }))
         })),
+        talisman: replay.talisman ? { name: replay.talisman.name, iconUrl: replay.talisman.icon ?? null } : undefined,
       };
       onAddToCollection(item);
     }

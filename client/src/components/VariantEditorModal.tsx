@@ -555,6 +555,7 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
       })),
       rawDefendersFragments: generatedJson,
       mainBuff: mainBuffType ? mainBuff : undefined,
+      talisman: selectedTalisman ? { name: selectedTalisman.name, iconUrl: selectedTalisman.iconUrl ?? null } : undefined,
     };
     onAddToCollection(variantItem);
     onClose();

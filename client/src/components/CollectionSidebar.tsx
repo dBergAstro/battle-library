@@ -38,6 +38,7 @@ export interface CollectedItem {
   bossHeroId?: number; // ID главного героя боя
   mainBuff?: number; // Размер основного баффа
   totems?: CollectedTotem[]; // Тотемы для титанических боёв
+  talisman?: { name: string; iconUrl?: string | null }; // Талисман (если есть)
 }
 
 interface CollectionSidebarProps {
@@ -125,6 +126,19 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
           </div>
         )}
         <div className="flex items-center gap-0.5">
+          {item.talisman && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center justify-center h-5 w-5 shrink-0 cursor-default">
+                  {item.talisman.iconUrl
+                    ? <img src={item.talisman.iconUrl} alt={item.talisman.name} className="h-4 w-4 object-contain" />
+                    : <span className="text-[8px] px-0.5 rounded bg-yellow-500/20 text-yellow-600 font-bold leading-none py-0.5">Т</span>
+                  }
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">{item.talisman.name}</TooltipContent>
+            </Tooltip>
+          )}
           {(item.type === "replay" || item.type === "variant") && item.rawDefendersFragments && (
             <Button
               size="icon"

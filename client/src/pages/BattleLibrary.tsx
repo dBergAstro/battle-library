@@ -117,6 +117,7 @@ export default function BattleLibrary() {
           mainBuff: item.mainBuff ?? undefined,
           totems: item.totemsJson ? JSON.parse(item.totemsJson) : undefined,
           bossHeroId: item.bossHeroId ?? undefined,
+          talisman: item.talismanJson ? JSON.parse(item.talismanJson) : undefined,
         });
       }
       setCollectedItems(map);
@@ -137,6 +138,7 @@ export default function BattleLibrary() {
         mainBuff: data.item.mainBuff,
         totems: data.item.totems,
         bossHeroId: data.item.bossHeroId,
+        talisman: data.item.talisman,
       });
     },
     onSuccess: () => {

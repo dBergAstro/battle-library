@@ -727,7 +727,7 @@ export async function registerRoutes(
 
   app.post("/api/collection", async (req, res) => {
     try {
-      const { itemId, itemType, gameId, label, desc, battleType, team, rawDefendersFragments, mainBuff, totems, bossHeroId } = req.body;
+      const { itemId, itemType, gameId, label, desc, battleType, team, rawDefendersFragments, mainBuff, totems, bossHeroId, talisman } = req.body;
       const numericGameId = typeof gameId === 'string' ? parseInt(gameId, 10) : gameId;
       if (isNaN(numericGameId)) {
         res.status(400).json({ error: "Invalid gameId" });
@@ -745,6 +745,7 @@ export async function registerRoutes(
         mainBuff: mainBuff ?? null,
         totemsJson: totems ? JSON.stringify(totems) : null,
         bossHeroId: bossHeroId ?? null,
+        talismanJson: talisman ? JSON.stringify(talisman) : null,
         createdAt: Date.now(),
       });
       res.json({ success: true });
