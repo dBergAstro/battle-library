@@ -768,6 +768,11 @@ export async function registerRoutes(
         res.status(400).json({ error: "Invalid gameId" });
         return;
       }
+      // Extract slotKey (everything before the first colon) and delete any existing item for that slot
+      const slotKey = typeof itemId === 'string' ? itemId.split(":")[0] : null;
+      if (slotKey) {
+        await storage.removeCollectionItemBySlotKey(slotKey);
+      }
       await storage.addCollectionItem({
         itemId,
         itemType,

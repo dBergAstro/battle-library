@@ -11,7 +11,7 @@ import {
   type HeroFavorPet
 } from "@shared/schema";
 import { db } from "./db";
-import { gt, sql, eq, and } from "drizzle-orm";
+import { gt, sql, eq, and, like } from "drizzle-orm";
 
 export interface IStorage {
   getAllBossList(): Promise<BossList[]>;
@@ -75,6 +75,7 @@ export interface IStorage {
   getAllCollectionItems(): Promise<CollectionItem[]>;
   addCollectionItem(data: InsertCollectionItem): Promise<void>;
   removeCollectionItem(itemId: string): Promise<void>;
+  removeCollectionItemBySlotKey(slotKey: string): Promise<void>;
   clearCollection(): Promise<void>;
 
   getHeroFavorPets(): Promise<HeroFavorPet[]>;
@@ -395,6 +396,10 @@ export class DatabaseStorage implements IStorage {
 
   async removeCollectionItem(itemId: string): Promise<void> {
     await db.delete(collectionItems).where(eq(collectionItems.itemId, itemId));
+  }
+
+  async removeCollectionItemBySlotKey(slotKey: string): Promise<void> {
+    await db.delete(collectionItems).where(like(collectionItems.itemId, `${slotKey}:%`));
   }
 
   async clearCollection(): Promise<void> {

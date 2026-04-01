@@ -140,9 +140,10 @@ interface TitanVariantEditorModalProps {
   open: boolean;
   onClose: () => void;
   onAddToCollection?: (item: CollectedItem) => void;
+  initialItem?: CollectedItem;
 }
 
-export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollection }: TitanVariantEditorModalProps) {
+export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollection, initialItem }: TitanVariantEditorModalProps) {
   const { toast } = useToast();
 
   // ─── Load data ─────────────────────────────────────────────────────────────
@@ -245,10 +246,16 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
       setSelectedBattle(initialBattleNum);
       setTitans(buildInitTitans(battle.team, battle.chapterNumber));
       setTotemSkills({});
-      setMainBuff(CHAPTER_DEFAULT_BUFF[battle.chapterNumber] ?? 0);
-      setMainBuffType("A");
       setGeneratedJson(null);
       setPickerOpenIdx(null);
+      if (initialItem) {
+        const savedBuff = initialItem.mainBuff ?? 0;
+        setMainBuff(savedBuff);
+        setMainBuffType(savedBuff > 0 ? "A" : null);
+      } else {
+        setMainBuff(CHAPTER_DEFAULT_BUFF[battle.chapterNumber] ?? 0);
+        setMainBuffType("A");
+      }
     }
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 

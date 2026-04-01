@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2, ArrowUp, Download, Plus } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Copy, Check, AlertCircle, Star, Trash2, ArrowUp, Download, Plus, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -49,16 +49,18 @@ interface CollectionSidebarProps {
   onClearCollection: () => void;
   maxBossId: number;
   onEmptySlotClick?: (chapter: number, slot: number, type: "heroic" | "titanic") => void;
+  onEditItem?: (slotKey: string, chapterIdx: number, slotIdx: number) => void;
 }
 
 const CHAPTERS = 7;
 const SLOTS_PER_CHAPTER = 8;
 
-function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: { 
+function SlotContent({ item, slotKey, slotNumber, onRemove, onEdit, recommendedId }: { 
   item: CollectedItem; 
   slotKey: string; 
   slotNumber: number;
   onRemove: () => void;
+  onEdit?: () => void;
   recommendedId?: number;
 }) {
   const [copied, setCopied] = useState(false);
@@ -137,6 +139,22 @@ function SlotContent({ item, slotKey, slotNumber, onRemove, recommendedId }: {
                 </div>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="text-xs">{item.talisman.name}</TooltipContent>
+            </Tooltip>
+          )}
+          {item.type === "variant" && onEdit && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-5 w-5"
+                  onClick={(e) => { e.stopPropagation(); onEdit(); }}
+                  data-testid={`button-edit-${slotKey}`}
+                >
+                  <Pencil className="h-3 w-3" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">Редактировать</TooltipContent>
             </Tooltip>
           )}
           {(item.type === "replay" || item.type === "variant") && item.rawDefendersFragments && (
@@ -258,6 +276,7 @@ export function CollectionSidebar({
   onClearCollection,
   maxBossId,
   onEmptySlotClick,
+  onEditItem,
 }: CollectionSidebarProps) {
   const getChapterSlotKey = (chapterIndex: number, slotIndex: number) => 
     `${chapterIndex}-${slotIndex}`;
@@ -474,6 +493,7 @@ export function CollectionSidebar({
                               slotKey={slotKey}
                               slotNumber={slotIndex + 1}
                               onRemove={() => onRemoveItem(slotKey)}
+                              onEdit={onEditItem ? () => onEditItem(slotKey, chapterIndex, slotIndex) : undefined}
                               recommendedId={(item.type === "replay" || item.type === "variant") ? getSequentialId(slotKey) : undefined}
                             />
                           ) : onEmptySlotClick ? (

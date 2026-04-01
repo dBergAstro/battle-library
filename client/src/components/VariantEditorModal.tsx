@@ -272,9 +272,10 @@ interface VariantEditorModalProps {
   open: boolean;
   onClose: () => void;
   onAddToCollection?: (item: CollectedItem) => void;
+  initialItem?: CollectedItem;
 }
 
-export function VariantEditorModal({ battle, open, onClose, onAddToCollection }: VariantEditorModalProps) {
+export function VariantEditorModal({ battle, open, onClose, onAddToCollection, initialItem }: VariantEditorModalProps) {
   const { toast } = useToast();
 
   // ─── Load data ─────────────────────────────────────────────────────────────
@@ -395,13 +396,28 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection }:
       setSelectedBattle(initialBattleNum);
       setHeroes(buildInitHeroes(battle.team, battle.chapterNumber));
       setMainPetId(undefined);
-      setMainBuff(CHAPTER_DEFAULT_BUFF[battle.chapterNumber] ?? 0);
-      setMainBuffType("A");
-      setTalismanId(undefined);
       setGeneratedJson(null);
       setPickerOpenIdx(null);
       setFavorPickerIdx(null);
       setPetPickerOpen(false);
+
+      if (initialItem) {
+        // Restore mainBuff and buffType from the saved item
+        const savedBuff = initialItem.mainBuff ?? 0;
+        setMainBuff(savedBuff);
+        setMainBuffType(savedBuff > 0 ? "A" : null);
+        // Restore talisman by matching name against loaded talismans
+        if (initialItem.talisman && talismansData) {
+          const matched = talismansData.find(t => t.name === initialItem.talisman!.name);
+          setTalismanId(matched?.talismanId);
+        } else {
+          setTalismanId(undefined);
+        }
+      } else {
+        setMainBuff(CHAPTER_DEFAULT_BUFF[battle.chapterNumber] ?? 0);
+        setMainBuffType("A");
+        setTalismanId(undefined);
+      }
     }
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -75,11 +75,12 @@ export default function BattleLibrary() {
   const [modalOpen, setModalOpen] = useState(false);
   const [itemToAdd, setItemToAdd] = useState<CollectedItem | null>(null);
 
-  // ─── Slot editor state (open editor directly from empty slot) ────────────────
+  // ─── Slot editor state (open editor directly from empty slot or editing) ──────
   const [slotEditorOpen, setSlotEditorOpen] = useState(false);
   const [slotEditorChapterIdx, setSlotEditorChapterIdx] = useState(0);
   const [slotEditorSlotIdx, setSlotEditorSlotIdx] = useState(0);
   const [slotEditorType, setSlotEditorType] = useState<"heroic" | "titanic">("heroic");
+  const [editingItem, setEditingItem] = useState<CollectedItem | null>(null);
 
   interface ServerCollectionItem {
     id: number;
@@ -214,12 +215,24 @@ export default function BattleLibrary() {
   const handleSlotEditorSave = useCallback((item: CollectedItem) => {
     handleConfirmAdd(slotEditorChapterIdx, slotEditorSlotIdx, item);
     setSlotEditorOpen(false);
+    setEditingItem(null);
   }, [handleConfirmAdd, slotEditorChapterIdx, slotEditorSlotIdx]);
 
-  // Synthetic battle for slot editor (chapter + slot pre-filled, empty team)
+  // Open editor for an existing variant item to edit it
+  const handleEditItem = useCallback((slotKey: string, chapterIdx: number, slotIdx: number) => {
+    const item = collectedItems.get(slotKey);
+    if (!item || item.type !== "variant") return;
+    setEditingItem(item);
+    setSlotEditorChapterIdx(chapterIdx);
+    setSlotEditorSlotIdx(slotIdx);
+    setSlotEditorType(item.battleType);
+    setSlotEditorOpen(true);
+  }, [collectedItems]);
+
+  // Synthetic battle for slot editor (chapter + slot pre-filled, team from editingItem if editing)
   const slotEditorBattle = useMemo((): import("@shared/schema").ProcessedBattle => ({
     id: -1,
-    gameId: 0,
+    gameId: editingItem?.gameId ?? 0,
     chapterNumber: slotEditorChapterIdx + 1,
     adventureName: `Глава ${slotEditorChapterIdx + 1}`,
     originalLabel: `Глава ${slotEditorChapterIdx + 1}, Бой ${slotEditorSlotIdx + 1}`,
@@ -227,8 +240,8 @@ export default function BattleLibrary() {
     legacyBattleNum: slotEditorSlotIdx + 1,
     type: slotEditorType,
     totems: [],
-    team: [],
-  }), [slotEditorChapterIdx, slotEditorSlotIdx, slotEditorType]);
+    team: editingItem?.team ?? [],
+  }), [slotEditorChapterIdx, slotEditorSlotIdx, slotEditorType, editingItem]);
 
   const { data, isLoading, error } = useQuery<BattlesResponse>({
     queryKey: ["/api/battles"],
@@ -558,21 +571,24 @@ export default function BattleLibrary() {
         onClearCollection={handleClearCollection}
         maxBossId={data?.maxBossId || 0}
         onEmptySlotClick={handleEmptySlotClick}
+        onEditItem={handleEditItem}
       />
 
       {slotEditorType === "titanic" ? (
         <TitanVariantEditorModal
           battle={slotEditorBattle}
           open={slotEditorOpen}
-          onClose={() => setSlotEditorOpen(false)}
+          onClose={() => { setSlotEditorOpen(false); setEditingItem(null); }}
           onAddToCollection={handleSlotEditorSave}
+          initialItem={editingItem ?? undefined}
         />
       ) : (
         <VariantEditorModal
           battle={slotEditorBattle}
           open={slotEditorOpen}
-          onClose={() => setSlotEditorOpen(false)}
+          onClose={() => { setSlotEditorOpen(false); setEditingItem(null); }}
           onAddToCollection={handleSlotEditorSave}
+          initialItem={editingItem ?? undefined}
         />
       )}
       
