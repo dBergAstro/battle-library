@@ -140,6 +140,7 @@ export function GroupedReplayCard({
             grade: s.grade
           }))
         })),
+        talisman: r.talisman ? { name: r.talisman.name, iconUrl: r.talisman.icon ?? null } : undefined,
       };
       onAddToCollection(item);
     }

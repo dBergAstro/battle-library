@@ -717,8 +717,43 @@ export async function registerRoutes(
   // Collection endpoints
   app.get("/api/collection", async (_req, res) => {
     try {
-      const items = await storage.getAllCollectionItems();
-      res.json(items);
+      const [items, allTalismans] = await Promise.all([
+        storage.getAllCollectionItems(),
+        storage.getAllTalismans(),
+      ]);
+
+      // Auto-enrich items: if talismanJson is null but rawDefendersFragments has a talisman effect, populate it
+      const enriched = items.map(item => {
+        if (item.talismanJson) return item;
+        if (!item.rawDefendersFragments) return item;
+        try {
+          const frags = JSON.parse(item.rawDefendersFragments);
+          // Collect all effect keys regardless of structure (array of strings OR object keys)
+          const effectKeys: string[] = [];
+          const collectEffects = (effects: unknown) => {
+            if (Array.isArray(effects)) {
+              for (const e of effects) if (typeof e === "string") effectKeys.push(e);
+            } else if (effects && typeof effects === "object") {
+              effectKeys.push(...Object.keys(effects as object));
+            }
+          };
+          if (Array.isArray(frags)) {
+            for (const unit of frags) {
+              collectEffects(unit?.effects);
+              if (Array.isArray(unit?.favor)) for (const f of unit.favor) collectEffects(f?.effects);
+            }
+          } else if (frags && typeof frags === "object") {
+            collectEffects((frags as Record<string, unknown>).effects);
+          }
+          const matched = allTalismans.find(t => effectKeys.some(k => k.startsWith(t.effectKey)));
+          if (matched) {
+            return { ...item, talismanJson: JSON.stringify({ name: matched.name, iconUrl: matched.iconUrl ?? null }) };
+          }
+        } catch { /* ignore */ }
+        return item;
+      });
+
+      res.json(enriched);
     } catch (error) {
       console.error("Error fetching collection:", error);
       res.status(500).json({ error: "Failed to fetch collection" });
