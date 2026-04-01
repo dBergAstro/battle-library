@@ -47,7 +47,7 @@ interface HeroesData {
 }
 
 interface SpiritSkillsData {
-  spiritSkills: Array<{ id: number; skillId: number; name: string }>;
+  spiritSkills: Array<{ id: number; skillId: number; name: string; skillType?: string | null }>;
   spiritIcons: Array<{ id: number; skillId: number; iconUrl: string }>;
 }
 
@@ -218,9 +218,13 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
     return spiritData.spiritSkills.map(s => ({
       skillId: s.skillId,
       name: s.name,
+      skillType: s.skillType,
       icon: iconMap.get(s.skillId),
     })).sort((a, b) => a.skillId - b.skillId);
   }, [spiritData]);
+
+  const elementalSkills = useMemo(() => allSpiritSkills.filter(s => !s.skillType || s.skillType === "elemental"), [allSpiritSkills]);
+  const primalSkills = useMemo(() => allSpiritSkills.filter(s => !s.skillType || s.skillType === "primal"), [allSpiritSkills]);
 
   // ─── State ─────────────────────────────────────────────────────────────────
 
@@ -695,7 +699,7 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="__none__">— Не выбран —</SelectItem>
-                          {allSpiritSkills.map(s => (
+                          {elementalSkills.map(s => (
                             <SelectItem key={s.skillId} value={s.skillId.toString()}>
                               {s.name} ({s.skillId})
                             </SelectItem>
@@ -732,7 +736,7 @@ export function TitanVariantEditorModal({ battle, open, onClose, onAddToCollecti
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="__none__">— Не выбран —</SelectItem>
-                          {allSpiritSkills.map(s => (
+                          {primalSkills.map(s => (
                             <SelectItem key={s.skillId} value={s.skillId.toString()}>
                               {s.name} ({s.skillId})
                             </SelectItem>

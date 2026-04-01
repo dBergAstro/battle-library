@@ -157,6 +157,7 @@ export const spiritSkills = pgTable("spirit_skills", {
   id: serial("id").primaryKey(),
   skillId: integer("skill_id").notNull().unique(),
   name: text("name").notNull(),
+  skillType: text("skill_type"), // "elemental" | "primal"
 });
 
 export const insertSpiritSkillSchema = createInsertSchema(spiritSkills).omit({ id: true });
