@@ -74,13 +74,22 @@ function normalizeIconItems(
   });
 }
 
+// Hardcoded skill type mapping (fixed game IDs — does not change)
+const ELEMENTAL_SKILL_IDS = new Set([4500, 4502, 4503, 4509, 4510, 4511]);
+const PRIMAL_SKILL_IDS = new Set([4506, 4507, 4508, 4514, 4515]);
+
 function normalizeSpiritSkills(
   skills: any[]
-): Array<{ skillId: number; name: string }> {
-  return (skills ?? []).map((item: any) => ({
-    skillId: Number(item.skillId ?? item.skill_id ?? item.id),
-    name: item.name,
-  }));
+): Array<{ skillId: number; name: string; skillType?: string }> {
+  return (skills ?? []).map((item: any) => {
+    const skillId = Number(item.skillId ?? item.skill_id ?? item.id);
+    const skillType: string | undefined =
+      item.skillType ?? item.skill_type
+      ?? (ELEMENTAL_SKILL_IDS.has(skillId) ? "elemental"
+        : PRIMAL_SKILL_IDS.has(skillId) ? "primal"
+        : undefined);
+    return { skillId, name: item.name, skillType };
+  });
 }
 
 function normalizeHeroNames(
@@ -380,6 +389,18 @@ async function routeToGas(
     const result = await gsRun<{ items: any[] } | any[]>("getCollection");
     const items = Array.isArray(result) ? result : ((result as any)?.items ?? []);
     return makeJsonResponse(items);
+  }
+
+  // GET /api/spirit-skills
+  // Spirit skills are embedded in the battles response from GAS, but the TitanVariantEditorModal
+  // queries this endpoint separately. Extract from getBattles() to avoid a redundant GAS call.
+  if (m === "GET" && u === "/api/spirit-skills") {
+    const raw = await gsRun<any>("getBattles");
+    const rawSkills = raw?.spiritSkills ?? raw?.spirit_skills ?? [];
+    const rawIcons  = raw?.spiritIcons  ?? raw?.spirit_icons  ?? [];
+    const spiritSkills = normalizeSpiritSkills(rawSkills);
+    const spiritIcons  = normalizeIconItems(rawIcons, "skillId", "skill_id");
+    return makeJsonResponse({ spiritSkills, spiritIcons });
   }
 
   // GET /api/admin/stats
