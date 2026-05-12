@@ -291,6 +291,57 @@ function compressBase64Image(base64: string, maxPx = 96): Promise<string> {
   });
 }
 
+// ─── GAS response cache ───────────────────────────────────────────────────────
+// Module-level promise cache: GAS function name → in-flight or settled Promise.
+// All routes that extract slices from getBattles() share one round-trip per session.
+const _gasPromiseCache = new Map<string, Promise<any>>();
+
+/**
+ * Like gsRun, but reuses an in-flight or already-settled Promise for the same
+ * zero-argument GAS function.  Concurrent callers all await the same Promise.
+ * The first call goes through gsRun (logs timing via gasLogger).
+ * Subsequent callers get the cached Promise with a debug note — no new GAS call.
+ * On failure the cache entry is removed so the next call can retry.
+ */
+function gsRunCached<T>(fnName: string): Promise<T> {
+  if (!_gasPromiseCache.has(fnName)) {
+    const p = gsRun<T>(fnName).catch((e: any) => {
+      _gasPromiseCache.delete(fnName);
+      return Promise.reject(e);
+    });
+    _gasPromiseCache.set(fnName, p);
+  } else {
+    console.debug(`[gasFetch] ${fnName}: cache hit — reusing existing Promise`);
+  }
+  return _gasPromiseCache.get(fnName) as Promise<T>;
+}
+
+/** Cached, normalized getBattles() result — shared by all /api/* slice routes. */
+let _normalizedBattlesCache: Promise<any> | null = null;
+function getCachedNormalizedBattles(): Promise<any> {
+  if (!_normalizedBattlesCache) {
+    _normalizedBattlesCache = gsRunCached<any>("getBattles")
+      .then(normalizeBattlesData)
+      .catch((e) => { _normalizedBattlesCache = null; return Promise.reject(e); });
+  }
+  return _normalizedBattlesCache;
+}
+
+/**
+ * Call after any admin upload that mutates battle/hero/pet/talisman data so the
+ * next read fetches fresh data instead of serving stale cached values.
+ */
+export function clearGasFunctionCache(fnName?: string): void {
+  if (fnName) {
+    _gasPromiseCache.delete(fnName);
+    if (fnName === "getBattles") _normalizedBattlesCache = null;
+  } else {
+    _gasPromiseCache.clear();
+    _normalizedBattlesCache = null;
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function gsRunRaw<T>(fnName: string, ...args: any[]): Promise<T> {
   return new Promise((resolve, reject) => {
     const runner = (window as any).google.script.run
@@ -349,14 +400,11 @@ async function routeToGas(
   const m = method.toUpperCase();
 
   // GET /api/battles
+  // Uses getCachedNormalizedBattles() so the getBattles() round-trip and normalization
+  // are shared with all slice routes (/api/heroes, /api/pets, etc.).
   if (m === "GET" && u === "/api/battles") {
-    const raw = await gsRun<any>("getBattles");
-    console.debug(
-      "[GAS /api/battles] top-level keys:", Object.keys(raw ?? {}),
-      "| first bossList item:", (raw?.bossList ?? raw?.boss_list ?? [])[0]
-    );
-    const data = normalizeBattlesData(raw);
-    return makeJsonResponse(data);
+    const norm = await getCachedNormalizedBattles();
+    return makeJsonResponse(norm);
   }
 
   // GET /api/replays
@@ -392,39 +440,33 @@ async function routeToGas(
   }
 
   // GET /api/spirit-skills
-  // Spirit skills are embedded in the battles response from GAS, but the TitanVariantEditorModal
-  // queries this endpoint separately. Extract from getBattles() to avoid a redundant GAS call.
+  // Reuses getCachedNormalizedBattles() — no extra getBattles() call.
   if (m === "GET" && u === "/api/spirit-skills") {
-    const raw = await gsRun<any>("getBattles");
-    const rawSkills = raw?.spiritSkills ?? raw?.spirit_skills ?? [];
-    const rawIcons  = raw?.spiritIcons  ?? raw?.spirit_icons  ?? [];
-    const spiritSkills = normalizeSpiritSkills(rawSkills);
-    const spiritIcons  = normalizeIconItems(rawIcons, "skillId", "skill_id");
-    return makeJsonResponse({ spiritSkills, spiritIcons });
+    const norm = await getCachedNormalizedBattles();
+    return makeJsonResponse({ spiritSkills: norm.spiritSkills ?? [], spiritIcons: norm.spiritIcons ?? [] });
   }
 
   // GET /api/heroes
-  // VariantEditorModal and TitanVariantEditorModal call this endpoint to load hero icons and names.
-  // Extract from getBattles() — same pattern as /api/spirit-skills.
+  // VariantEditorModal and TitanVariantEditorModal call this endpoint.
+  // Reuses getCachedNormalizedBattles() — no extra getBattles() call.
   if (m === "GET" && u === "/api/heroes") {
-    const raw = await gsRun<any>("getBattles");
-    const norm = normalizeBattlesData(raw);
+    const norm = await getCachedNormalizedBattles();
     return makeJsonResponse({ heroIcons: norm.heroIcons ?? [], heroNames: norm.heroNames ?? [] });
   }
 
   // GET /api/pets
   // VariantEditorModal calls this endpoint for pet icons and names.
+  // Reuses getCachedNormalizedBattles() — no extra getBattles() call.
   if (m === "GET" && u === "/api/pets") {
-    const raw = await gsRun<any>("getBattles");
-    const norm = normalizeBattlesData(raw);
+    const norm = await getCachedNormalizedBattles();
     return makeJsonResponse({ petIcons: norm.petIcons ?? [], heroNames: norm.heroNames ?? [] });
   }
 
   // GET /api/talismans
   // VariantEditorModal calls this endpoint to load the talisman list.
+  // Reuses getCachedNormalizedBattles() — no extra getBattles() call.
   if (m === "GET" && u === "/api/talismans") {
-    const raw = await gsRun<any>("getBattles");
-    const norm = normalizeBattlesData(raw);
+    const norm = await getCachedNormalizedBattles();
     return makeJsonResponse(norm.talismans ?? []);
   }
 
@@ -435,11 +477,10 @@ async function routeToGas(
   }
 
   // GET /api/titan-elements
-  // TitanVariantEditorModal calls this endpoint separately.
-  // BattleLibrary.tsx also prefetches it. Extract from getBattles().
+  // TitanVariantEditorModal and BattleLibrary.tsx call this endpoint.
+  // Reuses getCachedNormalizedBattles() — no extra getBattles() call.
   if (m === "GET" && u === "/api/titan-elements") {
-    const raw = await gsRun<any>("getBattles");
-    const norm = normalizeBattlesData(raw);
+    const norm = await getCachedNormalizedBattles();
     return makeJsonResponse(norm.titanElements ?? []);
   }
 
