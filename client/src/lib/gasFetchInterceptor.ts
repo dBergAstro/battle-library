@@ -692,8 +692,18 @@ export function installGasFetchInterceptor(): void {
       try {
         const response = await routeToGas(url, method, body);
         if (response !== null) {
-          if (!isPost) console.debug(`[gasFetch] ${method} ${url} → google.script.run`);
-          else console.debug(`[gasFetch] ${method} ${url} ✓ done`);
+          if (!isPost) {
+            console.debug(`[gasFetch] ${method} ${url} → google.script.run`);
+          } else {
+            console.debug(`[gasFetch] ${method} ${url} ✓ done`);
+            // Any successful admin mutation may change hero/pet/talisman/battle data
+            // that is cached in the getBattles() promise cache (Task #17).
+            // Invalidate so the next read fetches fresh data from GAS.
+            if (url.startsWith("/api/admin/") && url !== "/api/admin/stats") {
+              clearGasFunctionCache("getBattles");
+              console.debug("[gasFetch] getBattles cache cleared after admin upload");
+            }
+          }
           return response;
         }
       } catch (err: any) {
