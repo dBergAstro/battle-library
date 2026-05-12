@@ -140,7 +140,7 @@ export function BattleFilters({
                 <Hash className="h-4 w-4" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80" align="end">
+            <PopoverContent className="w-80" align="end" style={{ pointerEvents: "auto", zIndex: 9999 }}>
               <div className="space-y-3">
                 <div>
                   <h4 className="font-medium text-sm mb-2">Стихии титанов</h4>
@@ -191,7 +191,10 @@ export function BattleFilters({
         <MultiSelect
           options={sourceOptions}
           selected={sourceFilters}
-          onChange={(v) => onSourceFiltersChange(v as SourceFilter[])}
+          onChange={(v) => {
+            console.debug("[BattleFilters] onSourceFiltersChange:", v);
+            onSourceFiltersChange(v as SourceFilter[]);
+          }}
           placeholder="Источник"
           allLabel="Всё"
           className="w-full sm:w-auto"

@@ -74,7 +74,7 @@ export function TagsModal({ battleGameId, tags, allTags, isOpen, onOpenChange, s
           </Button>
         </DialogTrigger>
       )}
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md" style={{ pointerEvents: "auto", zIndex: 9999 }}>
         <DialogHeader>
           <DialogTitle>Теги для боя #{battleGameId}</DialogTitle>
         </DialogHeader>

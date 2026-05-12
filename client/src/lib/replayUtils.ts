@@ -180,11 +180,13 @@ export function processReplaysFromServer(
   const safeTalismanList = talismanList ?? [];
   const safeAttackTeams = attackTeams ?? [];
 
-  const iconMap = new Map(safeHeroIcons.map((h) => [h.heroId, h.iconUrl]));
-  const nameMap = new Map(safeHeroNames.map((h) => [h.heroId, h.name]));
-  const petIconMap = new Map(safePetIcons.map((p) => [p.petId, p.iconUrl]));
-  const skillNameMap = new Map(safeSpiritsSkills.map((s) => [s.skillId, s.name]));
-  const skillIconMap = new Map(safeSpiritIcons.map((s) => [s.skillId, s.iconUrl]));
+  // Coerce all map keys to Number explicitly — GAS sheets can return string IDs even after
+  // normalization if a value flows through an unexpected path.
+  const iconMap = new Map(safeHeroIcons.map((h) => [Number(h.heroId), h.iconUrl]));
+  const nameMap = new Map(safeHeroNames.map((h) => [Number(h.heroId), h.name]));
+  const petIconMap = new Map(safePetIcons.map((p) => [Number(p.petId), p.iconUrl]));
+  const skillNameMap = new Map(safeSpiritsSkills.map((s) => [Number(s.skillId), s.name]));
+  const skillIconMap = new Map(safeSpiritIcons.map((s) => [Number(s.skillId), s.iconUrl]));
   
   // Создаём мап для быстрого поиска боя по gameId (bossId)
   const bossMap = new Map(safeBossList.map((b) => [b.gameId, b]));
@@ -229,7 +231,7 @@ export function processReplaysFromServer(
   };
 
   const getHeroNameFn = (heroId: number): string => {
-    return nameMap.get(heroId) || getDefaultHeroName(heroId);
+    return nameMap.get(Number(heroId)) || getDefaultHeroName(heroId);
   };
 
   const replays: ProcessedReplay[] = safeAttackTeams
@@ -247,24 +249,25 @@ export function processReplaysFromServer(
       }
 
       const teamMembers: ProcessedReplayMember[] = defenders.units.map((heroId) => {
+        const numId = Number(heroId);
         const fragmentCount = defenders.fragments?.[heroId.toString()] ?? 0;
         const favorPetId = defenders.favor?.[heroId.toString()];
         
         return {
-          heroId,
-          name: getHeroNameFn(heroId),
-          icon: iconMap.get(heroId),
+          heroId: numId,
+          name: getHeroNameFn(numId),
+          icon: iconMap.get(numId),
           fragmentCount,
           grade: getFragmentGrade(fragmentCount),
           favorPetId,
-          favorPetIcon: favorPetId ? petIconMap.get(favorPetId) : undefined,
-          favorPetName: favorPetId ? getHeroNameFn(favorPetId) : undefined,
+          favorPetIcon: favorPetId ? petIconMap.get(Number(favorPetId)) : undefined,
+          favorPetName: favorPetId ? getHeroNameFn(Number(favorPetId)) : undefined,
         };
       });
 
       const mainPetId = defenders.petId;
-      const mainPetIcon = mainPetId ? petIconMap.get(mainPetId) : undefined;
-      const mainPetName = mainPetId ? getHeroNameFn(mainPetId) : undefined;
+      const mainPetIcon = mainPetId ? petIconMap.get(Number(mainPetId)) : undefined;
+      const mainPetName = mainPetId ? getHeroNameFn(Number(mainPetId)) : undefined;
       
       // Обработка тотемов со скилами
       const totems = processSpirits(defenders.spirits, skillNameMap, skillIconMap);

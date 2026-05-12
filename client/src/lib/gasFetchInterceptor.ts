@@ -403,6 +403,46 @@ async function routeToGas(
     return makeJsonResponse({ spiritSkills, spiritIcons });
   }
 
+  // GET /api/heroes
+  // VariantEditorModal and TitanVariantEditorModal call this endpoint to load hero icons and names.
+  // Extract from getBattles() — same pattern as /api/spirit-skills.
+  if (m === "GET" && u === "/api/heroes") {
+    const raw = await gsRun<any>("getBattles");
+    const norm = normalizeBattlesData(raw);
+    return makeJsonResponse({ heroIcons: norm.heroIcons ?? [], heroNames: norm.heroNames ?? [] });
+  }
+
+  // GET /api/pets
+  // VariantEditorModal calls this endpoint for pet icons and names.
+  if (m === "GET" && u === "/api/pets") {
+    const raw = await gsRun<any>("getBattles");
+    const norm = normalizeBattlesData(raw);
+    return makeJsonResponse({ petIcons: norm.petIcons ?? [], heroNames: norm.heroNames ?? [] });
+  }
+
+  // GET /api/talismans
+  // VariantEditorModal calls this endpoint to load the talisman list.
+  if (m === "GET" && u === "/api/talismans") {
+    const raw = await gsRun<any>("getBattles");
+    const norm = normalizeBattlesData(raw);
+    return makeJsonResponse(norm.talismans ?? []);
+  }
+
+  // GET /api/hero-favor-pets
+  // VariantEditorModal calls this endpoint. GAS doesn't store this data — return empty array.
+  if (m === "GET" && u === "/api/hero-favor-pets") {
+    return makeJsonResponse([]);
+  }
+
+  // GET /api/titan-elements
+  // TitanVariantEditorModal calls this endpoint separately.
+  // BattleLibrary.tsx also prefetches it. Extract from getBattles().
+  if (m === "GET" && u === "/api/titan-elements") {
+    const raw = await gsRun<any>("getBattles");
+    const norm = normalizeBattlesData(raw);
+    return makeJsonResponse(norm.titanElements ?? []);
+  }
+
   // GET /api/admin/stats
   if (m === "GET" && u === "/api/admin/stats") {
     const raw: any = await gsRun("getAdminStats");

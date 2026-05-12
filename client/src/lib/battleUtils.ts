@@ -155,9 +155,12 @@ export function processBattlesFromServer(
   const safeBossTeam = bossTeam ?? [];
   const safeBossList = bossList ?? [];
 
-  const iconMap = new Map(safeHeroIcons.map((h) => [h.heroId, h.iconUrl]));
-  const nameMap = new Map(safeHeroNames.map((h) => [h.heroId, h.name]));
-  const sortOrderMap = new Map(safeSortOrder.map((h) => [h.heroId, h.sortOrder]));
+  // Coerce all map keys to Number explicitly — GAS sheets can return string IDs even after
+  // normalization if a value flows through an unexpected path. Using Number() at both the
+  // map-build and lookup side ensures strict-equality hits regardless of incoming type.
+  const iconMap = new Map(safeHeroIcons.map((h) => [Number(h.heroId), h.iconUrl]));
+  const nameMap = new Map(safeHeroNames.map((h) => [Number(h.heroId), h.name]));
+  const sortOrderMap = new Map(safeSortOrder.map((h) => [Number(h.heroId), h.sortOrder]));
 
   // Debug: log icon map sample vs team sample to catch type/id mismatches
   if (safeHeroIcons.length > 0 && safeBossTeam.length > 0) {
@@ -165,13 +168,13 @@ export function processBattlesFromServer(
     const sampleTeam = safeBossTeam[0];
     console.debug("[processBattles] iconMap sample:", sampleIcon.heroId, typeof sampleIcon.heroId, "hasUrl:", !!sampleIcon.iconUrl,
       "| team[0] bossGameId:", sampleTeam.bossGameId, "heroId:", sampleTeam.heroId, typeof sampleTeam.heroId,
-      "| iconMapSize:", iconMap.size, "| lookup test:", iconMap.get(sampleTeam.heroId ?? sampleTeam.unitId));
+      "| iconMapSize:", iconMap.size, "| lookup test:", iconMap.get(Number(sampleTeam.heroId ?? sampleTeam.unitId)));
   }
-  const titanElementsMap = new Map(safeTitanElements.map((t) => [t.titanId, { element: t.element, points: t.points }]));
-  const levelMap = new Map(safeBossLevel.map((l) => [l.gameId, l.powerLevel]));
+  const titanElementsMap = new Map(safeTitanElements.map((t) => [Number(t.titanId), { element: t.element, points: t.points }]));
+  const levelMap = new Map(safeBossLevel.map((l) => [Number(l.gameId), l.powerLevel]));
 
   const getHeroNameFn = (heroId: number): string => {
-    return nameMap.get(heroId) || getDefaultHeroName(heroId);
+    return nameMap.get(Number(heroId)) || getDefaultHeroName(heroId);
   };
 
   // Фильтруем неактуальные бои (gameId <= 225)
@@ -181,16 +184,16 @@ export function processBattlesFromServer(
     const battleType = determineBattleType(boss.heroId);
     
     let teamMembers = safeBossTeam
-      .filter((t) => t.bossGameId === boss.gameId)
+      .filter((t) => Number(t.bossGameId) === Number(boss.gameId))
       .slice(0, 5)
       .map((t) => {
-        const heroId = t.heroId ?? t.unitId ?? 0;
+        const heroId = Number(t.heroId ?? t.unitId ?? 0);
         if (heroId === 0) return null;
         return {
           heroId: heroId,
           name: getHeroNameFn(heroId),
-          icon: iconMap.get(heroId),
-          sortOrder: sortOrderMap.get(heroId),
+          icon: iconMap.get(Number(heroId)),
+          sortOrder: sortOrderMap.get(Number(heroId)),
         };
       })
       .filter((m): m is NonNullable<typeof m> => m !== null);
@@ -227,8 +230,8 @@ export function processBattlesFromServer(
 
     // Находим powerLevel для команды и проверяем на смешанность
     const teamBossLevelIds = safeBossTeam
-      .filter((t) => t.bossGameId === boss.gameId && t.bossLevelId != null)
-      .map((t) => t.bossLevelId!);
+      .filter((t) => Number(t.bossGameId) === Number(boss.gameId) && t.bossLevelId != null)
+      .map((t) => Number(t.bossLevelId!));
     
     // Получаем уникальные bossLevelId
     const uniqueBossLevelIds = Array.from(new Set(teamBossLevelIds));
@@ -237,7 +240,7 @@ export function processBattlesFromServer(
     // Берём powerLevel из первого bossLevelId или максимальный если смешанный
     let powerLevel: number | undefined;
     if (uniqueBossLevelIds.length > 0) {
-      const powerLevels = uniqueBossLevelIds.map(id => levelMap.get(id)).filter((v): v is number => v != null);
+      const powerLevels = uniqueBossLevelIds.map(id => levelMap.get(Number(id))).filter((v): v is number => v != null);
       powerLevel = powerLevels.length > 0 ? Math.max(...powerLevels) : undefined;
     }
 
@@ -261,6 +264,12 @@ export function processBattlesFromServer(
       team: teamMembers,
     };
   });
+
+  // Debug: log the first processed battle's team to confirm names are non-empty in GAS mode
+  if (battles.length > 0 && battles[0].team.length > 0) {
+    const firstTeam = battles[0].team;
+    console.debug("[processBattles] first battle team:", firstTeam.map(m => `${m.heroId}=${m.name}`).join(", "));
+  }
 
   // Deduplicate by defenders_fragments: group entries that share the same non-null
   // defenders_fragments value, keeping the best one per group.

@@ -74,7 +74,7 @@ export function MultiSelect({
           <ChevronDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="w-[200px] p-0" align="start" style={{ pointerEvents: "auto", zIndex: 9999 }}>
         <ScrollArea className="max-h-[400px]">
           <div className="p-2 space-y-1">
             <div
