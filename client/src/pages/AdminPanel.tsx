@@ -1484,10 +1484,11 @@ export default function AdminPanel() {
                 </p>
               )}
               <p className="text-xs text-muted-foreground mb-2">
-                Формат: ID название (каждый скил на новой строке). Пример: 4503 Огненный удар
+                Формат: <code className="bg-muted px-1 rounded">ID [e|p] название</code> — каждый скил на новой строке.<br />
+                <span className="text-muted-foreground/70"><code className="bg-muted px-1 rounded">e</code> = стихийный (elemental), <code className="bg-muted px-1 rounded">p</code> = первобытный (primal). Тип необязателен.</span>
               </p>
               <Textarea
-                placeholder="4503 Огненный удар&#10;4506 Пламенный шквал&#10;4509 Водная стена"
+                placeholder="4503 e Огненный удар&#10;4506 p Пламенный шквал&#10;4509 e Водная стена&#10;4514 p Исконный вихрь"
                 value={spiritSkillsText}
                 onChange={(e) => setSpiritSkillsText(e.target.value)}
                 className="min-h-[100px] font-mono text-sm mb-2"
@@ -1503,15 +1504,22 @@ export default function AdminPanel() {
                   setSpiritSkillsSaving(true);
                   try {
                     const lines = spiritSkillsText.trim().split("\n");
-                    const skills: Array<{ skillId: number; name: string }> = [];
+                    const skills: Array<{ skillId: number; name: string; skillType?: "elemental" | "primal" }> = [];
                     for (const line of lines) {
                       const trimmed = line.trim();
                       if (!trimmed) continue;
-                      const match = trimmed.match(/^(\d+)\s+(.+)$/);
+                      // Format: ID [e|p] название
+                      const match = trimmed.match(/^(\d+)\s+(e|p)\s+(.+)$/) ||
+                                    trimmed.match(/^(\d+)\s+()(.+)$/);
                       if (match) {
+                        const typeCode = match[2];
+                        const skillType = typeCode === "e" ? "elemental"
+                          : typeCode === "p" ? "primal"
+                          : undefined;
                         skills.push({
                           skillId: parseInt(match[1]),
-                          name: match[2].trim(),
+                          name: match[3].trim(),
+                          ...(skillType ? { skillType } : {}),
                         });
                       }
                     }

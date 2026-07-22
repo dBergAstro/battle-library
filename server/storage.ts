@@ -291,7 +291,7 @@ export class DatabaseStorage implements IStorage {
       const batch = data.slice(i, i + BATCH_SIZE);
       await db.insert(spiritSkills).values(batch).onConflictDoUpdate({
         target: spiritSkills.skillId,
-        set: { name: sql`excluded.name` },
+        set: { name: sql`excluded.name`, skillType: sql`excluded.skill_type` },
       });
     }
   }

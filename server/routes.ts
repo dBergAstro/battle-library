@@ -79,6 +79,7 @@ const petIconsInputSchema = z.array(z.object({
 const spiritSkillsInputSchema = z.array(z.object({
   skillId: z.number(),
   name: z.string(),
+  skillType: z.enum(["elemental", "primal"]).optional(),
 }));
 
 const spiritIconsInputSchema = z.array(z.object({
