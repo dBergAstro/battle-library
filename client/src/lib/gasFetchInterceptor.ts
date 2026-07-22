@@ -75,7 +75,7 @@ function normalizeIconItems(
 }
 
 // Hardcoded skill type mapping (fixed game IDs — does not change)
-const ELEMENTAL_SKILL_IDS = new Set([4500, 4502, 4503, 4509, 4510, 4511]);
+const ELEMENTAL_SKILL_IDS = new Set([4500, 4501, 4502, 4503, 4504, 4505, 4509, 4510, 4511, 4512, 4513, 4516]);
 const PRIMAL_SKILL_IDS = new Set([4506, 4507, 4508, 4514, 4515]);
 
 function normalizeSpiritSkills(
