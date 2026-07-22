@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
-import { AlertTriangle, Copy, Download, Save, Wand2, X, Search, Plus } from "lucide-react";
+import { AlertTriangle, Copy, Download, Save, Wand2, X, Search, Plus, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { ProcessedBattle } from "@shared/schema";
 import { MAIN_BUFF_KEY_A, MAIN_BUFF_KEY_B, MAIN_BUFF_DISPLAY_A, MAIN_BUFF_DISPLAY_B } from "@/lib/replayUtils";
@@ -452,6 +452,14 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection, i
     setHeroes(prev => prev.map((h, i) => i === idx ? { ...h, grade, fragmentCount: count } : h));
   };
 
+  const removeHero = (idx: number) => {
+    setHeroes(prev => prev.map((h, i) => i === idx
+      ? { ...h, heroId: 0, name: "", icon: undefined, favorPetId: undefined }
+      : h));
+    setPickerOpenIdx(null);
+    setFavorPickerIdx(null);
+  };
+
   const setHeroFragments = (idx: number, count: number) => {
     const grade = gradeFromCount(count);
     setHeroes(prev => prev.map((h, i) => i === idx ? { ...h, fragmentCount: count, grade } : h));
@@ -748,6 +756,19 @@ export function VariantEditorModal({ battle, open, onClose, onAddToCollection, i
                         </TooltipContent>
                       </Tooltip>
                     )}
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => removeHero(idx)}
+                          className="ml-1 p-1 rounded text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                          data-testid={`button-remove-hero-${idx}`}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="text-xs">Убрать героя из слота</TooltipContent>
+                    </Tooltip>
                   </div>
 
                   {/* Hero picker */}
