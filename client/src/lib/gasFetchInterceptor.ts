@@ -94,10 +94,11 @@ function normalizeSpiritSkills(
 
 function normalizeHeroNames(
   names: any[]
-): Array<{ heroId: number; name: string }> {
+): Array<{ heroId: number; name: string; gender?: number }> {
   return (names ?? []).map((item: any) => ({
     heroId: Number(item.heroId ?? item.hero_id ?? item.id),
     name: item.name,
+    ...(item.gender != null ? { gender: Number(item.gender) } : {}),
   }));
 }
 

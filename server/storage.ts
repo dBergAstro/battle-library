@@ -176,7 +176,7 @@ export class DatabaseStorage implements IStorage {
       const batch = data.slice(i, i + BATCH_SIZE);
       await db.insert(heroNames).values(batch).onConflictDoUpdate({
         target: heroNames.heroId,
-        set: { name: sql`excluded.name` },
+        set: { name: sql`excluded.name`, gender: sql`excluded.gender` },
       });
     }
   }

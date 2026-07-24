@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, real, bigint } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, smallint, text, real, bigint } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -82,6 +82,7 @@ export const heroNames = pgTable("hero_names", {
   id: serial("id").primaryKey(),
   heroId: integer("hero_id").notNull().unique(),
   name: text("name").notNull(),
+  gender: smallint("gender"), // 1 = female, 2 = male
 });
 
 export const insertHeroNameSchema = createInsertSchema(heroNames).omit({ id: true });
